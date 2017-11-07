@@ -21,7 +21,7 @@ class CardRestAPITest {
     @Mock lateinit var queue: IRequestQueue
     @Mock lateinit var requestProvider: IRequestProvider
     @Mock lateinit var jsonHelper: JSONHelper
-    private val hostName = "myhostname.com"
+    private var hostName = "myhostname.com"
 
     val cardNumber = "1234123412341234"
     val expiration = "1122"
@@ -56,7 +56,55 @@ class CardRestAPITest {
         var handlerCalled = 0
         cardRestAPI.getCardSafe(cardToRegister) { optCardSafe, optErrorCS ->
             // Then
-            handlerCalled++;
+            handlerCalled++
+            Assert.assertNull(optErrorCS)
+            Assert.assertNotNull(optCardSafe)
+
+            Assert.assertEquals(cardNumber, optCardSafe?.cardNumber)
+            Assert.assertEquals(cxv, optCardSafe?.cvx)
+            Assert.assertEquals(expiration, optCardSafe?.expiration)
+
+        }
+
+        verify(requestProvider).jsonObjectRequest(capture(captorMethod), capture(captorQuery),
+                capture(captorJsonObjectRequest), capture(captorListenerJSONObject),
+                capture(captorListenerError))
+
+        Assert.assertEquals(Request.Method.GET, captorMethod.value)
+        Assert.assertEquals("https://myhostname.com/rest/client/user/account/card/test", captorQuery.value)
+
+        Assert.assertNull(captorJsonObjectRequest.value)
+
+        verify(request).setIRetryPolicy(any())
+        verify(queue, times(1)).add(any<IRequest<JSONObject>>())
+
+        Assert.assertNotNull(captorListenerError.value)
+        Assert.assertNotNull(captorListenerJSONObject.value)
+
+        val jsonObjectReply = Mockito.mock(JSONObject::class.java)
+        Mockito.`when`(jsonObjectReply.optString("cardNumber")).thenReturn(cardNumber)
+        Mockito.`when`(jsonObjectReply.optString("expiration")).thenReturn(expiration)
+        Mockito.`when`(jsonObjectReply.optString("cxv")).thenReturn(cxv)
+
+        captorListenerJSONObject.value.invoke(jsonObjectReply)
+
+        Assert.assertEquals(1, handlerCalled)
+    }
+
+    @Test
+    fun test_getUrl_http_https() {
+        // Given
+        hostName = "http://myhostname.com"
+
+        val cardToRegister = CardRestAPI.CardToRegister(cardNumber, expiration, cxv)
+        val request = Mockito.mock(VolleyJsonObjectRequest::class.java)
+        Mockito.`when`(requestProvider.jsonObjectRequest(any(), any(), anyOrNull(), any(), any()))
+                .thenReturn(request)
+
+        var handlerCalled = 0
+        cardRestAPI.getCardSafe(cardToRegister) { optCardSafe, optErrorCS ->
+            // Then
+            handlerCalled++
             Assert.assertNull(optErrorCS)
             Assert.assertNotNull(optCardSafe)
 
