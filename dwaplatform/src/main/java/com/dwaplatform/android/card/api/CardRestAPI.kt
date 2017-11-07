@@ -28,7 +28,13 @@ open class CardRestAPI constructor(
 
     private val PROTOCOL_CHARSET = "utf-8"
 
-    private fun getURL(path: String): String = "https://$hostName$path"
+    private fun getURL(path: String): String {
+        if(hostName.startsWith("http://") || hostName.startsWith("https://")){
+            return "$hostName$path"
+        } else {
+            return "https://$hostName$path"
+        }
+    }
 
     data class CardToRegister(val cardNumber: String,
                               val expiration: String,
