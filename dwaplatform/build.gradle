@@ -1,0 +1,89 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+
+ext {
+    bintrayRepo = 'dwaplatform-sdk-android'
+    bintrayName = 'dwaplatform'
+
+    publishedGroupId = 'com.dwaplatform'
+    libraryName = 'dwaplatform'
+    artifact = 'dwaplatform'
+
+    libraryDescription = 'DWAplatform SDK Android'
+
+    siteUrl = 'https://github.com/DWAplatform/dwaplatform-sdk-android'
+    gitUrl = 'https://github.com/DWAplatform/dwaplatform-sdk-android.git'
+
+    libraryVersion = '1.0.0'
+
+    developerId = ''
+    developerName = 'DWAplatform'
+    developerEmail = 'tiziano.cappellari@dwafintech.com'
+
+    licenseName = 'MIT'
+    licenseUrl = 'https://raw.githubusercontent.com/DWAplatform/dwaplatform-sdk-android/master/LICENSE'
+    allLicenses = ["MIT"]
+}
+
+android {
+    compileSdkVersion 26
+    buildToolsVersion "26.0.0"
+
+
+    defaultConfig {
+        minSdkVersion 14
+        targetSdkVersion 26
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    testOptions {
+        unitTests.returnDefaultValues = true
+    }
+
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'com.android.support:appcompat-v7:26.1.0'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation('com.android.support.test.espresso:espresso-core:3.0.1', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+
+    compile 'com.android.volley:volley:1.0.0'
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+
+}
+
+dependencies {
+    // Optional -- Mockito framework
+    testCompile 'org.mockito:mockito-core:2.8.47'
+    testCompile "com.nhaarman:mockito-kotlin:1.5.0"
+
+    androidTestCompile 'org.mockito:mockito-core:2.8.47'
+    androidTestCompile 'org.mockito:mockito-android:2.8.47'
+}
+
+repositories {
+    mavenCentral()
+}
+
+
+tasks.withType(Javadoc).all {
+    enabled = false
+}
+
+
+apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/installv1.gradle'
+apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/bintrayv1.gradle'
