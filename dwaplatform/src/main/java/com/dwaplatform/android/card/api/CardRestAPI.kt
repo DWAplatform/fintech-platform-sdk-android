@@ -5,6 +5,8 @@ import com.android.volley.DefaultRetryPolicy
 import com.android.volley.NetworkResponse
 import com.android.volley.Request
 import com.android.volley.VolleyError
+import com.dwaplatform.android.api.IRequestProvider
+import com.dwaplatform.android.api.IRequestQueue
 import com.dwaplatform.android.card.CardAPI
 import com.dwaplatform.android.card.helpers.DateTimeConversion
 import com.dwaplatform.android.card.helpers.JSONHelper

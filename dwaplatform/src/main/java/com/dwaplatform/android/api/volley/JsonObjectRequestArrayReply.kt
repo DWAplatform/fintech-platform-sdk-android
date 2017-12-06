@@ -1,4 +1,4 @@
-package com.dwaplatform.android.card.api.volley
+package com.dwaplatform.android.api.volley
 
 import com.android.volley.*
 import com.android.volley.toolbox.HttpHeaderParser

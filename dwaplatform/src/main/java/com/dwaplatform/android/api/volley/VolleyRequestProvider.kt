@@ -1,8 +1,8 @@
-package com.dwaplatform.android.card.api.volley
+package com.dwaplatform.android.api.volley
 
 import com.android.volley.AuthFailureError
 import com.android.volley.VolleyError
-import com.dwaplatform.android.card.api.IRequestProvider
+import com.dwaplatform.android.api.IRequestProvider
 import org.json.JSONArray
 import org.json.JSONObject
 

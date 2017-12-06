@@ -2,14 +2,20 @@ package com.dwaplatform.android
 
 import android.content.Context
 import com.android.volley.toolbox.Volley
+import com.dwaplatform.android.account.Account
 import com.dwaplatform.android.card.CardAPI
 import com.dwaplatform.android.card.api.CardRestAPI
-import com.dwaplatform.android.card.api.volley.VolleyRequestProvider
-import com.dwaplatform.android.card.api.volley.VolleyRequestQueueProvider
+import com.dwaplatform.android.api.volley.VolleyRequestProvider
+import com.dwaplatform.android.api.volley.VolleyRequestQueueProvider
 import com.dwaplatform.android.card.helpers.CardHelper
 import com.dwaplatform.android.card.helpers.JSONHelper
 import com.dwaplatform.android.card.helpers.SanityCheck
 import com.dwaplatform.android.card.log.Log
+import com.dwaplatform.android.models.FeeHelper
+import com.dwaplatform.android.models.MoneyHelper
+import com.dwaplatform.android.payin.PayIn
+import com.dwaplatform.android.payin.api.PayInAPI
+import com.dwaplatform.android.user.User
 
 
 /**
@@ -49,6 +55,8 @@ class DWAplatform {
     companion object {
         @Volatile private var conf:  Configuration? = null
         @Volatile private var cardAPIInstance: CardAPI? = null
+        @Volatile private var payinAPIInstance: PayInAPI? = null
+        @Volatile private var payiUIInstance: PayIn? = null
 
         /**
          * Initialize DWAplatform
@@ -80,6 +88,25 @@ class DWAplatform {
                     JSONHelper(),
                     sandbox), Log(), CardHelper(SanityCheck()))
         }
+
+
+        fun getPayInUI(context: Context, api: PayInAPI, moneyHelper: MoneyHelper?, feeHelper: FeeHelper?): PayIn =
+                    payiUIInstance ?: PayIn(context, api, moneyHelper, feeHelper)
+                }
+
+        fun getPayIn(account: Account) {
+
+        }
+
+        fun getAccount(user: User) : Account {
+            return Account(user)
+        }
+
+        fun getUser(): User {
+            return User()
+        }
+
+
     }
 
 }

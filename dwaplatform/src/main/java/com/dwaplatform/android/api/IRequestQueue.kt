@@ -1,4 +1,4 @@
-package com.dwaplatform.android.card.api
+package com.dwaplatform.android.api
 
 /**
  * Request Queue Interface

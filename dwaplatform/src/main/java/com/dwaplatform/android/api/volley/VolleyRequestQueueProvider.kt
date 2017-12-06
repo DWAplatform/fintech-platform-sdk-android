@@ -1,9 +1,9 @@
-package com.dwaplatform.android.card.api.volley
+package com.dwaplatform.android.api.volley
 
 import com.android.volley.Request
 import com.android.volley.RequestQueue
-import com.dwaplatform.android.card.api.IRequest
-import com.dwaplatform.android.card.api.IRequestQueue
+import com.dwaplatform.android.api.IRequest
+import com.dwaplatform.android.api.IRequestQueue
 
 /**
  * Volley request queue implementation

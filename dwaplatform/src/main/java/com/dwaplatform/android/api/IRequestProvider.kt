@@ -1,10 +1,10 @@
-package com.dwaplatform.android.card.api
+package com.dwaplatform.android.api
 
 import com.android.volley.VolleyError
-import com.dwaplatform.android.card.api.volley.VolleyJsonArrayRequest
-import com.dwaplatform.android.card.api.volley.VolleyJsonObjectRequest
-import com.dwaplatform.android.card.api.volley.VolleyJsonObjectRequestArrayReply
-import com.dwaplatform.android.card.api.volley.VolleyStringRequest
+import com.dwaplatform.android.api.volley.VolleyJsonArrayRequest
+import com.dwaplatform.android.api.volley.VolleyJsonObjectRequest
+import com.dwaplatform.android.api.volley.VolleyJsonObjectRequestArrayReply
+import com.dwaplatform.android.api.volley.VolleyStringRequest
 import org.json.JSONArray
 import org.json.JSONObject
 

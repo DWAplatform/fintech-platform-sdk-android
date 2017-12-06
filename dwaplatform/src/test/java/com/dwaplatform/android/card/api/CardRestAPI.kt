@@ -2,13 +2,13 @@ package com.dwaplatform.android.card.api
 
 import com.android.volley.Request
 import com.android.volley.VolleyError
-import com.dwaplatform.android.card.api.CardRestAPI
-import com.dwaplatform.android.card.api.volley.VolleyJsonObjectRequest
-import com.dwaplatform.android.card.api.volley.VolleyStringRequest
-import com.dwaplatform.android.card.helpers.CardHelper
+import com.dwaplatform.android.api.IRequest
+import com.dwaplatform.android.api.IRequestProvider
+import com.dwaplatform.android.api.IRequestQueue
+import com.dwaplatform.android.api.volley.VolleyJsonObjectRequest
+import com.dwaplatform.android.api.volley.VolleyStringRequest
 import com.dwaplatform.android.card.helpers.JSONHelper
 import com.nhaarman.mockito_kotlin.*
-import org.json.JSONArray
 import org.json.JSONObject
 import org.junit.Assert
 import org.junit.Before
