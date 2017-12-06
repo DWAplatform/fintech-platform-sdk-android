@@ -6,7 +6,7 @@ import com.dwaplatform.android.models.Amount
 /**
  * Created by ingrid on 06/12/17.
  */
-class Balance constructor(var account: Account) {
+class Balance {
     fun getBalance(): Amount {
         return Amount()
     }

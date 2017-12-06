@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="colorBagroungGray">#D0D0D0</color>
+
+    <color name="dwalogoMoneyGreen">#1E831C</color>
+    <color name="registration_regular">#7ace63</color>
+    <color name="dwalogoMoneyRed">#FF0000</color>
+    <color name="dwaGrayLight">#D0CECE</color>
+    <color name="lowSandbox">#edd857</color>
+    <color name="middleSandbox">#ffcd36</color>
+
+    <color name="textcolor">#595959</color>
+    <color name="textcolorWhite">#FFFFFF</color>
+    <color name="half_grey">#b2b2b2</color>
+
+    <color name="backgroundcolor">#cecece</color>
+
+    <color name="headerbackgroundcolor">#5cc33f</color>
+    <color name="dwapaycolor">#5cc33f</color>
+    <color name="dwapaysandboxcolor">#f4ba16</color>
+    <color name="dwapaydeveloper">#c5cae9</color>
+    <color name="successcolor">#5cc33f</color>
+
+    <color name="backgroundcolorWhite">#FFFFFF</color>
+
+    <color name="successcolormoney">#1e831c</color>
+
+    <color name="black_semi_transparent">#B2000000</color>
+    <color name="background">#e5e5e5</color>
+    <color name="half_black">#808080</color>
+    <color name="white">#fafafa</color>
+    <color name="white_pressed">#f1f1f1</color>
+    <color name="pink">#e91e63</color>
+    <color name="pink_pressed">#ec407a</color>
+    <color name="blue_semi_transparent">#805677fc</color>
+    <color name="blue_semi_transparent_pressed">#80738ffe</color>
+
+</resources>

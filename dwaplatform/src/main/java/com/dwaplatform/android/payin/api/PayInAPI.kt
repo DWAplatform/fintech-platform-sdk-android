@@ -1,21 +1,17 @@
 package com.dwaplatform.android.payin.api
 
-import android.content.Context
 import com.dwaplatform.android.account.Account
 import com.dwaplatform.android.models.Amount
+import com.dwaplatform.android.payin.models.PayInReply
 
 /**
  * Created by ingrid on 06/12/17.
  */
-class PayInAPI constructor(
-        internal val context: Context,
-        internal val hostName: String,
-        internal val token: String) {
+class PayInAPI constructor( internal val restAPI: PayInRestAPI ) {
 
 
-
-    fun payIn(amount: Amount, completion: (PayInReply, Error) -> Unit) {
-
+    open fun payIn(account: Account, completion: (PayInReply, Error) -> Unit) {
+        restAPI.payIn(account, completion)
     }
 
 }

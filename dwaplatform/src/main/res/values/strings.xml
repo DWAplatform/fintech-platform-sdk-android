@@ -1,3 +1,19 @@
 <resources>
     <string name="app_name">CardAPI</string>
+
+    <string name="payin_title">Ricarica conto</string>
+    <string name="payin_subtitle">indicare l\'importo da ricaricare</string>
+
+    <string name="payin_newbalance_label">Nuovo saldo</string>
+    <string name="payin_fee_label">Commissione</string>
+
+    <string name="transactions_title">Transactions</string>
+    <string name="payin_amount">Ricarica conto</string>
+    <string name="payin_fee">Commissione</string>
+
+    <string name="payin_cc">Metodo pagamento</string>
+
+    <string name="confirm">Conferma</string>
+
+    <string name="navheader_forward">Avanti</string>
 </resources>

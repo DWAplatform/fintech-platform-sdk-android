@@ -3,6 +3,8 @@ package com.dwaplatform.android
 import android.content.Context
 import com.android.volley.toolbox.Volley
 import com.dwaplatform.android.account.Account
+import com.dwaplatform.android.account.balance.Balance
+import com.dwaplatform.android.acquiringchannels.PaymentCard
 import com.dwaplatform.android.card.CardAPI
 import com.dwaplatform.android.card.api.CardRestAPI
 import com.dwaplatform.android.api.volley.VolleyRequestProvider
@@ -15,6 +17,7 @@ import com.dwaplatform.android.models.FeeHelper
 import com.dwaplatform.android.models.MoneyHelper
 import com.dwaplatform.android.payin.PayIn
 import com.dwaplatform.android.payin.api.PayInAPI
+import com.dwaplatform.android.payin.api.PayInRestAPI
 import com.dwaplatform.android.user.User
 
 
@@ -55,8 +58,7 @@ class DWAplatform {
     companion object {
         @Volatile private var conf:  Configuration? = null
         @Volatile private var cardAPIInstance: CardAPI? = null
-        @Volatile private var payinAPIInstance: PayInAPI? = null
-        @Volatile private var payiUIInstance: PayIn? = null
+        @Volatile private var payinInstance: PayIn? = null
 
         /**
          * Initialize DWAplatform
@@ -89,24 +91,26 @@ class DWAplatform {
                     sandbox), Log(), CardHelper(SanityCheck()))
         }
 
+        private fun buildPayIn(context: Context, hostname: String, token: String, moneyHelper: MoneyHelper?, feeHelper: FeeHelper?) : PayIn {
 
-        fun getPayInUI(context: Context, api: PayInAPI, moneyHelper: MoneyHelper?, feeHelper: FeeHelper?): PayIn =
-                    payiUIInstance ?: PayIn(context, api, moneyHelper, feeHelper)
-                }
-
-        fun getPayIn(account: Account) {
-
+            return PayIn(context, hostname, token, moneyHelper, feeHelper)
         }
 
+        fun getPayIn(context: Context, account: Account, token: String, moneyHelper: MoneyHelper?, feeHelper: FeeHelper?): PayIn =
+
+            payinInstance ?: synchronized(this) {
+                val c = conf ?: throw Exception("DWAplatform init configuration missing")
+
+                payinInstance ?: buildPayIn(context, c.hostName, token, moneyHelper, feeHelper).also { payinInstance = it }
+            }
+
         fun getAccount(user: User) : Account {
-            return Account(user)
+            return Account(user, PaymentCard(), Balance())
         }
 
         fun getUser(): User {
             return User()
         }
-
-
     }
 
 }
