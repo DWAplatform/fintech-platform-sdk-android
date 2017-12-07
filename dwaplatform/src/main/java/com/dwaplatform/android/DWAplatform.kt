@@ -16,8 +16,6 @@ import com.dwaplatform.android.card.log.Log
 import com.dwaplatform.android.models.FeeHelper
 import com.dwaplatform.android.models.MoneyHelper
 import com.dwaplatform.android.payin.PayIn
-import com.dwaplatform.android.payin.api.PayInAPI
-import com.dwaplatform.android.payin.api.PayInRestAPI
 import com.dwaplatform.android.user.User
 
 
@@ -91,17 +89,17 @@ class DWAplatform {
                     sandbox), Log(), CardHelper(SanityCheck()))
         }
 
-        private fun buildPayIn(context: Context, hostname: String, token: String, moneyHelper: MoneyHelper?, feeHelper: FeeHelper?) : PayIn {
+        private fun buildPayIn(context: Context, hostname: String, moneyHelper: MoneyHelper?, feeHelper: FeeHelper?) : PayIn {
 
-            return PayIn(context, hostname, token, moneyHelper, feeHelper)
+            return PayIn(context, hostname, moneyHelper, feeHelper)
         }
 
-        fun getPayIn(context: Context, account: Account, token: String, moneyHelper: MoneyHelper?, feeHelper: FeeHelper?): PayIn =
+        fun getPayIn(context: Context, account: Account, moneyHelper: MoneyHelper?, feeHelper: FeeHelper?): PayIn =
 
             payinInstance ?: synchronized(this) {
                 val c = conf ?: throw Exception("DWAplatform init configuration missing")
 
-                payinInstance ?: buildPayIn(context, c.hostName, token, moneyHelper, feeHelper).also { payinInstance = it }
+                payinInstance ?: buildPayIn(context, c.hostName, moneyHelper, feeHelper).also { payinInstance = it }
             }
 
         fun getAccount(user: User) : Account {

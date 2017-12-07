@@ -111,7 +111,7 @@
                 android:textSize="24dp"
                 android:text="€"
                 android:textColor="@android:color/black"
-                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
                 android:layout_marginRight="20dp"
                 android:layout_alignBaseline="@id/amountText" />
 
@@ -124,7 +124,7 @@
             android:layout_height="wrap_content"
             android:textSize="15dp"
             android:layout_below="@id/content"
-            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
             android:text="€"
             android:textColor="@android:color/black"
             android:layout_marginRight="20dp" />
@@ -147,7 +147,7 @@
             android:layout_height="wrap_content"
             android:textSize="15dp"
             android:layout_below="@id/newBalanceAmountLabel"
-            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
             android:text="€"
             android:textColor="@android:color/black"
             android:layout_marginRight="20dp" />
@@ -160,11 +160,9 @@
             android:layout_alignBaseline="@id/feeAmountLabel"
             android:layout_toLeftOf="@id/feeAmountLabel"
             android:text="@string/payin_fee_label"
-            android:layout_alignEnd="@id/newBalanceLabel"
+            android:layout_alignRight="@id/newBalanceLabel"
             android:textColor="@android:color/black" />
 
     </RelativeLayout>
-
-
 
 </RelativeLayout>

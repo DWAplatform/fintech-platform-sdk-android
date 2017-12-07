@@ -1,4 +1,4 @@
-package com.dwafintech.dwapay.financial.payin
+package com.dwaplatform.android.payin
 
 /**
  * Created by ingrid on 07/09/17.

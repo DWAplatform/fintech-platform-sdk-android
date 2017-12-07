@@ -1,23 +1,19 @@
-package com.dwafintech.dwapay.financial.payin
+package com.dwaplatform.android.payin
 
-import com.dwafintech.dwapay.api.DWApayAPI
-import com.dwafintech.dwapay.model.*
+import com.dwafintech.dwapay.model.Money
 import com.dwaplatform.android.account.Account
 import com.dwaplatform.android.acquiringchannels.PaymentCard
-import com.dwaplatform.android.models.Amount
 import com.dwaplatform.android.models.FeeHelper
 import com.dwaplatform.android.models.MoneyHelper
-import com.dwaplatform.android.payin.api.PayInAPI
-import com.dwaplatform.android.user.User
+import com.dwaplatform.android.payin.api.PayInRestAPI
 import java.util.*
-import javax.inject.Inject
 
 /**
  * Created by ingrid on 07/09/17.
  */
 class PayInPresenter constructor(val view: PayInContract.View,
-                                 val api: PayInAPI,
-                                 val amount: Amount,
+                                 val api: PayInRestAPI,
+                                 val amount: Account,
                                  val moneyHelper: MoneyHelper,
                                  val feeHelper: FeeHelper)
     : PayInContract.Presenter {
