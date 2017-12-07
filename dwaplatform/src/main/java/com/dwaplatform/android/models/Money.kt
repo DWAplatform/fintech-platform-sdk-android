@@ -1,6 +1,6 @@
 package com.dwafintech.dwapay.model
 
-class Money(val value: Long) {
+class Money(val value: Long, val currency: String = "EUR") {
 
     override fun toString(): String {
         return toString(",")

@@ -1,6 +1,8 @@
 package com.dwaplatform.android
 
 import android.content.Context
+import com.dwaplatform.android.models.FeeHelper
+import com.dwaplatform.android.models.MoneyHelper
 import org.junit.Assert
 import org.junit.Test
 import org.mockito.Mockito

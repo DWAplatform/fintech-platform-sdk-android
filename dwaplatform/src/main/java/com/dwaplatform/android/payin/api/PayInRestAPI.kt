@@ -2,16 +2,16 @@ package com.dwaplatform.android.payin.api
 
 import com.android.volley.DefaultRetryPolicy
 import com.android.volley.Request
+import com.dwafintech.dwapay.model.Money
 import com.dwaplatform.android.account.Account
+import com.dwaplatform.android.account.balance.Balance
 import com.dwaplatform.android.acquiringchannels.PaymentCard
 import com.dwaplatform.android.api.IRequest
 import com.dwaplatform.android.api.IRequestProvider
 import com.dwaplatform.android.api.IRequestQueue
 import com.dwaplatform.android.card.helpers.JSONHelper
-import com.dwaplatform.android.models.Amount
 import com.dwaplatform.android.payin.models.PayInReply
-import org.json.JSONObject
-import java.util.HashMap
+import java.util.*
 
 /**
  * Created by ingrid on 06/12/17.
@@ -21,7 +21,10 @@ class PayInRestAPI constructor(
         internal val token: String,
         internal val queue: IRequestQueue,
         internal val requestProvider: IRequestProvider,
-        internal val jsonHelper: JSONHelper) {
+        internal val jsonHelper: JSONHelper,
+        internal val account: Account,
+        internal val balance: Balance,
+        internal val paymentCard: PaymentCard) {
 
     private val PROTOCOL_CHARSET = "utf-8"
 
@@ -42,17 +45,16 @@ class PayInRestAPI constructor(
         return header
     }
 
-    fun payIn(account: Account, completion: (PayInReply?, Error?) -> Unit) {
+    fun payIn(account: Account, amount: Money, completion: (PayInReply?, Error?) -> Unit) {
         val url = getURL("/rest/1.0/fin/payin")
 
         var request: IRequest<*>?
         try {
-            val amount = account.balance.getBalance()
 
             val jsonObject = jsonHelper.buildJSONObject()
 
             jsonObject.put("userid", account.user.id)
-            jsonObject.put("creditcardid", account.paymentCard.id)
+            jsonObject.put("creditcardid", paymentCard.id)
             jsonObject.put("amount", amount.value)
 //            jsonObject.put("idempotency", idempotency)
 

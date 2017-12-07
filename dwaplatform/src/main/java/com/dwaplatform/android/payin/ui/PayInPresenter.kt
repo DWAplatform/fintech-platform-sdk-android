@@ -2,6 +2,7 @@ package com.dwaplatform.android.payin
 
 import com.dwafintech.dwapay.model.Money
 import com.dwaplatform.android.account.Account
+import com.dwaplatform.android.account.balance.Balance
 import com.dwaplatform.android.acquiringchannels.PaymentCard
 import com.dwaplatform.android.models.FeeHelper
 import com.dwaplatform.android.models.MoneyHelper
@@ -13,9 +14,11 @@ import java.util.*
  */
 class PayInPresenter constructor(val view: PayInContract.View,
                                  val api: PayInRestAPI,
-                                 val amount: Account,
+                                 val account: Account,
+                                 val balance: Balance,
                                  val moneyHelper: MoneyHelper,
-                                 val feeHelper: FeeHelper)
+                                 val feeHelper: FeeHelper,
+                                 val paymentCard: PaymentCard)
     : PayInContract.Presenter {
 
     var idempotencyPayin: String? = null
@@ -30,22 +33,23 @@ class PayInPresenter constructor(val view: PayInContract.View,
         }
 
         refreshConfirmButton()
-        refreshData()
     }
 
     override fun refresh() {
         view.showKeyboardAmount()
         refreshConfirmButtonName()
-        reloadBalance()
+        refreshAndReloadBalance()
+        refreshFee()
     }
 
     override fun onEditingChanged() {
         refreshConfirmButton()
-        refreshData()
+        refreshBalance()
+        refreshFee()
     }
 
     override fun onConfirm() {
-        val creditCard = PaymentCard().id
+        val creditCard = paymentCard.id
         if (creditCard == null) {
             view.setForward("")
             view.goToCreditCard()
@@ -57,7 +61,7 @@ class PayInPresenter constructor(val view: PayInContract.View,
         view.showCommunicationWait()
 
         val money = Money.valueOf(view.getAmount())
-        api.payIn(amount) { optpayinreply, opterror ->
+        api.payIn(account, money) { optpayinreply, opterror ->
 
             view.hideCommunicationWait()
             refreshConfirmButton()
@@ -92,7 +96,7 @@ class PayInPresenter constructor(val view: PayInContract.View,
     }
 
     private fun hasCreditCard(): Boolean {
-        return PaymentCard().id != null
+        return paymentCard.id != null
     }
 
     private fun refreshConfirmButtonName() {
@@ -110,39 +114,34 @@ class PayInPresenter constructor(val view: PayInContract.View,
             view.forwardDisable()
     }
 
-    private fun reloadBalance() {
+    private var balanceMoney = Money(0)
 
-//        api.balance(dbUsersHelper.userid()) { optbalance, opterror ->
-//            if (opterror != null) {
-//                return@balance
-//            }
-//
-//            if (optbalance == null) {
-//                return@balance
-//            }
-//            val balance = optbalance
-//            dbBalanceHelper.saveBalance(BalanceItem(balance))
-//
-//            refreshBalance()
-//        }
-    }
+    private fun refreshAndReloadBalance() {
 
-    private fun refreshData() {
+
+
+
+        balanceMoney = balance.getBalance { optMoney, optException ->
+            if (optException != null)
+                return@getBalance
+            if (optMoney == null)
+                return@getBalance
+
+            balanceMoney = optMoney
+            refreshBalance()
+
+        }
         refreshBalance()
-        refreshFee()
     }
 
     private fun refreshBalance() {
-//        val optbi = dbBalanceHelper.getBalanceItem() ?: return
-//        val bi = optbi
-//
-//        val amount = view.getAmount()
-//        val amountmoney = Money.valueOf(amount)
-//
-//        val newbalance = Money(bi.balance + amountmoney.value)
-//        val newBalanceStr = moneyHelper.toString(newbalance)
-//
-//        view.setNewBalanceAmount(newBalanceStr)
+        val amount = view.getAmount()
+        val amountmoney = Money.valueOf(amount)
+
+        val newbalance = Money(balanceMoney.value + amountmoney.value)
+        val newBalanceStr = moneyHelper.toString(newbalance)
+
+        view.setNewBalanceAmount(newBalanceStr)
     }
 
     private fun refreshFee() {

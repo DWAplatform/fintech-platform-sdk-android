@@ -1,21 +1,18 @@
 package com.dwaplatform.android.payin
 
 import android.content.Context
-import android.content.Intent
-import android.support.v4.app.FragmentActivity
 import android.os.Bundle
+import android.support.v4.app.FragmentActivity
 import android.text.Editable
 import android.text.InputFilter
 import android.text.TextWatcher
 import android.view.View
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
-import android.widget.Button
 import android.widget.EditText
-import android.widget.ProgressBar
-import android.widget.TextView
 import com.dwaplatform.android.R
 import com.dwaplatform.android.models.MoneyValueInputFilter
+import com.dwaplatform.android.payin.ui.PayInUI
 import kotlinx.android.synthetic.main.activity_payin.*
 
 /**
@@ -23,19 +20,29 @@ import kotlinx.android.synthetic.main.activity_payin.*
  */
 class PayInActivity : FragmentActivity(), PayInContract.View {
 
-    //lateinit var alertHelpers: AlertHelpers
     lateinit var presenter: PayInContract.Presenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_payin)
 
+        val payInUI = PayInUI.payInUiInstance
+        if (payInUI == null) {
+            // TODO log
+            finish()
+            return
+        }
+
+        presenter = payInUI.presenter.build(this, payInUI.api, payInUI.payIn.account,
+                payInUI.moneyHelper, payInUI.feeHelper, payInUI.payIn.paymentCard)
+
+
         val initialAmount =
                 if (intent.hasExtra("initialAmount"))
                     intent.getLongExtra("initialAmount", 0L)
                 else null
 
-        findViewById<EditText>(R.id.amountText).addTextChangedListener(object : TextWatcher {
+        amountText.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(p0: Editable?) {}
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
