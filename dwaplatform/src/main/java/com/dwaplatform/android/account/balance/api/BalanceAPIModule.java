@@ -21,26 +21,25 @@ import dagger.Provides;
 @Module
 public class BalanceAPIModule {
 
-    private RequestQueue requestQueue;
     private String hostName;
     private String token;
 
 
-    public BalanceAPIModule(String hostName, String token, RequestQueue requestQueue) {
-        this.requestQueue = requestQueue;
-    }
+    public BalanceAPIModule(String hostName, String token) {
 
-    @Provides
-    @Singleton
-    IRequestProvider provideJsonArrayRequest() {
-        return new VolleyRequestProvider();
     }
-
-    @Provides
-    @Singleton
-    IRequestQueue provideVolleyRequestQueue() {
-        return new VolleyRequestQueueProvider(requestQueue);
-    }
+//
+//    @Provides
+//    @Singleton
+//    IRequestProvider provideJsonArrayRequest() {
+//        return new VolleyRequestProvider();
+//    }
+//
+//    @Provides
+//    @Singleton
+//    IRequestQueue provideVolleyRequestQueue() {
+//        return new VolleyRequestQueueProvider(requestQueue);
+//    }
 
 
     @Provides

@@ -12,20 +12,18 @@ import com.dwaplatform.android.account.balance.api.BalanceAPIModule;
 
 public class BalanceBuilder {
 
-    public BalanceAPIComponent createBalanceAPIComponent(String hostName, String token, Context context) {
+    public BalanceAPIComponent createBalanceAPIComponent(String hostName, String token) {
         return DaggerBalanceAPIComponent.builder()
                 .balanceAPIModule(new BalanceAPIModule(hostName,
-                        token,
-                        Volley.newRequestQueue(context)))
+                        token))
                 .build();
     }
 
 
-    public BalanceHelperComponent createBalanceHelperComponent(String hostName, String token, Context context) {
+    public BalanceHelperComponent createBalanceHelperComponent(String hostName, String token) {
         return DaggerBalanceHelperComponent.builder()
                 .balanceAPIModule(new BalanceAPIModule(hostName,
-                        token,
-                        Volley.newRequestQueue(context)))
+                        token))
                 .build();
     }
 

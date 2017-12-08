@@ -1,9 +1,9 @@
 package com.dwaplatform.android.payin.ui;
 
 import com.dwaplatform.android.account.balance.api.BalanceAPIModule;
-import com.dwaplatform.android.account.balance.helpers.BalanceHelper;
 import com.dwaplatform.android.account.balance.helpers.BalanceHelperModule;
 import com.dwaplatform.android.alert.AlertHelpersModule;
+import com.dwaplatform.android.api.NetModule;
 import com.dwaplatform.android.log.LogModule;
 import com.dwaplatform.android.models.FeeHelperModule;
 import com.dwaplatform.android.money.MoneyHelperModule;
@@ -26,7 +26,9 @@ import dagger.Component;
         PayInAPIModule.class,
         MoneyHelperModule.class,
         BalanceAPIModule.class,
-        FeeHelperModule.class
+        BalanceHelperModule.class,
+        FeeHelperModule.class,
+        NetModule.class
 })
 public interface PayInViewComponent {
     void inject(PayInActivity activity);

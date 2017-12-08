@@ -16,8 +16,7 @@ public class PayInBuilder {
     public PayInAPIComponent createPayInAPIComponent(String hostName, String token, Context context) {
         return DaggerPayInAPIComponent.builder()
                         .payInAPIModule(new PayInAPIModule(hostName,
-                                token,
-                                Volley.newRequestQueue(context)))
+                                token))
                 .build();
     }
 

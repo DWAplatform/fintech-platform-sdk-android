@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.android.volley.toolbox.Volley;
+import com.dwaplatform.android.api.NetModule;
+import com.dwaplatform.android.payin.DaggerPayInUIComponent;
 import com.dwaplatform.android.payin.PayInActivity;
 import com.dwaplatform.android.payin.PayInContract;
 import com.dwaplatform.android.payin.PayInUIComponent;
