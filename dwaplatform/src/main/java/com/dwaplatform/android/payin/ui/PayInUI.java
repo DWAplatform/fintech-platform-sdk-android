@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.android.volley.toolbox.Volley;
+import com.dwaplatform.android.account.balance.api.BalanceAPIModule;
 import com.dwaplatform.android.api.NetModule;
 import com.dwaplatform.android.payin.DaggerPayInUIComponent;
 import com.dwaplatform.android.payin.PayInActivity;
@@ -37,6 +38,8 @@ public class PayInUI {
                 .payInAPIModule(new PayInAPIModule(instance.hostName,
                                 instance.token))
                 .netModule(new NetModule(Volley.newRequestQueue(context)))
+                .balanceAPIModule(new BalanceAPIModule(instance.hostName,
+                        instance.token))
                 .build();
     }
 
