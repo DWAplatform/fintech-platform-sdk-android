@@ -32,12 +32,11 @@ public class PayInUI {
 
 
     public static PayInViewComponent createPayInViewComponent(Context context, PayInContract.View v)  {
-        return DaggerPayInUIComponent.builder()
-                .payInPresenterModule(new PayInPresenterModule(v, instance.configuration)
-                        .payInAPIModule(new PayInAPIModule(instance.hostName,
-                                instance.token,
-                                Volley.newRequestQueue(context)))
-                )
+        return DaggerPayInViewComponent.builder()
+                .payInPresenterModule(new PayInPresenterModule(v, instance.configuration))
+                .payInAPIModule(new PayInAPIModule(instance.hostName,
+                                instance.token))
+                .netModule(new NetModule(Volley.newRequestQueue(context)))
                 .build();
     }
 

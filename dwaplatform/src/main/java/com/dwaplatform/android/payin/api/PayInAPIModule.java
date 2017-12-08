@@ -25,6 +25,8 @@ public class PayInAPIModule {
 
 
     public PayInAPIModule(String hostName, String token) {
+        this.hostName = hostName;
+        this.token = token;
     }
 
 //    @Provides

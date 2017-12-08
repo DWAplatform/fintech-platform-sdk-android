@@ -3,6 +3,7 @@ package com.dwaplatform.android.payin;
 import android.content.Context;
 
 import com.android.volley.toolbox.Volley;
+import com.dwaplatform.android.api.NetModule;
 import com.dwaplatform.android.payin.api.PayInAPIModule;
 import com.dwaplatform.android.payin.models.PayInConfiguration;
 import com.dwaplatform.android.payin.ui.PayInUIModule;
@@ -17,6 +18,7 @@ public class PayInBuilder {
         return DaggerPayInAPIComponent.builder()
                         .payInAPIModule(new PayInAPIModule(hostName,
                                 token))
+                .netModule(new NetModule(Volley.newRequestQueue(context)))
                 .build();
     }
 

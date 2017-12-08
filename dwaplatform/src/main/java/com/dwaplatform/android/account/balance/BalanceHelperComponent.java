@@ -4,6 +4,7 @@ import com.dwaplatform.android.account.balance.api.BalanceAPI;
 import com.dwaplatform.android.account.balance.api.BalanceAPIModule;
 import com.dwaplatform.android.account.balance.helpers.BalanceHelper;
 import com.dwaplatform.android.account.balance.helpers.BalanceHelperModule;
+import com.dwaplatform.android.api.NetModule;
 import com.dwaplatform.android.log.LogModule;
 
 import javax.inject.Singleton;
@@ -17,6 +18,7 @@ import dagger.Component;
 
 @Singleton
 @Component(modules= {
+        NetModule.class,
         BalanceAPIModule.class,
         BalanceHelperModule.class,
         LogModule.class

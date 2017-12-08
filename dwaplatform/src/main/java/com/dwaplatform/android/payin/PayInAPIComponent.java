@@ -16,6 +16,7 @@ import dagger.Component;
 
 @Singleton
 @Component(modules= {
+        NetModule.class,
         PayInAPIModule.class,
         LogModule.class,
         NetModule.class
