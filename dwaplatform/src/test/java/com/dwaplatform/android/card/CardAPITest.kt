@@ -4,7 +4,7 @@ import com.dwaplatform.android.card.api.CardRestAPI
 import com.dwaplatform.android.card.helpers.CardHelper
 import com.dwaplatform.android.card.helpers.SanityCheckException
 import com.dwaplatform.android.card.helpers.SanityItem
-import com.dwaplatform.android.card.log.Log
+import com.dwaplatform.android.log.Log
 import com.dwaplatform.android.card.models.Card
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.argumentCaptor

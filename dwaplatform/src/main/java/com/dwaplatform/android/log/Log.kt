@@ -1,4 +1,4 @@
-package com.dwaplatform.android.card.log
+package com.dwaplatform.android.log
 
 /**
  * Log wrap to support mocking, use this instead of android Log directly

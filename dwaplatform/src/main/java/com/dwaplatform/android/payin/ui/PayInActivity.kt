@@ -1,6 +1,7 @@
 package com.dwaplatform.android.payin
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.FragmentActivity
 import android.text.Editable
@@ -9,33 +10,21 @@ import android.text.TextWatcher
 import android.view.View
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
-import android.widget.EditText
 import com.dwaplatform.android.R
+import com.dwaplatform.android.alert.AlertHelpers
 import com.dwaplatform.android.models.MoneyValueInputFilter
 import com.dwaplatform.android.payin.ui.PayInUI
 import kotlinx.android.synthetic.main.activity_payin.*
 
-/**
- * Payment from user credit card to emoney
- */
 class PayInActivity : FragmentActivity(), PayInContract.View {
 
-    lateinit var presenter: PayInContract.Presenter
+    @Inject lateinit var alertHelpers: AlertHelpers
+    @Inject lateinit var presenter: PayInContract.Presenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        PayInUI.createPayInViewComponent(this as Context, this).inject(this)
         setContentView(R.layout.activity_payin)
-
-        val payInUI = PayInUI.payInUiInstance
-        if (payInUI == null) {
-            // TODO log
-            finish()
-            return
-        }
-
-        presenter = payInUI.presenter.build(this, payInUI.api, payInUI.payIn.account,
-                payInUI.moneyHelper, payInUI.feeHelper, payInUI.payIn.paymentCard)
-
 
         val initialAmount =
                 if (intent.hasExtra("initialAmount"))
@@ -60,7 +49,8 @@ class PayInActivity : FragmentActivity(), PayInContract.View {
             presenter.onAbortClick()
         }
 
-       // WindowBarColor.update(window, resources)
+        // FIXME commented due to sdk refactor
+        //WindowBarColor.update(window, resources)
 
         presenter.initialize(initialAmount)
 
@@ -76,7 +66,7 @@ class PayInActivity : FragmentActivity(), PayInContract.View {
     }
 
     override fun setForwardButtonPayInCC() {
-        forwardButton.setText(resources.getString(R.string.payin_cc))
+        forwardButton.text = resources.getString(R.string.payin_cc)
     }
 
     override fun setAmount(amount: String) {
@@ -100,11 +90,11 @@ class PayInActivity : FragmentActivity(), PayInContract.View {
     }
 
     override fun setNewBalanceAmount(title: String) {
-        newBalanceAmountLabel.setText(title)
+        newBalanceAmountLabel.text = title
     }
 
     override fun setFeeAmount(title: String) {
-        feeAmountLabel.setText(title)
+        feeAmountLabel.text = title
     }
 
     override fun showCommunicationWait() {
@@ -116,15 +106,16 @@ class PayInActivity : FragmentActivity(), PayInContract.View {
     }
 
     override fun showCommunicationInternalError() {
-        //alertHelpers.internalError(this).show()
+        alertHelpers.internalError(this).show()
     }
 
     override fun showIdempotencyError() {
-        //alertHelpers.idempotencyError(this).show()
+        alertHelpers.idempotencyError(this).show()
     }
 
     override fun goToCreditCard() {
-      //  startActivity(Intent(this, CreditCardActivity::class.java))
+        // FIXME commented due to sdk refactor
+        //startActivity(Intent(this, CreditCardActivity::class.java))
     }
 
     override fun goBack(){
@@ -132,17 +123,20 @@ class PayInActivity : FragmentActivity(), PayInContract.View {
     }
 
     override fun goToSecure3D(redirecturl: String){
-//        val intent = Intent(this, Secure3DActivity::class.java)
-//        intent.putExtra("redirecturl", redirecturl)
-//        startActivity(intent)
-//        finish()
+        // FIXME commented due to sdk refactor
+        /*
+        val intent = Intent(this, Secure3DActivity::class.java)
+        intent.putExtra("redirecturl", redirecturl)
+        startActivity(intent)
+        finish()
+        */
     }
 
     override fun showKeyboardAmount() {
         amountText.postDelayed({
             amountText.requestFocus()
             val keyboard = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-            keyboard.showSoftInput(findViewById<EditText>(R.id.amountText), 0)
+            keyboard.showSoftInput(amountText, 0)
         }, 300)
     }
 

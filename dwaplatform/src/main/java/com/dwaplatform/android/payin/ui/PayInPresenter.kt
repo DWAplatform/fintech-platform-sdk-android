@@ -1,24 +1,26 @@
 package com.dwaplatform.android.payin
 
 import com.dwafintech.dwapay.model.Money
-import com.dwaplatform.android.account.Account
-import com.dwaplatform.android.account.balance.Balance
-import com.dwaplatform.android.acquiringchannels.PaymentCard
+import com.dwaplatform.android.account.balance.BalanceHelper
+import com.dwaplatform.android.account.balance.db.DBBalanceHelper
 import com.dwaplatform.android.models.FeeHelper
-import com.dwaplatform.android.models.MoneyHelper
-import com.dwaplatform.android.payin.api.PayInRestAPI
+import com.dwaplatform.android.money.MoneyHelper
+import com.dwaplatform.android.payin.api.PayInAPI
+import com.dwaplatform.android.payin.models.PayInConfiguration
 import java.util.*
 
 /**
  * Created by ingrid on 07/09/17.
  */
-class PayInPresenter constructor(val view: PayInContract.View,
-                                 val api: PayInRestAPI,
-                                 val account: Account,
-                                 val balance: Balance,
-                                 val moneyHelper: MoneyHelper,
-                                 val feeHelper: FeeHelper,
-                                 val paymentCard: PaymentCard)
+class PayInPresenter @Inject constructor(val configuration: PayInConfiguration,
+                                         val view: PayInContract.View,
+                                         val api: PayInAPI,
+                                         val moneyHelper: MoneyHelper,
+                                         val balanceHelper: BalanceHelper,
+                                         //val dbUsersHelper: DBUsersHelper,
+                                         val feeHelper: FeeHelper
+                                         //val dbccardhelper: DBCreditCardsHelper
+)
     : PayInContract.Presenter {
 
     var idempotencyPayin: String? = null
@@ -33,24 +35,22 @@ class PayInPresenter constructor(val view: PayInContract.View,
         }
 
         refreshConfirmButton()
+        refreshData()
     }
 
     override fun refresh() {
         view.showKeyboardAmount()
         refreshConfirmButtonName()
-        refreshAndReloadBalance()
-        refreshFee()
+        reloadBalance()
     }
 
     override fun onEditingChanged() {
         refreshConfirmButton()
-        refreshBalance()
-        refreshFee()
+        refreshData()
     }
 
     override fun onConfirm() {
-        val creditCard = paymentCard.id
-        if (creditCard == null) {
+        if (!hasCreditCard()) {
             view.setForward("")
             view.goToCreditCard()
             return
@@ -61,18 +61,22 @@ class PayInPresenter constructor(val view: PayInContract.View,
         view.showCommunicationWait()
 
         val money = Money.valueOf(view.getAmount())
-        api.payIn(account, money) { optpayinreply, opterror ->
+        api.payIn(configuration.userId,
+                configuration.accountId,
+                configuration.paymentCardId,
+                money,
+                idempPayin) { optpayinreply, opterror ->
 
             view.hideCommunicationWait()
             refreshConfirmButton()
 
             if (opterror != null) {
-//                when (opterror) {
-//                    api.IdempotencyError ->
-//                        view.showIdempotencyError()
-//                    else ->
+                when (opterror) {
+                    is PayInAPI.IdempotencyError ->
+                        view.showIdempotencyError()
+                    else ->
                         view.showCommunicationInternalError()
-//                }
+                }
                 return@payIn
             }
 
@@ -96,7 +100,7 @@ class PayInPresenter constructor(val view: PayInContract.View,
     }
 
     private fun hasCreditCard(): Boolean {
-        return paymentCard.id != null
+        return configuration.paymentCardId != null
     }
 
     private fun refreshConfirmButtonName() {
@@ -114,34 +118,41 @@ class PayInPresenter constructor(val view: PayInContract.View,
             view.forwardDisable()
     }
 
-    private var balanceMoney = Money(0)
+    private fun reloadBalance() {
+        /* FIXME commented due to sdk refactor
+        api.balance(configuration.userId) { optbalance, opterror ->
+            if (opterror != null) {
+                return@balance
+            }
 
-    private fun refreshAndReloadBalance() {
+            if (optbalance == null) {
+                return@balance
+            }
+            val balance = optbalance
+            dbBalanceHelper.saveBalance(BalanceItem(balance))
 
-
-
-
-        balanceMoney = balance.getBalance { optMoney, optException ->
-            if (optException != null)
-                return@getBalance
-            if (optMoney == null)
-                return@getBalance
-
-            balanceMoney = optMoney
             refreshBalance()
+        } */
+    }
 
-        }
+    private fun refreshData() {
         refreshBalance()
+        refreshFee()
     }
 
     private fun refreshBalance() {
+        /* FIXME commented due to sdk refactor
+        val optbi = dbBalanceHelper.getBalanceItem() ?: return
+        val bi = optbi
+
         val amount = view.getAmount()
         val amountmoney = Money.valueOf(amount)
 
-        val newbalance = Money(balanceMoney.value + amountmoney.value)
+        val newbalance = Money(bi.balance + amountmoney.value)
         val newBalanceStr = moneyHelper.toString(newbalance)
 
         view.setNewBalanceAmount(newBalanceStr)
+        */
     }
 
     private fun refreshFee() {

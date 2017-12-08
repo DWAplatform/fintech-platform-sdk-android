@@ -3,28 +3,31 @@ package com.dwaplatform.android.payin.api
 import com.android.volley.DefaultRetryPolicy
 import com.android.volley.Request
 import com.dwafintech.dwapay.model.Money
-import com.dwaplatform.android.account.Account
-import com.dwaplatform.android.account.balance.Balance
-import com.dwaplatform.android.acquiringchannels.PaymentCard
 import com.dwaplatform.android.api.IRequest
 import com.dwaplatform.android.api.IRequestProvider
 import com.dwaplatform.android.api.IRequestQueue
 import com.dwaplatform.android.card.helpers.JSONHelper
+import com.dwaplatform.android.log.Log
 import com.dwaplatform.android.payin.models.PayInReply
+import org.json.JSONObject
 import java.util.*
 
 /**
  * Created by ingrid on 06/12/17.
  */
-class PayInRestAPI constructor(
+class PayInAPI @Inject constructor(
         internal val hostName: String,
         internal val token: String,
         internal val queue: IRequestQueue,
         internal val requestProvider: IRequestProvider,
         internal val jsonHelper: JSONHelper,
-        internal val account: Account,
-        internal val balance: Balance,
-        internal val paymentCard: PaymentCard) {
+        internal val log: Log) {
+
+    inner class GenericCommunicationError(throwable: Throwable) : Exception(throwable)
+
+    inner class IdempotencyError(throwable: Throwable) : Exception(throwable)
+
+    private final val TAG = "PayInAPI"
 
     private val PROTOCOL_CHARSET = "utf-8"
 
@@ -45,18 +48,21 @@ class PayInRestAPI constructor(
         return header
     }
 
-    fun payIn(account: Account, amount: Money, completion: (PayInReply?, Error?) -> Unit) {
+    fun payIn(userId: String,
+              accountId: String,
+              creditcardId: String,
+              amount: Money,
+              idempotency: String,
+              completion: (PayInReply?, Exception?) -> Unit): IRequest<*>? {
         val url = getURL("/rest/1.0/fin/payin")
 
         var request: IRequest<*>?
         try {
-
-            val jsonObject = jsonHelper.buildJSONObject()
-
-            jsonObject.put("userid", account.user.id)
-            jsonObject.put("creditcardid", paymentCard.id)
+            val jsonObject = JSONObject()
+            jsonObject.put("userid", userId)
+            jsonObject.put("creditcardid", creditcardId)
             jsonObject.put("amount", amount.value)
-//            jsonObject.put("idempotency", idempotency)
+            jsonObject.put("idempotency", idempotency)
 
             // Request a string response from the provided URL.
             val r = requestProvider.jsonObjectRequest(Request.Method.POST, url, jsonObject,
@@ -73,19 +79,20 @@ class PayInRestAPI constructor(
                 else -1
                 when (status) {
                     409 -> {
- //                       completion(null, IdempotencyError(error))
+                        completion(null, IdempotencyError(error))
                     }
- //                   else -> completion(null, GenericCommunicationError(error))
+                    else -> completion(null, GenericCommunicationError(error))
                 }
             }
             r.setIRetryPolicy(defaultpolicy)
             queue.add(r)
             request = r
         } catch (e: Exception) {
- //           log.error(TAG, "payIn", e)
+            log.error(TAG, "payIn", e)
             request = null
         }
 
-//        return request
+        return request
     }
+
 }

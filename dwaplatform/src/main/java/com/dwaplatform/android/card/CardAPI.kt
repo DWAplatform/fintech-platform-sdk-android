@@ -2,7 +2,7 @@ package com.dwaplatform.android.card
 
 import com.dwaplatform.android.card.api.CardRestAPI
 import com.dwaplatform.android.card.helpers.CardHelper
-import com.dwaplatform.android.card.log.Log
+import com.dwaplatform.android.log.Log
 import com.dwaplatform.android.card.models.Card
 import org.json.JSONArray
 import java.lang.Exception

@@ -2,9 +2,6 @@ package com.dwaplatform.android.account.balance.api
 
 import com.android.volley.DefaultRetryPolicy
 import com.android.volley.Request
-import com.dwaplatform.android.account.Account
-import com.dwaplatform.android.account.balance.Balance
-import com.dwaplatform.android.acquiringchannels.PaymentCard
 import com.dwaplatform.android.api.IRequest
 import com.dwaplatform.android.api.IRequestProvider
 import com.dwaplatform.android.api.IRequestQueue
@@ -23,8 +20,7 @@ class BalanceApi constructor(
         internal val token: String,
         internal val queue: IRequestQueue,
         internal val requestProvider: IRequestProvider,
-        internal val jsonHelper: JSONHelper,
-        internal val account: Account) {
+        internal val jsonHelper: JSONHelper) {
 
     private val PROTOCOL_CHARSET = "utf-8"
 
@@ -69,14 +65,14 @@ class BalanceApi constructor(
 
     inner class ReplyParamsUnexpected(throwable: Throwable) : Exception(throwable)
 
-    fun balance(completion: (Long?, Exception?) -> Unit): IRequest<*>? {
+    fun balance(userid: String, accountId: String, completion: (Long?, Exception?) -> Unit): IRequest<*>? {
 
         val url = getURL("/rest/1.0/fin/user/balance")
 
         var request: IRequest<*>?
         try {
             val params = HashMap<String, Any>()
-            params.put("userid", account.user.id)
+            params.put("userid", userid)
 
             val rurl = getUrlDataString(url, params)
 

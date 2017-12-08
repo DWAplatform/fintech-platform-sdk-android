@@ -2,9 +2,6 @@ package com.dwaplatform.android
 
 import android.content.Context
 import com.android.volley.toolbox.Volley
-import com.dwaplatform.android.account.Account
-import com.dwaplatform.android.account.balance.Balance
-import com.dwaplatform.android.acquiringchannels.PaymentCard
 import com.dwaplatform.android.api.volley.VolleyRequestProvider
 import com.dwaplatform.android.api.volley.VolleyRequestQueueProvider
 import com.dwaplatform.android.card.CardAPI
@@ -12,7 +9,7 @@ import com.dwaplatform.android.card.api.CardRestAPI
 import com.dwaplatform.android.card.helpers.CardHelper
 import com.dwaplatform.android.card.helpers.JSONHelper
 import com.dwaplatform.android.card.helpers.SanityCheck
-import com.dwaplatform.android.card.log.Log
+import com.dwaplatform.android.log.Log
 import com.dwaplatform.android.payin.PayIn
 import com.dwaplatform.android.user.User
 
@@ -87,9 +84,8 @@ class DWAplatform {
                     sandbox), Log(), CardHelper(SanityCheck()))
         }
 
-        fun buildPayIn(account: Account, balance: Balance, paymentCard: PaymentCard) : PayIn {
-
-            return PayIn(account, balance, paymentCard)
+        fun buildPayIn() : PayIn {
+            return PayIn()
         }
 
         //fun getPayIn(account: Account): PayIn =
@@ -100,6 +96,7 @@ class DWAplatform {
                 //payinInstance ?: buildPayIn(account).also { payinInstance = it }
             //}
 
+        /*
         fun buildAccount(user: User) : Account {
             return Account(user)
         }
@@ -115,6 +112,10 @@ class DWAplatform {
         fun buildBalance(account: Account): Balance {
             return Balance(account)
         }
+
+*/
+
+
 
     }
 

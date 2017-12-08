@@ -15,6 +15,9 @@ import com.dwaplatform.android.payin.api.PayInRestAPI
 /**
  * Created by ingrid on 06/12/17.
  */
+
+// FIXME commented due to sdk refactor
+/*
 class BalanceFactory constructor()  {
 
     open fun buildAPI(token: String, hostname: String, context: Context, account: Account): BalanceApi {
@@ -58,4 +61,4 @@ class Balance(val account: Account, val api: BalanceApi, val balanceHelper: Bala
 
     }
 
-}
+}*/
