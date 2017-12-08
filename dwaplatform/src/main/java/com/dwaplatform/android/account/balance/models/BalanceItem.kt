@@ -1,4 +1,4 @@
-package com.dwaplatform.android.account.balance
+package com.dwaplatform.android.account.balance.models
 
 import com.dwafintech.dwapay.model.Money
 

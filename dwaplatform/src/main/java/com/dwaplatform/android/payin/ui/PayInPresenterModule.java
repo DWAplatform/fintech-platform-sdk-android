@@ -1,6 +1,6 @@
 package com.dwaplatform.android.payin.ui;
 
-import com.dwaplatform.android.account.balance.BalanceHelper;
+import com.dwaplatform.android.account.balance.helpers.BalanceHelper;
 import com.dwaplatform.android.models.FeeHelper;
 import com.dwaplatform.android.money.MoneyHelper;
 import com.dwaplatform.android.payin.PayInContract;

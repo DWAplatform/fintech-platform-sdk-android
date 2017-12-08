@@ -55,7 +55,7 @@ class DWAplatformTest {
 
 
     @Test
-    fun test_getPayIn() {
+    fun test_startPayInUI() {
         val context = InstrumentationRegistry.getTargetContext()
 
         val hostName = "https://api.sandbox.dwaplatform.com"

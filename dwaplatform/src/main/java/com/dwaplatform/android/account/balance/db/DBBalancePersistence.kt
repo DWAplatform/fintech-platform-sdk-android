@@ -1,13 +1,11 @@
 package com.dwaplatform.android.account.balance.db
 
-import com.dwafintech.dwapay.model.Money
-import com.dwaplatform.android.account.balance.BalanceHelper
-import com.dwaplatform.android.account.balance.BalanceItem
+import com.dwaplatform.android.account.balance.models.BalanceItem
 
 /**
  * Created by ingrid on 07/12/17.
  */
-class DBBalanceHelper constructor(val dbBalance: DBBalance): BalanceHelper {
+class DBBalancePersistence constructor(val dbBalance: DBBalance): BalancePersistence {
 
     override fun getBalanceItem(accountId: String): BalanceItem? {
         /*val optobj = dbBalance.findBalance(accountId)

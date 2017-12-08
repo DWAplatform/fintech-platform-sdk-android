@@ -6,7 +6,7 @@ import com.dwaplatform.android.api.IRequest
 import com.dwaplatform.android.api.IRequestProvider
 import com.dwaplatform.android.api.IRequestQueue
 import com.dwaplatform.android.card.helpers.JSONHelper
-import com.dwaplatform.android.payin.models.PayInReply
+import com.dwaplatform.android.log.Log
 import org.json.JSONException
 import java.io.UnsupportedEncodingException
 import java.net.URLEncoder
@@ -15,14 +15,16 @@ import java.util.HashMap
 /**
  * Created by ingrid on 07/12/17.
  */
-class BalanceApi constructor(
+class BalanceAPI constructor(
         internal val hostName: String,
         internal val token: String,
         internal val queue: IRequestQueue,
         internal val requestProvider: IRequestProvider,
-        internal val jsonHelper: JSONHelper) {
+        internal val jsonHelper: JSONHelper,
+        internal val log: Log) {
 
     private val PROTOCOL_CHARSET = "utf-8"
+    private final val TAG = "BalanceAPI"
 
     private fun getURL(path: String): String {
         if(hostName.startsWith("http://") || hostName.startsWith("https://")){
@@ -93,8 +95,7 @@ class BalanceApi constructor(
             queue.add(r)
             request = r
         } catch (e: Exception) {
-            // TODO
-            //log.error(TAG, "balance", e)
+            log.error(TAG, "balance", e)
             request = null
         }
 

@@ -11,7 +11,7 @@ import com.dwaplatform.android.payin.ui.PayInUIModule;
  * Created by tcappellari on 08/12/2017.
  */
 
-public class PayIn {
+public class PayInBuilder {
 
     public PayInAPIComponent createPayInAPIComponent(String hostName, String token, Context context) {
         return DaggerPayInAPIComponent.builder()

@@ -1,8 +1,8 @@
 package com.dwaplatform.android.payin
 
 import com.dwafintech.dwapay.model.Money
-import com.dwaplatform.android.account.balance.BalanceHelper
-import com.dwaplatform.android.account.balance.db.DBBalanceHelper
+import com.dwaplatform.android.account.balance.helpers.BalanceHelper
+import com.dwaplatform.android.account.balance.models.BalanceItem
 import com.dwaplatform.android.models.FeeHelper
 import com.dwaplatform.android.money.MoneyHelper
 import com.dwaplatform.android.payin.api.PayInAPI
@@ -119,8 +119,7 @@ class PayInPresenter @Inject constructor(val configuration: PayInConfiguration,
     }
 
     private fun reloadBalance() {
-        /* FIXME commented due to sdk refactor
-        api.balance(configuration.userId) { optbalance, opterror ->
+        balanceHelper.api.balance(configuration.userId, configuration.accountId) { optbalance, opterror ->
             if (opterror != null) {
                 return@balance
             }
@@ -129,10 +128,10 @@ class PayInPresenter @Inject constructor(val configuration: PayInConfiguration,
                 return@balance
             }
             val balance = optbalance
-            dbBalanceHelper.saveBalance(BalanceItem(balance))
+            balanceHelper.persistence.saveBalance(BalanceItem(configuration.accountId, Money(balance)))
 
             refreshBalance()
-        } */
+        }
     }
 
     private fun refreshData() {
@@ -141,18 +140,16 @@ class PayInPresenter @Inject constructor(val configuration: PayInConfiguration,
     }
 
     private fun refreshBalance() {
-        /* FIXME commented due to sdk refactor
-        val optbi = dbBalanceHelper.getBalanceItem() ?: return
+        val optbi = balanceHelper.persistence.getBalanceItem(configuration.accountId) ?: return
         val bi = optbi
 
         val amount = view.getAmount()
         val amountmoney = Money.valueOf(amount)
 
-        val newbalance = Money(bi.balance + amountmoney.value)
+        val newbalance = Money(bi.money.value + amountmoney.value)
         val newBalanceStr = moneyHelper.toString(newbalance)
 
         view.setNewBalanceAmount(newBalanceStr)
-        */
     }
 
     private fun refreshFee() {
