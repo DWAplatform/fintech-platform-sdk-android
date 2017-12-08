@@ -1,5 +1,10 @@
 package com.dwaplatform.android.log;
 
+import javax.inject.Singleton;
+
+import dagger.Module;
+import dagger.Provides;
+
 /**
  * Created by tcappellari on 08/12/2017.
  */

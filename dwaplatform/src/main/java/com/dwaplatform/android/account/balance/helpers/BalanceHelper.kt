@@ -4,6 +4,7 @@ import com.dwafintech.dwapay.model.Money
 import com.dwaplatform.android.account.balance.api.BalanceAPI
 import com.dwaplatform.android.account.balance.db.BalancePersistence
 import com.dwaplatform.android.account.balance.models.BalanceItem
+import javax.inject.Inject
 
 /**
  * Created by tcappellari on 08/12/2017.

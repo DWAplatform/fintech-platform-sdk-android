@@ -6,6 +6,10 @@ import com.dwaplatform.android.account.balance.helpers.BalanceHelper;
 import com.dwaplatform.android.account.balance.helpers.BalanceHelperModule;
 import com.dwaplatform.android.log.LogModule;
 
+import javax.inject.Singleton;
+
+import dagger.Component;
+
 /**
  * Created by tcappellari on 08/12/2017.
  */
@@ -15,6 +19,7 @@ import com.dwaplatform.android.log.LogModule;
 @Component(modules= {
         BalanceAPIModule.class,
         BalanceHelperModule.class,
+        LogModule.class
 
 })
 public interface BalanceHelperComponent {

@@ -5,6 +5,11 @@ import com.dwaplatform.android.account.balance.db.BalancePersistence;
 import com.dwaplatform.android.account.balance.db.DBBalance;
 import com.dwaplatform.android.account.balance.db.DBBalancePersistence;
 
+import javax.inject.Singleton;
+
+import dagger.Module;
+import dagger.Provides;
+
 /**
  * Created by tcappellari on 08/12/2017.
  */

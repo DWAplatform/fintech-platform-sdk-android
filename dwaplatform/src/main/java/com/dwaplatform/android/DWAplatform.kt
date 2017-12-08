@@ -11,7 +11,6 @@ import com.dwaplatform.android.card.helpers.CardHelper
 import com.dwaplatform.android.card.helpers.JSONHelper
 import com.dwaplatform.android.card.helpers.SanityCheck
 import com.dwaplatform.android.log.Log
-import com.dwaplatform.android.payin.PayIn
 import com.dwaplatform.android.payin.PayInBuilder
 import com.dwaplatform.android.user.User
 

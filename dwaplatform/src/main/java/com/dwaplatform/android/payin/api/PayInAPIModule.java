@@ -8,6 +8,11 @@ import com.dwaplatform.android.api.volley.VolleyRequestQueueProvider;
 import com.dwaplatform.android.card.helpers.JSONHelper;
 import com.dwaplatform.android.log.Log;
 
+import javax.inject.Singleton;
+
+import dagger.Module;
+import dagger.Provides;
+
 /**
  * Created by tcappellari on 08/12/2017.
  */
@@ -39,7 +44,7 @@ public class PayInAPIModule {
 
     @Provides
     @Singleton
-    PayInAPI providePayInAPI(IRequestQueue queue, IRequestProvider requestProvider, JSONHelper jsonHelper, Log log) {
-        return new PayInAPI(hostName, token, queue, requestProvider, jsonHelper, log);
+    PayInAPI providePayInAPI(IRequestQueue queue, IRequestProvider requestProvider, Log log) {
+        return new PayInAPI(hostName, token, queue, requestProvider, log);
     }
 }

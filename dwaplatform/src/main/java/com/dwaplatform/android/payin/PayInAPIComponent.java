@@ -5,6 +5,10 @@ import com.dwaplatform.android.payin.api.PayInAPI;
 import com.dwaplatform.android.payin.api.PayInAPIModule;
 import com.dwaplatform.android.payin.ui.PayInPresenterModule;
 
+import javax.inject.Singleton;
+
+import dagger.Component;
+
 /**
  * Created by tcappellari on 08/12/2017.
  */

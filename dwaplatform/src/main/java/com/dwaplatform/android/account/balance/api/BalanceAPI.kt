@@ -11,16 +11,17 @@ import org.json.JSONException
 import java.io.UnsupportedEncodingException
 import java.net.URLEncoder
 import java.util.HashMap
+import javax.inject.Inject
 
 /**
  * Created by ingrid on 07/12/17.
  */
-class BalanceAPI constructor(
+class BalanceAPI @Inject constructor(
         internal val hostName: String,
         internal val token: String,
         internal val queue: IRequestQueue,
         internal val requestProvider: IRequestProvider,
-        internal val jsonHelper: JSONHelper,
+       // internal val jsonHelper: JSONHelper,
         internal val log: Log) {
 
     private val PROTOCOL_CHARSET = "utf-8"

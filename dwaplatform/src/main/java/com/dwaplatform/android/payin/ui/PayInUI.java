@@ -45,5 +45,3 @@ public class PayInUI {
         context.startActivity(intent);
     }
 }
-
-}

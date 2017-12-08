@@ -8,6 +8,11 @@ import com.dwaplatform.android.payin.PayInPresenter;
 import com.dwaplatform.android.payin.models.PayInConfiguration;
 import com.dwaplatform.android.payin.api.PayInAPI;
 
+import javax.inject.Singleton;
+
+import dagger.Module;
+import dagger.Provides;
+
 /**
  * Created by tcappellari on 08/12/2017.
  */

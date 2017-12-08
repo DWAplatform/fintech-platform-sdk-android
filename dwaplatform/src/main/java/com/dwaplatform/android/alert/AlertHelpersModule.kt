@@ -1,5 +1,9 @@
 package com.dwaplatform.android.alert
 
+import dagger.Module
+import dagger.Provides
+import javax.inject.Singleton
+
 /**
  * Created by tcappellari on 08/12/2017.
  */

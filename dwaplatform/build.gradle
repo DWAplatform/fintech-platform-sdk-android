@@ -74,6 +74,29 @@ dependencies {
 
     androidTestCompile 'org.mockito:mockito-core:2.8.47'
     androidTestCompile 'org.mockito:mockito-android:2.8.47'
+
+    //dagger
+    // apt command comes from the android-apt plugin
+    implementation "com.google.dagger:dagger:2.9"
+    annotationProcessor "com.google.dagger:dagger-compiler:2.9"
+    androidTestAnnotationProcessor "com.google.dagger:dagger-compiler:2.9"
+    compileOnly 'javax.annotation:jsr250-api:1.0'
+}
+def dbflow_version = "4.1.2"
+dependencies {
+    annotationProcessor "com.github.Raizlabs.DBFlow:dbflow-processor:${dbflow_version}"
+    // use kapt for kotlin apt
+    implementation "com.github.Raizlabs.DBFlow:dbflow-core:${dbflow_version}"
+    implementation "com.github.Raizlabs.DBFlow:dbflow:${dbflow_version}"
+
+    // sql-cipher database encyrption (optional)
+    implementation "com.github.Raizlabs.DBFlow:dbflow-sqlcipher:${dbflow_version}@aar"
+    implementation "net.zetetic:android-database-sqlcipher:3.5.1"
+
+    // kotlin extensions
+    implementation "com.github.Raizlabs.DBFlow:dbflow-kotlinextensions:${dbflow_version}"
+
+    implementation 'cn.pedant.sweetalert:library:1.3'
 }
 
 repositories {

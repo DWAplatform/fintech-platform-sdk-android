@@ -9,6 +9,11 @@ import com.dwaplatform.android.card.helpers.JSONHelper;
 import com.dwaplatform.android.log.Log;
 import com.dwaplatform.android.payin.api.PayInAPI;
 
+import javax.inject.Singleton;
+
+import dagger.Module;
+import dagger.Provides;
+
 /**
  * Created by tcappellari on 08/12/2017.
  */
@@ -40,8 +45,8 @@ public class BalanceAPIModule {
 
     @Provides
     @Singleton
-    BalanceAPI provideBalanceAPI(IRequestQueue queue, IRequestProvider requestProvider, JSONHelper jsonHelper, Log log) {
-        return new BalanceAPI(hostName, token, queue, requestProvider, jsonHelper, log);
+    BalanceAPI provideBalanceAPI(IRequestQueue queue, IRequestProvider requestProvider, Log log) {
+        return new BalanceAPI(hostName, token, queue, requestProvider, log);
     }
 }
 

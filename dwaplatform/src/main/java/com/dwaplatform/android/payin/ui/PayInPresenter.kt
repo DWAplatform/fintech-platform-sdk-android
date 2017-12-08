@@ -8,6 +8,7 @@ import com.dwaplatform.android.money.MoneyHelper
 import com.dwaplatform.android.payin.api.PayInAPI
 import com.dwaplatform.android.payin.models.PayInConfiguration
 import java.util.*
+import javax.inject.Inject
 
 /**
  * Created by ingrid on 07/09/17.

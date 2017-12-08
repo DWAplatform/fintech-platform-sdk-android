@@ -6,11 +6,11 @@ import com.dwafintech.dwapay.model.Money
 import com.dwaplatform.android.api.IRequest
 import com.dwaplatform.android.api.IRequestProvider
 import com.dwaplatform.android.api.IRequestQueue
-import com.dwaplatform.android.card.helpers.JSONHelper
 import com.dwaplatform.android.log.Log
 import com.dwaplatform.android.payin.models.PayInReply
 import org.json.JSONObject
 import java.util.*
+import javax.inject.Inject
 
 /**
  * Created by ingrid on 06/12/17.
@@ -20,7 +20,6 @@ class PayInAPI @Inject constructor(
         internal val token: String,
         internal val queue: IRequestQueue,
         internal val requestProvider: IRequestProvider,
-        internal val jsonHelper: JSONHelper,
         internal val log: Log) {
 
     inner class GenericCommunicationError(throwable: Throwable) : Exception(throwable)

@@ -1,16 +1,22 @@
 package com.dwaplatform.android.account.balance.db;
 
+import com.dwaplatform.android.db.PlatformDB;
+import com.raizlabs.android.dbflow.annotation.Column;
+import com.raizlabs.android.dbflow.annotation.PrimaryKey;
+import com.raizlabs.android.dbflow.annotation.Table;
+import com.raizlabs.android.dbflow.structure.BaseModel;
+
 /**
  * Created by ingrid on 07/12/17.
  */
 
-//@Table(database = AppDatabase.class)
-public class Balance{// extends BaseModel {
-    /*@PrimaryKey
+@Table(database = PlatformDB.class)
+public class Balance extends BaseModel {
+    @PrimaryKey
     public String id;
     @Column
     public Long amount;
-    @Colum
+    @Column
     public String currency;
     @Column
     public String accountId;
@@ -29,5 +35,5 @@ public class Balance{// extends BaseModel {
 
     public void setAmount(Long amount) {
         this.amount = amount;
-    }*/
+    }
 }

@@ -15,6 +15,7 @@ import com.dwaplatform.android.alert.AlertHelpers
 import com.dwaplatform.android.models.MoneyValueInputFilter
 import com.dwaplatform.android.payin.ui.PayInUI
 import kotlinx.android.synthetic.main.activity_payin.*
+import javax.inject.Inject
 
 class PayInActivity : FragmentActivity(), PayInContract.View {
 

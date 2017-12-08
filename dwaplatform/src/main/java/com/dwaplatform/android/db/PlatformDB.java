@@ -1,5 +1,7 @@
 package com.dwaplatform.android.db;
 
+import com.raizlabs.android.dbflow.annotation.Database;
+
 /**
  * Created by ingrid on 07/12/17.
  */
