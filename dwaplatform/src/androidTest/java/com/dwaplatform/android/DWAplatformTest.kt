@@ -73,7 +73,7 @@ class DWAplatformTest {
                 token, PayInConfiguration(userId, accountId, paymentCardId))
         payInComponent.getPayInUI().start(context)
 
-        Thread.sleep(10000)
+        Thread.sleep(20000)
 
 
 
