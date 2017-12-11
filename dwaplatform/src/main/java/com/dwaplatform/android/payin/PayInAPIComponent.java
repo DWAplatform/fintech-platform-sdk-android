@@ -22,7 +22,7 @@ import dagger.Component;
         NetModule.class
 
 })
-interface PayInAPIComponent {
+public interface PayInAPIComponent {
 
     PayInAPI getPayInAPI();
 }
