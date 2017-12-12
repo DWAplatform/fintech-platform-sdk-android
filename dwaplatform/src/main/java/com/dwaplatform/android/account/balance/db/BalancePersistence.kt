@@ -5,9 +5,9 @@ import com.dwaplatform.android.account.balance.models.BalanceItem
 /**
  * Created by ingrid on 07/12/17.
  */
-interface BalancePersistence {
+open interface BalancePersistence {
 
-    fun getBalanceItem(accountId: String): BalanceItem?
+    open fun getBalanceItem(accountId: String): BalanceItem?
 
     fun saveBalance(balance: BalanceItem)
 }

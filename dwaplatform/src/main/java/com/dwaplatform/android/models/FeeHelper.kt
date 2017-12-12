@@ -3,9 +3,9 @@ package com.dwaplatform.android.models
 /**
  * Created by ingrid on 06/12/17.
  */
-class FeeHelper {
+open class FeeHelper {
 
-    fun calcPayInFee(amount: Long): Long {
+    open fun calcPayInFee(amount: Long): Long {
         return Math.round(18 + (amount * 1.8) / 100)
     }
 

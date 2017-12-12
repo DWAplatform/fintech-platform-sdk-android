@@ -9,7 +9,7 @@ import javax.inject.Inject
 /**
  * Created by tcappellari on 08/12/2017.
  */
-class BalanceHelper @Inject constructor(val persistence: BalancePersistence,
+open class BalanceHelper @Inject constructor(val persistence: BalancePersistence,
                                         val api: BalanceAPI) {
 
 
