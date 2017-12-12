@@ -1,9 +1,9 @@
 package com.dwaplatform.android.payin
 
-import com.dwafintech.dwapay.model.Money
 import com.dwaplatform.android.account.balance.helpers.BalanceHelper
 import com.dwaplatform.android.account.balance.models.BalanceItem
 import com.dwaplatform.android.models.FeeHelper
+import com.dwaplatform.android.models.Money
 import com.dwaplatform.android.money.MoneyHelper
 import com.dwaplatform.android.payin.api.PayInAPI
 import com.dwaplatform.android.payin.models.PayInConfiguration
@@ -51,7 +51,7 @@ class PayInPresenter @Inject constructor(val configuration: PayInConfiguration,
     }
 
     override fun onConfirm() {
-        if (!hasCreditCard()) {
+        if (configuration.paymentCardId == null) {
             view.setForward("")
             view.goToCreditCard()
             return
@@ -62,6 +62,7 @@ class PayInPresenter @Inject constructor(val configuration: PayInConfiguration,
         view.showCommunicationWait()
 
         val money = Money.valueOf(view.getAmount())
+
         api.payIn(configuration.userId,
                 configuration.accountId,
                 configuration.paymentCardId,
@@ -93,6 +94,7 @@ class PayInPresenter @Inject constructor(val configuration: PayInConfiguration,
                 view.goBack()
             }
         }
+
     }
 
     override fun onAbortClick() {

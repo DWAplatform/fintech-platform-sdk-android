@@ -1,6 +1,7 @@
 package com.dwaplatform.android.account.balance.models
 
-import com.dwafintech.dwapay.model.Money
+import com.dwaplatform.android.models.Money
+
 
 /**
  * Created by ingrid on 07/12/17.

@@ -2,11 +2,11 @@ package com.dwaplatform.android.payin.api
 
 import com.android.volley.DefaultRetryPolicy
 import com.android.volley.Request
-import com.dwafintech.dwapay.model.Money
 import com.dwaplatform.android.api.IRequest
 import com.dwaplatform.android.api.IRequestProvider
 import com.dwaplatform.android.api.IRequestQueue
 import com.dwaplatform.android.log.Log
+import com.dwaplatform.android.models.Money
 import com.dwaplatform.android.payin.models.PayInReply
 import org.json.JSONObject
 import java.util.*
@@ -47,12 +47,12 @@ open class PayInAPI @Inject constructor(
         return header
     }
 
-    fun payIn(userId: String,
-              accountId: String,
-              creditcardId: String,
-              amount: Money,
-              idempotency: String,
-              completion: (PayInReply?, Exception?) -> Unit): IRequest<*>? {
+    open fun payIn(userId: String,
+                   accountId: String,
+                   creditcardId: String,
+                   amount: Money,
+                   idempotency: String,
+                   completion: (PayInReply?, Exception?) -> Unit): IRequest<*>? {
         val url = getURL("/rest/1.0/fin/payin")
 
         var request: IRequest<*>?

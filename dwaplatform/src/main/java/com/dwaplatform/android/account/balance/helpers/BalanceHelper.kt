@@ -1,9 +1,9 @@
 package com.dwaplatform.android.account.balance.helpers
 
-import com.dwafintech.dwapay.model.Money
 import com.dwaplatform.android.account.balance.api.BalanceAPI
 import com.dwaplatform.android.account.balance.db.BalancePersistence
 import com.dwaplatform.android.account.balance.models.BalanceItem
+import com.dwaplatform.android.models.Money
 import javax.inject.Inject
 
 /**

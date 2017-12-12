@@ -1,11 +1,11 @@
 package com.dwaplatform.android.payin.ui
 
-import com.dwafintech.dwapay.model.Money
 import com.dwaplatform.android.account.balance.api.BalanceAPI
 import com.dwaplatform.android.account.balance.db.BalancePersistence
 import com.dwaplatform.android.account.balance.helpers.BalanceHelper
 import com.dwaplatform.android.account.balance.models.BalanceItem
 import com.dwaplatform.android.models.FeeHelper
+import com.dwaplatform.android.models.Money
 import com.dwaplatform.android.money.MoneyHelper
 import com.dwaplatform.android.payin.PayInContract
 import com.dwaplatform.android.payin.PayInPresenter
@@ -43,7 +43,7 @@ class PayInPresenterTest {
     @Captor lateinit var userIdCaptor: ArgumentCaptor<String>
     @Captor lateinit var accountIdCaptor: ArgumentCaptor<String>
     @Captor lateinit var creditcardidCaptor: ArgumentCaptor<String>
-    @Captor lateinit var amountCaptor: ArgumentCaptor<Long>
+    @Captor lateinit var amountCaptor: ArgumentCaptor<Money>
     @Captor lateinit var idempotencyCaptor: ArgumentCaptor<String>
     @Captor lateinit var callbackCaptor: ArgumentCaptor<(PayInReply?, Exception?) -> Unit>
     @Captor lateinit var callbackBalanceCaptor: ArgumentCaptor<(Long?, Exception?) -> Unit>
@@ -164,359 +164,352 @@ class PayInPresenterTest {
         Assert.assertEquals(accountIdCaptor.value, "accountid")
         Assert.assertNotNull(callbackBalanceCaptor)
     }
-    /*
-            @Test
-            fun refreshBalanceServerError() {
-                //Given
-                Mockito.`when`(dbccardhelper.creditCardId()).thenReturn("12345%O(//=()(")
-                Mockito.`when`(dbUsersHelper.userid()).thenReturn("1234567890")
 
+        @Test
+        fun refreshBalanceServerError() {
+            //Given
+            val balanceItem = BalanceItem("", Money(1000L))
 
-                val balanceItem = BalanceItem(1000L)
-                Mockito.`when`(balanceHelper.getBalanceItem()).thenReturn(balanceItem)
+            Mockito.`when`(balancePersistence.getBalanceItem("accountid")).thenReturn(balanceItem)
 
-                Mockito.`when`(feeHelper.calcPayInFee(0L)).thenReturn(0L)
+            Mockito.`when`(feeHelper.calcPayInFee(0L)).thenReturn(0L)
 
-                //When
-                presenter.refresh()
+            //When
+            presenter.refresh()
 
-                //Then
-                Mockito.verify(view).showKeyboardAmount()
-                Mockito.verify(view).setForwardTextConfirm()
-                Mockito.verify(api).balance(capture(userIdCaptor), capture(callbackBalanceCaptor))
+            //Then
+            Mockito.verify(view).showKeyboardAmount()
+            Mockito.verify(view).setForwardTextConfirm()
+            Mockito.verify(balanceAPI).balance(capture(userIdCaptor), capture(accountIdCaptor), capture(callbackBalanceCaptor))
 
-                Assert.assertEquals(userIdCaptor.value, "1234567890")
-                Assert.assertNotNull(callbackBalanceCaptor)
+            Assert.assertEquals(userIdCaptor.value, "userid")
+            Assert.assertNotNull(callbackBalanceCaptor)
 
-                /* Callback test */
-                // When
-                callbackBalanceCaptor.value.invoke(null, Exception())
+            /* Callback test */
+            // When
+            callbackBalanceCaptor.value.invoke(null, Exception())
 
-                // Then
-                Mockito.verify(balanceHelper, never()).saveBalance(any())
-                Mockito.verify(view, never()).setNewBalanceAmount(any())
-            }
+            // Then
+            Mockito.verify(balancePersistence, never()).saveBalance(any())
+            Mockito.verify(view, never()).setNewBalanceAmount(any())
+        }
 
-            @Test
-            fun refreshBalanceServerOkNullBalance() {
-                //Given
-                Mockito.`when`(dbccardhelper.creditCardId()).thenReturn("12345%O(//=()(")
-                Mockito.`when`(dbUsersHelper.userid()).thenReturn("1234567890")
+        @Test
+        fun refreshBalanceServerOkNullBalance() {
+            //Given
 
-                //When
-                presenter.refresh()
+            //When
+            presenter.refresh()
 
-                //Then
-                Mockito.verify(view).showKeyboardAmount()
-                Mockito.verify(view).setForwardTextConfirm()
-                Mockito.verify(api).balance(capture(userIdCaptor), capture(callbackBalanceCaptor))
+            //Then
+            Mockito.verify(view).showKeyboardAmount()
+            Mockito.verify(view).setForwardTextConfirm()
+            Mockito.verify(balanceAPI).balance(capture(userIdCaptor), capture(accountIdCaptor), capture(callbackBalanceCaptor))
 
-                Assert.assertEquals(userIdCaptor.value, "1234567890")
-                Assert.assertNotNull(callbackBalanceCaptor)
+            Assert.assertEquals(userIdCaptor.value, "userid")
+            Assert.assertEquals(accountIdCaptor.value, "accountid")
+            Assert.assertNotNull(callbackBalanceCaptor)
 
-                /* Callback test */
-                // When
-                callbackBalanceCaptor.value.invoke(null, null)
+            /* Callback test */
+            // When
+            callbackBalanceCaptor.value.invoke(null, null)
 
-                // Then
-                Mockito.verify(balanceHelper, never()).saveBalance(any())
-                Mockito.verify(view, never()).setNewBalanceAmount(any())
-            }
-
-            @Test
-            fun refreshBalanceServerOkWithBalance() {
-                //Given
-                Mockito.`when`(dbccardhelper.creditCardId()).thenReturn("12345%O(//=()(")
-                Mockito.`when`(dbUsersHelper.userid()).thenReturn("1234567890")
-
-                //When
-                presenter.refresh()
-
-                //Then
-                Mockito.verify(view).showKeyboardAmount()
-                Mockito.verify(view).setForwardTextConfirm()
-                Mockito.verify(api).balance(capture(userIdCaptor), capture(callbackBalanceCaptor))
-
-                Assert.assertEquals(userIdCaptor.value, "1234567890")
-                Assert.assertNotNull(callbackBalanceCaptor)
-
-                /* Callback test */
-                // Given
-                val balanceReloaded = 10000L
-
-                val balanceItem = BalanceItem(balanceReloaded)
-                Mockito.`when`(balanceHelper.getBalanceItem()).thenReturn(balanceItem)
-
-                Mockito.`when`(view.getAmount()).thenReturn("6,00")
-
-
-                // When
-                callbackBalanceCaptor.value.invoke(balanceReloaded, null)
-
-                // Then
-                Mockito.verify(balanceHelper).saveBalance(capture(balanceItemCaptor))
-                Assert.assertEquals(balanceReloaded, balanceItemCaptor.value.balance)
-
-                Mockito.verify(view).setNewBalanceAmount("106,00 €")
-            }
-
-            @Test
-            fun onEditingChangedWithoutCreditCardAmountGreaterThenZero() {
-                //Given
-                Mockito.`when`(dbccardhelper.creditCardId()).thenReturn(null)
-
-                val balanceItem = BalanceItem(1000L)
-                Mockito.`when`(balanceHelper.getBalanceItem()).thenReturn(balanceItem)
-
-                Mockito.`when`(view.getAmount()).thenReturn("6,00")
-
-                Mockito.`when`(feeHelper.calcPayInFee(600L)).thenReturn(100L)
-
-                // When
-                presenter.onEditingChanged()
-
-                // Then
-                Mockito.verify(view).forwardEnable()
-                Mockito.verify(view).setNewBalanceAmount("16,00 €")
-                Mockito.verify(view).setFeeAmount("1,00 €")
-            }
-
-            @Test
-            fun onConfirmWithoutCardDataBalanceEnough() {
-                // Given
-                Mockito.`when`(dbccardhelper.creditCardId()).thenReturn(null)
-
-                // When
-                presenter.onConfirm()
-
-                // Then
-                Mockito.verify(view).setForward("")
-                Mockito.verify(view).goToCreditCard()
-            }
-
-            @Test
-            fun onConfirmWithCardData() {
-                // Given
-                Mockito.`when`(dbccardhelper.creditCardId()).thenReturn("1234123412341234")
-                Mockito.`when`(view.getAmount()).thenReturn("10,00")
-                Mockito.`when`(dbUsersHelper.userid()).thenReturn("1234567890")
-                presenter.idempotencyPayin = "ABC"
-
-                // When
-                presenter.onConfirm()
-
-                // Then
-                Mockito.verify(view).forwardDisable()
-                Mockito.verify(view).showCommunicationWait()
-
-                Mockito.verify(api).payIn(
-                        capture(userIdCaptor),
-                        capture(creditcardidCaptor),
-                        capture(amountCaptor),
-                        capture(idempotencyCaptor),
-                        capture(callbackCaptor))
-
-                Assert.assertEquals(userIdCaptor.value, "1234567890")
-                Assert.assertEquals(creditcardidCaptor.value, "1234123412341234")
-                Assert.assertEquals(amountCaptor.value, 1000L)
-                Assert.assertEquals(idempotencyCaptor.value, "ABC")
-                Assert.assertNotNull(callbackCaptor.value)
-            }
-
-            @Test
-            fun onConfirmWithCardDataServerIdempotencyError() {
-                // Given
-                Mockito.`when`(dbccardhelper.creditCardId()).thenReturn("1234123412341234")
-                Mockito.`when`(view.getAmount()).thenReturn("10,00")
-                Mockito.`when`(dbUsersHelper.userid()).thenReturn("1234567890")
-                presenter.idempotencyPayin = "ABC"
-
-                // When
-                presenter.onConfirm()
-
-                // Then
-                Mockito.verify(view).forwardDisable()
-                Mockito.verify(view).showCommunicationWait()
-
-                Mockito.verify(api).payIn(
-                        capture(userIdCaptor),
-                        capture(creditcardidCaptor),
-                        capture(amountCaptor),
-                        capture(idempotencyCaptor),
-                        capture(callbackCaptor))
-
-                Assert.assertEquals(userIdCaptor.value, "1234567890")
-                Assert.assertEquals(creditcardidCaptor.value, "1234123412341234")
-                Assert.assertEquals(amountCaptor.value, 1000L)
-                Assert.assertEquals(idempotencyCaptor.value, "ABC")
-                Assert.assertNotNull(callbackCaptor.value)
-
-                /* Callback test */
-                // When
-                callbackCaptor.value.invoke(null, api.IdempotencyError(Exception()))
-
-                // Then
-                Mockito.verify(view).showIdempotencyError()
-                Mockito.verify(view, never()).goBack()
-                Mockito.verify(view, never()).goToSecure3D(any())
-            }
-
-            @Test
-            fun onConfirmWithCardDataServerCommunicationInternalError() {
-                // Given
-                Mockito.`when`(dbccardhelper.creditCardId()).thenReturn("1234123412341234")
-                Mockito.`when`(view.getAmount()).thenReturn("10,00")
-                Mockito.`when`(dbUsersHelper.userid()).thenReturn("1234567890")
-                presenter.idempotencyPayin = "ABC"
-
-                // When
-                presenter.onConfirm()
-
-                // Then
-                Mockito.verify(view).forwardDisable()
-                Mockito.verify(view).showCommunicationWait()
-
-                Mockito.verify(api).payIn(
-                        capture(userIdCaptor),
-                        capture(creditcardidCaptor),
-                        capture(amountCaptor),
-                        capture(idempotencyCaptor),
-                        capture(callbackCaptor))
-
-                Assert.assertEquals(userIdCaptor.value, "1234567890")
-                Assert.assertEquals(creditcardidCaptor.value, "1234123412341234")
-                Assert.assertEquals(amountCaptor.value, 1000L)
-                Assert.assertEquals(idempotencyCaptor.value, "ABC")
-                Assert.assertNotNull(callbackCaptor.value)
-
-                /* Callback test */
-                // When
-                callbackCaptor.value.invoke(null, api.GenericCommunicationError(Exception()))
-
-                // Then
-                Mockito.verify(view).showCommunicationInternalError()
-                Mockito.verify(view, never()).goBack()
-                Mockito.verify(view, never()).goToSecure3D(any())
-            }
-
-            @Test
-            fun onConfirmWithCardDataServerNoData() {
-                // Given
-                Mockito.`when`(dbccardhelper.creditCardId()).thenReturn("1234123412341234")
-                Mockito.`when`(view.getAmount()).thenReturn("10,00")
-                Mockito.`when`(dbUsersHelper.userid()).thenReturn("1234567890")
-                presenter.idempotencyPayin = "ABC"
-
-                // When
-                presenter.onConfirm()
-
-                // Then
-                Mockito.verify(view).forwardDisable()
-                Mockito.verify(view).showCommunicationWait()
-
-                Mockito.verify(api).payIn(
-                        capture(userIdCaptor),
-                        capture(creditcardidCaptor),
-                        capture(amountCaptor),
-                        capture(idempotencyCaptor),
-                        capture(callbackCaptor))
-
-                Assert.assertEquals(userIdCaptor.value, "1234567890")
-                Assert.assertEquals(creditcardidCaptor.value, "1234123412341234")
-                Assert.assertEquals(amountCaptor.value, 1000L)
-                Assert.assertEquals(idempotencyCaptor.value, "ABC")
-                Assert.assertNotNull(callbackCaptor.value)
-
-                /* Callback test */
-                // When
-                callbackCaptor.value.invoke(null, null)
-
-                // Then
-                Mockito.verify(view).showIdempotencyError()
-                Mockito.verify(view, never()).goBack()
-                Mockito.verify(view, never()).goToSecure3D(any())
-            }
-
-            @Test
-            fun onConfirmWithCardDataServerWithSecureCode() {
-                // Given
-                Mockito.`when`(dbccardhelper.creditCardId()).thenReturn("1234123412341234")
-                Mockito.`when`(view.getAmount()).thenReturn("10,00")
-                Mockito.`when`(dbUsersHelper.userid()).thenReturn("1234567890")
-                presenter.idempotencyPayin = "ABC"
-
-                // When
-                presenter.onConfirm()
-
-                // Then
-                Mockito.verify(view).forwardDisable()
-                Mockito.verify(view).showCommunicationWait()
-
-                Mockito.verify(api).payIn(
-                        capture(userIdCaptor),
-                        capture(creditcardidCaptor),
-                        capture(amountCaptor),
-                        capture(idempotencyCaptor),
-                        capture(callbackCaptor))
-
-                Assert.assertEquals(userIdCaptor.value, "1234567890")
-                Assert.assertEquals(creditcardidCaptor.value, "1234123412341234")
-                Assert.assertEquals(amountCaptor.value, 1000L)
-                Assert.assertEquals(idempotencyCaptor.value, "ABC")
-                Assert.assertNotNull(callbackCaptor.value)
-
-                /* Callback test */
-                // Given
-                val payinReply = PayInReply("123", true, "http://www.example.com")
-
-                // When
-                callbackCaptor.value.invoke(payinReply, null)
-
-                // Then
-                Mockito.verify(view).goToSecure3D("http://www.example.com")
-                Mockito.verify(view, never()).goBack()
-            }
-
-            @Test
-            fun onConfirmWithCardDataServerPayInSuccess() {
-                // Given
-                Mockito.`when`(dbccardhelper.creditCardId()).thenReturn("1234123412341234")
-                Mockito.`when`(view.getAmount()).thenReturn("10,00")
-                Mockito.`when`(dbUsersHelper.userid()).thenReturn("1234567890")
-                presenter.idempotencyPayin = "ABC"
-
-                // When
-                presenter.onConfirm()
-
-                // Then
-                Mockito.verify(view).forwardDisable()
-                Mockito.verify(view).showCommunicationWait()
-
-                Mockito.verify(api).payIn(
-                        capture(userIdCaptor),
-                        capture(creditcardidCaptor),
-                        capture(amountCaptor),
-                        capture(idempotencyCaptor),
-                        capture(callbackCaptor))
-
-                Assert.assertEquals(userIdCaptor.value, "1234567890")
-                Assert.assertEquals(creditcardidCaptor.value, "1234123412341234")
-                Assert.assertEquals(amountCaptor.value, 1000L)
-                Assert.assertEquals(idempotencyCaptor.value, "ABC")
-                Assert.assertNotNull(callbackCaptor.value)
-
-                /* Callback test */
-                // Given
-                val payinReply = PayInReply("123", false, null)
-
-                // When
-                callbackCaptor.value.invoke(payinReply, null)
-
-                // Then
-                Mockito.verify(view, never()).goToSecure3D(any())
-                Mockito.verify(view).goBack()
-            }
-        */
+            // Then
+            Mockito.verify(balancePersistence, never()).saveBalance(any())
+            Mockito.verify(view, never()).setNewBalanceAmount(any())
+        }
+
+
+        @Test
+        fun refreshBalanceServerOkWithBalance() {
+            //Given
+
+           //When
+            presenter.refresh()
+
+            //Then
+            Mockito.verify(view).showKeyboardAmount()
+            Mockito.verify(view).setForwardTextConfirm()
+            Mockito.verify(balanceAPI).balance(capture(userIdCaptor), capture(accountIdCaptor), capture(callbackBalanceCaptor))
+
+            Assert.assertEquals(userIdCaptor.value, "userid")
+            Assert.assertEquals(accountIdCaptor.value, "accountid")
+            Assert.assertNotNull(callbackBalanceCaptor)
+
+            /* Callback test */
+            // Given
+            val balanceReloaded = 10000L
+
+            val balanceItem = BalanceItem("accountid", Money(balanceReloaded))
+            Mockito.`when`(balancePersistence.getBalanceItem("accountid")).thenReturn(balanceItem)
+
+            Mockito.`when`(view.getAmount()).thenReturn("6,00")
+
+
+            // When
+            callbackBalanceCaptor.value.invoke(balanceReloaded, null)
+
+            // Then
+            Mockito.verify(balancePersistence).saveBalance(capture(balanceItemCaptor))
+            Assert.assertEquals(balanceReloaded, balanceItemCaptor.value.money.value)
+
+            Mockito.verify(view).setNewBalanceAmount("106,00 €")
+        }
+
+        @Test
+        fun onEditingChangedWithoutAmountGreaterThenZero() {
+            //Given
+
+            val balanceItem = BalanceItem("accountid", Money(1000L))
+            Mockito.`when`(balancePersistence.getBalanceItem("accountid")).thenReturn(balanceItem)
+
+            Mockito.`when`(view.getAmount()).thenReturn("6,00")
+
+            Mockito.`when`(feeHelper.calcPayInFee(600L)).thenReturn(100L)
+
+            // When
+            presenter.onEditingChanged()
+
+            // Then
+            Mockito.verify(view).forwardEnable()
+            Mockito.verify(view).setNewBalanceAmount("16,00 €")
+            Mockito.verify(view).setFeeAmount("1,00 €")
+        }
+
+        @Test
+        fun onConfirmWithoutCardDataBalanceEnough() {
+            // Given
+            config = PayInConfiguration("userid", "accountid", null)
+            presenter = PayInPresenter(config, view, api, moneyHelper, BalanceHelper(balancePersistence, balanceAPI), feeHelper)
+
+
+            // When
+            presenter.onConfirm()
+
+            // Then
+            Mockito.verify(view).setForward("")
+            Mockito.verify(view).goToCreditCard()
+        }
+
+        @Test
+        fun onConfirmWithCardData() {
+            // Given
+            Mockito.`when`(view.getAmount()).thenReturn("10,00")
+            presenter.idempotencyPayin = "ABC"
+
+            // When
+            presenter.onConfirm()
+
+            // Then
+            Mockito.verify(view).forwardDisable()
+            Mockito.verify(view).showCommunicationWait()
+
+            Mockito.verify(api).payIn(
+                    capture(userIdCaptor),
+                    capture(accountIdCaptor),
+                    capture(creditcardidCaptor),
+                    capture(amountCaptor),
+                    capture(idempotencyCaptor),
+                    capture(callbackCaptor))
+
+            Assert.assertEquals(userIdCaptor.value, "userid")
+            Assert.assertEquals(creditcardidCaptor.value, "paymentcardid")
+            Assert.assertEquals(amountCaptor.value.value, 1000L)
+            Assert.assertEquals(idempotencyCaptor.value, "ABC")
+            Assert.assertNotNull(callbackCaptor.value)
+        }
+
+    @Test
+    fun onConfirmWithCardDataServerIdempotencyError() {
+        // Given
+
+        Mockito.`when`(view.getAmount()).thenReturn("10,00")
+        presenter.idempotencyPayin = "ABC"
+
+        // When
+        presenter.onConfirm()
+
+        // Then
+        Mockito.verify(view).forwardDisable()
+        Mockito.verify(view).showCommunicationWait()
+
+        Mockito.verify(api).payIn(
+                capture(userIdCaptor),
+                capture(accountIdCaptor),
+                capture(creditcardidCaptor),
+                capture(amountCaptor),
+                capture(idempotencyCaptor),
+                capture(callbackCaptor))
+
+        Assert.assertEquals(userIdCaptor.value, "userid")
+        Assert.assertEquals(creditcardidCaptor.value, "paymentcardid")
+        Assert.assertEquals(amountCaptor.value.value, 1000L)
+        Assert.assertEquals(idempotencyCaptor.value, "ABC")
+        Assert.assertNotNull(callbackCaptor.value)
+
+        /* Callback test */
+        // When
+        callbackCaptor.value.invoke(null, api.IdempotencyError(Exception()))
+
+        // Then
+        Mockito.verify(view).showIdempotencyError()
+        Mockito.verify(view, never()).goBack()
+        Mockito.verify(view, never()).goToSecure3D(any())
+    }
+
+    @Test
+    fun onConfirmWithCardDataServerCommunicationInternalError() {
+        // Given
+        Mockito.`when`(view.getAmount()).thenReturn("10,00")
+        presenter.idempotencyPayin = "ABC"
+
+        // When
+        presenter.onConfirm()
+
+        // Then
+        Mockito.verify(view).forwardDisable()
+        Mockito.verify(view).showCommunicationWait()
+
+        Mockito.verify(api).payIn(
+                capture(userIdCaptor),
+                capture(accountIdCaptor),
+                capture(creditcardidCaptor),
+                capture(amountCaptor),
+                capture(idempotencyCaptor),
+                capture(callbackCaptor))
+
+        Assert.assertEquals(userIdCaptor.value, "userid")
+        Assert.assertEquals(creditcardidCaptor.value, "paymentcardid")
+        Assert.assertEquals(amountCaptor.value.value, 1000L)
+        Assert.assertEquals(idempotencyCaptor.value, "ABC")
+        Assert.assertNotNull(callbackCaptor.value)
+
+        /* Callback test */
+        // When
+        callbackCaptor.value.invoke(null, api.GenericCommunicationError(Exception()))
+
+        // Then
+        Mockito.verify(view).showCommunicationInternalError()
+        Mockito.verify(view, never()).goBack()
+        Mockito.verify(view, never()).goToSecure3D(any())
+    }
+
+    @Test
+   fun onConfirmWithCardDataServerNoData() {
+       // Given
+       Mockito.`when`(view.getAmount()).thenReturn("10,00")
+
+       presenter.idempotencyPayin = "ABC"
+
+       // When
+       presenter.onConfirm()
+
+       // Then
+       Mockito.verify(view).forwardDisable()
+       Mockito.verify(view).showCommunicationWait()
+
+       Mockito.verify(api).payIn(
+               capture(userIdCaptor),
+               capture(accountIdCaptor),
+               capture(creditcardidCaptor),
+               capture(amountCaptor),
+               capture(idempotencyCaptor),
+               capture(callbackCaptor))
+
+       Assert.assertEquals(userIdCaptor.value, "userid")
+       Assert.assertEquals(creditcardidCaptor.value, "paymentcardid")
+       Assert.assertEquals(amountCaptor.value.value, 1000L)
+       Assert.assertEquals(idempotencyCaptor.value, "ABC")
+       Assert.assertNotNull(callbackCaptor.value)
+
+       /* Callback test */
+       // When
+       callbackCaptor.value.invoke(null, null)
+
+       // Then
+       Mockito.verify(view).showIdempotencyError()
+       Mockito.verify(view, never()).goBack()
+       Mockito.verify(view, never()).goToSecure3D(any())
+   }
+
+     @Test
+     fun onConfirmWithCardDataServerWithSecureCode() {
+         // Given
+         Mockito.`when`(view.getAmount()).thenReturn("10,00")
+         presenter.idempotencyPayin = "ABC"
+
+         // When
+         presenter.onConfirm()
+
+         // Then
+         Mockito.verify(view).forwardDisable()
+         Mockito.verify(view).showCommunicationWait()
+
+         Mockito.verify(api).payIn(
+                 capture(userIdCaptor),
+                 capture(accountIdCaptor),
+                 capture(creditcardidCaptor),
+                 capture(amountCaptor),
+                 capture(idempotencyCaptor),
+                 capture(callbackCaptor))
+
+         Assert.assertEquals(userIdCaptor.value, "userid")
+         Assert.assertEquals(creditcardidCaptor.value, "paymentcardid")
+         Assert.assertEquals(amountCaptor.value.value, 1000L)
+         Assert.assertEquals(idempotencyCaptor.value, "ABC")
+         Assert.assertNotNull(callbackCaptor.value)
+
+         /* Callback test */
+         // Given
+         val payinReply = PayInReply("123", true, "http://www.example.com")
+
+         // When
+         callbackCaptor.value.invoke(payinReply, null)
+
+         // Then
+         Mockito.verify(view).goToSecure3D("http://www.example.com")
+         Mockito.verify(view, never()).goBack()
+     }
+
+    @Test
+    fun onConfirmWithCardDataServerPayInSuccess() {
+        // Given
+        Mockito.`when`(view.getAmount()).thenReturn("10,00")
+        presenter.idempotencyPayin = "ABC"
+
+        // When
+        presenter.onConfirm()
+
+        // Then
+        Mockito.verify(view).forwardDisable()
+        Mockito.verify(view).showCommunicationWait()
+
+        Mockito.verify(api).payIn(
+                capture(userIdCaptor),
+                capture(accountIdCaptor),
+                capture(creditcardidCaptor),
+                capture(amountCaptor),
+                capture(idempotencyCaptor),
+                capture(callbackCaptor))
+
+        Assert.assertEquals(userIdCaptor.value, "userid")
+        Assert.assertEquals(creditcardidCaptor.value, "paymentcardid")
+        Assert.assertEquals(amountCaptor.value.value, 1000L)
+        Assert.assertEquals(idempotencyCaptor.value, "ABC")
+        Assert.assertNotNull(callbackCaptor.value)
+
+        /* Callback test */
+        // Given
+        val payinReply = PayInReply("123", false, null)
+
+        // When
+        callbackCaptor.value.invoke(payinReply, null)
+
+        // Then
+        Mockito.verify(view, never()).goToSecure3D(any())
+        Mockito.verify(view).goBack()
+    }
+
     @Test
     fun onAbortClick() {
         // When

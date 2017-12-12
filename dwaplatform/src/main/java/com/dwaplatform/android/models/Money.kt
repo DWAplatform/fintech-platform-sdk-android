@@ -1,4 +1,4 @@
-package com.dwafintech.dwapay.model
+package com.dwaplatform.android.models
 
 class Money(val value: Long, val currency: String = "EUR") {
 

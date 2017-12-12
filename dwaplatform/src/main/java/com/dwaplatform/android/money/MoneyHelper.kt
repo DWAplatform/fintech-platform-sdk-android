@@ -1,6 +1,6 @@
 package com.dwaplatform.android.money
 
-import com.dwafintech.dwapay.model.Money
+import com.dwaplatform.android.models.Money
 
 /**
  * Created by ingrid on 06/12/17.
