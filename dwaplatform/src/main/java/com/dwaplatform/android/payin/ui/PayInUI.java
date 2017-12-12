@@ -23,7 +23,10 @@ public class PayInUI {
     String token;
     PayInConfiguration configuration;
 
-    static PayInUI instance;
+    protected static PayInUI instance;
+
+    protected PayInUI() {
+    }
 
     public PayInUI(String hostName, String token, PayInConfiguration configuration) {
         this.hostName = hostName;
@@ -31,21 +34,36 @@ public class PayInUI {
         this.configuration = configuration;
     }
 
-
-    public static PayInViewComponent createPayInViewComponent(Context context, PayInContract.View v)  {
+    protected PayInViewComponent buildPayInViewComponent(Context context, PayInContract.View v)  {
         return DaggerPayInViewComponent.builder()
                 .payInPresenterModule(new PayInPresenterModule(v, instance.configuration))
                 .payInAPIModule(new PayInAPIModule(instance.hostName,
-                                instance.token))
+                        instance.token))
                 .netModule(new NetModule(Volley.newRequestQueue(context)))
                 .balanceAPIModule(new BalanceAPIModule(instance.hostName,
                         instance.token))
                 .build();
     }
 
+    public static PayInViewComponent createPayInViewComponent(Context context, PayInContract.View v)  {
+        return instance.buildPayInViewComponent(context, v);
+    }
+
     public void start(Context context) {
         instance = this;
         Intent intent = new Intent(context, PayInActivity.class);
         context.startActivity(intent);
+    }
+
+    public String getHostName() {
+        return hostName;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public PayInConfiguration getConfiguration() {
+        return configuration;
     }
 }
