@@ -18,9 +18,7 @@ class PayInPresenter @Inject constructor(val configuration: PayInConfiguration,
                                          val api: PayInAPI,
                                          val moneyHelper: MoneyHelper,
                                          val balanceHelper: BalanceHelper,
-                                         //val dbUsersHelper: DBUsersHelper,
                                          val feeHelper: FeeHelper
-                                         //val dbccardhelper: DBCreditCardsHelper
 )
     : PayInContract.Presenter {
 

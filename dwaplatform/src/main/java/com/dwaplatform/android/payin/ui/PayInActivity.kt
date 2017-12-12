@@ -14,6 +14,7 @@ import com.dwaplatform.android.R
 import com.dwaplatform.android.alert.AlertHelpers
 import com.dwaplatform.android.models.MoneyValueInputFilter
 import com.dwaplatform.android.payin.ui.PayInUI
+import com.dwaplatform.android.secure3d.ui.Secure3DUI
 import kotlinx.android.synthetic.main.activity_payin.*
 import javax.inject.Inject
 
@@ -21,6 +22,7 @@ class PayInActivity : FragmentActivity(), PayInContract.View {
 
     @Inject lateinit var alertHelpers: AlertHelpers
     @Inject lateinit var presenter: PayInContract.Presenter
+    @Inject lateinit var secure3DUI: Secure3DUI
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -124,6 +126,9 @@ class PayInActivity : FragmentActivity(), PayInContract.View {
     }
 
     override fun goToSecure3D(redirecturl: String){
+        secure3DUI.start(this, redirecturl)
+
+
         // FIXME commented due to sdk refactor
         /*
         val intent = Intent(this, Secure3DActivity::class.java)

@@ -4,6 +4,7 @@ import android.content.Context
 import android.support.test.InstrumentationRegistry
 import android.support.test.runner.AndroidJUnit4
 import com.dwaplatform.android.payin.models.PayInConfiguration
+import com.dwaplatform.android.secure3d.ui.Secure3DUI
 import org.junit.Assert
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -70,7 +71,7 @@ class DWAplatformTest {
         val payIn = DWAplatform.buildPayIn()
         val payInComponent = payIn.createPayInUIComponent(
                 hostName,
-                token, PayInConfiguration(userId, accountId, paymentCardId))
+                token, PayInConfiguration(userId, accountId, paymentCardId), Secure3DUI())
         payInComponent.getPayInUI().start(context)
 
         Thread.sleep(20000)

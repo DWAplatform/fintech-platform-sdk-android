@@ -18,6 +18,7 @@ import com.dwaplatform.android.R
 import com.dwaplatform.android.payin.PayInActivity
 import com.dwaplatform.android.payin.PayInUIMockViewComponent
 import com.dwaplatform.android.payin.models.PayInConfiguration
+import com.dwaplatform.android.secure3d.ui.Secure3DActivity
 import com.nhaarman.mockito_kotlin.times
 import org.hamcrest.Matchers.not
 import org.junit.Assert
@@ -308,7 +309,7 @@ class PayInActivityTest {
         //fixme how to verify launchActivity
         // Given
         main.launchActivity(Intent())
- //       val activityMonitor = ActivityMonitor(Secure3DActivity::class.simpleName, null, false)
+        val activityMonitor = ActivityMonitor(Secure3DActivity::class.simpleName, null, false)
 
         // When
         uiThreadTestRule.runOnUiThread {
@@ -316,9 +317,9 @@ class PayInActivityTest {
         }
 
         // Then
-//        val nextActivity = Instrumentation().waitForMonitorWithTimeout(activityMonitor, 10000)
-//        Assert.assertNotNull(nextActivity)
-//        nextActivity .finish()
+        val nextActivity = Instrumentation().waitForMonitorWithTimeout(activityMonitor, 10000)
+        Assert.assertNotNull(nextActivity)
+        nextActivity .finish()
 
     }
 

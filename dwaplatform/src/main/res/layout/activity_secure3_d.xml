@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_secure3_d"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/background"
+    tools:context="com.dwaplatform.android.secure3d.ui.Secure3DActivity">
+
+    <RelativeLayout
+        android:id="@+id/framel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:background="@color/headerbackgroundcolor">
+        <TextView
+            android:layout_marginTop="20dp"
+            android:text="Verifica 3D secure"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:id="@+id/navheader_title"
+            android:textSize="22dp"
+            android:textColor="@android:color/white"
+            android:textAlignment="center" />
+
+        <ProgressBar
+            android:id="@+id/activityIndicator"
+            android:layout_marginTop="20dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:indeterminateOnly="true"
+            android:keepScreenOn="true"
+            android:layout_marginLeft="20dp"
+            android:layout_toRightOf="@id/navheader_title"
+            android:indeterminateTint="@color/white"
+            android:visibility="visible" />
+
+        <TextView
+            android:text="Inserisci la tua password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/navheader_title"
+            android:id="@+id/navheader_subtitle"
+            android:layout_marginBottom="10dp"
+            android:textSize="17dp"
+            android:textColor="@android:color/white"
+            android:textAlignment="center" />
+    </RelativeLayout>
+
+    <WebView
+        android:id="@+id/webview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/framel"
+        android:layout_centerHorizontal="true" />
+
+</RelativeLayout>

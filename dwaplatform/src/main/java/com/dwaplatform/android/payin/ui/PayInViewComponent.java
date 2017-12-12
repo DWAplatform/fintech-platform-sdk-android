@@ -9,6 +9,7 @@ import com.dwaplatform.android.models.FeeHelperModule;
 import com.dwaplatform.android.money.MoneyHelperModule;
 import com.dwaplatform.android.payin.PayInActivity;
 import com.dwaplatform.android.payin.api.PayInAPIModule;
+import com.dwaplatform.android.secure3d.ui.Secure3DUIModule;
 
 import javax.inject.Singleton;
 
@@ -28,7 +29,8 @@ import dagger.Component;
         BalanceAPIModule.class,
         BalanceHelperModule.class,
         FeeHelperModule.class,
-        NetModule.class
+        NetModule.class,
+        Secure3DUIModule.class
 })
 public interface PayInViewComponent {
     void inject(PayInActivity activity);
