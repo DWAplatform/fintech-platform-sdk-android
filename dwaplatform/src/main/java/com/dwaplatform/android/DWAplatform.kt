@@ -12,7 +12,6 @@ import com.dwaplatform.android.card.helpers.JSONHelper
 import com.dwaplatform.android.card.helpers.SanityCheck
 import com.dwaplatform.android.log.Log
 import com.dwaplatform.android.payin.PayInBuilder
-import com.dwaplatform.android.user.User
 import com.raizlabs.android.dbflow.config.FlowConfig
 import com.raizlabs.android.dbflow.config.FlowManager
 

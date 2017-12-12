@@ -19,7 +19,7 @@ class DWAplatformTest {
         val context = InstrumentationRegistry.getTargetContext()
 
         val conf = DWAplatform.Configuration("http://localhost", true)
-        DWAplatform.initialize(conf)
+        DWAplatform.initialize(conf, context)
         val cardAPI = DWAplatform.getCardAPI(context)
         Assert.assertNotNull(cardAPI)
         Assert.assertNotNull(cardAPI.cardHelper)
