@@ -11,10 +11,10 @@ import dagger.Provides;
  * Created by ingrid on 12/12/17.
  */
 @Module
-public class Secure3DModule {
+public class Secure3DUIModule {
     private Secure3DUI secure3DUI;
 
-    public Secure3DModule(Secure3DUI secure3DUI) {
+    public Secure3DUIModule(Secure3DUI secure3DUI) {
         this.secure3DUI = secure3DUI;
     }
 

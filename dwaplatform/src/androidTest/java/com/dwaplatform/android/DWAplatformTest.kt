@@ -71,7 +71,7 @@ class DWAplatformTest {
         val payIn = DWAplatform.buildPayIn()
         val payInComponent = payIn.createPayInUIComponent(
                 hostName,
-                token, PayInConfiguration(userId, accountId, paymentCardId), Secure3DUI())
+                token, PayInConfiguration(userId, accountId, paymentCardId))
         payInComponent.payInUI.start(context)
 
         Thread.sleep(20000)

@@ -126,15 +126,7 @@ class PayInActivity : FragmentActivity(), PayInContract.View {
 
     override fun goToSecure3D(redirecturl: String){
         secure3DUI.start(this, redirecturl)
-
-
-        // FIXME commented due to sdk refactor
-        /*
-        val intent = Intent(this, Secure3DActivity::class.java)
-        intent.putExtra("redirecturl", redirecturl)
-        startActivity(intent)
         finish()
-        */
     }
 
     override fun showKeyboardAmount() {

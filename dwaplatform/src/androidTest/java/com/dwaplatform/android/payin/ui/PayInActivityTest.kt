@@ -38,7 +38,7 @@ import org.mockito.Mockito
 /**
  * Created by ingrid on 08/09/17.
  */
-@RunWith(AndroidJUnit4::class)
+
 class PayInActivityTest {
 
     @Rule @JvmField val main = ActivityTestRule(PayInActivity::class.java, false, false)

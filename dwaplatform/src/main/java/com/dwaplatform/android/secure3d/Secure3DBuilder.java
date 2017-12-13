@@ -1,7 +1,5 @@
 package com.dwaplatform.android.secure3d;
 
-import com.dwaplatform.android.secure3d.ui.DaggerSecure3DUIComponent;
-
 /**
  * Created by ingrid on 12/12/17.
  */

@@ -23,17 +23,12 @@ public class PayInBuilder {
                 .build();
     }
 
-    public PayInUIComponent createPayInUIComponent(String hostName, String token, PayInConfiguration configuration,
-                                                   Secure3DUI secure3DUI) {
+    public PayInUIComponent createPayInUIComponent(String hostName, String token, PayInConfiguration configuration) {
         return DaggerPayInUIComponent.builder()
                 .payInUIModule(new PayInUIModule(hostName,
                         token,
-                        configuration,
-                        secure3DUI)
+                        configuration)
                 )
                 .build();
     }
-
-
-
 }

@@ -16,7 +16,7 @@ public class Secure3DUI {
     }
 
     protected Secure3DViewComponent build3DsecureComponent(Secure3DContract.View v) {
-        return DaggerSecure3DComponent.builder()
+        return DaggerSecure3DViewComponent.builder()
                 .secure3DPresenterModule(new Secure3DPresenterModule(v))
                 .build();
     }

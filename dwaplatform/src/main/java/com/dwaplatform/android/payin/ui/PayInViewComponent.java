@@ -29,7 +29,7 @@ import dagger.Component;
         BalanceHelperModule.class,
         FeeHelperModule.class,
         NetModule.class,
-        Secure3DModule.class
+        Secure3DUIModule.class
 })
 public interface PayInViewComponent {
     void inject(PayInActivity activity);

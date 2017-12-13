@@ -18,22 +18,18 @@ public class PayInUIModule {
     private PayInConfiguration configuration;
     private String hostName;
     private String token;
-    private Secure3DUI secure3DUI;
-
 
     public PayInUIModule(String hostName,
                          String token,
-                         PayInConfiguration configuration,
-                         Secure3DUI secure3DUI) {
+                         PayInConfiguration configuration) {
         this.hostName = hostName;
         this.token = token;
         this.configuration = configuration;
-        this.secure3DUI = secure3DUI;
     }
 
     @Provides
     @Singleton
-    PayInUI providePayInUI() {
+    PayInUI providePayInUI(Secure3DUI secure3DUI) {
         return new PayInUI(hostName, token, configuration, secure3DUI);
     }
 
