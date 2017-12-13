@@ -11,7 +11,6 @@ import com.dwaplatform.android.payin.PayInContract;
 import com.dwaplatform.android.payin.api.PayInAPIModule;
 import com.dwaplatform.android.payin.models.PayInConfiguration;
 import com.dwaplatform.android.secure3d.ui.Secure3DUI;
-import com.dwaplatform.android.secure3d.ui.Secure3DUIModule;
 
 /**
  * Created by tcappellari on 08/12/2017.
@@ -44,7 +43,7 @@ public class PayInUI {
                 .netModule(new NetModule(Volley.newRequestQueue(context)))
                 .balanceAPIModule(new BalanceAPIModule(instance.hostName,
                         instance.token))
-                .secure3DUIModule(new Secure3DUIModule(secure3DUI))
+                .secure3DUIModule(new Secure3DModule(secure3DUI))
                 .build();
     }
 

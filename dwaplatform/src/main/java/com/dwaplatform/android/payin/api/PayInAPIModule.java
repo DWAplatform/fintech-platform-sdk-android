@@ -1,11 +1,7 @@
 package com.dwaplatform.android.payin.api;
 
-import com.android.volley.RequestQueue;
 import com.dwaplatform.android.api.IRequestProvider;
 import com.dwaplatform.android.api.IRequestQueue;
-import com.dwaplatform.android.api.volley.VolleyRequestProvider;
-import com.dwaplatform.android.api.volley.VolleyRequestQueueProvider;
-import com.dwaplatform.android.card.helpers.JSONHelper;
 import com.dwaplatform.android.log.Log;
 
 import javax.inject.Singleton;
@@ -28,19 +24,6 @@ public class PayInAPIModule {
         this.hostName = hostName;
         this.token = token;
     }
-
-//    @Provides
-//    @Singleton
-//    IRequestProvider provideJsonArrayRequest() {
-//        return new VolleyRequestProvider();
-//    }
-//
-//    @Provides
-//    @Singleton
-//    IRequestQueue provideVolleyRequestQueue() {
-//        return new VolleyRequestQueueProvider(requestQueue);
-//    }
-//
 
     @Provides
     @Singleton

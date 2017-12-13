@@ -1,4 +1,8 @@
-package com.dwaplatform.android.secure3d.ui;
+package com.dwaplatform.android.secure3d;
+
+
+import com.dwaplatform.android.secure3d.ui.Secure3DUI;
+import com.dwaplatform.android.secure3d.ui.Secure3DUIModule;
 
 import javax.inject.Singleton;
 

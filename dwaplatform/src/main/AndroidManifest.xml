@@ -1,10 +1,15 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.dwaplatform.android">
 
-    <application>
+    <application
+        android:theme="@style/Dwaplatformtheme" >
         <activity
             android:name=".payin.PayInActivity"
             android:windowSoftInputMode="stateVisible" >
+        </activity>
+        <activity
+            android:name=".secure3d.ui.Secure3DActivity"
+            android:windowSoftInputMode="stateVisible">
         </activity>
     </application>
 </manifest>

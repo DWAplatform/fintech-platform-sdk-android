@@ -12,18 +12,21 @@ public class Secure3DUI {
     protected static Secure3DUI instance;
 
     public Secure3DUI() {
-        instance = this;
+
     }
 
-    protected Secure3DComponent build3DsecureComponent() {
-        return DaggerSecure3DComponent.builder().build();
+    protected Secure3DViewComponent build3DsecureComponent(Secure3DContract.View v) {
+        return DaggerSecure3DComponent.builder()
+                .secure3DPresenterModule(new Secure3DPresenterModule(v))
+                .build();
     }
 
-    public static Secure3DComponent create3DUIComponent() {
-        return instance.build3DsecureComponent();
+    public static Secure3DViewComponent create3DComponent(Secure3DContract.View v) {
+        return instance.build3DsecureComponent(v);
     }
 
     public void start(Context context, String redirecturl) {
+        instance = this;
         Intent intent = new Intent(context, Secure3DActivity.class);
         intent.putExtra("redirecturl", redirecturl);
         context.startActivity(intent);

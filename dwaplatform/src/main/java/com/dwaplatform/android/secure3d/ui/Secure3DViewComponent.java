@@ -8,7 +8,9 @@ import dagger.Component;
  * Created by ingrid on 12/12/17.
  */
 @Singleton
-@Component(modules = Secure3DPresenterModule.class)
-public interface Secure3DComponent {
+@Component(modules = {
+        Secure3DPresenterModule.class }
+)
+public interface Secure3DViewComponent {
     void inject(Secure3DActivity activity);
 }

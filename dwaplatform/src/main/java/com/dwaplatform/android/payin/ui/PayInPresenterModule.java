@@ -5,8 +5,8 @@ import com.dwaplatform.android.models.FeeHelper;
 import com.dwaplatform.android.money.MoneyHelper;
 import com.dwaplatform.android.payin.PayInContract;
 import com.dwaplatform.android.payin.PayInPresenter;
-import com.dwaplatform.android.payin.models.PayInConfiguration;
 import com.dwaplatform.android.payin.api.PayInAPI;
+import com.dwaplatform.android.payin.models.PayInConfiguration;
 
 import javax.inject.Singleton;
 

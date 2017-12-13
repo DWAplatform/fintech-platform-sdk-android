@@ -1,6 +1,5 @@
 package com.dwaplatform.android.secure3d.ui
 
-import android.content.Context
 import android.graphics.Bitmap
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
@@ -20,9 +19,8 @@ class Secure3DActivity: AppCompatActivity(), Secure3DContract.View {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Secure3DUI.create3DComponent(this).inject(this)
         setContentView(R.layout.activity_secure3_d)
-        //App.buildSecure3DComponent(this as Context, this).inject(this)
-        Secure3DUI.create3DUIComponent().inject(this)
 
         val secureCodeUrl = intent.getStringExtra("redirecturl")
 

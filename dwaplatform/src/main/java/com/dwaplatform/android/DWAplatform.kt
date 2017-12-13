@@ -12,7 +12,7 @@ import com.dwaplatform.android.card.helpers.JSONHelper
 import com.dwaplatform.android.card.helpers.SanityCheck
 import com.dwaplatform.android.log.Log
 import com.dwaplatform.android.payin.PayInBuilder
-import com.raizlabs.android.dbflow.config.FlowConfig
+import com.dwaplatform.android.secure3d.Secure3DBuilder
 import com.raizlabs.android.dbflow.config.FlowManager
 
 
@@ -95,15 +95,11 @@ class DWAplatform {
             return BalanceBuilder()
         }
 
-        //fun getPayIn(account: Account): PayIn =
+        fun build3DSecure(): Secure3DBuilder {
+            return Secure3DBuilder()
+        }
 
-            //payinInstance ?: synchronized(this) {
-          //      val c = conf ?: throw Exception("DWAplatform init configuration missing")
-
-                //payinInstance ?: buildPayIn(account).also { payinInstance = it }
-            //}
-
-        /*
+/*
         fun buildAccount(user: User) : Account {
             return Account(user)
         }

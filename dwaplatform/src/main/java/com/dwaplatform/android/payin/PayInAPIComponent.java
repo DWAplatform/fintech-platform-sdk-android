@@ -4,7 +4,6 @@ import com.dwaplatform.android.api.NetModule;
 import com.dwaplatform.android.log.LogModule;
 import com.dwaplatform.android.payin.api.PayInAPI;
 import com.dwaplatform.android.payin.api.PayInAPIModule;
-import com.dwaplatform.android.payin.ui.PayInPresenterModule;
 
 import javax.inject.Singleton;
 
