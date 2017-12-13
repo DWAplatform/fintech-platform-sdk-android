@@ -3,6 +3,7 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
 
+
     <application>
         <activity
             android:name=".payin.PayInActivity"
@@ -11,6 +12,9 @@
         <activity
             android:name=".secure3d.ui.Secure3DActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar">
+        </activity>
+        <activity
+            android:name=".card.ui.PaymentCardActivity">
         </activity>
     </application>
 </manifest>

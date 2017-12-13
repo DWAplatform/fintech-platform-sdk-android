@@ -116,7 +116,7 @@ class PayInActivity : FragmentActivity(), PayInContract.View {
     }
 
     override fun goToCreditCard() {
-        // FIXME commented due to sdk refactor
+
         //startActivity(Intent(this, CreditCardActivity::class.java))
     }
 
