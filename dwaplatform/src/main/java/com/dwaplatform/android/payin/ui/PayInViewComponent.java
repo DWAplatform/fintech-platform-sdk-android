@@ -4,8 +4,6 @@ import com.dwaplatform.android.account.balance.api.BalanceAPIModule;
 import com.dwaplatform.android.account.balance.helpers.BalanceHelperModule;
 import com.dwaplatform.android.alert.AlertHelpersModule;
 import com.dwaplatform.android.api.NetModule;
-import com.dwaplatform.android.card.ui.PaymentCardUI;
-import com.dwaplatform.android.card.ui.PaymentCardUIModule;
 import com.dwaplatform.android.log.LogModule;
 import com.dwaplatform.android.models.FeeHelperModule;
 import com.dwaplatform.android.money.MoneyHelperModule;

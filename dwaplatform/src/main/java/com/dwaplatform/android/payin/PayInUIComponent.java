@@ -20,6 +20,5 @@ import dagger.Component;
         PaymentCardUIModule.class
 })
 public interface PayInUIComponent {
-
     PayInUI getPayInUI();
 }

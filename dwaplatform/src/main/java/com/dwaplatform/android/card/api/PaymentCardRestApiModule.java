@@ -16,13 +16,13 @@ import dagger.Provides;
  */
 @Singleton
 @Module
-public class CardRestApiModule {
+public class PaymentCardRestApiModule {
 
     String hostname;
     String token;
     boolean sandbox;
 
-    public CardRestApiModule(String hostname, String token, boolean sandbox) {
+    public PaymentCardRestApiModule(String hostname, String token, boolean sandbox) {
         this.hostname = hostname;
         this.token = token;
         this.sandbox = sandbox;
@@ -30,14 +30,14 @@ public class CardRestApiModule {
 
     @Provides
     @Singleton
-    PaymentCardAPI providesCardAPI(CardRestAPI cardrestapi, Log log, PaymentCardHelper cardhelper) {
+    PaymentCardAPI providesCardAPI(PaymentCardRestAPI cardrestapi, Log log, PaymentCardHelper cardhelper) {
         return new PaymentCardAPI(cardrestapi, log, cardhelper);
     }
 
     @Singleton
     @Provides
-    CardRestAPI providesCardRestApi(IRequestQueue queue, IRequestProvider provider, JSONHelper jsonHelper) {
-        return new CardRestAPI(hostname, queue, provider, jsonHelper, sandbox);
+    PaymentCardRestAPI providesCardRestApi(IRequestQueue queue, IRequestProvider provider, JSONHelper jsonHelper) {
+        return new PaymentCardRestAPI(hostname, queue, provider, jsonHelper, sandbox);
     }
 
     @Singleton

@@ -27,7 +27,7 @@ class PaymentCardRestAPITest {
     val expiration = "1122"
     val cxv = "123"
 
-    lateinit var cardRestAPI: CardRestAPI
+    lateinit var paymentCardRestAPI: PaymentCardRestAPI
 
     @Captor lateinit var captorMethod: ArgumentCaptor<Int>
     @Captor lateinit var captorQuery: ArgumentCaptor<String>
@@ -41,20 +41,20 @@ class PaymentCardRestAPITest {
     @Before
     fun setUp() {
         MockitoAnnotations.initMocks(this)
-        cardRestAPI = CardRestAPI(hostName, queue, requestProvider, jsonHelper, true)
+        paymentCardRestAPI = PaymentCardRestAPI(hostName, queue, requestProvider, jsonHelper, true)
     }
 
     @Test
     fun test_getCardSafe_Sandbox() {
 
         // Given
-        val cardToRegister = CardRestAPI.CardToRegister(cardNumber, expiration, cxv)
+        val cardToRegister = PaymentCardRestAPI.CardToRegister(cardNumber, expiration, cxv)
         val request = Mockito.mock(VolleyJsonObjectRequest::class.java)
         Mockito.`when`(requestProvider.jsonObjectRequest(any(), any(), anyOrNull(), any(), any()))
                 .thenReturn(request)
 
         var handlerCalled = 0
-        cardRestAPI.getCardSafe(cardToRegister) { optCardSafe, optErrorCS ->
+        paymentCardRestAPI.getCardSafe(cardToRegister) { optCardSafe, optErrorCS ->
             // Then
             handlerCalled++
             Assert.assertNull(optErrorCS)
@@ -96,13 +96,13 @@ class PaymentCardRestAPITest {
         // Given
         hostName = "http://myhostname.com"
 
-        val cardToRegister = CardRestAPI.CardToRegister(cardNumber, expiration, cxv)
+        val cardToRegister = PaymentCardRestAPI.CardToRegister(cardNumber, expiration, cxv)
         val request = Mockito.mock(VolleyJsonObjectRequest::class.java)
         Mockito.`when`(requestProvider.jsonObjectRequest(any(), any(), anyOrNull(), any(), any()))
                 .thenReturn(request)
 
         var handlerCalled = 0
-        cardRestAPI.getCardSafe(cardToRegister) { optCardSafe, optErrorCS ->
+        paymentCardRestAPI.getCardSafe(cardToRegister) { optCardSafe, optErrorCS ->
             // Then
             handlerCalled++
             Assert.assertNull(optErrorCS)
@@ -143,12 +143,12 @@ class PaymentCardRestAPITest {
     fun test_getCardSafe_NotSandbox() {
 
         // Given
-        cardRestAPI = CardRestAPI(hostName, queue, requestProvider, jsonHelper, false)
-        val cardToRegister = CardRestAPI.CardToRegister(cardNumber, expiration, cxv)
+        paymentCardRestAPI = PaymentCardRestAPI(hostName, queue, requestProvider, jsonHelper, false)
+        val cardToRegister = PaymentCardRestAPI.CardToRegister(cardNumber, expiration, cxv)
 
         var handlerCalled = 0
         // When
-        cardRestAPI.getCardSafe(cardToRegister) { optCardSafe, optErrorCS ->
+        paymentCardRestAPI.getCardSafe(cardToRegister) { optCardSafe, optErrorCS ->
             // Then
             handlerCalled++;
             Assert.assertNull(optErrorCS)
@@ -176,7 +176,7 @@ class PaymentCardRestAPITest {
         Mockito.`when`(jsonHelper.buildJSONObject()).thenReturn(jsonRequest)
 
         var handlerCalled = 0
-        cardRestAPI.postCardRegister(token = "123", alias = "1111XXXX1111", expiration = "1122") { optCardRegistration, optErrorCS ->
+        paymentCardRestAPI.postCardRegister(token = "123", alias = "1111XXXX1111", expiration = "1122") { optCardRegistration, optErrorCS ->
             // Then
             handlerCalled++;
             Assert.assertNull(optErrorCS)
@@ -233,12 +233,12 @@ class PaymentCardRestAPITest {
         Mockito.`when`(requestProvider.stringRequest(any(), any(), any(), any(), any(), any()))
                 .thenReturn(request)
 
-        val cardToRegister = CardRestAPI.CardToRegister(cardNumber, expiration, cxv)
-        val cardRegistration = CardRestAPI.CardRegistration("crid123",
+        val cardToRegister = PaymentCardRestAPI.CardToRegister(cardNumber, expiration, cxv)
+        val cardRegistration = PaymentCardRestAPI.CardRegistration("crid123",
                 "https://example.com", "pd123", "ak123", tokenCard="tokenCard123")
 
         var handlerCalled = 0
-        cardRestAPI.postCardRegistrationData(cardToRegister, cardRegistration) { optRegistration, optError ->
+        paymentCardRestAPI.postCardRegistrationData(cardToRegister, cardRegistration) { optRegistration, optError ->
             // Then
             handlerCalled++;
             Assert.assertNull(optError)
@@ -283,7 +283,7 @@ class PaymentCardRestAPITest {
         Mockito.`when`(jsonHelper.buildJSONObject()).thenReturn(jsonRequest)
 
         var handlerCalled = 0
-        cardRestAPI.putRegisterCard(token = "123", cardRegistrationId = "9876", registration = "reg123")
+        paymentCardRestAPI.putRegisterCard(token = "123", cardRegistrationId = "9876", registration = "reg123")
         { optCard, optError ->
             // Then
             handlerCalled++;

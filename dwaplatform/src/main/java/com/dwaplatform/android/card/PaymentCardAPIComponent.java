@@ -1,7 +1,7 @@
 package com.dwaplatform.android.card;
 
 import com.dwaplatform.android.api.NetModule;
-import com.dwaplatform.android.card.api.CardRestApiModule;
+import com.dwaplatform.android.card.api.PaymentCardRestApiModule;
 import com.dwaplatform.android.card.api.PaymentCardAPI;
 import com.dwaplatform.android.log.LogModule;
 
@@ -15,7 +15,7 @@ import dagger.Component;
 @Singleton
 @Component (modules = {
                         NetModule.class,
-                        CardRestApiModule.class,
+                        PaymentCardRestApiModule.class,
                         LogModule.class
 })
 public interface PaymentCardAPIComponent {

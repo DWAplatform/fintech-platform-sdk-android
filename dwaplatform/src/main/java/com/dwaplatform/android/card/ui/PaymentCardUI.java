@@ -5,7 +5,7 @@ import android.content.Intent;
 
 import com.android.volley.toolbox.Volley;
 import com.dwaplatform.android.api.NetModule;
-import com.dwaplatform.android.card.api.CardRestApiModule;
+import com.dwaplatform.android.card.api.PaymentCardRestApiModule;
 
 /**
  * Created by ingrid on 13/12/17.
@@ -19,10 +19,6 @@ public class PaymentCardUI {
 
     protected static PaymentCardUI instance;
 
-    public PaymentCardUI(){
-        instance = this;
-    }
-
     public PaymentCardUI(String hostname, String token, boolean sandbox) {
         this.hostname = hostname;
         this.token = token;
@@ -32,7 +28,7 @@ public class PaymentCardUI {
     protected PaymentCardViewComponent buildPaymentCardComponent(Context context, PaymentCardContract.View view) {
         return DaggerPaymentCardViewComponent.builder()
                 .paymentCardPresenterModule(new PaymentCardPresenterModule(view))
-                .cardRestApiModule(new CardRestApiModule(instance.hostname, instance.token, instance.sandbox))
+                .cardRestApiModule(new PaymentCardRestApiModule(instance.hostname, instance.token, instance.sandbox))
                 .netModule(new NetModule(Volley.newRequestQueue(context)))
                 .build();
     }

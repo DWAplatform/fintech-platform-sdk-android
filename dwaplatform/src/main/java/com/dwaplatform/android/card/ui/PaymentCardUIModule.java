@@ -20,9 +20,10 @@ public class PaymentCardUIModule {
         this.token = token;
         this.sandbox = sandbox;
     }
+
     @Provides
     @Singleton
-    PaymentCardUI providesPaymentCardUI(String hostname, String token, boolean sandbox) {
+    PaymentCardUI providesPaymentCardUI() {
         return new PaymentCardUI(hostname, token, sandbox);
     }
 }

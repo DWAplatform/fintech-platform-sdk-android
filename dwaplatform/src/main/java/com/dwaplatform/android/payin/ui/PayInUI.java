@@ -7,7 +7,6 @@ import com.android.volley.toolbox.Volley;
 import com.dwaplatform.android.account.balance.api.BalanceAPIModule;
 import com.dwaplatform.android.api.NetModule;
 import com.dwaplatform.android.card.ui.PaymentCardUI;
-import com.dwaplatform.android.card.ui.PaymentCardUIModule;
 import com.dwaplatform.android.payin.PayInActivity;
 import com.dwaplatform.android.payin.PayInContract;
 import com.dwaplatform.android.payin.api.PayInAPIModule;
@@ -48,7 +47,7 @@ public class PayInUI {
                 .balanceAPIModule(new BalanceAPIModule(instance.hostName,
                         instance.token))
                 .secure3DUIModule(new Secure3DUIModule(secure3DUI))
-                .paymentCardUIModule(new PaymentCardUIModule(instance.hostName, instance.token, true))
+                .paymentCardUIModule(new PaymentCardUIModule(paymentCardUI))
                 .build();
     }
 

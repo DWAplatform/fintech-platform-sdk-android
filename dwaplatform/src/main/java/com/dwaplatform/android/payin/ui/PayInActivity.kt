@@ -25,7 +25,7 @@ class PayInActivity : FragmentActivity(), PayInContract.View {
     @Inject lateinit var alertHelpers: AlertHelpers
     @Inject lateinit var presenter: PayInContract.Presenter
     @Inject lateinit var secure3DUI: Secure3DUI
-    @Inject lateinit var paymentcCard: PaymentCardUI
+    @Inject lateinit var paymentCard: PaymentCardUI
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -120,7 +120,7 @@ class PayInActivity : FragmentActivity(), PayInContract.View {
     }
 
     override fun goToCreditCard() {
-        paymentcCard.start(this)
+        paymentCard.start(this)
     }
 
     override fun goBack(){

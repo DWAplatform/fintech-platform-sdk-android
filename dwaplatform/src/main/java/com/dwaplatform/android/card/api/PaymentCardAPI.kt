@@ -13,7 +13,7 @@ import javax.inject.Inject
  *
  */
 open class PaymentCardAPI @Inject constructor(
-        internal val restAPI: CardRestAPI,
+        internal val restAPI: PaymentCardRestAPI,
         internal val log: Log,
         internal val paymentCardHelper: PaymentCardHelper) {
 
@@ -59,7 +59,7 @@ open class PaymentCardAPI @Inject constructor(
             optError?.let { error -> completionHandler(null, error); return@postCardRegister }
             optCardRegistration?.let { cardRegistration ->
 
-                restAPI.getCardSafe(CardRestAPI.CardToRegister(cardNumber, expiration, cxv)) { optCardSafe, optErrorCS ->
+                restAPI.getCardSafe(PaymentCardRestAPI.CardToRegister(cardNumber, expiration, cxv)) { optCardSafe, optErrorCS ->
                     optErrorCS?.let { error -> completionHandler(null, error); return@getCardSafe }
                     optCardSafe?.let { cardSafe ->
 

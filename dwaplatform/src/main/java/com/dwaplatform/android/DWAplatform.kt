@@ -6,7 +6,7 @@ import com.dwaplatform.android.account.balance.BalanceBuilder
 import com.dwaplatform.android.api.volley.VolleyRequestProvider
 import com.dwaplatform.android.api.volley.VolleyRequestQueueProvider
 import com.dwaplatform.android.card.api.PaymentCardAPI
-import com.dwaplatform.android.card.api.CardRestAPI
+import com.dwaplatform.android.card.api.PaymentCardRestAPI
 import com.dwaplatform.android.card.helpers.PaymentCardHelper
 import com.dwaplatform.android.card.helpers.JSONHelper
 import com.dwaplatform.android.card.helpers.SanityCheck
@@ -80,7 +80,7 @@ class DWAplatform {
 
         private fun buildCardAPI(hostName: String, context: Context, sandbox: Boolean): PaymentCardAPI {
 
-            return PaymentCardAPI(CardRestAPI(hostName,
+            return PaymentCardAPI(PaymentCardRestAPI(hostName,
                     VolleyRequestQueueProvider(Volley.newRequestQueue(context)),
                     VolleyRequestProvider(),
                     JSONHelper(),

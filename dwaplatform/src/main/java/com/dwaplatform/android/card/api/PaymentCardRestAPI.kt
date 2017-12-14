@@ -19,7 +19,7 @@ import java.util.*
  * DWAplatform rest API communication class.
  * Please do not use directly, use PaymentCardAPI facade instead.
  */
-open class CardRestAPI constructor(
+open class PaymentCardRestAPI constructor(
         internal val hostName: String,
         internal val queue: IRequestQueue,
         internal val requestProvider: IRequestProvider,
