@@ -1,13 +1,13 @@
 package com.dwaplatform.android.card.ui
 
 import com.dwaplatform.android.card.CardAPI
-import com.dwaplatform.android.card.api.CardRestAPI
+import javax.inject.Inject
 
 /**
  * Created by ingrid on 13/12/17.
  */
-class PaymentCardPresenter constructor(var view: PaymentCardContract.View,
-                                      var api: CardAPI): PaymentCardContract.Presenter {
+class PaymentCardPresenter @Inject constructor(var view: PaymentCardContract.View,
+                                               var api: CardAPI): PaymentCardContract.Presenter {
 
     override fun refreshConfirmButton() {
         val isEnabled = view.getNumberTextLength() >= 16

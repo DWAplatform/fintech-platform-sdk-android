@@ -1,14 +1,27 @@
 package com.dwaplatform.android.card.ui;
 
+import com.dwaplatform.android.alert.AlertHelpersModule;
+import com.dwaplatform.android.api.NetModule;
+import com.dwaplatform.android.card.CardApiModule;
+import com.dwaplatform.android.card.api.CardRestApiModule;
+import com.dwaplatform.android.card.helpers.CardHelperModule;
+import com.dwaplatform.android.log.LogModule;
+
 import javax.inject.Singleton;
 
 import dagger.Component;
 
 /**
- * Created by ingrid on 13/12/17.
+ * Created by ingrid on 14/12/17.
  */
 @Singleton
-@Component (modules = {})
+@Component (modules = { PaymentCardPresenterModule.class,
+        AlertHelpersModule.class,
+        CardRestApiModule.class,
+        LogModule.class,
+        CardHelperModule.class,
+        CardApiModule.class,
+        NetModule.class})
 public interface PaymentCardViewComponent {
     void inject(PaymentCardActivity activity);
 }

@@ -23,7 +23,7 @@ class PaymentCardActivity: FragmentActivity(), PaymentCardContract.View {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
        // App.buildCreditCard(this as Context, this).inject(this)
-
+        PaymentCardUI.createPaymentCardComponent(this, this).inject(this)
         setContentView(R.layout.activity_paymentcard)
 
         presenter.refreshConfirmButton()

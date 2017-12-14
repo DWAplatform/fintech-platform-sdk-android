@@ -2,17 +2,18 @@ package com.dwaplatform.android.card
 
 import com.dwaplatform.android.card.api.CardRestAPI
 import com.dwaplatform.android.card.helpers.CardHelper
-import com.dwaplatform.android.log.Log
 import com.dwaplatform.android.card.models.Card
+import com.dwaplatform.android.log.Log
 import org.json.JSONArray
 import java.lang.Exception
+import javax.inject.Inject
 
 /**
  * Main class for API communication with DWAplatform to handle Cards.
  * Please use DWAplatform to get Card API instance; do not create directly
  *
  */
-open class CardAPI constructor(
+open class CardAPI @Inject constructor(
         internal val restAPI: CardRestAPI,
         internal val log: Log,
         internal val cardHelper: CardHelper) {

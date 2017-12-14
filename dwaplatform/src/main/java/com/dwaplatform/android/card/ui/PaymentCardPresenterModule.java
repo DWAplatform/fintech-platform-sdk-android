@@ -12,9 +12,15 @@ import dagger.Provides;
  */
 @Module
 public class PaymentCardPresenterModule {
+    private PaymentCardContract.View view;
+
+    public PaymentCardPresenterModule(PaymentCardContract.View view) {
+        this.view = view;
+    }
+
     @Provides
     @Singleton
-    PaymentCardPresenter providesPaymentCardPresenter(CardAPI api) {
+    PaymentCardContract.Presenter providesPaymentCardPresenter(CardAPI api) {
         return new PaymentCardPresenter(view, api);
     }
 }
