@@ -7,7 +7,7 @@ import com.dwaplatform.android.api.volley.VolleyRequestProvider
 import com.dwaplatform.android.api.volley.VolleyRequestQueueProvider
 import com.dwaplatform.android.card.CardAPI
 import com.dwaplatform.android.card.api.CardRestAPI
-import com.dwaplatform.android.card.helpers.CardHelper
+import com.dwaplatform.android.card.helpers.PaymentCardHelper
 import com.dwaplatform.android.card.helpers.JSONHelper
 import com.dwaplatform.android.card.helpers.SanityCheck
 import com.dwaplatform.android.log.Log
@@ -84,7 +84,7 @@ class DWAplatform {
                     VolleyRequestQueueProvider(Volley.newRequestQueue(context)),
                     VolleyRequestProvider(),
                     JSONHelper(),
-                    sandbox), Log(), CardHelper(SanityCheck()))
+                    sandbox), Log(), PaymentCardHelper(SanityCheck()))
         }
 
         fun buildPayIn() : PayInBuilder {

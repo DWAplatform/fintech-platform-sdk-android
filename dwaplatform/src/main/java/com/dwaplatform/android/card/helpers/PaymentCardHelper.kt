@@ -1,10 +1,12 @@
 package com.dwaplatform.android.card.helpers
 
+import javax.inject.Inject
+
 /**
- * Card helper class.
+ * PaymentCard helper class.
  * Check card data validity and create card number alias.
  */
-open class CardHelper constructor(internal val sanityCheck: SanityCheck) {
+open class PaymentCardHelper @Inject constructor(internal val sanityCheck: SanityCheck) {
 
     open fun generateAlias(cardNumber: String): String {
         return "${cardNumber.substring(0, 6)}XXXXXX${cardNumber.substring(cardNumber.length - 4, cardNumber.length)}"

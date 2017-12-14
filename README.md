@@ -28,7 +28,7 @@ Sample usage in Kotlin
 ```kotlin
     import com.dwaplatform.android.DWAplatform
     import com.dwaplatform.android.card.CardAPI
-    import com.dwaplatform.android.card.models.Card
+    import com.dwaplatform.android.card.models.PaymentCard
 
 
     //....

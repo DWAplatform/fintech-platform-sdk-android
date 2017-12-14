@@ -1,5 +1,6 @@
 package com.dwaplatform.android.account.balance.db
 
+import com.dwaplatform.android.account.balance.helpers.BalancePersistence
 import com.dwaplatform.android.account.balance.models.BalanceItem
 import com.dwaplatform.android.models.Money
 

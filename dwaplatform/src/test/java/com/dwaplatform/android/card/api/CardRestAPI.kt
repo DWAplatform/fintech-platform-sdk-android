@@ -16,7 +16,7 @@ import org.junit.Test
 import org.mockito.*
 import java.util.*
 
-class CardRestAPITest {
+class PaymentCardRestAPITest {
 
     @Mock lateinit var queue: IRequestQueue
     @Mock lateinit var requestProvider: IRequestProvider

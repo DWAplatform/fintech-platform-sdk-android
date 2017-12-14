@@ -1,14 +1,11 @@
 package com.dwaplatform.android
 
-import android.content.Context
 import android.support.test.InstrumentationRegistry
 import android.support.test.runner.AndroidJUnit4
 import com.dwaplatform.android.payin.models.PayInConfiguration
-import com.dwaplatform.android.secure3d.ui.Secure3DUI
 import org.junit.Assert
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.mockito.Mockito
 
 @RunWith(AndroidJUnit4::class)
 class DWAplatformTest {
@@ -23,7 +20,7 @@ class DWAplatformTest {
         DWAplatform.initialize(conf, context)
         val cardAPI = DWAplatform.getCardAPI(context)
         Assert.assertNotNull(cardAPI)
-        Assert.assertNotNull(cardAPI.cardHelper)
+        Assert.assertNotNull(cardAPI.paymentCardHelper)
         Assert.assertNotNull(cardAPI.log)
         Assert.assertNotNull(cardAPI.restAPI)
         Assert.assertEquals("http://localhost", cardAPI.restAPI.hostName)

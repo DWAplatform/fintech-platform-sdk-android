@@ -19,7 +19,7 @@ public class PaymentCardUI {
 
     protected static PaymentCardUI instance;
 
-    protected PaymentCardUI(){ }
+    public PaymentCardUI(){ }
 
     public PaymentCardUI(String hostname, String token, boolean sandbox) {
         this.hostname = hostname;
@@ -39,7 +39,7 @@ public class PaymentCardUI {
         return instance.buildPaymentCardComponent(context, view);
     }
 
-    void start(Context context) {
+    public void start(Context context) {
         instance = this;
         Intent intent = new Intent(context, PaymentCardActivity.class);
         context.startActivity(intent);

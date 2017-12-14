@@ -1,7 +1,7 @@
 package com.dwaplatform.android.card;
 
 import com.dwaplatform.android.card.api.CardRestAPI;
-import com.dwaplatform.android.card.helpers.CardHelper;
+import com.dwaplatform.android.card.helpers.PaymentCardHelper;
 import com.dwaplatform.android.log.Log;
 
 import javax.inject.Singleton;
@@ -18,7 +18,7 @@ public class CardApiModule {
 
     @Provides
     @Singleton
-    CardAPI providesCardAPI(CardRestAPI cardrestapi, Log log, CardHelper cardhelper) {
+    CardAPI providesCardAPI(CardRestAPI cardrestapi, Log log, PaymentCardHelper cardhelper) {
         return new CardAPI(cardrestapi, log, cardhelper);
     }
 }

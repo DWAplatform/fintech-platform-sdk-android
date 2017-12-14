@@ -1,7 +1,7 @@
 package com.dwaplatform.android.payin.ui
 
 import com.dwaplatform.android.account.balance.api.BalanceAPI
-import com.dwaplatform.android.account.balance.db.BalancePersistence
+import com.dwaplatform.android.account.balance.helpers.BalancePersistence
 import com.dwaplatform.android.account.balance.helpers.BalanceHelper
 import com.dwaplatform.android.account.balance.models.BalanceItem
 import com.dwaplatform.android.models.FeeHelper

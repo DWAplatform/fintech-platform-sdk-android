@@ -1,8 +1,8 @@
 package com.dwaplatform.android.card
 
 import com.dwaplatform.android.card.api.CardRestAPI
-import com.dwaplatform.android.card.helpers.CardHelper
-import com.dwaplatform.android.card.models.Card
+import com.dwaplatform.android.card.helpers.PaymentCardHelper
+import com.dwaplatform.android.card.models.PaymentCard
 import com.dwaplatform.android.log.Log
 import org.json.JSONArray
 import java.lang.Exception
@@ -10,13 +10,13 @@ import javax.inject.Inject
 
 /**
  * Main class for API communication with DWAplatform to handle Cards.
- * Please use DWAplatform to get Card API instance; do not create directly
+ * Please use DWAplatform to get PaymentCard API instance; do not create directly
  *
  */
 open class CardAPI @Inject constructor(
         internal val restAPI: CardRestAPI,
         internal val log: Log,
-        internal val cardHelper: CardHelper) {
+        internal val paymentCardHelper: PaymentCardHelper) {
 
     /**
      * Represent the error send as reply from DWAplatform API.
@@ -36,27 +36,27 @@ open class CardAPI @Inject constructor(
     private val TAG = "CardAPI"
 
     /**
-     *  Register a Card. Use this method to register a user card and PLEASE DO NOT save card information on your own client or server side.
+     *  Register a PaymentCard. Use this method to register a user card and PLEASE DO NOT save card information on your own client or server side.
      *
      *  @property token token returned from DWAplatform to the create card request.
      *  @property cardNumber 16 digits user card number, without spaces or dashes
      *  @property expiration card expiration date in MMYY format
      *  @property cxv  3 digit cxv card number
-     *  @property completionHandler callback called after the server communication is done and containing a Card object or an Exception in case of error.
+     *  @property completionHandler callback called after the server communication is done and containing a PaymentCard object or an Exception in case of error.
      */
     open fun registerCard(token: String,
                      cardNumber: String,
                      expiration: String,
                      cxv: String,
-                     completionHandler: (Card?, Exception?) -> Unit) {
+                     completionHandler: (PaymentCard?, Exception?) -> Unit) {
 
         log.debug(TAG, "fun registerCard called")
 
 
-        cardHelper.checkCardFormat(cardNumber, expiration, cxv)
+        paymentCardHelper.checkCardFormat(cardNumber, expiration, cxv)
 
         // TODO: enqueue the following requests in a modadic for comprehension style.
-        restAPI.postCardRegister(token, cardHelper.generateAlias(cardNumber), expiration) { optCardRegistration, optError ->
+        restAPI.postCardRegister(token, paymentCardHelper.generateAlias(cardNumber), expiration) { optCardRegistration, optError ->
             optError?.let { error -> completionHandler(null, error); return@postCardRegister }
             optCardRegistration?.let { cardRegistration ->
 

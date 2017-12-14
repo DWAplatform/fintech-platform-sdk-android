@@ -1,6 +1,7 @@
 package com.dwaplatform.android.payin
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.FragmentActivity
 import android.text.Editable
@@ -11,6 +12,8 @@ import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import com.dwaplatform.android.R
 import com.dwaplatform.android.alert.AlertHelpers
+import com.dwaplatform.android.card.ui.PaymentCardActivity
+import com.dwaplatform.android.card.ui.PaymentCardUI
 import com.dwaplatform.android.models.MoneyValueInputFilter
 import com.dwaplatform.android.payin.ui.PayInUI
 import com.dwaplatform.android.secure3d.ui.Secure3DUI
@@ -22,6 +25,7 @@ class PayInActivity : FragmentActivity(), PayInContract.View {
     @Inject lateinit var alertHelpers: AlertHelpers
     @Inject lateinit var presenter: PayInContract.Presenter
     @Inject lateinit var secure3DUI: Secure3DUI
+    @Inject lateinit var paymentcCard: PaymentCardUI
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -116,8 +120,7 @@ class PayInActivity : FragmentActivity(), PayInContract.View {
     }
 
     override fun goToCreditCard() {
-
-        //startActivity(Intent(this, CreditCardActivity::class.java))
+        paymentcCard.start(this)
     }
 
     override fun goBack(){

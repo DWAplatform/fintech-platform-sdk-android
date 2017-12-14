@@ -4,19 +4,19 @@ import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
 
-class CardHelperTest {
+class PaymentPaymentCardHelperTest {
 
-    lateinit var cardHelper: CardHelper
+    lateinit var paymentCardHelper: PaymentCardHelper
 
     @Before
     fun setUp() {
-        cardHelper = CardHelper(SanityCheck())
+        paymentCardHelper = PaymentCardHelper(SanityCheck())
     }
 
     @Test
     fun test_generateAlias() {
         // When
-        val result = cardHelper.generateAlias("1111222233334444")
+        val result = paymentCardHelper.generateAlias("1111222233334444")
 
         // Then
         Assert.assertNotEquals("1234123412341234", result)
@@ -29,8 +29,8 @@ class CardHelperTest {
     fun test_checkCardNumberFormat_Correct() {
 
         // When
-        cardHelper.checkCardNumberFormat("1111222233334444")
-        cardHelper.checkCardNumberFormat("1234123412341234")
+        paymentCardHelper.checkCardNumberFormat("1111222233334444")
+        paymentCardHelper.checkCardNumberFormat("1234123412341234")
 
         // Then never throw
     }
@@ -39,7 +39,7 @@ class CardHelperTest {
     fun test_checkCardNumberFormat_WrongFormat() {
         try {
             // When
-            cardHelper.checkCardNumberFormat("12341234112341234")
+            paymentCardHelper.checkCardNumberFormat("12341234112341234")
             Assert.fail()
         } catch(e: SanityCheckException) {
             // Then
@@ -48,7 +48,7 @@ class CardHelperTest {
 
         try {
             // When
-            cardHelper.checkCardNumberFormat("123412A412341234")
+            paymentCardHelper.checkCardNumberFormat("123412A412341234")
             Assert.fail()
         } catch(e: SanityCheckException) {
             // Then
@@ -57,7 +57,7 @@ class CardHelperTest {
 
         try {
             // When
-            cardHelper.checkCardNumberFormat("123412341234123-")
+            paymentCardHelper.checkCardNumberFormat("123412341234123-")
             Assert.fail()
         } catch(e: SanityCheckException) {
             // Then
@@ -71,8 +71,8 @@ class CardHelperTest {
     fun test_checkExpirationFormat_Correct() {
 
         // When
-        cardHelper.checkCardExpirationFormat("1122")
-        cardHelper.checkCardExpirationFormat("8899")
+        paymentCardHelper.checkCardExpirationFormat("1122")
+        paymentCardHelper.checkCardExpirationFormat("8899")
 
         // Then never throw
     }
@@ -81,7 +81,7 @@ class CardHelperTest {
     fun test_checkExpirationFormat_WrongFormat() {
         try {
             // When
-            cardHelper.checkCardExpirationFormat("11223")
+            paymentCardHelper.checkCardExpirationFormat("11223")
             Assert.fail()
         } catch(e: SanityCheckException) {
             // Then
@@ -90,7 +90,7 @@ class CardHelperTest {
 
         try {
             // When
-            cardHelper.checkCardExpirationFormat("1A23")
+            paymentCardHelper.checkCardExpirationFormat("1A23")
             Assert.fail()
         } catch(e: SanityCheckException) {
             // Then
@@ -99,7 +99,7 @@ class CardHelperTest {
 
         try {
             // When
-            cardHelper.checkCardExpirationFormat(" 123")
+            paymentCardHelper.checkCardExpirationFormat(" 123")
             Assert.fail()
         } catch(e: SanityCheckException) {
             // Then
@@ -113,8 +113,8 @@ class CardHelperTest {
     fun test_checkCardCXVFormat_Correct() {
 
         // When
-        cardHelper.checkCardCXVFormat("123")
-        cardHelper.checkCardCXVFormat("999")
+        paymentCardHelper.checkCardCXVFormat("123")
+        paymentCardHelper.checkCardCXVFormat("999")
 
         // Then never throw
     }
@@ -123,7 +123,7 @@ class CardHelperTest {
     fun test_checkCardCXVFormat_WrongFormat() {
         try {
             // When
-            cardHelper.checkCardCXVFormat("1123")
+            paymentCardHelper.checkCardCXVFormat("1123")
             Assert.fail()
         } catch(e: SanityCheckException) {
             // Then
@@ -132,7 +132,7 @@ class CardHelperTest {
 
         try {
             // When
-            cardHelper.checkCardCXVFormat("A12")
+            paymentCardHelper.checkCardCXVFormat("A12")
             Assert.fail()
         } catch(e: SanityCheckException) {
             // Then
@@ -141,7 +141,7 @@ class CardHelperTest {
 
         try {
             // When
-            cardHelper.checkCardCXVFormat("  12")
+            paymentCardHelper.checkCardCXVFormat("  12")
             Assert.fail()
         } catch(e: SanityCheckException) {
             // Then
@@ -153,8 +153,8 @@ class CardHelperTest {
     fun test_checkCardFormat_Correct() {
 
         // When
-        cardHelper.checkCardFormat("1234123412341234", "1122", "123")
-        cardHelper.checkCardFormat("1111222233334444", "9988", "999")
+        paymentCardHelper.checkCardFormat("1234123412341234", "1122", "123")
+        paymentCardHelper.checkCardFormat("1111222233334444", "9988", "999")
 
         // Then never throw
     }
@@ -163,7 +163,7 @@ class CardHelperTest {
     fun test_checkCardFormat_WrongFormat() {
         try {
             // When
-            cardHelper.checkCardFormat("12341234123412346", "1122", "123")
+            paymentCardHelper.checkCardFormat("12341234123412346", "1122", "123")
             Assert.fail()
         } catch(e: SanityCheckException) {
             // Then
@@ -172,7 +172,7 @@ class CardHelperTest {
 
         try {
             // When
-            cardHelper.checkCardFormat("1234123412341234", "112A", "123")
+            paymentCardHelper.checkCardFormat("1234123412341234", "112A", "123")
             Assert.fail()
         } catch(e: SanityCheckException) {
             // Then
@@ -181,7 +181,7 @@ class CardHelperTest {
 
         try {
             // When
-            cardHelper.checkCardFormat("1234123412341234", "1122", "13")
+            paymentCardHelper.checkCardFormat("1234123412341234", "1122", "13")
             Assert.fail()
         } catch(e: SanityCheckException) {
             // Then

@@ -10,7 +10,7 @@ import com.dwaplatform.android.api.IRequestQueue
 import com.dwaplatform.android.card.CardAPI
 import com.dwaplatform.android.card.helpers.DateTimeConversion
 import com.dwaplatform.android.card.helpers.JSONHelper
-import com.dwaplatform.android.card.models.Card
+import com.dwaplatform.android.card.models.PaymentCard
 import org.json.JSONException
 import java.lang.Exception
 import java.nio.charset.Charset
@@ -72,7 +72,7 @@ open class CardRestAPI constructor(
     }
 
     /**
-     * Get Test Card data to use on sandbox environment.
+     * Get Test PaymentCard data to use on sandbox environment.
      * If not in sandbox, will be returned the card dato get from cardFrom parameter.
      *
      * @param cardFrom original card data, to use only in production environment
@@ -185,12 +185,12 @@ open class CardRestAPI constructor(
      * @param token dwaplatform token as get from create card post request
      * @param cardRegistrationId univoke id obtained from card registration process
      * @param registration registration key obtained from tokenizer service
-     * @param completionHandler callback containing the Card object
+     * @param completionHandler callback containing the PaymentCard object
      */
     open fun putRegisterCard(token: String,
                                 cardRegistrationId: String,
                                 registration: String,
-                                completionHandler: (Card?, Exception?) -> Unit) {
+                                completionHandler: (PaymentCard?, Exception?) -> Unit) {
 
         val url = getURL("/rest/client/user/account/card/register/$cardRegistrationId")
 
@@ -206,7 +206,7 @@ open class CardRestAPI constructor(
                             DateTimeConversion.convertFromRFC3339(create)
                         }
 
-                        val card = Card(response.optString("id"),
+                        val card = PaymentCard(response.optString("id"),
                                 response.optString("alias"),
                                 response.optString("expiration"),
                                 response.optString("currency"),

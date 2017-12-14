@@ -1,5 +1,6 @@
 package com.dwaplatform.android.payin;
 
+import com.dwaplatform.android.card.ui.PaymentCardUIModule;
 import com.dwaplatform.android.payin.ui.PayInUI;
 import com.dwaplatform.android.payin.ui.PayInUIModule;
 import com.dwaplatform.android.secure3d.ui.Secure3DUIModule;
@@ -15,8 +16,8 @@ import dagger.Component;
 @Singleton
 @Component(modules= {
         PayInUIModule.class,
-        Secure3DUIModule.class
-
+        Secure3DUIModule.class,
+        PaymentCardUIModule.class
 })
 public interface PayInUIComponent {
 

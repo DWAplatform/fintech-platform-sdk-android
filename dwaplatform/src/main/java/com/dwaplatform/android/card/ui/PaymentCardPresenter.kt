@@ -1,13 +1,16 @@
 package com.dwaplatform.android.card.ui
 
 import com.dwaplatform.android.card.CardAPI
+import com.dwaplatform.android.card.db.PaymentCardDB
+import com.dwaplatform.android.card.db.PaymentCardPersistenceDB
 import javax.inject.Inject
 
 /**
  * Created by ingrid on 13/12/17.
  */
 class PaymentCardPresenter @Inject constructor(var view: PaymentCardContract.View,
-                                               var api: CardAPI): PaymentCardContract.Presenter {
+                                               var api: CardAPI,
+                                               val paymentCardpersistanceDB: PaymentCardPersistenceDB): PaymentCardContract.Presenter {
 
     override fun refreshConfirmButton() {
         val isEnabled = view.getNumberTextLength() >= 16
@@ -21,30 +24,29 @@ class PaymentCardPresenter @Inject constructor(var view: PaymentCardContract.Vie
 
         view.showCommunicationWait()
 
-        //TODO see CardApi
-//        api.createCreditCard(
-//                dbUsersHelper.userid(),
-//                view.getNumberText(),
-//                view.getDAteText(),
-//                view.getCCvText()) { optusercreditcard, opterror ->
-//
-//            view.hideCommunicationWait()
-//
-//            refreshConfirmButton()
-//
-//            if (opterror != null) {
-//                view.showCommunicationInternalError()
-//                return@createCreditCard
-//            }
-//
-//            if (optusercreditcard == null) {
-//                view.showCommunicationInternalError()
-//                return@createCreditCard
-//            }
-//            dbccardhelper.replace(optusercreditcard)
-//            view.goBack()
-//        }
-//
+        api.registerCard("token",
+                view.getNumberText(),
+                view.getDAteText(),
+                view.getCCvText()) { optcard, opterror ->
+
+            view.hideCommunicationWait()
+
+            refreshConfirmButton()
+
+            if (opterror != null) {
+                view.showCommunicationInternalError()
+                return@registerCard
+            }
+
+            if (optcard == null) {
+                view.showCommunicationInternalError()
+                return@registerCard
+            }
+
+            paymentCardpersistanceDB.replace(optcard)
+
+            view.goBack()
+        }
 
     }
 

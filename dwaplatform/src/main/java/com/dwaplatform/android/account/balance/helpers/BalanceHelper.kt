@@ -1,7 +1,6 @@
 package com.dwaplatform.android.account.balance.helpers
 
 import com.dwaplatform.android.account.balance.api.BalanceAPI
-import com.dwaplatform.android.account.balance.db.BalancePersistence
 import com.dwaplatform.android.account.balance.models.BalanceItem
 import com.dwaplatform.android.models.Money
 import javax.inject.Inject
@@ -10,7 +9,7 @@ import javax.inject.Inject
  * Created by tcappellari on 08/12/2017.
  */
 open class BalanceHelper @Inject constructor(val persistence: BalancePersistence,
-                                        val api: BalanceAPI) {
+                                             val api: BalanceAPI) {
 
 
     fun getAndUpdateCachedBalance(userId: String, accountId: String, callback: (Money?, Exception?) -> Unit): Money {

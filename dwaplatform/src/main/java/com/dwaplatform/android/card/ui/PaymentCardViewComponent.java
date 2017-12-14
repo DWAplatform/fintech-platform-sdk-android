@@ -4,7 +4,7 @@ import com.dwaplatform.android.alert.AlertHelpersModule;
 import com.dwaplatform.android.api.NetModule;
 import com.dwaplatform.android.card.CardApiModule;
 import com.dwaplatform.android.card.api.CardRestApiModule;
-import com.dwaplatform.android.card.helpers.CardHelperModule;
+import com.dwaplatform.android.card.helpers.PaymentCardHelperModule;
 import com.dwaplatform.android.log.LogModule;
 
 import javax.inject.Singleton;
@@ -19,7 +19,7 @@ import dagger.Component;
         AlertHelpersModule.class,
         CardRestApiModule.class,
         LogModule.class,
-        CardHelperModule.class,
+        PaymentCardHelperModule.class,
         CardApiModule.class,
         NetModule.class})
 public interface PaymentCardViewComponent {

@@ -1,4 +1,4 @@
-package com.dwaplatform.android.account.balance.db
+package com.dwaplatform.android.account.balance.helpers
 
 import com.dwaplatform.android.account.balance.models.BalanceItem
 

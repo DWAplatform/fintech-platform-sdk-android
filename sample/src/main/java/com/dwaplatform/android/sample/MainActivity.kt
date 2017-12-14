@@ -28,9 +28,9 @@ class MainActivity : AppCompatActivity() {
         //final String expiration = "1122";
         //final String cxv = "123";
         /*
-        cardAPI.registerCard(token, cardNumber, expiration, cxv, new Function2<Card, Exception, Unit>() {
+        cardAPI.registerCard(token, cardNumber, expiration, cxv, new Function2<PaymentCard, Exception, Unit>() {
             @Override
-            public Unit invoke(Card card, Exception e) {
+            public Unit invoke(PaymentCard card, Exception e) {
                 // now you can access to card object to request cashin, etc.
                 if(e != null) {
                     Log.e("Sample", e.getMessage());

@@ -10,12 +10,12 @@ import dagger.Provides;
  */
 
 @Module
-public class CardHelperModule {
+public class PaymentCardHelperModule {
 
     @Singleton
     @Provides
-    CardHelper providesCardHelper(SanityCheck sanityCheck) {
-        return new CardHelper(sanityCheck);
+    PaymentCardHelper providesCardHelper(SanityCheck sanityCheck) {
+        return new PaymentCardHelper(sanityCheck);
     }
 
     @Singleton

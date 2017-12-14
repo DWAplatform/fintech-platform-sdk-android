@@ -1,7 +1,6 @@
 package com.dwaplatform.android.account.balance.helpers;
 
 import com.dwaplatform.android.account.balance.api.BalanceAPI;
-import com.dwaplatform.android.account.balance.db.BalancePersistence;
 import com.dwaplatform.android.account.balance.db.DBBalance;
 import com.dwaplatform.android.account.balance.db.DBBalancePersistence;
 
