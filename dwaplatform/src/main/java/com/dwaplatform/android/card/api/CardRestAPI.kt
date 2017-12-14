@@ -7,10 +7,9 @@ import com.android.volley.Request
 import com.android.volley.VolleyError
 import com.dwaplatform.android.api.IRequestProvider
 import com.dwaplatform.android.api.IRequestQueue
-import com.dwaplatform.android.card.CardAPI
 import com.dwaplatform.android.card.helpers.DateTimeConversion
 import com.dwaplatform.android.card.helpers.JSONHelper
-import com.dwaplatform.android.card.models.PaymentCard
+import com.dwaplatform.android.card.models.PaymentCardItem
 import org.json.JSONException
 import java.lang.Exception
 import java.nio.charset.Charset
@@ -18,7 +17,7 @@ import java.util.*
 
 /**
  * DWAplatform rest API communication class.
- * Please do not use directly, use CardAPI facade instead.
+ * Please do not use directly, use PaymentCardAPI facade instead.
  */
 open class CardRestAPI constructor(
         internal val hostName: String,
@@ -59,15 +58,15 @@ open class CardRestAPI constructor(
         return header
     }
 
-    private fun createRequestError(volleyError: VolleyError): CardAPI.APIReplyError {
+    private fun createRequestError(volleyError: VolleyError): PaymentCardAPI.APIReplyError {
 
         try {
             val response: NetworkResponse = volleyError.networkResponse
             val jsonString = String(response.data, Charset.forName(PROTOCOL_CHARSET))
 
-            return CardAPI.APIReplyError(jsonHelper.buildJSONArray(jsonString), volleyError)
+            return PaymentCardAPI.APIReplyError(jsonHelper.buildJSONArray(jsonString), volleyError)
         } catch(e: JSONException) {
-            return CardAPI.APIReplyError(null, volleyError)
+            return PaymentCardAPI.APIReplyError(null, volleyError)
         }
     }
 
@@ -97,7 +96,7 @@ open class CardRestAPI constructor(
 
                             completionHandler(cardToRegister, null)
                         } catch (e: JSONException) {
-                            completionHandler(null, CardAPI.ParseReplyParamsException(e))
+                            completionHandler(null, PaymentCardAPI.ParseReplyParamsException(e))
                         }
                     }) { error -> completionHandler(null, createRequestError(error)) }
 
@@ -139,7 +138,7 @@ open class CardRestAPI constructor(
                                 )
                         completionHandler(cardRegistration, null)
                     } catch (e: JSONException) {
-                        completionHandler(null, CardAPI.ParseReplyParamsException(e))
+                        completionHandler(null, PaymentCardAPI.ParseReplyParamsException(e))
                     }
                 })
         { error -> completionHandler(null, createRequestError(error)) }
@@ -190,7 +189,7 @@ open class CardRestAPI constructor(
     open fun putRegisterCard(token: String,
                                 cardRegistrationId: String,
                                 registration: String,
-                                completionHandler: (PaymentCard?, Exception?) -> Unit) {
+                                completionHandler: (PaymentCardItem?, Exception?) -> Unit) {
 
         val url = getURL("/rest/client/user/account/card/register/$cardRegistrationId")
 
@@ -206,7 +205,7 @@ open class CardRestAPI constructor(
                             DateTimeConversion.convertFromRFC3339(create)
                         }
 
-                        val card = PaymentCard(response.optString("id"),
+                        val card = PaymentCardItem(response.optString("id"),
                                 response.optString("alias"),
                                 response.optString("expiration"),
                                 response.optString("currency"),
@@ -217,7 +216,7 @@ open class CardRestAPI constructor(
 
                         completionHandler(card, null)
                     } catch (e: JSONException) {
-                        completionHandler(null, CardAPI.ParseReplyParamsException(e))
+                        completionHandler(null, PaymentCardAPI.ParseReplyParamsException(e))
                     }
                 }) { error -> completionHandler(null, createRequestError(error)) }
 

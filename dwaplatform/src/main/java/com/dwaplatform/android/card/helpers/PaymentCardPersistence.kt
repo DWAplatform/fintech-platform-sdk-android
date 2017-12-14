@@ -10,4 +10,8 @@ interface PaymentCardPersistence {
     open fun getPaymentCardItem(accountId: String): PaymentCardItem?
 
     fun savePaymentCard(paymentcard: PaymentCardItem)
+
+    fun replace(paymentcard: PaymentCardItem)
+
+    fun paymentCardId():String?
 }

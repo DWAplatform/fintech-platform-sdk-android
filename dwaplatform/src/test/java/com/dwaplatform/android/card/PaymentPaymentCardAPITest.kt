@@ -1,11 +1,12 @@
 package com.dwaplatform.android.card
 
 import com.dwaplatform.android.card.api.CardRestAPI
+import com.dwaplatform.android.card.api.PaymentCardAPI
 import com.dwaplatform.android.card.helpers.PaymentCardHelper
 import com.dwaplatform.android.card.helpers.SanityCheckException
 import com.dwaplatform.android.card.helpers.SanityItem
 import com.dwaplatform.android.log.Log
-import com.dwaplatform.android.card.models.PaymentCard
+import com.dwaplatform.android.card.models.PaymentCardItem
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.argumentCaptor
 import com.nhaarman.mockito_kotlin.verify
@@ -18,7 +19,7 @@ import org.mockito.MockitoAnnotations
 import java.lang.Exception
 import java.util.*
 
-class PaymentCardAPITest {
+class PaymentPaymentCardAPITest {
 
     @Mock lateinit var log: Log
     @Mock lateinit var paymentCardHelper: PaymentCardHelper
@@ -28,12 +29,12 @@ class PaymentCardAPITest {
     val expiration = "1122"
     val cxv = "123"
 
-    lateinit var cardAPI: CardAPI
+    lateinit var paymentCardAPI: PaymentCardAPI
 
     @Before
     fun setUp() {
         MockitoAnnotations.initMocks(this)
-        cardAPI = CardAPI(restAPI, log, paymentCardHelper)
+        paymentCardAPI = PaymentCardAPI(restAPI, log, paymentCardHelper)
     }
 
     @Test
@@ -45,7 +46,7 @@ class PaymentCardAPITest {
 
         try {
             // When
-            cardAPI.registerCard("token", cardNumber, expiration, cxv) { optCard, optException -> }
+            paymentCardAPI.registerCard("token", cardNumber, expiration, cxv) { optCard, optException -> }
 
             // Then
             Assert.fail("Expected throw PaymentCard Format Sanity Check exception")
@@ -63,7 +64,7 @@ class PaymentCardAPITest {
 
         var handlerCalled = 0
         // When
-        cardAPI.registerCard("1111-1111", cardNumber, expiration, cxv) { optCard, optException ->
+        paymentCardAPI.registerCard("1111-1111", cardNumber, expiration, cxv) { optCard, optException ->
             // Then
             handlerCalled++
             Assert.assertNull(optCard)
@@ -97,7 +98,7 @@ class PaymentCardAPITest {
 
         var handlerCalled = 0
         // When
-        cardAPI.registerCard("1111-1111", cardNumber, expiration, cxv) { optCard, optException ->
+        paymentCardAPI.registerCard("1111-1111", cardNumber, expiration, cxv) { optCard, optException ->
             // Then
             handlerCalled++
             Assert.assertNull(optCard)
@@ -136,7 +137,7 @@ class PaymentCardAPITest {
 
         var handlerCalled = 0
         // When
-        cardAPI.registerCard("1111-1111", cardNumber, expiration, cxv) { optCard, optException ->
+        paymentCardAPI.registerCard("1111-1111", cardNumber, expiration, cxv) { optCard, optException ->
             // Then
             handlerCalled++
             Assert.assertNull(optCard)
@@ -190,7 +191,7 @@ class PaymentCardAPITest {
 
         var handlerCalled = 0
         // When
-        cardAPI.registerCard("1111-1111", cardNumber, expiration, cxv) { optCard, optException ->
+        paymentCardAPI.registerCard("1111-1111", cardNumber, expiration, cxv) { optCard, optException ->
             // Then
             handlerCalled++
             Assert.assertNull(optCard)
@@ -223,7 +224,7 @@ class PaymentCardAPITest {
         val captorToken = argumentCaptor<String>()
         val captorCardRegistrationId = argumentCaptor<String>()
         val captorRegistration = argumentCaptor<String>()
-        val captorHandler = argumentCaptor<(PaymentCard?, Exception?) -> Unit>()
+        val captorHandler = argumentCaptor<(PaymentCardItem?, Exception?) -> Unit>()
         verify(restAPI).putRegisterCard(captorToken.capture(), captorCardRegistrationId.capture(),
                 captorRegistration.capture(), captorHandler.capture())
 
@@ -243,12 +244,12 @@ class PaymentCardAPITest {
     fun registerCard_Success() {
         // Given
         Mockito.`when`(paymentCardHelper.generateAlias(cardNumber)).thenReturn("1234XXXXXXXX1234")
-        val card = PaymentCard("123456", "1234XXXXXXXX1234", "123", "EUR",
+        val card = PaymentCardItem("123456", "1234XXXXXXXX1234", "123", "EUR",
                 true, "GOOD", "ABC", Calendar.getInstance().time)
 
         var handlerCalled = 0
         // When
-        cardAPI.registerCard("1111-1111", cardNumber, expiration, cxv) { optCard, optException ->
+        paymentCardAPI.registerCard("1111-1111", cardNumber, expiration, cxv) { optCard, optException ->
             // Then
             handlerCalled++
             Assert.assertNotNull(optCard)
@@ -278,7 +279,7 @@ class PaymentCardAPITest {
         captorPostCardRegistrationDataHandler.lastValue.invoke("registration123", null)
 
         // Then
-        val captorHandler = argumentCaptor<(PaymentCard?, Exception?) -> Unit>()
+        val captorHandler = argumentCaptor<(PaymentCardItem?, Exception?) -> Unit>()
         verify(restAPI).putRegisterCard(any(), any(),
                 any(), captorHandler.capture())
 

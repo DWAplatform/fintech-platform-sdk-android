@@ -52,7 +52,7 @@ Sample usage in Java
     DWAplatform.Companion.initialize(config);
 
     // Get card API
-    final CardAPI cardAPI = DWAplatform.Companion.getCardAPI(this);
+    final CardAPI paymentCardAPI = DWAplatform.Companion.getPaymentCardAPI(this);
 
     // Register card
 	// get token from POST call: .../rest/v1/:clientId/users/:userId/accounts/:accountId/cards
@@ -60,7 +60,7 @@ Sample usage in Java
     final String cardNumber = "1234567812345678";
     final String expiration = "1122";
     final String cxv = "123";
-	cardAPI.registerCard(token, cardNumber, expiration, cxv, new Function2<Card, Exception, Unit>() {
+	paymentCardAPI.registerCard(token, cardNumber, expiration, cxv, new Function2<Card, Exception, Unit>() {
                     @Override
                     public Unit invoke(Card card, Exception e) {
                     	// now you can access to card object to request cashin, etc.

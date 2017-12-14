@@ -1,9 +1,11 @@
 package com.dwaplatform.android.card.helpers
 
+import javax.inject.Inject
+
 /**
  * Util class to check parameters compliance against regular expression.
  */
-open class SanityCheck {
+open class SanityCheck @Inject constructor(){
 
     /**
      * Filter items that match the regular expression.

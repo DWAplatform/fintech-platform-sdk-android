@@ -3,6 +3,8 @@ package com.dwaplatform.android.card.api;
 import com.dwaplatform.android.api.IRequestProvider;
 import com.dwaplatform.android.api.IRequestQueue;
 import com.dwaplatform.android.card.helpers.JSONHelper;
+import com.dwaplatform.android.card.helpers.PaymentCardHelper;
+import com.dwaplatform.android.log.Log;
 
 import javax.inject.Singleton;
 
@@ -24,6 +26,12 @@ public class CardRestApiModule {
         this.hostname = hostname;
         this.token = token;
         this.sandbox = sandbox;
+    }
+
+    @Provides
+    @Singleton
+    PaymentCardAPI providesCardAPI(CardRestAPI cardrestapi, Log log, PaymentCardHelper cardhelper) {
+        return new PaymentCardAPI(cardrestapi, log, cardhelper);
     }
 
     @Singleton

@@ -1,6 +1,7 @@
 package com.dwaplatform.android.card.ui;
 
-import com.dwaplatform.android.card.CardAPI;
+import com.dwaplatform.android.card.api.PaymentCardAPI;
+import com.dwaplatform.android.card.db.PaymentCardPersistenceDB;
 
 import javax.inject.Singleton;
 
@@ -20,7 +21,8 @@ public class PaymentCardPresenterModule {
 
     @Provides
     @Singleton
-    PaymentCardContract.Presenter providesPaymentCardPresenter(CardAPI api) {
-        return new PaymentCardPresenter(view, api);
+    PaymentCardContract.Presenter providesPaymentCardPresenter(PaymentCardAPI api, PaymentCardPersistenceDB paymentCardPersistenceDB) {
+        return new PaymentCardPresenter(view, api, paymentCardPersistenceDB);
     }
+
 }

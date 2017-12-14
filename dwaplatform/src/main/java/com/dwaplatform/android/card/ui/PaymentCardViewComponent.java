@@ -2,8 +2,8 @@ package com.dwaplatform.android.card.ui;
 
 import com.dwaplatform.android.alert.AlertHelpersModule;
 import com.dwaplatform.android.api.NetModule;
-import com.dwaplatform.android.card.CardApiModule;
 import com.dwaplatform.android.card.api.CardRestApiModule;
+import com.dwaplatform.android.card.db.PaymentCardPersistanceModule;
 import com.dwaplatform.android.card.helpers.PaymentCardHelperModule;
 import com.dwaplatform.android.log.LogModule;
 
@@ -20,8 +20,8 @@ import dagger.Component;
         CardRestApiModule.class,
         LogModule.class,
         PaymentCardHelperModule.class,
-        CardApiModule.class,
-        NetModule.class})
+        NetModule.class,
+        PaymentCardPersistanceModule.class})
 public interface PaymentCardViewComponent {
     void inject(PaymentCardActivity activity);
 }

@@ -1,8 +1,7 @@
-package com.dwaplatform.android.card
+package com.dwaplatform.android.card.api
 
-import com.dwaplatform.android.card.api.CardRestAPI
 import com.dwaplatform.android.card.helpers.PaymentCardHelper
-import com.dwaplatform.android.card.models.PaymentCard
+import com.dwaplatform.android.card.models.PaymentCardItem
 import com.dwaplatform.android.log.Log
 import org.json.JSONArray
 import java.lang.Exception
@@ -13,7 +12,7 @@ import javax.inject.Inject
  * Please use DWAplatform to get PaymentCard API instance; do not create directly
  *
  */
-open class CardAPI @Inject constructor(
+open class PaymentCardAPI @Inject constructor(
         internal val restAPI: CardRestAPI,
         internal val log: Log,
         internal val paymentCardHelper: PaymentCardHelper) {
@@ -33,7 +32,7 @@ open class CardAPI @Inject constructor(
      */
     data class ParseReplyParamsException(val throwable: Throwable) : Exception(throwable)
 
-    private val TAG = "CardAPI"
+    private val TAG = "PaymentCardAPI"
 
     /**
      *  Register a PaymentCard. Use this method to register a user card and PLEASE DO NOT save card information on your own client or server side.
@@ -48,7 +47,7 @@ open class CardAPI @Inject constructor(
                      cardNumber: String,
                      expiration: String,
                      cxv: String,
-                     completionHandler: (PaymentCard?, Exception?) -> Unit) {
+                     completionHandler: (PaymentCardItem?, Exception?) -> Unit) {
 
         log.debug(TAG, "fun registerCard called")
 

@@ -48,7 +48,7 @@ public class PayInUI {
                 .balanceAPIModule(new BalanceAPIModule(instance.hostName,
                         instance.token))
                 .secure3DUIModule(new Secure3DUIModule(secure3DUI))
-                .paymentCardUIModule(new PaymentCardUIModule(paymentCardUI))
+                .paymentCardUIModule(new PaymentCardUIModule(instance.hostName, instance.token, true))
                 .build();
     }
 

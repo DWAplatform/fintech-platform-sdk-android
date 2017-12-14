@@ -17,8 +17,7 @@ import dagger.Component;
 @Component(modules= {
         NetModule.class,
         PayInAPIModule.class,
-        LogModule.class,
-        NetModule.class
+        LogModule.class
 
 })
 public interface PayInAPIComponent {

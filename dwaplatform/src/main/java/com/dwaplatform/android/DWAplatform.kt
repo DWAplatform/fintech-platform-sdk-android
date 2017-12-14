@@ -5,7 +5,7 @@ import com.android.volley.toolbox.Volley
 import com.dwaplatform.android.account.balance.BalanceBuilder
 import com.dwaplatform.android.api.volley.VolleyRequestProvider
 import com.dwaplatform.android.api.volley.VolleyRequestQueueProvider
-import com.dwaplatform.android.card.CardAPI
+import com.dwaplatform.android.card.api.PaymentCardAPI
 import com.dwaplatform.android.card.api.CardRestAPI
 import com.dwaplatform.android.card.helpers.PaymentCardHelper
 import com.dwaplatform.android.card.helpers.JSONHelper
@@ -52,7 +52,7 @@ class DWAplatform {
 
     companion object {
         @Volatile private var conf:  Configuration? = null
-        @Volatile private var cardAPIInstance: CardAPI? = null
+        @Volatile private var cardAPIInstance: PaymentCardAPI? = null
         //@Volatile public var payinInstance: PayIn? = null
 
         /**
@@ -65,9 +65,9 @@ class DWAplatform {
         }
 
         /**
-         * Factory method to get CardAPI object
+         * Factory method to get PaymentCardAPI object
          */
-        fun getCardAPI(context: Context): CardAPI =
+        fun getCardAPI(context: Context): PaymentCardAPI =
                 cardAPIInstance ?: synchronized(this) {
 
                     val c = conf ?: throw Exception("DWAplatform init configuration missing")
@@ -78,9 +78,9 @@ class DWAplatform {
                         cardAPIInstance = it }
                 }
 
-        private fun buildCardAPI(hostName: String, context: Context, sandbox: Boolean): CardAPI {
+        private fun buildCardAPI(hostName: String, context: Context, sandbox: Boolean): PaymentCardAPI {
 
-            return CardAPI(CardRestAPI(hostName,
+            return PaymentCardAPI(CardRestAPI(hostName,
                     VolleyRequestQueueProvider(Volley.newRequestQueue(context)),
                     VolleyRequestProvider(),
                     JSONHelper(),

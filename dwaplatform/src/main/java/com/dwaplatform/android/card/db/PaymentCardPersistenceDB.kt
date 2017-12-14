@@ -9,17 +9,17 @@ import com.dwaplatform.android.card.models.PaymentCardItem
 
 class PaymentCardPersistenceDB constructor(val paymentCardDB: PaymentCardDB): PaymentCardPersistence {
 
-    fun creditCardId() : String? {
-        return paymentCardDB.findCreditCard()?.id
+    override fun paymentCardId() : String? {
+        return paymentCardDB.findPaymentCard()?.id
     }
 
-    fun replace(paymentcard: PaymentCardItem) {
-        paymentCardDB.deleteCreditCard()
+    override fun replace(paymentcard: PaymentCardItem) {
+        paymentCardDB.deletePaymentCard()
         savePaymentCard(paymentcard)
     }
 
     override fun getPaymentCardItem(accountId: String): PaymentCardItem? {
-        val optcc = paymentCardDB.findCreditCard()
+        val optcc = paymentCardDB.findPaymentCard()
         return optcc?.let { cc ->
             PaymentCardItem(cc.id, cc.numberAlias, cc.expiration, "EUR", null, cc.state, "token", null)
         }
@@ -32,6 +32,6 @@ class PaymentCardPersistenceDB constructor(val paymentCardDB: PaymentCardDB): Pa
         card.expiration = paymentcard.expiration
         card.numberAlias = paymentcard.alias
 
-        paymentCardDB.saveCreditCard(card)
+        paymentCardDB.savePaymentCard(card)
     }
 }

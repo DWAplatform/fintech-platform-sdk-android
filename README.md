@@ -27,7 +27,7 @@ Sample usage in Kotlin
 -------------------------------------------------
 ```kotlin
     import com.dwaplatform.android.DWAplatform
-    import com.dwaplatform.android.card.CardAPI
+    import com.dwaplatform.android.card.PaymentCardAPI
     import com.dwaplatform.android.card.models.PaymentCard
 
 
@@ -38,7 +38,7 @@ Sample usage in Kotlin
     DWAplatform.initialize(config)
 
     // Get card API
-    val cardAPI = DWAplatform.getCardAPI(MyApplication.context)
+    val paymentCardAPI = DWAplatform.getPaymentCardAPI(MyApplication.context)
 
     // Register card
     // get token from POST call: .../rest/v1/:clientId/users/:userId/accounts/:accountId/cards
@@ -46,7 +46,7 @@ Sample usage in Kotlin
     val cardNumber = "1234567812345678"
     val expiration = "1122"
     val cxv = "123"
-    cardAPI.registerCard(token, cardNumber, expiration, cxv) { card, e ->
+    paymentCardAPI.registerCard(token, cardNumber, expiration, cxv) { card, e ->
         if (e != null) {
             Log.e("Sample", e.message)
             return@registerCard

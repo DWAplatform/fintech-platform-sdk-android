@@ -6,15 +6,15 @@ import com.raizlabs.android.dbflow.sql.language.SQLite
  * Created by ingrid on 14/12/17.
  */
 class PaymentCardDB {
-    fun deleteCreditCard() {
+    fun deletePaymentCard() {
         SQLite.delete().from(PaymentCard::class.java).execute()
     }
 
-    fun saveCreditCard(card: PaymentCard) {
+    fun savePaymentCard(card: PaymentCard) {
         card.save()
     }
 
-    fun findCreditCard() : PaymentCard? {
+    fun findPaymentCard() : PaymentCard? {
         return SQLite.select().from(PaymentCard::class.java).querySingle()
     }
 }

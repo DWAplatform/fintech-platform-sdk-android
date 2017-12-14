@@ -28,6 +28,7 @@ public class PayInUIModule {
         this.configuration = configuration;
     }
 
+
     @Provides
     @Singleton
     PayInUI providePayInUI(Secure3DUI secure3DUI, PaymentCardUI paymentCardUI) {

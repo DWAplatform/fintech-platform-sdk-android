@@ -11,15 +11,18 @@ import dagger.Provides;
 @Module
 public class PaymentCardUIModule {
 
-    private PaymentCardUI paymentCardUI;
+    String hostname;
+    String token;
+    boolean sandbox;
 
-    public PaymentCardUIModule(PaymentCardUI paymentCardUI) {
-        this.paymentCardUI = paymentCardUI;
+    public PaymentCardUIModule(String hostname, String token, boolean sandbox) {
+        this.hostname = hostname;
+        this.token = token;
+        this.sandbox = sandbox;
     }
-
     @Provides
     @Singleton
-    PaymentCardUI providesPaymentCardUI() {
-        return paymentCardUI;
+    PaymentCardUI providesPaymentCardUI(String hostname, String token, boolean sandbox) {
+        return new PaymentCardUI(hostname, token, sandbox);
     }
 }

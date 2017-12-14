@@ -1,7 +1,6 @@
 package com.dwaplatform.android.card.ui
 
-import com.dwaplatform.android.card.CardAPI
-import com.dwaplatform.android.card.db.PaymentCardDB
+import com.dwaplatform.android.card.api.PaymentCardAPI
 import com.dwaplatform.android.card.db.PaymentCardPersistenceDB
 import javax.inject.Inject
 
@@ -9,7 +8,7 @@ import javax.inject.Inject
  * Created by ingrid on 13/12/17.
  */
 class PaymentCardPresenter @Inject constructor(var view: PaymentCardContract.View,
-                                               var api: CardAPI,
+                                               var api: PaymentCardAPI,
                                                val paymentCardpersistanceDB: PaymentCardPersistenceDB): PaymentCardContract.Presenter {
 
     override fun refreshConfirmButton() {

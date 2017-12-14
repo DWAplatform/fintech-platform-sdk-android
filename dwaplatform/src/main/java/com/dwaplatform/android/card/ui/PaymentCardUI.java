@@ -19,7 +19,9 @@ public class PaymentCardUI {
 
     protected static PaymentCardUI instance;
 
-    public PaymentCardUI(){ }
+    public PaymentCardUI(){
+        instance = this;
+    }
 
     public PaymentCardUI(String hostname, String token, boolean sandbox) {
         this.hostname = hostname;
@@ -30,7 +32,7 @@ public class PaymentCardUI {
     protected PaymentCardViewComponent buildPaymentCardComponent(Context context, PaymentCardContract.View view) {
         return DaggerPaymentCardViewComponent.builder()
                 .paymentCardPresenterModule(new PaymentCardPresenterModule(view))
-                .cardRestApiModule(new CardRestApiModule(hostname, token, sandbox))
+                .cardRestApiModule(new CardRestApiModule(instance.hostname, instance.token, instance.sandbox))
                 .netModule(new NetModule(Volley.newRequestQueue(context)))
                 .build();
     }
