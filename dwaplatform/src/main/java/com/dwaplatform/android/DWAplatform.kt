@@ -55,7 +55,6 @@ class DWAplatform {
 
         /**
          * Initialize DWAplatform
-         * @param config Configuration
          */
         fun initialize(context: Context) {
             FlowManager.init(context)
