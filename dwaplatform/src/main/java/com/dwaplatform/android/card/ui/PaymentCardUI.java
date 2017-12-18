@@ -28,7 +28,7 @@ public class PaymentCardUI {
     protected PaymentCardViewComponent buildPaymentCardComponent(Context context, PaymentCardContract.View view) {
         return DaggerPaymentCardViewComponent.builder()
                 .paymentCardPresenterModule(new PaymentCardPresenterModule(view))
-                .cardRestApiModule(new PaymentCardRestApiModule(instance.hostname, instance.token, instance.sandbox))
+                .paymentCardRestApiModule(new PaymentCardRestApiModule(instance.hostname, instance.token, instance.sandbox))
                 .netModule(new NetModule(Volley.newRequestQueue(context)))
                 .build();
     }

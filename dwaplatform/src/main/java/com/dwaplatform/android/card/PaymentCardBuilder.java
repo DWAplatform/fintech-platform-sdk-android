@@ -16,7 +16,7 @@ public class PaymentCardBuilder {
     public PaymentCardAPIComponent createPaymentCardAPI(Context context, String hostname, String token, boolean sandbox) {
         return DaggerPaymentCardAPIComponent.builder()
                 .netModule(new NetModule(Volley.newRequestQueue(context)))
-                .cardRestApiModule(new PaymentCardRestApiModule(hostname, token, sandbox))
+                .paymentCardRestApiModule(new PaymentCardRestApiModule(hostname, token, sandbox))
                 .build();
     }
 
