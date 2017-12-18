@@ -33,3 +33,10 @@ allprojects {
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
+
+kapt {
+    generateStubs = true
+    arguments {
+        arg("targetModuleName", "dwaplatform")
+    }
+}

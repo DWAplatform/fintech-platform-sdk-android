@@ -42,19 +42,18 @@ class MainActivity : AppCompatActivity() {
         });*/
 
         val hostName = "https://api.sandbox.dwaplatform.com"
-        val token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJleHAiOjE1MTMyNTkzODUsImlhdCI6MTUxMzE3Mjk4NSwidXNlcmlkIjoiNjBlMjc5ZWMtOTE4Yi0xMWU3LThkNTUtZGJhYWEyNGNjNWMyIn0.Xy2P9DpFU3ApprvNM5mGnuqDc9WDbJE5keDrvTy5IDe8zMXnqzV_asOpPljOelmlqqKJaVYygMJEActCPCdn-Q"
+        val token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJleHAiOjE1MTM0Mzk5MDYsImlhdCI6MTUxMzM1MzUwNiwidXNlcmlkIjoiNjBlMjc5ZWMtOTE4Yi0xMWU3LThkNTUtZGJhYWEyNGNjNWMyIn0.8LSDaHFQVDEYV4xz2GzXbvYioHBzAtROTPqMg8ZHEasCC5RPy0kNCMjKWH540Dxaepu2lM9QSGSdw0K-8_F2hA"
 
         button.setOnClickListener {
             val userId = "60e279ec-918b-11e7-8d55-dbaaa24cc5c2"
             val accountId = "722c4d74-ba56-11e7-8487-a7b42609a5c1"
-            val paymentCardId = "7e30a4d8-918b-11e7-931d-8b5fb14500e0"
-
+            val paymentCardId = null//"7e30a4d8-918b-11e7-931d-8b5fb14500e0"
 
             val builder = DWAplatform.buildPayIn()
             val builder3d = DWAplatform.build3DSecure()
             val payInComponent = builder.createPayInUIComponent(
                     hostName,
-                    token, PayInConfiguration(userId, accountId, paymentCardId))
+                    token, true, PayInConfiguration(userId, accountId, paymentCardId))
 
             payInComponent.payInUI.start(this@MainActivity)
         }

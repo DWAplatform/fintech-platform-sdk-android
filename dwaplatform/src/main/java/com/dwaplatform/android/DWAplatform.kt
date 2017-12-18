@@ -10,10 +10,14 @@ import com.dwaplatform.android.card.api.PaymentCardRestAPI
 import com.dwaplatform.android.card.helpers.PaymentCardHelper
 import com.dwaplatform.android.card.helpers.JSONHelper
 import com.dwaplatform.android.card.helpers.SanityCheck
+import com.dwaplatform.android.db.PlatformDB
 import com.dwaplatform.android.log.Log
 import com.dwaplatform.android.payin.PayInBuilder
 import com.dwaplatform.android.secure3d.Secure3DBuilder
 import com.raizlabs.android.dbflow.config.FlowManager
+import com.raizlabs.android.dbflow.config.FlowConfig
+
+
 
 
 /**
@@ -61,7 +65,11 @@ class DWAplatform {
          */
         fun initialize(config: Configuration, context: Context) {
             conf = config
-            FlowManager.init(context)
+//
+//            FlowManager.initModule(PlatformDB::class)
+//            FlowManager.init(FlowConfig.builder(context)
+//                    .addDatabaseHolder()
+//                    .build())
         }
 
         /**
