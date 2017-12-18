@@ -15,9 +15,6 @@ import com.dwaplatform.android.log.Log
 import com.dwaplatform.android.payin.PayInBuilder
 import com.dwaplatform.android.secure3d.Secure3DBuilder
 import com.raizlabs.android.dbflow.config.FlowManager
-import com.raizlabs.android.dbflow.config.FlowConfig
-
-
 
 
 /**
@@ -52,10 +49,7 @@ import com.raizlabs.android.dbflow.config.FlowConfig
  */
 class DWAplatform {
 
-    data class Configuration(val hostName: String, val sandbox: Boolean)
-
     companion object {
-        @Volatile private var conf:  Configuration? = null
         @Volatile private var cardAPIInstance: PaymentCardAPI? = null
         //@Volatile public var payinInstance: PayIn? = null
 
@@ -63,25 +57,19 @@ class DWAplatform {
          * Initialize DWAplatform
          * @param config Configuration
          */
-        fun initialize(config: Configuration, context: Context) {
-            conf = config
-//
-//            FlowManager.initModule(PlatformDB::class)
-            FlowManager.init(FlowConfig.builder(context)
-                    .build())
+        fun initialize(context: Context) {
+            FlowManager.init(context)
+            PlatformDB.init()
         }
 
         /**
          * Factory method to get PaymentCardAPI object
          */
-        fun getCardAPI(context: Context): PaymentCardAPI =
+        fun getCardAPI(hostName: String, sandbox: Boolean, context: Context): PaymentCardAPI =
                 cardAPIInstance ?: synchronized(this) {
-
-                    val c = conf ?: throw Exception("DWAplatform init configuration missing")
-
-                    cardAPIInstance ?: buildCardAPI(c.hostName,
+                    cardAPIInstance ?: buildCardAPI(hostName,
                             context,
-                            c.sandbox).also {
+                            sandbox).also {
                         cardAPIInstance = it }
                 }
 

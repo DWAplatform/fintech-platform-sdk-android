@@ -17,20 +17,21 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        FlowManager.init(this)
+        //FlowManager.init(this)
 
-        val pet = Animals()
-        pet.id = "123456\n"
-        pet.kind = "cat\n"
-        pet.name = "gatto\n"
-        pet.save()
+
 
 
         val hostName = "https://api.sandbox.dwaplatform.com"
         val token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJleHAiOjE1MTM2Nzk4NDgsImlhdCI6MTUxMzU5MzQ0OCwidXNlcmlkIjoiNjBlMjc5ZWMtOTE4Yi0xMWU3LThkNTUtZGJhYWEyNGNjNWMyIn0.z1q8d5HGca-aNk1w1JVShRNxZrWT-h5FBBJbRdg8I4i4YUyJ2oL1SONbpVexrUp4trJAkyLBAEUYwiTPwUDCTA"
 
-        val config = DWAplatform.Configuration(hostName, true)
-        DWAplatform.initialize(config, this)
+        DWAplatform.initialize(this)
+
+        /*val pet = Animals()
+        pet.id = "123456\n"
+        pet.kind = "cat\n"
+        pet.name = "gatto\n"
+        pet.save()*/
 
         button.setOnClickListener {
             val userId = "60e279ec-918b-11e7-8d55-dbaaa24cc5c2"
@@ -38,17 +39,16 @@ class MainActivity : AppCompatActivity() {
             val paymentCardId = null//"7e30a4d8-918b-11e7-931d-8b5fb14500e0"
 
             val builder = DWAplatform.buildPayIn()
-            val builder3d = DWAplatform.build3DSecure()
             val payInComponent = builder.createPayInUIComponent(
                     hostName,
                     token, true, PayInConfiguration(userId, accountId, paymentCardId))
 
             payInComponent.payInUI.start(this@MainActivity)
 
-            val query = SQLite.select().from(Animals::class.java).querySingle()
+            /*val query = SQLite.select().from(Animals::class.java).querySingle()
             query?.let {
                 Log.d("HALLELUJA", it.id + it.kind + it.name)
-            }
+            }*/
         }
     }
 }
