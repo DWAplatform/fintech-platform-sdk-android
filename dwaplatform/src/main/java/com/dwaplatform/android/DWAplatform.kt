@@ -67,9 +67,8 @@ class DWAplatform {
             conf = config
 //
 //            FlowManager.initModule(PlatformDB::class)
-//            FlowManager.init(FlowConfig.builder(context)
-//                    .addDatabaseHolder()
-//                    .build())
+            FlowManager.init(FlowConfig.builder(context)
+                    .build())
         }
 
         /**
