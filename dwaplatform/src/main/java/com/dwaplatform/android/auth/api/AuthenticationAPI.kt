@@ -22,9 +22,7 @@ class AuthenticationAPI constructor(internal val hostName: String,
                                     internal val token: String,
                                     internal val queue: IRequestQueue,
                                     internal val requestProvider: IRequestProvider,
-                                    internal val jsonHelper: JSONHelper,
-                                    internal val log: Log,
-                                    internal val sandbox: Boolean){
+                                    internal val log: Log){
     inner class GenericCommunicationError(throwable: Throwable) : Exception(throwable)
 
     inner class ReplyParamsUnexpected(throwable: Throwable) : Exception(throwable)
