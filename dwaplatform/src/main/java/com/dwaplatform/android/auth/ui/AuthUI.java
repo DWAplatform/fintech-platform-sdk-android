@@ -6,6 +6,7 @@ import android.content.Intent;
 import com.android.volley.toolbox.Volley;
 import com.dwaplatform.android.api.NetModule;
 import com.dwaplatform.android.auth.api.AuthenticationAPIModule;
+import com.dwaplatform.android.keys.KeyChainModule;
 
 /**
  * Created by ingrid on 19/12/17.
@@ -29,6 +30,7 @@ public class AuthUI {
                 .netModule(new NetModule(Volley.newRequestQueue(context)))
                 .authenticationPresenterModule(new AuthenticationPresenterModule(view, userid))
                 .authenticationAPIModule(new AuthenticationAPIModule(hostname))
+                .keyChainModule(new KeyChainModule(context))
                 .build();
     }
 

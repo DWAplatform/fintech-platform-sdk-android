@@ -15,5 +15,5 @@ import dagger.Component;
         AuthUIModule.class
 })
 public interface AuthUIComponent {
-    AuthUI buildAuthUI();
+    AuthUI getAuthUI();
 }

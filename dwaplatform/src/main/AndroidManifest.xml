@@ -16,5 +16,8 @@
         <activity
             android:name=".card.ui.PaymentCardActivity">
         </activity>
+        <activity
+            android:name=".auth.ui.AuthenticationActivity">
+        </activity>
     </application>
 </manifest>

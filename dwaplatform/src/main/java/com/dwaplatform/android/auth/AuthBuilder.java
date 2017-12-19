@@ -10,9 +10,6 @@ import com.dwaplatform.android.keys.DaggerKeyChainComponent;
 import com.dwaplatform.android.keys.KeyChainComponent;
 import com.dwaplatform.android.keys.KeyChainModule;
 
-/**
- * Created by ingrid on 19/12/17.
- */
 
 public class AuthBuilder {
     public AuthAPIComponent createAuthAPI(String hostName, Context context) {
