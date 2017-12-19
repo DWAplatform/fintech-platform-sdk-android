@@ -19,7 +19,6 @@ import java.util.HashMap
  * Created by ingrid on 18/12/17.
  */
 class AuthenticationAPI constructor(internal val hostName: String,
-                                    internal val token: String,
                                     internal val queue: IRequestQueue,
                                     internal val requestProvider: IRequestProvider,
                                     internal val log: Log){
@@ -93,7 +92,7 @@ class AuthenticationAPI constructor(internal val hostName: String,
             val rurl = getUrlDataString(url, params)
 
             val r = requestProvider.jsonObjectRequest(Request.Method.GET, rurl,
-                    null, authorizationToken(token), { response ->
+                    null, authorizationToken(""), { response ->
                 try {
 
                     val userid = response.getString("userid")

@@ -21,15 +21,13 @@ import javax.inject.Inject
 class AuthenticationActivity: FragmentActivity(), AuthenticationContract.View {
 
     @Inject lateinit var presenter: AuthenticationContract.Presenter
-    //@Inject lateinit var api: DWApayAPI
     @Inject lateinit var alertHelpers: AlertHelpers
-    //@Inject lateinit var dbhelper: DBUsersHelper
     @Inject lateinit var keyChain: KeyChain
     @Inject lateinit var emailHelper: SendEmailHelper
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        //(application as App).netComponent?.inject(this)
+        AuthUI.createAuthViewComponent(this, this).inject(this);
         setContentView(R.layout.activity_auth)
 
         pinEntry.addTextChangedListener(object : TextWatcher {
@@ -56,13 +54,13 @@ class AuthenticationActivity: FragmentActivity(), AuthenticationContract.View {
     }
 
     override fun goToMain() {
+        //TODO gotoMain from auth Activity
 //        startActivity(Intent(this, MainActivity::class.java))
 //        finish()
     }
 
     override fun setTokenUser(token: String) {
-        //todo sharedpreferences need application context?
-        keyChain.set("tokenuser", token, this)
+        keyChain.set("tokenuser", token)
     }
 
     override fun showMaxAttemptExpired() {

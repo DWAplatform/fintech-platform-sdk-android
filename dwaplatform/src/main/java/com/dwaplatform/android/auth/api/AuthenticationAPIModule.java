@@ -16,16 +16,14 @@ import dagger.Provides;
 public class AuthenticationAPIModule {
 
     private String hostname;
-    private String token;
 
-    public AuthenticationAPIModule(String hostname, String token){
+    public AuthenticationAPIModule(String hostname){
         this.hostname = hostname;
-        this.token = token;
     }
 
     @Provides
     @Singleton
     AuthenticationAPI providesAuthApi(IRequestQueue queue, IRequestProvider requestProvider, Log log){
-        return new AuthenticationAPI(hostname, token, queue, requestProvider, log);
+        return new AuthenticationAPI(hostname, queue, requestProvider, log);
     }
 }

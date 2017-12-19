@@ -5,8 +5,8 @@ import android.content.Context
 /**
  * Key Chain helper class to set and key key-values from/to android shared preferences
  */
-class KeyChain {
-    operator fun set(key: String, value: String, context: Context) {
+class KeyChain constructor(val context: Context){
+    operator fun set(key: String, value: String) {
         val sharedPref = context.getSharedPreferences("com.dwaplatform.android.KeyChain",
                 Context.MODE_PRIVATE)
 
@@ -15,10 +15,9 @@ class KeyChain {
         editor.apply()
     }
 
-    operator fun get(key: String, context: Context): String {
+    operator fun get(key: String): String {
         val sharedPref = context.getSharedPreferences("com.dwaplatform.android.KeyChain",
                 Context.MODE_PRIVATE)
-
         return sharedPref.getString(key, "")
     }
 }
