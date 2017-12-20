@@ -1,5 +1,6 @@
 package com.dwaplatform.android.auth.ui
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.FragmentActivity
@@ -27,7 +28,7 @@ class AuthenticationActivity: FragmentActivity(), AuthenticationContract.View {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        AuthUI.createAuthViewComponent(this, this).inject(this);
+        AuthUI.createAuthViewComponent(this, this).inject(this)
         setContentView(R.layout.activity_auth)
 
         pinEntry.addTextChangedListener(object : TextWatcher {
@@ -53,10 +54,10 @@ class AuthenticationActivity: FragmentActivity(), AuthenticationContract.View {
                 "PIN Errato", "Ridigitare il pin").show()
     }
 
-    override fun goToMain() {
+    override fun goToMain(activityClass: Intent) {
         //TODO gotoMain from auth Activity
-//        startActivity(Intent(this, MainActivity::class.java))
-//        finish()
+        startActivity(activityClass)
+        finish()
     }
 
     override fun setTokenUser(token: String) {

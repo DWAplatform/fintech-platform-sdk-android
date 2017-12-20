@@ -1,5 +1,8 @@
 package com.dwaplatform.android.auth.ui;
 
+import android.app.Activity;
+import android.content.Intent;
+
 import com.dwaplatform.android.auth.api.AuthenticationAPI;
 import com.dwaplatform.android.log.Log;
 
@@ -16,15 +19,17 @@ public class AuthenticationPresenterModule {
 
     private AuthenticationContract.View view;
     private String userid;
+    private Intent activity;
 
-    AuthenticationPresenterModule(AuthenticationContract.View view, String userid) {
+    AuthenticationPresenterModule(AuthenticationContract.View view, String userid, Intent activity) {
         this.view = view;
         this.userid = userid;
+        this.activity = activity;
     }
 
     @Provides
     @Singleton
     AuthenticationContract.Presenter providesAuthPresenter(Log log, AuthenticationAPI api){
-        return new AuthenticationPresenter(view, log, api, userid);
+        return new AuthenticationPresenter(view, log, api, userid, activity);
     }
 }

@@ -1,5 +1,8 @@
 package com.dwaplatform.android.auth.ui
 
+import android.app.Activity
+import android.content.Intent
+
 /**
  * Created by ingrid on 18/12/17.
  */
@@ -13,7 +16,7 @@ interface AuthenticationContract {
         fun showWaiting()
         fun hideWaiting()
         fun showInternalError()
-        fun goToMain()
+        fun goToMain(activityClass: Intent)
     }
 
     interface Presenter {

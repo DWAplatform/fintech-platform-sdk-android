@@ -1,6 +1,7 @@
 package com.dwaplatform.android.auth;
 
 import android.content.Context;
+import android.content.Intent;
 
 import com.android.volley.toolbox.Volley;
 import com.dwaplatform.android.api.NetModule;
@@ -26,9 +27,9 @@ public class AuthBuilder {
                 .build();
     }
 
-    public AuthUIComponent createAuthUI(String userid, String hostname) {
+    public AuthUIComponent createAuthUI(String userid, String hostname, Intent intent) {
         return DaggerAuthUIComponent.builder()
-                .authUIModule(new AuthUIModule(userid, hostname))
+                .authUIModule(new AuthUIModule(userid, hostname, intent))
                 .build();
     }
 }
