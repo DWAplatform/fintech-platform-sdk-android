@@ -7,9 +7,9 @@ import com.android.volley.toolbox.Volley;
 import com.dwaplatform.android.api.NetModule;
 import com.dwaplatform.android.auth.api.AuthenticationAPIModule;
 import com.dwaplatform.android.auth.ui.AuthUIModule;
-import com.dwaplatform.android.keys.DaggerKeyChainComponent;
-import com.dwaplatform.android.keys.KeyChainComponent;
-import com.dwaplatform.android.keys.KeyChainModule;
+import com.dwaplatform.android.auth.keys.DaggerKeyChainComponent;
+import com.dwaplatform.android.auth.keys.KeyChainComponent;
+import com.dwaplatform.android.auth.keys.KeyChainModule;
 
 
 public class AuthBuilder {
@@ -19,7 +19,6 @@ public class AuthBuilder {
                 .netModule(new NetModule(Volley.newRequestQueue(context)))
                 .build();
     }
-    //todo sharedpreferences need application context?
 
     public KeyChainComponent createKeyChain(Context context){
         return DaggerKeyChainComponent.builder()

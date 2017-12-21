@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 
 import com.dwaplatform.android.auth.api.AuthenticationAPI;
+import com.dwaplatform.android.auth.keys.KeyChain;
 import com.dwaplatform.android.log.Log;
 
 import javax.inject.Singleton;
@@ -29,7 +30,7 @@ public class AuthenticationPresenterModule {
 
     @Provides
     @Singleton
-    AuthenticationContract.Presenter providesAuthPresenter(Log log, AuthenticationAPI api){
-        return new AuthenticationPresenter(view, log, api, userid, activity);
+    AuthenticationContract.Presenter providesAuthPresenter(Log log, AuthenticationAPI api, KeyChain keyChain){
+        return new AuthenticationPresenter(view, log, api, userid, activity, keyChain);
     }
 }

@@ -1,5 +1,6 @@
 package com.dwaplatform.android.payin.ui;
 
+import com.dwaplatform.android.auth.keys.KeyChain;
 import com.dwaplatform.android.card.ui.PaymentCardUI;
 import com.dwaplatform.android.payin.models.PayInConfiguration;
 import com.dwaplatform.android.secure3d.ui.Secure3DUI;
@@ -18,13 +19,10 @@ public class PayInUIModule {
 
     private PayInConfiguration configuration;
     private String hostName;
-    private String token;
 
     public PayInUIModule(String hostName,
-                         String token,
                          PayInConfiguration configuration) {
         this.hostName = hostName;
-        this.token = token;
         this.configuration = configuration;
     }
 
@@ -32,7 +30,7 @@ public class PayInUIModule {
     @Provides
     @Singleton
     PayInUI providePayInUI(Secure3DUI secure3DUI, PaymentCardUI paymentCardUI) {
-        return new PayInUI(hostName, token, configuration, secure3DUI, paymentCardUI);
+        return new PayInUI(hostName, configuration, secure3DUI, paymentCardUI);
     }
 
 }

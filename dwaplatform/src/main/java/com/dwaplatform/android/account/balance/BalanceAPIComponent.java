@@ -3,6 +3,7 @@ package com.dwaplatform.android.account.balance;
 import com.dwaplatform.android.account.balance.api.BalanceAPI;
 import com.dwaplatform.android.account.balance.api.BalanceAPIModule;
 import com.dwaplatform.android.api.NetModule;
+import com.dwaplatform.android.auth.keys.KeyChainModule;
 import com.dwaplatform.android.log.LogModule;
 import com.dwaplatform.android.payin.api.PayInAPI;
 import com.dwaplatform.android.payin.api.PayInAPIModule;
@@ -20,7 +21,7 @@ import dagger.Component;
         NetModule.class,
         BalanceAPIModule.class,
         LogModule.class,
-
+        KeyChainModule.class
 })
 interface BalanceAPIComponent {
 

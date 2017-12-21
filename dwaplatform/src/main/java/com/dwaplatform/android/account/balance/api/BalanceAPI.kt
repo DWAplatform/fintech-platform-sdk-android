@@ -18,7 +18,6 @@ import javax.inject.Inject
  */
 open class BalanceAPI @Inject constructor(
         internal val hostName: String,
-        internal val token: String,
         internal val queue: IRequestQueue,
         internal val requestProvider: IRequestProvider,
        // internal val jsonHelper: JSONHelper,
@@ -68,7 +67,7 @@ open class BalanceAPI @Inject constructor(
 
     inner class ReplyParamsUnexpected(throwable: Throwable) : Exception(throwable)
 
-    open fun balance(userid: String, accountId: String, completion: (Long?, Exception?) -> Unit): IRequest<*>? {
+    open fun balance(token: String, userid: String, accountId: String, completion: (Long?, Exception?) -> Unit): IRequest<*>? {
 
         val url = getURL("/rest/1.0/fin/user/balance")
 

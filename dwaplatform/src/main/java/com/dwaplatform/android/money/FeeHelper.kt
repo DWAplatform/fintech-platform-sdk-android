@@ -1,4 +1,4 @@
-package com.dwaplatform.android.models
+package com.dwaplatform.android.money
 
 /**
  * Created by ingrid on 06/12/17.

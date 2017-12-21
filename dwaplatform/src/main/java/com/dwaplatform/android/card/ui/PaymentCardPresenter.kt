@@ -1,5 +1,6 @@
 package com.dwaplatform.android.card.ui
 
+import com.dwaplatform.android.auth.keys.KeyChain
 import com.dwaplatform.android.card.api.PaymentCardAPI
 import com.dwaplatform.android.card.db.PaymentCardPersistenceDB
 import javax.inject.Inject
@@ -9,7 +10,8 @@ import javax.inject.Inject
  */
 class PaymentCardPresenter @Inject constructor(var view: PaymentCardContract.View,
                                                var api: PaymentCardAPI,
-                                               val paymentCardpersistanceDB: PaymentCardPersistenceDB): PaymentCardContract.Presenter {
+                                               val paymentCardpersistanceDB: PaymentCardPersistenceDB,
+                                               val key: KeyChain): PaymentCardContract.Presenter {
 
     override fun refreshConfirmButton() {
         val isEnabled = view.getNumberTextLength() >= 16
@@ -23,7 +25,7 @@ class PaymentCardPresenter @Inject constructor(var view: PaymentCardContract.Vie
 
         view.showCommunicationWait()
 
-        api.registerCard("token",
+        api.registerCard(key.get("tokenuser"),
                 view.getNumberText(),
                 view.getDAteText(),
                 view.getCCvText()) { optcard, opterror ->

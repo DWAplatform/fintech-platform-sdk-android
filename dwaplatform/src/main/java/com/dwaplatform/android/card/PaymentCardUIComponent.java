@@ -1,5 +1,6 @@
 package com.dwaplatform.android.card;
 
+import com.dwaplatform.android.auth.keys.KeyChainModule;
 import com.dwaplatform.android.card.ui.PaymentCardUI;
 import com.dwaplatform.android.card.ui.PaymentCardUIModule;
 

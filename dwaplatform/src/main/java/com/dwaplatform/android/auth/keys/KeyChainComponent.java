@@ -1,4 +1,4 @@
-package com.dwaplatform.android.keys;
+package com.dwaplatform.android.auth.keys;
 
 import javax.inject.Singleton;
 
@@ -10,5 +10,5 @@ import dagger.Component;
 @Component (modules = KeyChainModule.class)
 @Singleton
 public interface KeyChainComponent {
-    KeyChain buildKeyChain();
+    KeyChain getKeyChain();
 }

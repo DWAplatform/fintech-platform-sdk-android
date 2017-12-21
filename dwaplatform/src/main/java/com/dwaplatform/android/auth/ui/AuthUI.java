@@ -6,7 +6,7 @@ import android.content.Intent;
 import com.android.volley.toolbox.Volley;
 import com.dwaplatform.android.api.NetModule;
 import com.dwaplatform.android.auth.api.AuthenticationAPIModule;
-import com.dwaplatform.android.keys.KeyChainModule;
+import com.dwaplatform.android.auth.keys.KeyChainModule;
 
 /**
  * Created by ingrid on 19/12/17.

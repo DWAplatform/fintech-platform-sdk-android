@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.android.volley.toolbox.Volley;
 import com.dwaplatform.android.api.NetModule;
+import com.dwaplatform.android.auth.keys.KeyChainModule;
 import com.dwaplatform.android.card.ui.PaymentCardUIModule;
 import com.dwaplatform.android.payin.api.PayInAPIModule;
 import com.dwaplatform.android.payin.models.PayInConfiguration;
@@ -15,20 +16,18 @@ import com.dwaplatform.android.payin.ui.PayInUIModule;
 
 public class PayInBuilder {
 
-    public PayInAPIComponent createPayInAPIComponent(String hostName, String token, Context context) {
+    public PayInAPIComponent createPayInAPIComponent(String hostName, Context context) {
         return DaggerPayInAPIComponent.builder()
-                .payInAPIModule(new PayInAPIModule(hostName,
-                                token))
+                .payInAPIModule(new PayInAPIModule(hostName))
                 .netModule(new NetModule(Volley.newRequestQueue(context)))
                 .build();
     }
 
-    public PayInUIComponent createPayInUIComponent(String hostName, String token, boolean sandbox, PayInConfiguration configuration) {
+    public PayInUIComponent createPayInUIComponent(String hostName, boolean sandbox, PayInConfiguration configuration) {
         return DaggerPayInUIComponent.builder()
                 .payInUIModule(new PayInUIModule(hostName,
-                        token,
                         configuration))
-                .paymentCardUIModule(new PaymentCardUIModule(hostName, token, sandbox))
+                .paymentCardUIModule(new PaymentCardUIModule(hostName, sandbox))
                 .build();
     }
 }

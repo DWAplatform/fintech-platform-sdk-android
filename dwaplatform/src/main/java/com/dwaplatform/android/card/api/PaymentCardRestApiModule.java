@@ -19,12 +19,10 @@ import dagger.Provides;
 public class PaymentCardRestApiModule {
 
     String hostname;
-    String token;
     boolean sandbox;
 
-    public PaymentCardRestApiModule(String hostname, String token, boolean sandbox) {
+    public PaymentCardRestApiModule(String hostname, boolean sandbox) {
         this.hostname = hostname;
-        this.token = token;
         this.sandbox = sandbox;
     }
 

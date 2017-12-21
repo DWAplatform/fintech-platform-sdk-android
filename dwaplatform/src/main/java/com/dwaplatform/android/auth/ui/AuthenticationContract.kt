@@ -10,7 +10,6 @@ interface AuthenticationContract {
     interface View {
         fun requestFocus()
         fun getPinEntry(): String
-        fun setTokenUser(token: String)
         fun showWrongPinError()
         fun showMaxAttemptExpired()
         fun showWaiting()

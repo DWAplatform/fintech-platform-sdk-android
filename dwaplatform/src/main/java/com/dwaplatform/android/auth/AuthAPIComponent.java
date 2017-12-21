@@ -19,5 +19,5 @@ import dagger.Component;
         NetModule.class
 })
 public interface AuthAPIComponent {
-    AuthenticationAPI buildAuthAPI();
+    AuthenticationAPI getAuthAPI();
 }

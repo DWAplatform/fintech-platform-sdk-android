@@ -2,8 +2,9 @@ package com.dwaplatform.android.payin
 
 import com.dwaplatform.android.account.balance.helpers.BalanceHelper
 import com.dwaplatform.android.account.balance.models.BalanceItem
-import com.dwaplatform.android.models.FeeHelper
-import com.dwaplatform.android.models.Money
+import com.dwaplatform.android.auth.keys.KeyChain
+import com.dwaplatform.android.money.FeeHelper
+import com.dwaplatform.android.money.Money
 import com.dwaplatform.android.money.MoneyHelper
 import com.dwaplatform.android.payin.api.PayInAPI
 import com.dwaplatform.android.payin.models.PayInConfiguration
@@ -18,7 +19,8 @@ class PayInPresenter @Inject constructor(val configuration: PayInConfiguration,
                                          val api: PayInAPI,
                                          val moneyHelper: MoneyHelper,
                                          val balanceHelper: BalanceHelper,
-                                         val feeHelper: FeeHelper
+                                         val feeHelper: FeeHelper,
+                                         val key: KeyChain
 )
     : PayInContract.Presenter {
 
@@ -61,7 +63,8 @@ class PayInPresenter @Inject constructor(val configuration: PayInConfiguration,
 
         val money = Money.valueOf(view.getAmount())
 
-        api.payIn(configuration.userId,
+        api.payIn(key.get("tokenuser"),
+                configuration.userId,
                 configuration.accountId,
                 configuration.paymentCardId,
                 money,
@@ -120,7 +123,7 @@ class PayInPresenter @Inject constructor(val configuration: PayInConfiguration,
     }
 
     private fun reloadBalance() {
-        balanceHelper.api.balance(configuration.userId, configuration.accountId) { optbalance, opterror ->
+        balanceHelper.api.balance(key.get("tokenuser"), configuration.userId, configuration.accountId) { optbalance, opterror ->
             if (opterror != null) {
                 return@balance
             }

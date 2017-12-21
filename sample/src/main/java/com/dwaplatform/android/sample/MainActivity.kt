@@ -23,8 +23,6 @@ class MainActivity : AppCompatActivity() {
 
 
         val hostName = "https://api.sandbox.dwaplatform.com"
-        val token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJleHAiOjE1MTM2Nzk4NDgsImlhdCI6MTUxMzU5MzQ0OCwidXNlcmlkIjoiNjBlMjc5ZWMtOTE4Yi0xMWU3LThkNTUtZGJhYWEyNGNjNWMyIn0.z1q8d5HGca-aNk1w1JVShRNxZrWT-h5FBBJbRdg8I4i4YUyJ2oL1SONbpVexrUp4trJAkyLBAEUYwiTPwUDCTA"
-
         DWAplatform.initialize(this)
 
         /*val pet = Animals()
@@ -40,8 +38,7 @@ class MainActivity : AppCompatActivity() {
 
             val builder = DWAplatform.buildPayIn()
             val payInComponent = builder.createPayInUIComponent(
-                    hostName,
-                    token, true, PayInConfiguration(userId, accountId, paymentCardId))
+                    hostName,true, PayInConfiguration(userId, accountId, paymentCardId))
 
             payInComponent.payInUI.start(this@MainActivity)
 

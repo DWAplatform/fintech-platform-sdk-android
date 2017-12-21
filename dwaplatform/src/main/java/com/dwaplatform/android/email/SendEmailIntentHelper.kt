@@ -1,4 +1,4 @@
-package com.dwaplatform.android.models
+package com.dwaplatform.android.email
 
 import android.content.Intent
 

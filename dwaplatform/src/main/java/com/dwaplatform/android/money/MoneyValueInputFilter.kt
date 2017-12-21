@@ -1,4 +1,4 @@
-package com.dwaplatform.android.models
+package com.dwaplatform.android.money
 
 import android.text.Spanned
 import android.text.method.DigitsKeyListener

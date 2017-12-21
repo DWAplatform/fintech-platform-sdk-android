@@ -4,8 +4,8 @@ import com.dwaplatform.android.account.balance.api.BalanceAPI
 import com.dwaplatform.android.account.balance.helpers.BalancePersistence
 import com.dwaplatform.android.account.balance.helpers.BalanceHelper
 import com.dwaplatform.android.account.balance.models.BalanceItem
-import com.dwaplatform.android.models.FeeHelper
-import com.dwaplatform.android.models.Money
+import com.dwaplatform.android.money.FeeHelper
+import com.dwaplatform.android.money.Money
 import com.dwaplatform.android.money.MoneyHelper
 import com.dwaplatform.android.payin.PayInContract
 import com.dwaplatform.android.payin.PayInPresenter

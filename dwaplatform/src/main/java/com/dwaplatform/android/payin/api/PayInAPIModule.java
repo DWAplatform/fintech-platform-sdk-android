@@ -1,5 +1,7 @@
 package com.dwaplatform.android.payin.api;
 
+import android.content.Context;
+
 import com.dwaplatform.android.api.IRequestProvider;
 import com.dwaplatform.android.api.IRequestQueue;
 import com.dwaplatform.android.log.Log;
@@ -17,17 +19,15 @@ import dagger.Provides;
 public class PayInAPIModule {
 
     private String hostName;
-    private String token;
 
 
-    public PayInAPIModule(String hostName, String token) {
+    public PayInAPIModule(String hostName) {
         this.hostName = hostName;
-        this.token = token;
     }
 
     @Provides
     @Singleton
     PayInAPI providePayInAPI(IRequestQueue queue, IRequestProvider requestProvider, Log log) {
-        return new PayInAPI(hostName, token, queue, requestProvider, log);
+        return new PayInAPI(hostName, queue, requestProvider, log);
     }
 }

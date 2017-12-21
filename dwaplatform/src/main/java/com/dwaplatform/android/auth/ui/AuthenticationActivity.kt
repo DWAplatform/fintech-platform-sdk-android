@@ -1,18 +1,15 @@
 package com.dwaplatform.android.auth.ui
 
-import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.FragmentActivity
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.View
 import com.dwaplatform.android.R
 import com.dwaplatform.android.alert.AlertHelpers
-import com.dwaplatform.android.keys.CheckPinState
-import com.dwaplatform.android.keys.KeyChain
-import com.dwaplatform.android.models.SendEmailHelper
+import com.dwaplatform.android.auth.keys.KeyChain
+import com.dwaplatform.android.email.SendEmailHelper
 import kotlinx.android.synthetic.main.activity_auth.*
 import javax.inject.Inject
 
@@ -23,7 +20,6 @@ class AuthenticationActivity: FragmentActivity(), AuthenticationContract.View {
 
     @Inject lateinit var presenter: AuthenticationContract.Presenter
     @Inject lateinit var alertHelpers: AlertHelpers
-    @Inject lateinit var keyChain: KeyChain
     @Inject lateinit var emailHelper: SendEmailHelper
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -58,10 +54,6 @@ class AuthenticationActivity: FragmentActivity(), AuthenticationContract.View {
         //TODO gotoMain from auth Activity
         startActivity(activityClass)
         finish()
-    }
-
-    override fun setTokenUser(token: String) {
-        keyChain.set("tokenuser", token)
     }
 
     override fun showMaxAttemptExpired() {
