@@ -6,13 +6,12 @@ import android.content.Intent;
 import com.android.volley.toolbox.Volley;
 import com.dwaplatform.android.account.balance.api.BalanceAPIModule;
 import com.dwaplatform.android.api.NetModule;
-import com.dwaplatform.android.auth.keys.KeyChain;
 import com.dwaplatform.android.auth.keys.KeyChainModule;
 import com.dwaplatform.android.card.ui.PaymentCardUI;
 import com.dwaplatform.android.payin.PayInActivity;
 import com.dwaplatform.android.payin.PayInContract;
 import com.dwaplatform.android.payin.api.PayInAPIModule;
-import com.dwaplatform.android.payin.models.PayInConfiguration;
+import com.dwaplatform.android.models.DataAccount;
 import com.dwaplatform.android.secure3d.ui.Secure3DUI;
 
 /**
@@ -22,7 +21,7 @@ import com.dwaplatform.android.secure3d.ui.Secure3DUI;
 public class PayInUI {
 
     String hostName;
-    PayInConfiguration configuration;
+    DataAccount configuration;
     Secure3DUI secure3DUI;
     PaymentCardUI paymentCardUI;
 
@@ -31,7 +30,7 @@ public class PayInUI {
     protected PayInUI() {
     }
 
-    public PayInUI(String hostName, PayInConfiguration configuration, Secure3DUI secure3DUI, PaymentCardUI paymentCardUI) {
+    public PayInUI(String hostName, DataAccount configuration, Secure3DUI secure3DUI, PaymentCardUI paymentCardUI) {
         this.hostName = hostName;
         this.configuration = configuration;
         this.secure3DUI = secure3DUI;
@@ -68,7 +67,7 @@ public class PayInUI {
 //        return keyChain.get("tokenuser");
 //    }
 
-    public PayInConfiguration getConfiguration() {
+    public DataAccount getConfiguration() {
         return configuration;
     }
 }

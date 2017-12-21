@@ -1,8 +1,7 @@
 package com.dwaplatform.android.payin.ui;
 
-import com.dwaplatform.android.auth.keys.KeyChain;
 import com.dwaplatform.android.card.ui.PaymentCardUI;
-import com.dwaplatform.android.payin.models.PayInConfiguration;
+import com.dwaplatform.android.models.DataAccount;
 import com.dwaplatform.android.secure3d.ui.Secure3DUI;
 
 import javax.inject.Singleton;
@@ -17,11 +16,11 @@ import dagger.Provides;
 @Module
 public class PayInUIModule {
 
-    private PayInConfiguration configuration;
+    private DataAccount configuration;
     private String hostName;
 
     public PayInUIModule(String hostName,
-                         PayInConfiguration configuration) {
+                         DataAccount configuration) {
         this.hostName = hostName;
         this.configuration = configuration;
     }

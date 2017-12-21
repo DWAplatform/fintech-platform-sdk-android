@@ -1,7 +1,7 @@
 package com.dwaplatform.android.card
 
-import com.dwaplatform.android.card.api.PaymentCardRestAPI
-import com.dwaplatform.android.card.api.PaymentCardAPI
+import com.dwaplatform.android.card.client.api.ClientCardRestAPI
+import com.dwaplatform.android.card.client.api.ClientCardAPI
 import com.dwaplatform.android.card.helpers.PaymentCardHelper
 import com.dwaplatform.android.card.helpers.SanityCheckException
 import com.dwaplatform.android.card.helpers.SanityItem
@@ -23,18 +23,18 @@ class PaymentPaymentCardAPITest {
 
     @Mock lateinit var log: Log
     @Mock lateinit var paymentCardHelper: PaymentCardHelper
-    @Mock lateinit var restAPI: PaymentCardRestAPI
+    @Mock lateinit var restAPI: ClientCardRestAPI
 
     val cardNumber = "1234123412341234"
     val expiration = "1122"
     val cxv = "123"
 
-    lateinit var paymentCardAPI: PaymentCardAPI
+    lateinit var paymentCardAPI: ClientCardAPI
 
     @Before
     fun setUp() {
         MockitoAnnotations.initMocks(this)
-        paymentCardAPI = PaymentCardAPI(restAPI, log, paymentCardHelper)
+        paymentCardAPI = ClientCardAPI(restAPI, log, paymentCardHelper)
     }
 
     @Test
@@ -76,7 +76,7 @@ class PaymentPaymentCardAPITest {
         val captorToken = argumentCaptor<String>()
         val captorAlias = argumentCaptor<String>()
         val captorExpiration = argumentCaptor<String>()
-        val captorHandler = argumentCaptor<(PaymentCardRestAPI.CardRegistration?, Exception?) -> Unit>()
+        val captorHandler = argumentCaptor<(ClientCardRestAPI.CardRegistration?, Exception?) -> Unit>()
         verify(restAPI).postCardRegister(captorToken.capture(), captorAlias.capture(),
                 captorExpiration.capture(), captorHandler.capture())
 
@@ -106,18 +106,18 @@ class PaymentPaymentCardAPITest {
             Assert.assertEquals(e, optException!!)
         }
 
-        val captorPostCardRegisterHandler = argumentCaptor<(PaymentCardRestAPI.CardRegistration?, Exception?) -> Unit>()
+        val captorPostCardRegisterHandler = argumentCaptor<(ClientCardRestAPI.CardRegistration?, Exception?) -> Unit>()
         verify(restAPI).postCardRegister(any(), any(),
                 any(), captorPostCardRegisterHandler.capture())
 
-        val cardRegistration = PaymentCardRestAPI.CardRegistration(cardRegistrationId = "123",
+        val cardRegistration = ClientCardRestAPI.CardRegistration(cardRegistrationId = "123",
         url = "https://example.com", preregistrationData = "preReg", accessKey = "key",
                 tokenCard = "123-456")
         captorPostCardRegisterHandler.lastValue.invoke(cardRegistration, null)
 
         // Then
-        val captorCardToRegister = argumentCaptor<PaymentCardRestAPI.CardToRegister>()
-        val captorHandler = argumentCaptor<(PaymentCardRestAPI.CardToRegister?, Exception?) -> Unit>()
+        val captorCardToRegister = argumentCaptor<ClientCardRestAPI.CardToRegister>()
+        val captorHandler = argumentCaptor<(ClientCardRestAPI.CardToRegister?, Exception?) -> Unit>()
         verify(restAPI).getCardSafe(captorCardToRegister.capture(), captorHandler.capture())
 
         Assert.assertEquals(cardNumber, captorCardToRegister.lastValue.cardNumber)
@@ -145,25 +145,25 @@ class PaymentPaymentCardAPITest {
             Assert.assertEquals(e, optException!!)
         }
 
-        val captorPostCardRegisterHandler = argumentCaptor<(PaymentCardRestAPI.CardRegistration?, Exception?) -> Unit>()
+        val captorPostCardRegisterHandler = argumentCaptor<(ClientCardRestAPI.CardRegistration?, Exception?) -> Unit>()
         verify(restAPI).postCardRegister(any(), any(),
                 any(), captorPostCardRegisterHandler.capture())
 
-        val cardRegistration = PaymentCardRestAPI.CardRegistration(cardRegistrationId = "123",
+        val cardRegistration = ClientCardRestAPI.CardRegistration(cardRegistrationId = "123",
                 url = "https://example.com", preregistrationData = "preReg", accessKey = "key",
                 tokenCard = "123-456")
         captorPostCardRegisterHandler.lastValue.invoke(cardRegistration, null)
 
-        val captorCardSafeHandler = argumentCaptor<(PaymentCardRestAPI.CardToRegister?, Exception?) -> Unit>()
+        val captorCardSafeHandler = argumentCaptor<(ClientCardRestAPI.CardToRegister?, Exception?) -> Unit>()
         verify(restAPI).getCardSafe(any(), captorCardSafeHandler.capture())
 
-        val cardToRegister = PaymentCardRestAPI.CardToRegister(cardNumber, expiration, cxv)
+        val cardToRegister = ClientCardRestAPI.CardToRegister(cardNumber, expiration, cxv)
         captorCardSafeHandler.lastValue.invoke(cardToRegister, null)
 
 
         // Then
-        val captorCardToRegister = argumentCaptor<PaymentCardRestAPI.CardToRegister>()
-        val captorCardRegistration = argumentCaptor<PaymentCardRestAPI.CardRegistration>()
+        val captorCardToRegister = argumentCaptor<ClientCardRestAPI.CardToRegister>()
+        val captorCardRegistration = argumentCaptor<ClientCardRestAPI.CardRegistration>()
         val captorHandler = argumentCaptor<(String?, Exception?) -> Unit>()
         verify(restAPI).postCardRegistrationData(captorCardToRegister.capture(), captorCardRegistration.capture(),
                 captorHandler.capture())
@@ -199,19 +199,19 @@ class PaymentPaymentCardAPITest {
             Assert.assertEquals(e, optException!!)
         }
 
-        val captorPostCardRegisterHandler = argumentCaptor<(PaymentCardRestAPI.CardRegistration?, Exception?) -> Unit>()
+        val captorPostCardRegisterHandler = argumentCaptor<(ClientCardRestAPI.CardRegistration?, Exception?) -> Unit>()
         verify(restAPI).postCardRegister(any(), any(),
                 any(), captorPostCardRegisterHandler.capture())
 
-        val cardRegistration = PaymentCardRestAPI.CardRegistration(cardRegistrationId = "123",
+        val cardRegistration = ClientCardRestAPI.CardRegistration(cardRegistrationId = "123",
                 url = "https://example.com", preregistrationData = "preReg", accessKey = "key",
                 tokenCard = "123-456")
         captorPostCardRegisterHandler.lastValue.invoke(cardRegistration, null)
 
-        val captorCardSafeHandler = argumentCaptor<(PaymentCardRestAPI.CardToRegister?, Exception?) -> Unit>()
+        val captorCardSafeHandler = argumentCaptor<(ClientCardRestAPI.CardToRegister?, Exception?) -> Unit>()
         verify(restAPI).getCardSafe(any(), captorCardSafeHandler.capture())
 
-        val cardToRegister = PaymentCardRestAPI.CardToRegister(cardNumber, expiration, cxv)
+        val cardToRegister = ClientCardRestAPI.CardToRegister(cardNumber, expiration, cxv)
         captorCardSafeHandler.lastValue.invoke(cardToRegister, null)
 
         val captorPostCardRegistrationDataHandler = argumentCaptor<(String?, Exception?) -> Unit>()
@@ -257,19 +257,19 @@ class PaymentPaymentCardAPITest {
             Assert.assertEquals(card, optCard!!)
         }
 
-        val captorPostCardRegisterHandler = argumentCaptor<(PaymentCardRestAPI.CardRegistration?, Exception?) -> Unit>()
+        val captorPostCardRegisterHandler = argumentCaptor<(ClientCardRestAPI.CardRegistration?, Exception?) -> Unit>()
         verify(restAPI).postCardRegister(any(), any(),
                 any(), captorPostCardRegisterHandler.capture())
 
-        val cardRegistration = PaymentCardRestAPI.CardRegistration(cardRegistrationId = "123",
+        val cardRegistration = ClientCardRestAPI.CardRegistration(cardRegistrationId = "123",
                 url = "https://example.com", preregistrationData = "preReg", accessKey = "key",
                 tokenCard = "123-456")
         captorPostCardRegisterHandler.lastValue.invoke(cardRegistration, null)
 
-        val captorCardSafeHandler = argumentCaptor<(PaymentCardRestAPI.CardToRegister?, Exception?) -> Unit>()
+        val captorCardSafeHandler = argumentCaptor<(ClientCardRestAPI.CardToRegister?, Exception?) -> Unit>()
         verify(restAPI).getCardSafe(any(), captorCardSafeHandler.capture())
 
-        val cardToRegister = PaymentCardRestAPI.CardToRegister(cardNumber, expiration, cxv)
+        val cardToRegister = ClientCardRestAPI.CardToRegister(cardNumber, expiration, cxv)
         captorCardSafeHandler.lastValue.invoke(cardToRegister, null)
 
         val captorPostCardRegistrationDataHandler = argumentCaptor<(String?, Exception?) -> Unit>()

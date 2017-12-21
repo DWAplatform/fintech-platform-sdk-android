@@ -6,8 +6,8 @@ import com.dwaplatform.android.account.balance.BalanceBuilder
 import com.dwaplatform.android.api.volley.VolleyRequestProvider
 import com.dwaplatform.android.api.volley.VolleyRequestQueueProvider
 import com.dwaplatform.android.auth.AuthBuilder
-import com.dwaplatform.android.card.api.PaymentCardAPI
-import com.dwaplatform.android.card.api.PaymentCardRestAPI
+import com.dwaplatform.android.card.client.api.ClientCardAPI
+import com.dwaplatform.android.card.client.api.ClientCardRestAPI
 import com.dwaplatform.android.card.helpers.PaymentCardHelper
 import com.dwaplatform.android.card.helpers.JSONHelper
 import com.dwaplatform.android.card.helpers.SanityCheck
@@ -51,7 +51,7 @@ import com.raizlabs.android.dbflow.config.FlowManager
 class DWAplatform {
 
     companion object {
-        @Volatile private var cardAPIInstance: PaymentCardAPI? = null
+        @Volatile private var cardAPIInstance: ClientCardAPI? = null
         //@Volatile public var payinInstance: PayIn? = null
 
         /**
@@ -63,9 +63,9 @@ class DWAplatform {
         }
 
         /**
-         * Factory method to get PaymentCardAPI object
+         * Factory method to get ClientCardAPI object
          */
-        fun getCardAPI(hostName: String, sandbox: Boolean, context: Context): PaymentCardAPI =
+        fun getCardAPI(hostName: String, sandbox: Boolean, context: Context): ClientCardAPI =
                 cardAPIInstance ?: synchronized(this) {
                     cardAPIInstance ?: buildCardAPI(hostName,
                             context,
@@ -73,9 +73,9 @@ class DWAplatform {
                         cardAPIInstance = it }
                 }
 
-        private fun buildCardAPI(hostName: String, context: Context, sandbox: Boolean): PaymentCardAPI {
+        private fun buildCardAPI(hostName: String, context: Context, sandbox: Boolean): ClientCardAPI {
 
-            return PaymentCardAPI(PaymentCardRestAPI(hostName,
+            return ClientCardAPI(ClientCardRestAPI(hostName,
                     VolleyRequestQueueProvider(Volley.newRequestQueue(context)),
                     VolleyRequestProvider(),
                     JSONHelper(),

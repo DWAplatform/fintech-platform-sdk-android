@@ -2,12 +2,9 @@ package com.dwaplatform.android.sample
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import android.view.View
 import com.dwaplatform.android.DWAplatform
-import com.dwaplatform.android.payin.models.PayInConfiguration
-import com.dwaplatform.android.sample.db.Animals
-import com.raizlabs.android.dbflow.config.FlowManager
+import com.dwaplatform.android.card.db.PaymentCard
+import com.dwaplatform.android.models.DataAccount
 import com.raizlabs.android.dbflow.sql.language.SQLite
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -32,15 +29,18 @@ class MainActivity : AppCompatActivity() {
         pet.save()*/
 
         button.setOnClickListener {
-            val userId = "60e279ec-918b-11e7-8d55-dbaaa24cc5c2"
-            val accountId = "722c4d74-ba56-11e7-8487-a7b42609a5c1"
-            val paymentCardId = null//"7e30a4d8-918b-11e7-931d-8b5fb14500e0"
+            val card =
+            SQLite.select().from(PaymentCard::class.java).querySingle()
 
-            val builder = DWAplatform.buildPayIn()
-            val payInComponent = builder.createPayInUIComponent(
-                    hostName,true, PayInConfiguration(userId, accountId, paymentCardId))
-
-            payInComponent.payInUI.start(this@MainActivity)
+            card?.id
+//            val userId = "60e279ec-918b-11e7-8d55-dbaaa24cc5c2"
+//            val accountId = "722c4d74-ba56-11e7-8487-a7b42609a5c1"
+//
+//            val builder = DWAplatform.buildPayIn()
+//            val payInComponent = builder.createPayInUIComponent(
+//                    hostName,true, DataAccount(userId, accountId))
+//
+//            payInComponent.payInUI.start(this@MainActivity)
 
             /*val query = SQLite.select().from(Animals::class.java).querySingle()
             query?.let {

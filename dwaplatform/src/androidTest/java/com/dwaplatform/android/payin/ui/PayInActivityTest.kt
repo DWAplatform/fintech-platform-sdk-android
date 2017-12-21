@@ -1,7 +1,5 @@
 package com.dwaplatform.android.payin.ui
 
-import org.junit.Assert.*
-
 import android.app.Instrumentation
 import android.app.Instrumentation.ActivityMonitor
 import android.content.Context
@@ -12,12 +10,10 @@ import android.support.test.espresso.assertion.ViewAssertions
 import android.support.test.espresso.matcher.ViewMatchers
 import android.support.test.rule.ActivityTestRule
 import android.support.test.rule.UiThreadTestRule
-import android.support.test.runner.AndroidJUnit4
 import android.view.inputmethod.InputMethodManager
 import com.dwaplatform.android.R
 import com.dwaplatform.android.payin.PayInActivity
 import com.dwaplatform.android.payin.PayInUIMockViewComponent
-import com.dwaplatform.android.payin.models.PayInConfiguration
 import com.dwaplatform.android.secure3d.ui.Secure3DActivity
 import com.nhaarman.mockito_kotlin.times
 import org.hamcrest.Matchers.not
@@ -25,7 +21,6 @@ import org.junit.Assert
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import org.junit.runner.RunWith
 import org.mockito.Mockito
 
 /**

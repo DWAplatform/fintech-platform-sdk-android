@@ -10,7 +10,7 @@ import com.dwaplatform.android.money.MoneyHelper
 import com.dwaplatform.android.payin.PayInContract
 import com.dwaplatform.android.payin.PayInPresenter
 import com.dwaplatform.android.payin.api.PayInAPI
-import com.dwaplatform.android.payin.models.PayInConfiguration
+import com.dwaplatform.android.models.DataAccount
 import com.dwaplatform.android.payin.models.PayInReply
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.capture
@@ -37,7 +37,7 @@ class PayInPresenterTest {
     @Mock lateinit var balancePersistence: BalancePersistence
     @Mock lateinit var balanceAPI: BalanceAPI
 
-    @Mock lateinit var config: PayInConfiguration
+    @Mock lateinit var config: DataAccount
     @Mock lateinit var feeHelper: FeeHelper
 
     @Captor lateinit var userIdCaptor: ArgumentCaptor<String>
@@ -53,14 +53,14 @@ class PayInPresenterTest {
     @Before
     fun setUp() {
         MockitoAnnotations.initMocks(this)
-        config = PayInConfiguration("userid", "accountid", "paymentcardid")
+        config = DataAccount("userid", "accountid", "paymentcardid")
         presenter = PayInPresenter(config, view, api, moneyHelper, BalanceHelper(balancePersistence, balanceAPI), feeHelper)
     }
 
     @Test
     fun initializeWithInitialAmountGreaterThanZero() {
         //Given
-        config = PayInConfiguration("userid", "accountid", "paymentcardid")
+        config = DataAccount("userid", "accountid", "paymentcardid")
         Mockito.`when`(view.getAmount()).thenReturn("10,00")
 
         val balanceItem = BalanceItem("", Money(1000L))
@@ -149,7 +149,7 @@ class PayInPresenterTest {
     @Test
     fun refreshWithoutCreditCard() {
         //Given
-        config = PayInConfiguration("userid", "accountid", null)
+        config = DataAccount("userid", "accountid", null)
         presenter = PayInPresenter(config, view, api, moneyHelper, BalanceHelper(balancePersistence, balanceAPI), feeHelper)
 
         //When
@@ -279,7 +279,7 @@ class PayInPresenterTest {
         @Test
         fun onConfirmWithoutCardDataBalanceEnough() {
             // Given
-            config = PayInConfiguration("userid", "accountid", null)
+            config = DataAccount("userid", "accountid", null)
             presenter = PayInPresenter(config, view, api, moneyHelper, BalanceHelper(balancePersistence, balanceAPI), feeHelper)
 
 

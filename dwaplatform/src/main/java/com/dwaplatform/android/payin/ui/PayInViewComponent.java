@@ -6,6 +6,7 @@ import com.dwaplatform.android.alert.AlertHelpersModule;
 import com.dwaplatform.android.api.NetModule;
 import com.dwaplatform.android.auth.keys.KeyChain;
 import com.dwaplatform.android.auth.keys.KeyChainModule;
+import com.dwaplatform.android.card.db.PaymentCardPersistanceModule;
 import com.dwaplatform.android.log.LogModule;
 import com.dwaplatform.android.money.FeeHelperModule;
 import com.dwaplatform.android.money.MoneyHelperModule;
@@ -29,6 +30,7 @@ import dagger.Component;
         MoneyHelperModule.class,
         BalanceAPIModule.class,
         BalanceHelperModule.class,
+        PaymentCardPersistanceModule.class,
         FeeHelperModule.class,
         NetModule.class,
         Secure3DUIModule.class,
