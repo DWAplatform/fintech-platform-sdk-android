@@ -50,9 +50,9 @@ class AuthenticationActivity: FragmentActivity(), AuthenticationContract.View {
                 "PIN Errato", "Ridigitare il pin").show()
     }
 
-    override fun goToMain(activityClass: Intent) {
+    override fun goToMain() {
         //TODO gotoMain from auth Activity
-        startActivity(activityClass)
+        //startActivity(Main)
         finish()
     }
 

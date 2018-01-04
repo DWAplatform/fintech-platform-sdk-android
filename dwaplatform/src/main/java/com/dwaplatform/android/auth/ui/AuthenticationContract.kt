@@ -15,7 +15,7 @@ interface AuthenticationContract {
         fun showWaiting()
         fun hideWaiting()
         fun showInternalError()
-        fun goToMain(activityClass: Intent)
+        fun goToMain()
     }
 
     interface Presenter {

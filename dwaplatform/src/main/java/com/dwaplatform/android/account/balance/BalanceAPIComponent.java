@@ -20,11 +20,9 @@ import dagger.Component;
 @Component(modules= {
         NetModule.class,
         BalanceAPIModule.class,
-        LogModule.class,
-        KeyChainModule.class
+        LogModule.class
 })
 interface BalanceAPIComponent {
-
     BalanceAPI getBalanceAPI();
 }
 

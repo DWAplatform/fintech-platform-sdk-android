@@ -14,16 +14,15 @@ import com.dwaplatform.android.auth.keys.KeyChainModule;
 
 public class BalanceBuilder {
 
-    public BalanceAPIComponent createBalanceAPIComponent(String hostName, String token, Context context) {
+    public BalanceAPIComponent createBalanceAPIComponent(String hostName, Context context) {
         return DaggerBalanceAPIComponent.builder()
                 .balanceAPIModule(new BalanceAPIModule(hostName))
                 .netModule(new NetModule(Volley.newRequestQueue(context)))
-                .keyChainModule(new KeyChainModule(context))
                 .build();
     }
 
 
-    public BalanceHelperComponent createBalanceHelperComponent(String hostName, String token, Context context) {
+    public BalanceHelperComponent createBalanceHelperComponent(String hostName, Context context) {
         return DaggerBalanceHelperComponent.builder()
                 .balanceAPIModule(new BalanceAPIModule(hostName))
                 .netModule(new NetModule(Volley.newRequestQueue(context)))

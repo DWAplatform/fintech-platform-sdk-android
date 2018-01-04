@@ -14,17 +14,15 @@ import dagger.Provides;
 public class AuthUIModule {
     private String userid;
     private String hostname;
-    private Intent intent;
 
-    public AuthUIModule(String userid, String hostname, Intent intent) {
+    public AuthUIModule(String userid, String hostname) {
         this.userid = userid;
         this.hostname = hostname;
-        this.intent = intent;
     }
 
     @Provides
     @Singleton
     AuthUI providesAuthUI(){
-        return new AuthUI(hostname, userid, intent);
+        return new AuthUI(hostname, userid);
     }
 }

@@ -20,17 +20,15 @@ public class AuthenticationPresenterModule {
 
     private AuthenticationContract.View view;
     private String userid;
-    private Intent activity;
 
-    AuthenticationPresenterModule(AuthenticationContract.View view, String userid, Intent activity) {
+    AuthenticationPresenterModule(AuthenticationContract.View view, String userid) {
         this.view = view;
         this.userid = userid;
-        this.activity = activity;
     }
 
     @Provides
     @Singleton
     AuthenticationContract.Presenter providesAuthPresenter(Log log, AuthenticationAPI api, KeyChain keyChain){
-        return new AuthenticationPresenter(view, log, api, userid, activity, keyChain);
+        return new AuthenticationPresenter(view, log, api, userid, keyChain);
     }
 }

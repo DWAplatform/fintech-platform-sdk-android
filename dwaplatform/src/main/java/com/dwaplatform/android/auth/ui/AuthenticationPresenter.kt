@@ -13,7 +13,6 @@ class AuthenticationPresenter constructor(val view: AuthenticationContract.View,
                                           val log: Log,
                                           val api: AuthenticationAPI,
                                           val userid: String,
-                                          val activity: Intent,
                                           val keyChain: KeyChain
 ): AuthenticationContract.Presenter {
     override fun onEditingChanged() {
@@ -49,7 +48,7 @@ class AuthenticationPresenter constructor(val view: AuthenticationContract.View,
                 }
                 CheckPinState.SUCCESS -> {
                     keyChain["tokenuser"] = checkPin.token
-                    view.goToMain(activity)
+                    view.goToMain()
                 }
             }
         }

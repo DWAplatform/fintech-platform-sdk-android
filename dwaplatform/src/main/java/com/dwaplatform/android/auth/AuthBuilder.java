@@ -26,9 +26,9 @@ public class AuthBuilder {
                 .build();
     }
 
-    public AuthUIComponent createAuthUI(String userid, String hostname, Intent intent) {
+    public AuthUIComponent createAuthUI(String userid, String hostname) {
         return DaggerAuthUIComponent.builder()
-                .authUIModule(new AuthUIModule(userid, hostname, intent))
+                .authUIModule(new AuthUIModule(userid, hostname))
                 .build();
     }
 }
