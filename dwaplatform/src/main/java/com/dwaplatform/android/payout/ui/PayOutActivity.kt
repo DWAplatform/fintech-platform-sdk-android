@@ -28,7 +28,8 @@ class PayOutActivity: FragmentActivity(), PayOutContract.View {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        //App.buildPayOutComponent(this as Context, this).inject(this)
+
+        PayOutUI.createPayOutViewComponent(this as Context, this).inject(this)
         setContentView(R.layout.activity_payout)
 
         amountText.addTextChangedListener(object : TextWatcher {
