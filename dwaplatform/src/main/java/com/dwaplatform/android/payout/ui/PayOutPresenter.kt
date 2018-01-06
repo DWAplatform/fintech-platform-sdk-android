@@ -60,7 +60,7 @@ class PayOutPresenter @Inject constructor(val configuration: DataAccount,
         val money = Money.valueOf(view.getAmount())
         api.payOut(key["tokenuser"],
                 configuration.userId,
-                configuration.accountId,
+                bankAccountId,
                 money.value,
                 idemp) { opterror ->
 

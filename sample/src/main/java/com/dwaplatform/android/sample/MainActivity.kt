@@ -20,13 +20,14 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        //FlowManager.init(this)
-
-        val hostName = "https://api.sandbox.dwaplatform.com"
         DWAplatform.initialize(this)
 
-        val userId = "60e279ec-918b-11e7-8d55-dbaaa24cc5c2"
-        val accountId = "722c4d74-ba56-11e7-8487-a7b42609a5c1"
+        val hostName = "http://10.0.0.7:9000"
+        val userId = "22863c52-ca29-11e7-94c6-b35ff6d69059"
+        val accountId = "22b50b86-ca29-11e7-90f2-dbaf50363c38"
+       // val hostName = "https://api.sandbox.dwaplatform.com"
+//        val userId = "60e279ec-918b-11e7-8d55-dbaaa24cc5c2"
+//        val accountId = "722c4d74-ba56-11e7-8487-a7b42609a5c1"
 
         /*val pet = Animals()
         pet.id = "123456\n"
