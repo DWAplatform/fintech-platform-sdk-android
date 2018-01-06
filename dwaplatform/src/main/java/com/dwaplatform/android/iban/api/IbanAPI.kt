@@ -24,7 +24,9 @@ class IbanAPI @Inject constructor(internal val hostName: String,
 
     inner class IdempotencyError(throwable: Throwable) : Exception(throwable)
 
-    private val TAG = "PayInAPI"
+    data class UserProfileReply(val userid: String, val token: String)
+
+    private val TAG = "IbanAPI"
 
     private val PROTOCOL_CHARSET = "utf-8"
 
@@ -79,5 +81,58 @@ class IbanAPI @Inject constructor(internal val hostName: String,
         }
 
         return request
+    }
+
+    fun residenceProfile(token: String,
+                         userid: String,
+                         countryofresidence: String? = null,
+                         address: String? = null,
+                         zipcode: String? = null,
+                         city: String? = null,
+                         phonetoken: String? = null,
+                         completion: (UserProfileReply?, Exception?) -> Unit): IRequest<*>? {
+
+
+            val url = getURL("/rest/1.0/user/profile")
+
+            var request: IRequest<*>?
+            try {
+                val jsonObject = JSONObject()
+                jsonObject.put("userid", userid)
+                if (countryofresidence != null) jsonObject.put("countryofresidence",
+                        countryofresidence)
+                if (address != null) jsonObject.put("address", address)
+                if (zipcode != null) jsonObject.put("ZIPcode", zipcode)
+                if (city != null) jsonObject.put("city", city)
+
+
+                var hparams: Map<String, String> = authorizationToken(token)
+                if (userid == null) {
+                    val h = HashMap<String, String>()
+                    h.put("Authorization", "Bearer " + phonetoken)
+                    hparams = h
+                }
+
+                val r = requestProvider.jsonObjectRequest(Request.Method.POST, url, jsonObject,
+                        hparams,
+                        { response ->
+
+                            val userprofile = UserProfileReply(
+                                    response.getString("userid"),
+                                    response.optString("tokenuser"))
+
+                            completion(userprofile, null)
+                        })
+                {error ->
+                    completion(null, error) }
+                r.setIRetryPolicy(defaultpolicy)
+                queue.add(r)
+                request = r
+            } catch (e: Exception) {
+                log.error(TAG, "phoneCodeVerify", e)
+                request = null
+            }
+
+            return request
     }
 }

@@ -6,10 +6,6 @@ import com.raizlabs.android.dbflow.annotation.PrimaryKey;
 import com.raizlabs.android.dbflow.annotation.Table;
 import com.raizlabs.android.dbflow.structure.BaseModel;
 
-/**
- * Created by ingrid on 04/01/18.
- */
-
 @Table(database = PlatformDB.class)
 public class Iban extends BaseModel {
     @PrimaryKey

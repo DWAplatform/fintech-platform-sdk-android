@@ -26,7 +26,8 @@ class IBANActivity: FragmentActivity(), IBANContract.View{
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        //App.buildIBANComponent(this as Context, this).inject(this)
+
+        IbanUI.createIBANViewComponent(this, this).inject(this)
         setContentView(R.layout.activity_iban)
 
         // TODO refresh user residence data.

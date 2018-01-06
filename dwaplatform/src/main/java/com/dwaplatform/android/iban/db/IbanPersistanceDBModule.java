@@ -10,7 +10,13 @@ public class IbanPersistanceDBModule {
 
     @Provides
     @Singleton
-    IbanPersistanceDB providesIbanPersistance() {
-        return new IbanPersistanceDB(new IbanDB());
+    IbanPersistanceDB providesIbanPersistance(IbanDB ibanDB) {
+        return new IbanPersistanceDB(ibanDB);
+    }
+
+    @Provides
+    @Singleton
+    IbanDB providesIbanDB() {
+        return new IbanDB();
     }
 }

@@ -3,16 +3,18 @@ package com.dwaplatform.android.iban.ui
 import com.dwaplatform.android.auth.keys.KeyChain
 import com.dwaplatform.android.iban.api.IbanAPI
 import com.dwaplatform.android.iban.db.IbanPersistanceDB
+import com.dwaplatform.android.iban.models.UserResidential
 import com.dwaplatform.android.models.DataAccount
+import com.dwaplatform.android.profile.db.UsersPersistanceDB
+import com.mukesh.countrypicker.Country
+import javax.inject.Inject
 
-/**
- * Created by ingrid on 13/09/17.
- */
-class IBANPresenter constructor(val view: IBANContract.View,
-                                val api: IbanAPI,
-                                val configuration: DataAccount,
-                                val ibanPersistanceDB: IbanPersistanceDB,
-                                val keyChain: KeyChain): IBANContract.Presenter {
+class IBANPresenter @Inject constructor(val view: IBANContract.View,
+                                        val api: IbanAPI,
+                                        val configuration: DataAccount,
+                                        val ibanPersistanceDB: IbanPersistanceDB,
+                                        val usersPersistanceDB: UsersPersistanceDB,
+                                        val keyChain: KeyChain): IBANContract.Presenter {
 
     private var countryofresidenceCode: String? = null
 
@@ -28,14 +30,14 @@ class IBANPresenter constructor(val view: IBANContract.View,
     }
 
     override fun initIBAN() {
-//        val residential = dbUsersHelper.residential()
-//
-//        view.setIBANText(calcIBANValue() ?: "")
-//        view.setAddressText(residential?.address ?: "")
-//        view.setZipcodeText(residential?.ZIPcode ?: "")
-//        view.setCityText(residential?.city ?: "")
-//        view.setCountryofresidenceText(residential?.countryofresidence ?: "")
-//        countryofresidenceCode = residential?.countryofresidence
+        val residential = usersPersistanceDB.residential()
+
+        view.setIBANText(calcIBANValue() ?: "")
+        view.setAddressText(residential?.address ?: "")
+        view.setZipcodeText(residential?.ZIPcode ?: "")
+        view.setCityText(residential?.city ?: "")
+        view.setCountryofresidenceText(residential?.countryofresidence ?: "")
+        countryofresidenceCode = residential?.countryofresidence
 
     }
 
@@ -59,36 +61,38 @@ class IBANPresenter constructor(val view: IBANContract.View,
         view.confirmButtonEnable(false)
         view.showCommunicationWait()
 
-//        api.profile(userid = dbUsersHelper.userid(),
-//                countryofresidence = countryofresidenceCode,
-//                address = view.getAddressText(),
-//                zipcode = view.getZipcodeText(),
-//                city = view.getCityText()) { optuserprofilereply, opterror ->
-//
-//            view.confirmButtonEnable(true)
-//            view.hideCommunicationWait()
-//
-//            if (opterror != null) {
-//                view.showCommunicationInternalError()
-//                return@profile
-//            }
-//
-//            if (optuserprofilereply?.userid == null) {
-//                view.showCommunicationInternalError()
-//                return@profile
-//            }
-//
-//            val res = UserResidential(
-//                    optuserprofilereply.userid,
-//                    view.getAddressText(),
-//                    view.getZipcodeText(),
-//                    view.getCityText(),
-//                    countryofresidenceCode)
-//
-//            dbUsersHelper.saveUser(res)
-//
-//            saveIban()
-//        }
+        api.residenceProfile(
+                keyChain["tokenuser"],
+                configuration.userId,
+                countryofresidence = countryofresidenceCode,
+                address = view.getAddressText(),
+                zipcode = view.getZipcodeText(),
+                city = view.getCityText()) { optuserprofilereply, opterror ->
+
+            view.confirmButtonEnable(true)
+            view.hideCommunicationWait()
+
+            if (opterror != null) {
+                view.showCommunicationInternalError()
+                return@residenceProfile
+            }
+
+            if (optuserprofilereply?.userid == null) {
+                view.showCommunicationInternalError()
+                return@residenceProfile
+            }
+
+            val res = UserResidential(
+                    optuserprofilereply.userid,
+                    view.getAddressText(),
+                    view.getZipcodeText(),
+                    view.getCityText(),
+                    countryofresidenceCode)
+
+            usersPersistanceDB.saveResidential(res)
+
+            saveIban()
+        }
     }
 
     fun saveIban() {
@@ -117,17 +121,17 @@ class IBANPresenter constructor(val view: IBANContract.View,
         }
     }
 
-//    fun parseCountry(code: String): String? {
-//        val countries = Country.getAllCountries()
-//        val matches = countries.filter { country ->
-//            country.code == code
-//        }
-//        return matches.singleOrNull()?.name
-//    }
-//
-//    fun calcIBANValue(): String? {
-//        val optiban = ibanPersistanceDB.load()
-//        return optiban?.iban
-//    }
+    fun parseCountry(code: String): String? {
+        val countries = Country.getAllCountries()
+        val matches = countries.filter { country ->
+            country.code == code
+        }
+        return matches.singleOrNull()?.name
+    }
+
+    fun calcIBANValue(): String? {
+        val optiban = ibanPersistanceDB.load()
+        return optiban?.iban
+    }
 
 }

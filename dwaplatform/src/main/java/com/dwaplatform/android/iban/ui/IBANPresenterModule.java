@@ -1,28 +1,34 @@
 package com.dwaplatform.android.iban.ui;
 
 
+import com.dwaplatform.android.auth.keys.KeyChain;
+import com.dwaplatform.android.iban.api.IbanAPI;
+import com.dwaplatform.android.iban.db.IbanPersistanceDB;
+import com.dwaplatform.android.models.DataAccount;
+import com.dwaplatform.android.profile.db.UsersPersistanceDB;
+
 import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
 
-/**
- * Created by ingrid on 13/09/17.
- */
 @Module
 public class IBANPresenterModule {
 
-//    IBANContract.View view;
-//
-//    public IBANPresenterModule(IBANContract.View view){
-//        this.view = view;
-//    }
-//
-//    @Singleton
-//    @Provides
-//    IBANContract.Presenter providesIBanPresenter(DWApayAPI api,
-//                                                 DBUsersHelper dbUsersHelper,
-//                                                 DBBankAccountsHelper dbBankAccountsHelper){
-//        return new IBANPresenter(view, api, dbUsersHelper, dbBankAccountsHelper);
-//    }
+    private IBANContract.View view;
+    private DataAccount configuration;
+
+    public IBANPresenterModule(IBANContract.View view, DataAccount configuration){
+        this.view = view;
+        this.configuration = configuration;
+    }
+
+    @Singleton
+    @Provides
+    IBANContract.Presenter providesIBanPresenter(IbanAPI api,
+                                                 IbanPersistanceDB ibanPersistanceDB,
+                                                 UsersPersistanceDB usersPersistanceDB,
+                                                 KeyChain keyChain){
+        return new IBANPresenter(view, api, configuration, ibanPersistanceDB, usersPersistanceDB, keyChain);
+    }
 }

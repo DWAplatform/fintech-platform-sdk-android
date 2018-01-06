@@ -14,6 +14,7 @@ import android.view.inputmethod.InputMethodManager
 import com.dwaplatform.android.R
 import com.dwaplatform.android.alert.AlertHelpers
 import com.dwaplatform.android.iban.ui.IBANActivity
+import com.dwaplatform.android.iban.ui.IbanUI
 import com.dwaplatform.android.money.MoneyValueInputFilter
 import kotlinx.android.synthetic.main.activity_payout.*
 import javax.inject.Inject
@@ -25,6 +26,7 @@ class PayOutActivity: FragmentActivity(), PayOutContract.View {
 
     @Inject lateinit var alertHelpers: AlertHelpers
     @Inject lateinit var presenter: PayOutContract.Presenter
+    @Inject lateinit var ibanUI: IbanUI
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -101,7 +103,7 @@ class PayOutActivity: FragmentActivity(), PayOutContract.View {
     }
 
     override fun startIBANActivity() {
-        startActivity(Intent(this, IBANActivity::class.java))
+        ibanUI.start(this)
     }
 
     override fun showKeyboardAmount() {
