@@ -87,8 +87,7 @@ class PayInPresenter @Inject constructor(val configuration: DataAccount,
             }
 
             if (optpayinreply == null) {
-                // FIXME: Why idempotency error?
-                view.showIdempotencyError()
+                view.showCommunicationInternalError()
                 return@payIn
             }
             val payinreply = optpayinreply

@@ -22,7 +22,7 @@ class PayOutAPI @Inject constructor(internal val hostName: String,
 
     inner class IdempotencyError(throwable: Throwable) : Exception(throwable)
 
-    private val TAG = "PayInAPI"
+    private val TAG = "PayOutAPI"
 
     private val PROTOCOL_CHARSET = "utf-8"
 
