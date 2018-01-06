@@ -1,6 +1,7 @@
 package com.dwaplatform.android.payout.ui
 
 import com.dwaplatform.android.account.balance.helpers.BalanceHelper
+import com.dwaplatform.android.account.balance.models.BalanceItem
 import com.dwaplatform.android.auth.keys.KeyChain
 import com.dwaplatform.android.iban.db.IbanPersistanceDB
 import com.dwaplatform.android.models.DataAccount
@@ -41,7 +42,7 @@ class PayOutPresenter @Inject constructor(val configuration: DataAccount,
     override fun refresh() {
         view.showKeyboardAmount()
         refreshConfirmButtonName()
-        refreshBalance()
+        reloadBalance()
     }
 
     override fun onConfirm() {
@@ -125,6 +126,22 @@ class PayOutPresenter @Inject constructor(val configuration: DataAccount,
 
         val newbalance = Money(optbi.money.value - amountmoney.value)
         return newbalance
+    }
+
+    private fun reloadBalance() {
+        balanceHelper.api.balance(key.get("tokenuser"), configuration.userId, configuration.accountId) { optbalance, opterror ->
+            if (opterror != null) {
+                return@balance
+            }
+
+            if (optbalance == null) {
+                return@balance
+            }
+            val balance = optbalance
+            balanceHelper.persistence.saveBalance(BalanceItem(configuration.accountId, Money(balance)))
+
+            refreshBalance()
+        }
     }
 
     fun refreshBalance() {

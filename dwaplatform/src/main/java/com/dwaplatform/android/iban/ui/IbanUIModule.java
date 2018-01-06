@@ -8,15 +8,9 @@ import dagger.Provides;
 @Module
 public class IbanUIModule {
 
-    private IbanUI ibanUI;
-
-    public IbanUIModule(IbanUI ibanUI) {
-        this.ibanUI = ibanUI;
-    }
-
     @Provides
     @Singleton
     IbanUI providesIbanUI(){
-        return ibanUI;
+        return new IbanUI();
     }
 }

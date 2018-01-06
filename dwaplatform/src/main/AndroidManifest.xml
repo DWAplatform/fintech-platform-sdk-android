@@ -19,5 +19,11 @@
         <activity
             android:name=".auth.ui.AuthenticationActivity">
         </activity>
+        <activity
+            android:name=".payout.ui.PayOutActivity">
+        </activity>
+        <activity
+            android:name=".iban.ui.IBANActivity">
+        </activity>
     </application>
 </manifest>

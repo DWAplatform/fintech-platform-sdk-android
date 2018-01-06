@@ -14,6 +14,7 @@ import com.dwaplatform.android.card.helpers.SanityCheck
 import com.dwaplatform.android.db.PlatformDB
 import com.dwaplatform.android.log.Log
 import com.dwaplatform.android.payin.PayInBuilder
+import com.dwaplatform.android.payout.PayOutBuilder
 import com.dwaplatform.android.secure3d.Secure3DBuilder
 import com.raizlabs.android.dbflow.config.FlowManager
 
@@ -98,6 +99,10 @@ class DWAplatform {
             return AuthBuilder()
         }
 
+        fun buildPayOut(): PayOutBuilder {
+            return PayOutBuilder()
+        }
+
 /*
         fun buildAccount(user: User) : Account {
             return Account(user)
@@ -109,10 +114,6 @@ class DWAplatform {
 
         fun buildPaymentCard(account: Account): PaymentCard {
             return PaymentCard(account)
-        }
-
-        fun buildBalance(account: Account): Balance {
-            return Balance(account)
         }
 
 */

@@ -29,8 +29,7 @@ public class PayOutPresenterModule {
 
     @Provides
     @Singleton
-    PayOutContract.Presenter providePayOutPresenter(DataAccount config,
-                                                    PayOutAPI api,
+    PayOutContract.Presenter providePayOutPresenter(PayOutAPI api,
                                                     MoneyHelper moneyHelper,
                                                     BalanceHelper balanceHelper,
                                                     FeeHelper feeHelper,

@@ -8,10 +8,10 @@ import com.dwaplatform.android.payout.ui.PayOutUIModule;
 
 public class PayOutBuilder {
 
-    public PayOutUIComponent createPayOutUI(DataAccount configuration) {
+    public PayOutUIComponent createPayOutUI(String hostName, DataAccount configuration) {
 
-        return DaggerPayOutUIComponet.builder()
-                .payOutUIModule(new PayOutUIModule(configuration))
+        return DaggerPayOutUIComponent.builder()
+                .payOutUIModule(new PayOutUIModule(hostName, configuration))
                 .build();
     }
 }

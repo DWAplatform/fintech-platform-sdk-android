@@ -29,7 +29,8 @@ import dagger.Component;
         FeeHelperModule.class,
         PayOutAPIModule.class,
         KeyChainModule.class,
-        IbanPersistanceDBModule.class
+        IbanPersistanceDBModule.class,
+        IbanUIModule.class
 })
 
 public interface PayOutViewComponent {

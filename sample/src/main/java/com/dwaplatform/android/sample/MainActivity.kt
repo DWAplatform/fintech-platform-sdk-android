@@ -55,6 +55,11 @@ class MainActivity : AppCompatActivity() {
             authComponent.authUI.start(this@MainActivity)
         }
 
+        payout.setOnClickListener {
+            val builder = DWAplatform.buildPayOut().createPayOutUI(hostName, DataAccount(userId, accountId))
+            builder.payOutUI.start(this)
+        }
+
 
     }
 }

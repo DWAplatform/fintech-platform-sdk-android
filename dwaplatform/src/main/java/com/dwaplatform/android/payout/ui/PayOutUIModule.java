@@ -11,15 +11,17 @@ import dagger.Provides;
 @Module
 public class PayOutUIModule {
 
+    private String hostName;
     private DataAccount configuration;
 
-    public PayOutUIModule(DataAccount configuration) {
+    public PayOutUIModule(String hostName, DataAccount configuration) {
         this.configuration = configuration;
+        this.hostName = hostName;
     }
 
     @Provides
     @Singleton
     PayOutUI providesPayOutUI(IbanUI ibanUI) {
-        return new PayOutUI(configuration, ibanUI);
+        return new PayOutUI(hostName, configuration, ibanUI);
     }
 }
