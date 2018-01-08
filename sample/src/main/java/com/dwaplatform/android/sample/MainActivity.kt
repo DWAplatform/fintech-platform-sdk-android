@@ -22,7 +22,7 @@ class MainActivity : AppCompatActivity() {
 
         DWAplatform.initialize(this)
 
-        val hostName = "http://10.0.0.7:9000"
+        val hostName = "http://192.168.1.73:9000"
         val userId = "22863c52-ca29-11e7-94c6-b35ff6d69059"
         val accountId = "22b50b86-ca29-11e7-90f2-dbaf50363c38"
        // val hostName = "https://api.sandbox.dwaplatform.com"
@@ -62,7 +62,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         transactions.setOnClickListener {
-            val builder = DWAplatform.buildTransactions().createTransactionsUIComponent(hostName, DataAccount(userId,accountId))
+            val builder = DWAplatform.buildTransactions().createTransactionsUI(hostName, DataAccount(userId,accountId))
             builder.transactiosUI.start(this)
         }
     }

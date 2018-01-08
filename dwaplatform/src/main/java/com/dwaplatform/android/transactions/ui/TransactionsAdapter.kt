@@ -7,8 +7,6 @@ import android.view.ViewGroup
 import com.dwaplatform.android.R
 import com.dwaplatform.android.transactions.models.TransactionItem
 import com.dwaplatform.android.transactions.models.TransactionsManager
-import com.dwaplatform.android.transactions.ui.transactionItemView.TransactionItemUI
-import com.dwaplatform.android.transactions.ui.transactionItemView.TransactionItemViewHolder
 
 /**
  * Transactions List Adapter for visualize transaction items
@@ -29,7 +27,6 @@ class TransactionsAdapter(val context: Context,
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): TransactionItemViewHolder {
         val view = LayoutInflater.from(parent?.context).inflate(R.layout.transaction_item, parent, false)
         val tiviewholder = TransactionItemViewHolder(view, tuserClick)
-        TransactionItemUI().getInstance()
         return tiviewholder
     }
 

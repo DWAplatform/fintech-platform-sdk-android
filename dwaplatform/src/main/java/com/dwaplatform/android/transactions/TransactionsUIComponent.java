@@ -8,7 +8,10 @@ import javax.inject.Singleton;
 import dagger.Component;
 
 @Singleton
-@Component (modules = { TransactionsUIModule.class })
+@Component (modules = {
+        TransactionsUIModule.class
+
+})
 public interface TransactionsUIComponent {
     TransactionsUI getTransactiosUI();
 }

@@ -7,7 +7,6 @@ import com.dwaplatform.android.money.MoneyHelperModule;
 import com.dwaplatform.android.transactions.api.TransactionsAPIModule;
 import com.dwaplatform.android.transactions.db.TransactionPersistanceDBModule;
 import com.dwaplatform.android.transactions.models.TransactionsManagerModule;
-import com.dwaplatform.android.transactions.ui.transactionItemView.TransactionItemUIModule;
 
 import javax.inject.Singleton;
 
@@ -22,8 +21,7 @@ import dagger.Component;
         KeyChainModule.class,
         TransactionPersistanceDBModule.class,
         MoneyHelperModule.class,
-        TransactionsManagerModule.class,
-        TransactionItemUIModule.class
+        TransactionsManagerModule.class
 })
 public interface TransactionsViewComponent {
     void inject(TransactionsActivity activity);

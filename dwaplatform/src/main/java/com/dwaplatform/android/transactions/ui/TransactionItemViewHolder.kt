@@ -1,10 +1,11 @@
-package com.dwaplatform.android.transactions.ui.transactionItemView
+package com.dwaplatform.android.transactions.ui
 
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import com.dwaplatform.android.R
 import com.dwaplatform.android.transactions.models.TransactionItem
+import com.dwaplatform.android.transactions.ui.transactionItemView.TransactionItemContract
 import kotlinx.android.synthetic.main.transaction_item.view.*
 import javax.inject.Inject
 
@@ -19,7 +20,7 @@ class TransactionItemViewHolder
     @Inject lateinit var presenter: TransactionItemContract.Presenter
 
     init {
-        TransactionItemUI.instance.buildTransactionItemComponent(this).inject(this)
+        TransactionsUI.instance.buildTransactionItemComponent(this).inject(this)
     }
 
     fun bindForecast(item: TransactionItem) {
