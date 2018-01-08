@@ -9,6 +9,7 @@ import com.dwaplatform.android.api.NetModule;
 import com.dwaplatform.android.auth.keys.KeyChainModule;
 import com.dwaplatform.android.models.DataAccount;
 import com.dwaplatform.android.transactions.api.TransactionsAPIModule;
+import com.dwaplatform.android.transactions.ui.transactionDetail.ui.TransactionDetailUI;
 import com.dwaplatform.android.transactions.ui.transactionItemView.DaggerTransactionItemComponent;
 import com.dwaplatform.android.transactions.ui.transactionItemView.TransactionItemComponent;
 import com.dwaplatform.android.transactions.ui.transactionItemView.TransactionItemPresenterModule;
@@ -17,12 +18,14 @@ public class TransactionsUI {
 
     private String hostname;
     private DataAccount configuration;
+    private TransactionDetailUI detailUI;
 
     protected static TransactionsUI instance;
 
-    public TransactionsUI(String hostname, DataAccount configuration) {
+    public TransactionsUI(String hostname, DataAccount configuration, TransactionDetailUI detailUI) {
         this.hostname = hostname;
         this.configuration = configuration;
+        this.detailUI = detailUI;
     }
 
     public TransactionsViewComponent createTransactionsViewComponent(Context context, TransactionsContract.View view){
@@ -35,6 +38,7 @@ public class TransactionsUI {
                 .keyChainModule(new KeyChainModule(context))
                 .transactionsPresenterModule(new TransactionsPresenterModule(view, instance.configuration))
                 .transactionsAPIModule(new TransactionsAPIModule(instance.hostname))
+                .transactionDetailUIModule(new TransactionDetailUIModule(detailUI))
                 .build();
     }
 

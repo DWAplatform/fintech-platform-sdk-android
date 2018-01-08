@@ -28,5 +28,8 @@
         <activity
             android:name=".transactions.ui.TransactionsActivity">
         </activity>
+        <activity
+            android:name=".transactions.ui.transactionDetail.ui.TransactionDetailActivity">
+        </activity>
     </application>
 </manifest>

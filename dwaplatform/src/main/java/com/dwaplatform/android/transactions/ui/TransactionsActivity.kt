@@ -11,7 +11,8 @@ import android.support.v7.widget.LinearLayoutManager
 import com.dwaplatform.android.R
 import com.dwaplatform.android.transactions.models.TransactionItem
 import com.dwaplatform.android.transactions.models.TransactionsManager
-import com.dwaplatform.android.transactions.ui.transactionDetail.TransactionDetailActivity
+import com.dwaplatform.android.transactions.ui.transactionDetail.ui.TransactionDetailActivity
+import com.dwaplatform.android.transactions.ui.transactionDetail.ui.TransactionDetailUI
 import kotlinx.android.synthetic.main.activity_transactions.*
 import javax.inject.Inject
 
@@ -22,6 +23,7 @@ class TransactionsActivity: FragmentActivity(), TransactionsContract.View {
 
     @Inject lateinit var manager: TransactionsManager
     @Inject lateinit var presenter: TransactionsContract.Presenter
+    @Inject lateinit var transactionDetail: TransactionDetailUI
 
     private val notificationReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
@@ -86,9 +88,10 @@ class TransactionsActivity: FragmentActivity(), TransactionsContract.View {
     }
 
     override fun showTransactionDetail(transaction: TransactionItem) {
-        val intent = Intent(this, TransactionDetailActivity::class.java)
-        intent.putExtra("transaction", transaction)
-        startActivity(intent)
+//        val intent = Intent(this, TransactionDetailActivity::class.java)
+//        intent.putExtra("transaction", transaction)
+//        startActivity(intent)
+        transactionDetail.start(this, transaction)
     }
 
 }

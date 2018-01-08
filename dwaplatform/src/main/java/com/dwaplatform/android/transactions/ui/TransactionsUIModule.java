@@ -1,6 +1,7 @@
 package com.dwaplatform.android.transactions.ui;
 
 import com.dwaplatform.android.models.DataAccount;
+import com.dwaplatform.android.transactions.ui.transactionDetail.ui.TransactionDetailUI;
 
 import javax.inject.Singleton;
 
@@ -20,7 +21,7 @@ public class TransactionsUIModule {
 
     @Provides
     @Singleton
-    TransactionsUI providesTransactionsUI() {
-        return new TransactionsUI(hostname, configuration);
+    TransactionsUI providesTransactionsUI(TransactionDetailUI detailUI) {
+        return new TransactionsUI(hostname, configuration, detailUI);
     }
 }

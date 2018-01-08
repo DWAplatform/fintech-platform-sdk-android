@@ -21,7 +21,8 @@ import dagger.Component;
         KeyChainModule.class,
         TransactionPersistanceDBModule.class,
         MoneyHelperModule.class,
-        TransactionsManagerModule.class
+        TransactionsManagerModule.class,
+        TransactionDetailUIModule.class
 })
 public interface TransactionsViewComponent {
     void inject(TransactionsActivity activity);

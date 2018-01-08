@@ -3,6 +3,7 @@ package com.dwaplatform.android.email
 import android.content.Context
 import android.support.v4.content.ContextCompat
 import android.text.Html
+import com.dwaplatform.android.transactions.models.TransactionItem
 import javax.inject.Inject
 
 open class SendEmailHelper @Inject constructor(val sendemail: SendEmailIntentHelper) {
@@ -23,20 +24,20 @@ open class SendEmailHelper @Inject constructor(val sendemail: SendEmailIntentHel
         }
     }
 
-//    fun sendTransactionHelp(context: Context, transaction: TransactionItem): Boolean {
-//        return sendEmail(context, transactionHelp(transaction))
-//
-//    }
-//
-//    fun transactionHelp(transaction: TransactionItem): EmailMessage {
-//        val subject = "Segnalazione problema transazione"
-//        val body = "<p>Buongiorno DWApay,</p>" +
-//                "<p>Vorrei avere informazioni relative " +
-//                "alla transazione ${transaction.id} del ${transaction.twhen}</p>" +
-//                "<p>...</p>" +
-//                "<p>Cordiali saluti</p>"
-//        return EmailMessage(subject, body)
-//    }
+    fun sendTransactionHelp(context: Context, transaction: TransactionItem): Boolean {
+        return sendEmail(context, transactionHelp(transaction))
+
+    }
+
+    fun transactionHelp(transaction: TransactionItem): EmailMessage {
+        val subject = "Segnalazione problema transazione"
+        val body = "<p>Buongiorno DWApay,</p>" +
+                "<p>Vorrei avere informazioni relative " +
+                "alla transazione ${transaction.id} del ${transaction.twhen}</p>" +
+                "<p>...</p>" +
+                "<p>Cordiali saluti</p>"
+        return EmailMessage(subject, body)
+    }
 
     fun sendGenericHelp(context: Context): Boolean {
         return sendEmail(context, genericHelp())

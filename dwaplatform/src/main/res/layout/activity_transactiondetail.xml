@@ -1,0 +1,346 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:background="@color/white"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:id="@+id/header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/headerbackgroundcolor">
+
+            <Button
+                android:id="@+id/backwardButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Indietro"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:textSize="18dp"
+                android:layout_marginLeft="5dp"
+                android:textAllCaps="false"
+                style="@style/headerButtonStyle"
+                android:visibility="invisible"/>
+
+            <Button
+                android:id="@+id/helpButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Segnalaci un problema"
+                android:layout_alignBaseline="@id/backwardButton"
+                android:layout_marginRight="5dp"
+                android:layout_alignParentRight="true"
+                style="@style/headerButtonStyle"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/backwardButton"
+                android:layout_marginBottom="25dp">
+
+                <TextView
+                    android:id="@+id/navheader_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:text="Transazione"
+                    android:textSize="22dp"
+                    android:textColor="@android:color/white"
+                    android:textAlignment="center"/>
+
+                <ProgressBar
+                    android:id="@+id/activityIndicator"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:indeterminateOnly="true"
+                    android:keepScreenOn="true"
+                    android:layout_marginLeft="20dp"
+                    android:layout_toRightOf="@id/navheader_title"
+                    android:indeterminateTint="@color/white"
+                    android:visibility="gone" />
+
+            </RelativeLayout>
+        </RelativeLayout>
+
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/header"
+            android:layout_marginBottom="10dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <RelativeLayout
+                    android:id="@+id/whoContent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+
+                    android:paddingTop="5dp">
+
+
+                    <TextView
+                        android:id="@+id/whoLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="14dp"
+                        android:text="Sorgente"
+                        android:textColor="@android:color/darker_gray"
+                        android:layout_marginLeft="10dp" />
+
+                    <TextView
+                        android:id="@+id/who"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="18dp"
+                        android:text="Sorgente"
+                        android:textColor="@android:color/black"
+                        android:layout_marginLeft="10dp"
+                        android:layout_below="@id/whoLabel" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1px"
+                        android:background="@android:color/darker_gray"
+                        android:layout_below="@id/who"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_marginTop="5dp"/>
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/messageContent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/whoContent"
+                    android:background="@color/white"
+                    android:visibility="gone"
+                    android:paddingTop="5dp">
+
+
+                    <TextView
+                        android:id="@+id/messageLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="14dp"
+                        android:text="Messsaggio"
+                        android:textColor="@android:color/darker_gray"
+                        android:layout_marginLeft="10dp" />
+
+                    <TextView
+                        android:id="@+id/message"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="18dp"
+                        android:text="Messsaggio"
+                        android:textColor="@android:color/black"
+                        android:layout_marginLeft="10dp"
+                        android:layout_below="@id/messageLabel" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1px"
+                        android:background="@android:color/darker_gray"
+                        android:layout_below="@id/message"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_marginTop="5dp"/>
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/whatContent"
+                    android:layout_below="@+id/messageContent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:paddingTop="5dp">
+                    <TextView
+                        android:id="@+id/whatLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="14dp"
+                        android:text="Tipologia movimento"
+                        android:textColor="@android:color/darker_gray"
+                        android:layout_marginLeft="10dp" />
+
+                    <TextView
+                        android:id="@+id/what"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="18dp"
+                        android:text="Tipologia movimento"
+                        android:textColor="@android:color/black"
+                        android:layout_marginLeft="10dp"
+                        android:layout_below="@id/whatLabel" />
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1px"
+                        android:background="@android:color/darker_gray"
+                        android:layout_below="@id/what"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_marginTop="5dp"/>
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/whenContent"
+                    android:layout_below="@+id/whatContent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:paddingTop="5dp">
+                    <TextView
+                        android:id="@+id/whenLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="14dp"
+                        android:text="Data"
+                        android:textColor="@android:color/darker_gray"
+                        android:layout_marginLeft="10dp" />
+
+                    <TextView
+                        android:id="@+id/twhen"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="18dp"
+                        android:text="Data"
+                        android:textColor="@android:color/black"
+                        android:layout_marginLeft="10dp"
+                        android:layout_below="@id/whenLabel" />
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1px"
+                        android:background="@android:color/darker_gray"
+                        android:layout_below="@id/twhen"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_marginTop="5dp"/>
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/amountContent"
+                    android:layout_below="@+id/whenContent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:paddingTop="5dp">
+                    <TextView
+                        android:id="@+id/amountLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="14dp"
+                        android:text="Importo"
+                        android:textColor="@android:color/darker_gray"
+                        android:layout_marginLeft="10dp" />
+
+                    <TextView
+                        android:id="@+id/amount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="18dp"
+                        android:text="Importo"
+                        android:textColor="@android:color/black"
+                        android:layout_marginLeft="10dp"
+                        android:layout_below="@id/amountLabel" />
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1px"
+                        android:background="@android:color/darker_gray"
+                        android:layout_below="@id/amount"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_marginTop="5dp"/>
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/stateContent"
+                    android:layout_below="@+id/amountContent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:paddingTop="5dp">
+                    <TextView
+                        android:id="@+id/stateLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="14dp"
+                        android:text="Stato transazione"
+                        android:textColor="@android:color/darker_gray"
+                        android:layout_marginLeft="10dp" />
+
+                    <TextView
+                        android:id="@+id/status"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="18dp"
+                        android:text="Stato transazione"
+                        android:textColor="@android:color/black"
+                        android:layout_marginLeft="10dp"
+                        android:layout_below="@id/stateLabel" />
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1px"
+                        android:background="@android:color/darker_gray"
+                        android:layout_below="@id/status"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_marginTop="5dp"/>
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/resultContent"
+                    android:layout_below="@+id/stateContent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:paddingTop="5dp">
+                    <TextView
+                        android:id="@+id/resultLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="14dp"
+                        android:text="Dettaglio stato transazione"
+                        android:textColor="@android:color/darker_gray"
+                        android:layout_marginLeft="10dp" />
+
+                    <TextView
+                        android:id="@+id/result"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="18dp"
+                        android:text="Dettaglio stato transazione"
+                        android:textColor="@android:color/black"
+                        android:layout_marginLeft="10dp"
+                        android:layout_below="@id/resultLabel" />
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1px"
+                        android:background="@android:color/darker_gray"
+                        android:layout_below="@id/result"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_marginTop="5dp"/>
+
+                </RelativeLayout>
+
+            </RelativeLayout>
+        </ScrollView>
+
+    </RelativeLayout>
+
+</RelativeLayout>
