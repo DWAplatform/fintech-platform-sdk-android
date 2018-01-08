@@ -25,5 +25,8 @@
         <activity
             android:name=".iban.ui.IBANActivity">
         </activity>
+        <activity
+            android:name=".transactions.ui.TransactionsActivity">
+        </activity>
     </application>
 </manifest>
