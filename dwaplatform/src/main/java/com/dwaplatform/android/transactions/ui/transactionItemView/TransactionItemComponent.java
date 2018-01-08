@@ -9,6 +9,7 @@ import dagger.Component;
 
 @Singleton
 @Component(modules = {TransactionItemPresenterModule.class,
+        TransactionItemUIModule.class,
         AlertHelpersModule.class,
         MoneyHelperModule.class})
 public interface TransactionItemComponent {

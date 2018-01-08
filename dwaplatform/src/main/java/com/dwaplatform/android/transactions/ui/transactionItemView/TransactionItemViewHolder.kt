@@ -19,7 +19,7 @@ class TransactionItemViewHolder
     @Inject lateinit var presenter: TransactionItemContract.Presenter
 
     init {
-        TransactionItemUI.instance.buildTransactionItemComponent(view.context, this).inject(this)
+        TransactionItemUI.instance.buildTransactionItemComponent(this).inject(this)
     }
 
     fun bindForecast(item: TransactionItem) {

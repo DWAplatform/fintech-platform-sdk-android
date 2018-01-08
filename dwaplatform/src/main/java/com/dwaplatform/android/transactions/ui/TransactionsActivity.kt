@@ -45,7 +45,8 @@ class TransactionsActivity: FragmentActivity(), TransactionsContract.View {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_transactions)
-        //App.buildTransactionsComponent(this, this).inject(this)
+
+        TransactionsUI.instance.createTransactionsViewComponent(this, this).inject(this)
 
         swipeLayout.setOnRefreshListener { presenter.refreshTransactions() }
 
