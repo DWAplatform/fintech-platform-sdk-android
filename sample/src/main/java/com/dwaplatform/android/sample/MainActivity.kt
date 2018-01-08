@@ -61,6 +61,9 @@ class MainActivity : AppCompatActivity() {
             builder.payOutUI.start(this)
         }
 
-
+        transactions.setOnClickListener {
+            val builder = DWAplatform.buildTransactions().createTransactionsUIComponent(hostName, DataAccount(userId,accountId))
+            builder.transactiosUI.start(this)
+        }
     }
 }

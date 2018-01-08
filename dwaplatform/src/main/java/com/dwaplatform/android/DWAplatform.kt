@@ -16,6 +16,7 @@ import com.dwaplatform.android.log.Log
 import com.dwaplatform.android.payin.PayInBuilder
 import com.dwaplatform.android.payout.PayOutBuilder
 import com.dwaplatform.android.secure3d.Secure3DBuilder
+import com.dwaplatform.android.transactions.TransactionsBuilder
 import com.raizlabs.android.dbflow.config.FlowManager
 
 
@@ -101,6 +102,10 @@ class DWAplatform {
 
         fun buildPayOut(): PayOutBuilder {
             return PayOutBuilder()
+        }
+
+        fun buildTransactions(): TransactionsBuilder {
+            return TransactionsBuilder()
         }
 
 /*
