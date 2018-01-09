@@ -11,6 +11,7 @@ import com.dwaplatform.android.card.db.PaymentCardDB
 import com.dwaplatform.android.card.db.PaymentCardPersistenceDB
 import com.dwaplatform.android.card.models.PaymentCardItem
 import com.dwaplatform.android.models.DataAccount
+import com.dwaplatform.android.profile.db.Users
 import com.raizlabs.android.dbflow.sql.language.SQLite
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -64,6 +65,17 @@ class MainActivity : AppCompatActivity() {
         transactions.setOnClickListener {
             val builder = DWAplatform.buildTransactions().createTransactionsUI(hostName, DataAccount(userId,accountId))
             builder.transactiosUI.start(this)
+        }
+
+        ligtdata.setOnClickListener {
+            var user = Users()
+            user.id = userId
+            user.address = "via della Lettiera"
+
+            user.save()
+
+            val builder = DWAplatform.buildProfile().createLightDataUI(hostName, DataAccount(userId, accountId))
+            builder.lightData.start(this)
         }
     }
 }

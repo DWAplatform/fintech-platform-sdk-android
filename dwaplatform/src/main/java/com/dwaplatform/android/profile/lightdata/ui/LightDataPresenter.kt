@@ -1,24 +1,27 @@
 package com.dwaplatform.android.profile.lightdata.ui
 
+import com.dwaplatform.android.auth.keys.KeyChain
 import com.dwaplatform.android.models.DataAccount
+import com.dwaplatform.android.profile.api.ProfileAPI
+import com.dwaplatform.android.profile.db.UsersPersistanceDB
+import com.dwaplatform.android.profile.models.UserLightData
 import com.mukesh.countrypicker.Country
 import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
 
-/**
- * Created by ingrid on 09/01/18.
- */
 class LightDataPresenter @Inject constructor(val view: LightDataContract.View,
-                                             //val api: DWApayAPI,
-                                             val configuration: DataAccount): LightDataContract.Presenter {
+                                             val api: ProfileAPI,
+                                             val configuration: DataAccount,
+                                             val key: KeyChain,
+                                             val usersPersistanceDB: UsersPersistanceDB): LightDataContract.Presenter {
 
 
     private var birthdayDate: String? = null
-/*
+
     override fun initialize() {
 
-        val userProfile = dbUsersHelper.userProfile()
+        val userProfile = usersPersistanceDB.userProfile()
         userProfile?.let {
             view.setNameText(userProfile.name?: "")
             view.setSurnameTect(userProfile.surname?: "")
@@ -32,34 +35,39 @@ class LightDataPresenter @Inject constructor(val view: LightDataContract.View,
         view.showWaiting()
         view.hideKeyboard()
 
-        api.profile(userid = dbUsersHelper.userid(),
-                name = view.getNameText(),
-                surname = view.getSurnameText(),
-                nationality = view.getNationalityText(),
-                birthday = birthdayDate){ userProfileReply, exception ->
+        val lightdata = UserLightData(
+                configuration.userId,
+                view.getNameText(),
+                view.getSurnameText(),
+                birthdayDate,
+                view.getNationalityText() )
+
+        api.lightdata(
+                key["tokenuser"],
+                lightdata){ userProfileReply, exception ->
 
             if (exception != null){
                 view.hideWaiting()
                 view.showCommunicationInternalNetwork()
-                return@profile
+                return@lightdata
             }
 
             if (userProfileReply?.userid == null) {
                 view.hideWaiting()
                 view.showCommunicationInternalNetwork()
-                return@profile
+                return@lightdata
             }
 
             view.enableConfirmButton(false)
             view.hideWaiting()
 
-            val userProfile = UserLightData(
+            val userLightDataProfile = UserLightData(
                     view.getNameText(),
                     view.getSurnameText(),
                     birthdayDate,
                     view.getNationalityText())
 
-            dbUsersHelper.saveUserLightData(userProfile)
+            usersPersistanceDB.saveLightData(userLightDataProfile)
             onAbortClick()
         }
     }
@@ -103,7 +111,8 @@ class LightDataPresenter @Inject constructor(val view: LightDataContract.View,
 
         view.enableAllTexts(false)
 
-        api.searchUser(dbUsersHelper.userid()){ profile, exception ->
+        api.searchUser(key["tokenuser"],
+                usersPersistanceDB.userid()){ profile, exception ->
 
             if (exception != null){
                 return@searchUser
@@ -116,12 +125,13 @@ class LightDataPresenter @Inject constructor(val view: LightDataContract.View,
             view.enableAllTexts(true)
 
             val userlightdata = UserLightData(
+                    configuration.userId,
                     profile.name,
                     profile.surname,
                     profile.dateOfBirth,
                     profile.nationality)
 
-            dbUsersHelper.saveUserLightData(userlightdata)
+            usersPersistanceDB.saveLightData(userlightdata)
             initialize()
             view.setBackwardText()
             view.enableConfirmButton(false)
@@ -147,40 +157,13 @@ class LightDataPresenter @Inject constructor(val view: LightDataContract.View,
     private fun convertBirthday(birthday: String?): String? {
         val sdf = SimpleDateFormat("yyyy-MM-dd")
         sdf.timeZone = TimeZone.getTimeZone("UTC")
-        if(birthday.isNullOrBlank()){
+        if (birthday.isNullOrBlank()) {
             return ""
         } else {
             val d = sdf.parse(birthday)
             val formatter = SimpleDateFormat("dd/MM/yyyy")
             return formatter.format(d)
         }
-    }*/
-
-    override fun onConfirm() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun initialize() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun onRefresh() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun refreshConfirmButton() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun onPickBirthdayDate(year: Int, monthOfYear: Int, dayOfMonth: Int) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun onPickCountryNationality(name: String, code: String) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun onAbortClick() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
 }

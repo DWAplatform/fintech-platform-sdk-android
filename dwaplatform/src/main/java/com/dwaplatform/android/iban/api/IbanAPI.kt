@@ -7,13 +7,11 @@ import com.dwaplatform.android.api.IRequestProvider
 import com.dwaplatform.android.api.IRequestQueue
 import com.dwaplatform.android.iban.models.BankAccount
 import com.dwaplatform.android.log.Log
+import com.dwaplatform.android.profile.models.UserProfileReply
 import org.json.JSONObject
 import java.util.HashMap
 import javax.inject.Inject
 
-/**
- * Created by ingrid on 04/01/18.
- */
 class IbanAPI @Inject constructor(internal val hostName: String,
                                   internal val queue: IRequestQueue,
                                   internal val requestProvider: IRequestProvider,
@@ -21,10 +19,6 @@ class IbanAPI @Inject constructor(internal val hostName: String,
 
 ){
     inner class GenericCommunicationError(throwable: Throwable) : Exception(throwable)
-
-    inner class IdempotencyError(throwable: Throwable) : Exception(throwable)
-
-    data class UserProfileReply(val userid: String, val token: String)
 
     private val TAG = "IbanAPI"
 

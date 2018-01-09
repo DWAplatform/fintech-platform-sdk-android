@@ -12,9 +12,6 @@ import org.json.JSONObject
 import java.util.*
 import javax.inject.Inject
 
-/**
- * Created by ingrid on 06/12/17.
- */
 open class PayInAPI @Inject constructor(
         internal val hostName: String,
         internal val queue: IRequestQueue,

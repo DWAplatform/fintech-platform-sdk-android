@@ -1,6 +1,8 @@
 package com.dwaplatform.android.profile.db
 
 import com.dwaplatform.android.iban.models.UserResidential
+import com.dwaplatform.android.profile.models.UserLightData
+import com.dwaplatform.android.profile.models.UserProfile
 import javax.inject.Inject
 
 class UsersPersistanceDB @Inject constructor(val dbUsers: UsersDB) {
@@ -16,7 +18,7 @@ class UsersPersistanceDB @Inject constructor(val dbUsers: UsersDB) {
             "${user.myname ?: ""} ${user.surname ?: ""}"
         } ?: ""
     }
-/*
+
     fun userProfile(): UserProfile? {
         val optuserobj = dbUsers.findUser()
         return optuserobj?.let {
@@ -25,12 +27,9 @@ class UsersPersistanceDB @Inject constructor(val dbUsers: UsersDB) {
                     it.surname,
                     it.nationality,
                     it.dateOfBirth,
-                    it.cf,
                     it.address,
                     it.ziPcode,
                     it.city,
-                    it.region,
-                    it.province,
                     it.telephone,
                     it.email,
                     it.photo,
@@ -39,7 +38,7 @@ class UsersPersistanceDB @Inject constructor(val dbUsers: UsersDB) {
                     it.income, null)
         }
     }
-*/
+
     fun residential(): UserResidential? {
         val optuserobj = dbUsers.findUser()
         return optuserobj?.let { userobj ->
@@ -73,7 +72,7 @@ class UsersPersistanceDB @Inject constructor(val dbUsers: UsersDB) {
             true
         } ?: false
     }
-/*
+
     fun saveLightData(userProfile: UserLightData): Boolean {
         val optUser = dbUsers.findUser()
         return optUser?.let {
@@ -85,27 +84,27 @@ class UsersPersistanceDB @Inject constructor(val dbUsers: UsersDB) {
             true
         }?: false
     }
+    /*
+        fun saveContacts(userProfile: UserContacts): Boolean {
+            val optUser = dbUsers.findUser()
+            return optUser?.let {
+                it.email = userProfile.email
+                it.telephone = userProfile.telephone
+                dbUsers.saveUser(it)
+                true
+            }?: false
+        }
 
-    fun saveContacts(userProfile: UserContacts): Boolean {
-        val optUser = dbUsers.findUser()
-        return optUser?.let {
-            it.email = userProfile.email
-            it.telephone = userProfile.telephone
-            dbUsers.saveUser(it)
-            true
-        }?: false
-    }
-
-    fun saveJobInfo(userProfile: UserJobInfo): Boolean {
-        val optUser = dbUsers.findUser()
-        return optUser?.let {
-            it.jobinfo = userProfile.jobinfo
-            it.income = userProfile.income
-            dbUsers.saveUser(it)
-            true
-        }?: false
-    }
-*/
+        fun saveJobInfo(userProfile: UserJobInfo): Boolean {
+            val optUser = dbUsers.findUser()
+            return optUser?.let {
+                it.jobinfo = userProfile.jobinfo
+                it.income = userProfile.income
+                dbUsers.saveUser(it)
+                true
+            }?: false
+        }
+    */
     fun saveLimitAccount(limitAccount: String){
         val optUser = dbUsers.findUser()
         optUser?.let { it.accountLimit = limitAccount
