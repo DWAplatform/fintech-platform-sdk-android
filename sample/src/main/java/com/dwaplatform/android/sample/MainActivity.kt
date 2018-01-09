@@ -86,5 +86,14 @@ class MainActivity : AppCompatActivity() {
             val builder = DWAplatform.buildProfile().createContactsUI(hostName, DataAccount(userId, accountId))
             builder.contactsUI.start(this)
         }
+
+        address.setOnClickListener {
+            val user = Users()
+            user.id = userId
+            user.save()
+
+            val builder = DWAplatform.buildProfile().createAddressUI(hostName, DataAccount(userId, accountId))
+            builder.addressUI.start(this)
+        }
     }
 }

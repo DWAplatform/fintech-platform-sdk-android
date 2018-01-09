@@ -5,6 +5,7 @@ import com.android.volley.Request
 import com.dwaplatform.android.api.IRequest
 import com.dwaplatform.android.api.IRequestProvider
 import com.dwaplatform.android.api.IRequestQueue
+import com.dwaplatform.android.iban.models.UserResidential
 import com.dwaplatform.android.log.Log
 import com.dwaplatform.android.profile.models.UserContacts
 import com.dwaplatform.android.profile.models.UserLightData
@@ -224,6 +225,19 @@ class ProfileAPI @Inject constructor(
         profile(token = token,
                 userid = contacts.userid,
                 email = contacts.email,
+                completion = completion)
+    }
+
+    fun residential(token: String,
+                    residential: UserResidential,
+                    completion: (UserProfileReply?, Exception?) -> Unit) {
+
+        profile(token = token,
+                userid = residential.userid,
+                address = residential.address,
+                zipcode = residential.ZIPcode,
+                city = residential.city,
+                countryofresidence = residential.countryofresidence,
                 completion = completion)
     }
 }

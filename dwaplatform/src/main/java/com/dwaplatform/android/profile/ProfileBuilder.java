@@ -1,6 +1,9 @@
 package com.dwaplatform.android.profile;
 
 import com.dwaplatform.android.models.DataAccount;
+import com.dwaplatform.android.profile.address.AddressUIComponent;
+import com.dwaplatform.android.profile.address.DaggerAddressUIComponent;
+import com.dwaplatform.android.profile.address.ui.AddressUIModule;
 import com.dwaplatform.android.profile.contacts.ContactsUIComponent;
 import com.dwaplatform.android.profile.contacts.DaggerContactsUIComponent;
 import com.dwaplatform.android.profile.contacts.ui.ContactsUIModule;
@@ -19,6 +22,12 @@ public class ProfileBuilder {
     public ContactsUIComponent createContactsUI(String hostname, DataAccount dataAccount ) {
         return DaggerContactsUIComponent.builder()
                 .contactsUIModule(new ContactsUIModule(hostname, dataAccount))
+                .build();
+    }
+
+    public AddressUIComponent createAddressUI(String hostname, DataAccount dataAccount ) {
+        return DaggerAddressUIComponent.builder()
+                .addressUIModule(new AddressUIModule(hostname, dataAccount))
                 .build();
     }
 }
