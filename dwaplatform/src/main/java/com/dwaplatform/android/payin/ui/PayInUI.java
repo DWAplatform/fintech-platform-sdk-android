@@ -55,11 +55,15 @@ public class PayInUI {
         return instance.buildPayInViewComponent(context, v);
     }
 
-    public void start(Context context) {
+    public PayInFragment createFragment() {
+        return new PayInFragment();
+    }
+
+    /*public void start(Context context) {
         instance = this;
         Intent intent = new Intent(context, PayInActivity.class);
         context.startActivity(intent);
-    }
+    }*/
 
     public String getHostName() {
         return hostName;

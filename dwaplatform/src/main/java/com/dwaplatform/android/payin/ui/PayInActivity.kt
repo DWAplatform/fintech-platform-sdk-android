@@ -3,11 +3,14 @@ package com.dwaplatform.android.payin
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentActivity
 import android.text.Editable
 import android.text.InputFilter
 import android.text.TextWatcher
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import com.dwaplatform.android.R
@@ -20,22 +23,24 @@ import com.dwaplatform.android.secure3d.ui.Secure3DUI
 import kotlinx.android.synthetic.main.activity_payin.*
 import javax.inject.Inject
 
-class PayInActivity : FragmentActivity(), PayInContract.View {
+class PayInActivity constructor(var initialAmount: Long): Fragment(), PayInContract.View {
 
     @Inject lateinit var alertHelpers: AlertHelpers
     @Inject lateinit var presenter: PayInContract.Presenter
     @Inject lateinit var secure3DUI: Secure3DUI
     @Inject lateinit var paymentCard: PaymentCardUI
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        PayInUI.createPayInViewComponent(this as Context, this).inject(this)
-        setContentView(R.layout.activity_payin)
 
-        val initialAmount =
-                if (intent.hasExtra("initialAmount"))
-                    intent.getLongExtra("initialAmount", 0L)
-                else null
+    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+
+
+        PayInUI.createPayInViewComponent(this as Context, this).inject(this)
+        val view = inflater?.inflate(R.layout.activity_payin, null)
+
+//        val initialAmount =
+//                if (intent.hasExtra("initialAmount"))
+//                    intent.getLongExtra("initialAmount", 0L)
+//                else null
 
         amountText.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(p0: Editable?) {}
@@ -60,6 +65,7 @@ class PayInActivity : FragmentActivity(), PayInContract.View {
 
         presenter.initialize(initialAmount)
 
+        return view
     }
 
     override fun onResume() {
@@ -124,7 +130,7 @@ class PayInActivity : FragmentActivity(), PayInContract.View {
     }
 
     override fun goBack(){
-        finish()
+
     }
 
     override fun goToSecure3D(redirecturl: String){
@@ -135,13 +141,13 @@ class PayInActivity : FragmentActivity(), PayInContract.View {
     override fun showKeyboardAmount() {
         amountText.postDelayed({
             amountText.requestFocus()
-            val keyboard = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            val keyboard = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             keyboard.showSoftInput(amountText, 0)
         }, 300)
     }
 
     override fun hideKeyboard() {
-        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN)
+        activity.window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN)
     }
 }
 
