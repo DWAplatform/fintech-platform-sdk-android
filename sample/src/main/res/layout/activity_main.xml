@@ -76,4 +76,14 @@
         android:text="Address"
         app:layout_constraintStart_toEndOf="@+id/contacts"
         app:layout_constraintTop_toBottomOf="@+id/transactions" />
+
+    <Button
+        android:id="@+id/job"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="job"
+        app:layout_constraintStart_toEndOf="@+id/address"
+        app:layout_constraintTop_toBottomOf="@+id/transactions" />
 </android.support.constraint.ConstraintLayout>

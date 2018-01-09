@@ -7,10 +7,7 @@ import com.dwaplatform.android.api.IRequestProvider
 import com.dwaplatform.android.api.IRequestQueue
 import com.dwaplatform.android.iban.models.UserResidential
 import com.dwaplatform.android.log.Log
-import com.dwaplatform.android.profile.models.UserContacts
-import com.dwaplatform.android.profile.models.UserLightData
-import com.dwaplatform.android.profile.models.UserProfile
-import com.dwaplatform.android.profile.models.UserProfileReply
+import com.dwaplatform.android.profile.models.*
 import org.json.JSONObject
 import java.net.URLEncoder
 import java.util.HashMap
@@ -238,6 +235,17 @@ class ProfileAPI @Inject constructor(
                 zipcode = residential.ZIPcode,
                 city = residential.city,
                 countryofresidence = residential.countryofresidence,
+                completion = completion)
+    }
+
+    fun jobInfo(token: String,
+                jobInfo: UserJobInfo,
+                completion: (UserProfileReply?, Exception?) -> Unit) {
+
+        profile(token = token,
+                userid = jobInfo.userid,
+                jobinfo = jobInfo.jobinfo,
+                income = jobInfo.income,
                 completion = completion)
     }
 }

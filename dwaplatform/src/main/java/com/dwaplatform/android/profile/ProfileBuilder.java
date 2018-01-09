@@ -7,6 +7,9 @@ import com.dwaplatform.android.profile.address.ui.AddressUIModule;
 import com.dwaplatform.android.profile.contacts.ContactsUIComponent;
 import com.dwaplatform.android.profile.contacts.DaggerContactsUIComponent;
 import com.dwaplatform.android.profile.contacts.ui.ContactsUIModule;
+import com.dwaplatform.android.profile.jobinfo.DaggerJobInfoUIComponet;
+import com.dwaplatform.android.profile.jobinfo.JobInfoUIComponet;
+import com.dwaplatform.android.profile.jobinfo.ui.JobInfoUIModule;
 import com.dwaplatform.android.profile.lightdata.DaggerLightDataUIComponent;
 import com.dwaplatform.android.profile.lightdata.LightDataUIComponent;
 import com.dwaplatform.android.profile.lightdata.ui.LightDataUIModule;
@@ -28,6 +31,12 @@ public class ProfileBuilder {
     public AddressUIComponent createAddressUI(String hostname, DataAccount dataAccount ) {
         return DaggerAddressUIComponent.builder()
                 .addressUIModule(new AddressUIModule(hostname, dataAccount))
+                .build();
+    }
+
+    public JobInfoUIComponet createJobInfoUI(String hostname, DataAccount dataAccount ) {
+        return DaggerJobInfoUIComponet.builder()
+                .jobInfoUIModule(new JobInfoUIModule(hostname, dataAccount))
                 .build();
     }
 }

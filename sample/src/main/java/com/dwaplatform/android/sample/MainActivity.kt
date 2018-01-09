@@ -95,5 +95,14 @@ class MainActivity : AppCompatActivity() {
             val builder = DWAplatform.buildProfile().createAddressUI(hostName, DataAccount(userId, accountId))
             builder.addressUI.start(this)
         }
+
+        job.setOnClickListener {
+            val user = Users()
+            user.id = userId
+            user.save()
+
+            val builder = DWAplatform.buildProfile().createJobInfoUI(hostName, DataAccount(userId, accountId))
+            builder.jobInfoUI.start(this)
+        }
     }
 }
