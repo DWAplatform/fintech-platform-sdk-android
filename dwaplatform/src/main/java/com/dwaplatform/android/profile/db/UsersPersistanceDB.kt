@@ -87,25 +87,25 @@ class UsersPersistanceDB @Inject constructor(val dbUsers: UsersDB) {
         }?: false
     }
 
-        fun saveContacts(userProfile: UserContacts): Boolean {
-            val optUser = dbUsers.findUser()
-            return optUser?.let {
-                it.email = userProfile.email
-                it.telephone = userProfile.telephone
-                dbUsers.saveUser(it)
-                true
-            }?: false
-        }
+    fun saveContacts(userProfile: UserContacts): Boolean {
+        val optUser = dbUsers.findUser()
+        return optUser?.let {
+            it.email = userProfile.email
+            it.telephone = userProfile.telephone
+            dbUsers.saveUser(it)
+            true
+        }?: false
+    }
 
-        fun saveJobInfo(userProfile: UserJobInfo): Boolean {
-            val optUser = dbUsers.findUser()
-            return optUser?.let {
-                it.jobinfo = userProfile.jobinfo
-                it.income = userProfile.income
-                dbUsers.saveUser(it)
-                true
-            }?: false
-        }
+    fun saveJobInfo(userProfile: UserJobInfo): Boolean {
+        val optUser = dbUsers.findUser()
+        return optUser?.let {
+            it.jobinfo = userProfile.jobinfo
+            it.income = userProfile.income
+            dbUsers.saveUser(it)
+            true
+        }?: false
+    }
 
     fun saveLimitAccount(limitAccount: String){
         val optUser = dbUsers.findUser()
