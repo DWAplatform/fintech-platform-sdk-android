@@ -6,6 +6,7 @@ import com.dwaplatform.android.api.IRequest
 import com.dwaplatform.android.api.IRequestProvider
 import com.dwaplatform.android.api.IRequestQueue
 import com.dwaplatform.android.log.Log
+import com.dwaplatform.android.profile.models.UserContacts
 import com.dwaplatform.android.profile.models.UserLightData
 import com.dwaplatform.android.profile.models.UserProfile
 import com.dwaplatform.android.profile.models.UserProfileReply
@@ -214,5 +215,15 @@ class ProfileAPI @Inject constructor(
                 birthday = lightData.birthday,
                 completion = completion)
 
+    }
+
+    fun contacts(token: String,
+                 contacts: UserContacts,
+                 completion: (UserProfileReply?, Exception?) -> Unit) {
+
+        profile(token = token,
+                userid = contacts.userid,
+                email = contacts.email,
+                completion = completion)
     }
 }

@@ -1,6 +1,7 @@
 package com.dwaplatform.android.profile.db
 
 import com.dwaplatform.android.iban.models.UserResidential
+import com.dwaplatform.android.profile.models.UserContacts
 import com.dwaplatform.android.profile.models.UserLightData
 import com.dwaplatform.android.profile.models.UserProfile
 import javax.inject.Inject
@@ -84,7 +85,7 @@ class UsersPersistanceDB @Inject constructor(val dbUsers: UsersDB) {
             true
         }?: false
     }
-    /*
+
         fun saveContacts(userProfile: UserContacts): Boolean {
             val optUser = dbUsers.findUser()
             return optUser?.let {
@@ -94,7 +95,7 @@ class UsersPersistanceDB @Inject constructor(val dbUsers: UsersDB) {
                 true
             }?: false
         }
-
+    /*
         fun saveJobInfo(userProfile: UserJobInfo): Boolean {
             val optUser = dbUsers.findUser()
             return optUser?.let {

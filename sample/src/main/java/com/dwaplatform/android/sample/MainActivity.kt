@@ -12,6 +12,7 @@ import com.dwaplatform.android.card.db.PaymentCardPersistenceDB
 import com.dwaplatform.android.card.models.PaymentCardItem
 import com.dwaplatform.android.models.DataAccount
 import com.dwaplatform.android.profile.db.Users
+import com.raizlabs.android.dbflow.kotlinextensions.insert
 import com.raizlabs.android.dbflow.sql.language.SQLite
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -68,14 +69,22 @@ class MainActivity : AppCompatActivity() {
         }
 
         ligtdata.setOnClickListener {
-            var user = Users()
+            val user = Users()
             user.id = userId
             user.address = "via della Lettiera"
-
             user.save()
 
             val builder = DWAplatform.buildProfile().createLightDataUI(hostName, DataAccount(userId, accountId))
             builder.lightData.start(this)
+        }
+
+        contacts.setOnClickListener {
+            val user = Users()
+            user.id = userId
+            user.save()
+
+            val builder = DWAplatform.buildProfile().createContactsUI(hostName, DataAccount(userId, accountId))
+            builder.contactsUI.start(this)
         }
     }
 }
