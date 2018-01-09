@@ -5,6 +5,7 @@ import com.dwaplatform.android.api.IRequestProvider;
 import com.dwaplatform.android.api.IRequestQueue;
 import com.dwaplatform.android.api.volley.VolleyRequestProvider;
 import com.dwaplatform.android.api.volley.VolleyRequestQueueProvider;
+import com.dwaplatform.android.auth.keys.KeyChain;
 import com.dwaplatform.android.card.helpers.JSONHelper;
 import com.dwaplatform.android.log.Log;
 import com.dwaplatform.android.payin.api.PayInAPI;
@@ -22,12 +23,10 @@ import dagger.Provides;
 public class BalanceAPIModule {
 
     private String hostName;
-    private String token;
 
 
-    public BalanceAPIModule(String hostName, String token) {
+    public BalanceAPIModule(String hostName) {
         this.hostName = hostName;
-        this.token = token;
     }
 //
 //    @Provides
@@ -46,7 +45,7 @@ public class BalanceAPIModule {
     @Provides
     @Singleton
     BalanceAPI provideBalanceAPI(IRequestQueue queue, IRequestProvider requestProvider, Log log) {
-        return new BalanceAPI(hostName, token, queue, requestProvider, log);
+        return new BalanceAPI(hostName, queue, requestProvider, log);
     }
 }
 

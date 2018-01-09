@@ -1,6 +1,6 @@
 package com.dwaplatform.android.account.balance.models
 
-import com.dwaplatform.android.models.Money
+import com.dwaplatform.android.money.Money
 
 
 /**

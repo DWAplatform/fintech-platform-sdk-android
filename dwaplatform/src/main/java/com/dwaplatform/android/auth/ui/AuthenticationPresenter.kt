@@ -1,7 +1,9 @@
 package com.dwaplatform.android.auth.ui
 
+import android.content.Intent
 import com.dwaplatform.android.auth.api.AuthenticationAPI
-import com.dwaplatform.android.keys.CheckPinState
+import com.dwaplatform.android.auth.keys.CheckPinState
+import com.dwaplatform.android.auth.keys.KeyChain
 import com.dwaplatform.android.log.Log
 
 /**
@@ -10,7 +12,9 @@ import com.dwaplatform.android.log.Log
 class AuthenticationPresenter constructor(val view: AuthenticationContract.View,
                                           val log: Log,
                                           val api: AuthenticationAPI,
-                                          val userid: String): AuthenticationContract.Presenter {
+                                          val userid: String,
+                                          val keyChain: KeyChain
+): AuthenticationContract.Presenter {
     override fun onEditingChanged() {
         val pin = view.getPinEntry()
         if (pin.length != 5)
@@ -43,7 +47,7 @@ class AuthenticationPresenter constructor(val view: AuthenticationContract.View,
                     view.showMaxAttemptExpired()
                 }
                 CheckPinState.SUCCESS -> {
-                    view.setTokenUser(checkPin.token)
+                    keyChain["tokenuser"] = checkPin.token
                     view.goToMain()
                 }
             }

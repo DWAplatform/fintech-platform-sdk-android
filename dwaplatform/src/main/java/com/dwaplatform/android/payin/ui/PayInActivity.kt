@@ -1,7 +1,6 @@
 package com.dwaplatform.android.payin
 
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentActivity
@@ -15,9 +14,8 @@ import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import com.dwaplatform.android.R
 import com.dwaplatform.android.alert.AlertHelpers
-import com.dwaplatform.android.card.ui.PaymentCardActivity
 import com.dwaplatform.android.card.ui.PaymentCardUI
-import com.dwaplatform.android.models.MoneyValueInputFilter
+import com.dwaplatform.android.money.MoneyValueInputFilter
 import com.dwaplatform.android.payin.ui.PayInUI
 import com.dwaplatform.android.secure3d.ui.Secure3DUI
 import kotlinx.android.synthetic.main.activity_payin.*

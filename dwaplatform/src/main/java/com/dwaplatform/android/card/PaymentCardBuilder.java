@@ -4,8 +4,9 @@ import android.content.Context;
 
 import com.android.volley.toolbox.Volley;
 import com.dwaplatform.android.api.NetModule;
-import com.dwaplatform.android.card.api.PaymentCardRestApiModule;
+import com.dwaplatform.android.card.api.PaymentCardAPIModule;
 import com.dwaplatform.android.card.ui.PaymentCardUIModule;
+import com.dwaplatform.android.models.DataAccount;
 
 /**
  * Created by ingrid on 14/12/17.
@@ -13,16 +14,16 @@ import com.dwaplatform.android.card.ui.PaymentCardUIModule;
 
 public class PaymentCardBuilder {
 
-    public PaymentCardAPIComponent createPaymentCardAPI(Context context, String hostname, String token, boolean sandbox) {
+    public PaymentCardAPIComponent createPaymentCardAPI(Context context, String hostname, boolean sandbox) {
         return DaggerPaymentCardAPIComponent.builder()
                 .netModule(new NetModule(Volley.newRequestQueue(context)))
-                .paymentCardRestApiModule(new PaymentCardRestApiModule(hostname, token, sandbox))
+                .paymentCardAPIModule(new PaymentCardAPIModule(hostname, sandbox))
                 .build();
     }
 
-    public PaymentCardUIComponent createPaymentCardUI(String hostname, String token, boolean sandbox) {
+    public PaymentCardUIComponent createPaymentCardUI(String hostname, boolean sandbox, DataAccount configuration) {
         return DaggerPaymentCardUIComponent.builder()
-                .paymentCardUIModule(new PaymentCardUIModule(hostname, token, sandbox))
+                .paymentCardUIModule(new PaymentCardUIModule(hostname, sandbox, configuration))
                 .build();
     }
 }

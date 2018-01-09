@@ -5,7 +5,9 @@ import android.content.Intent;
 
 import com.android.volley.toolbox.Volley;
 import com.dwaplatform.android.api.NetModule;
-import com.dwaplatform.android.card.api.PaymentCardRestApiModule;
+import com.dwaplatform.android.auth.keys.KeyChainModule;
+import com.dwaplatform.android.card.api.PaymentCardAPIModule;
+import com.dwaplatform.android.models.DataAccount;
 
 /**
  * Created by ingrid on 13/12/17.
@@ -13,22 +15,23 @@ import com.dwaplatform.android.card.api.PaymentCardRestApiModule;
 
 public class PaymentCardUI {
 
-    String hostname;
-    String token;
-    boolean sandbox;
+    private String hostname;
+    private boolean sandbox;
+    private DataAccount dataAccount;
 
     protected static PaymentCardUI instance;
 
-    public PaymentCardUI(String hostname, String token, boolean sandbox) {
+    public PaymentCardUI(String hostname, boolean sandbox, DataAccount dataAccount) {
         this.hostname = hostname;
-        this.token = token;
         this.sandbox = sandbox;
+        this.dataAccount = dataAccount;
     }
 
     protected PaymentCardViewComponent buildPaymentCardComponent(Context context, PaymentCardContract.View view) {
         return DaggerPaymentCardViewComponent.builder()
-                .paymentCardPresenterModule(new PaymentCardPresenterModule(view))
-                .paymentCardRestApiModule(new PaymentCardRestApiModule(instance.hostname, instance.token, instance.sandbox))
+                .paymentCardPresenterModule(new PaymentCardPresenterModule(view, dataAccount))
+                .paymentCardAPIModule(new PaymentCardAPIModule(instance.hostname, instance.sandbox))
+                .keyChainModule(new KeyChainModule(context))
                 .netModule(new NetModule(Volley.newRequestQueue(context)))
                 .build();
     }

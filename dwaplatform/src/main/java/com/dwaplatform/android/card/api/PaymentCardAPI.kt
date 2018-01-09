@@ -1,81 +1,259 @@
 package com.dwaplatform.android.card.api
 
-import com.dwaplatform.android.card.helpers.PaymentCardHelper
+import com.android.volley.DefaultRetryPolicy
+import com.android.volley.Request
+import com.dwaplatform.android.api.IRequest
+import com.dwaplatform.android.api.IRequestProvider
+import com.dwaplatform.android.api.IRequestQueue
+import com.dwaplatform.android.card.helpers.DateTimeConversion
 import com.dwaplatform.android.card.models.PaymentCardItem
 import com.dwaplatform.android.log.Log
-import org.json.JSONArray
-import java.lang.Exception
-import javax.inject.Inject
+import org.json.JSONException
+import org.json.JSONObject
+import java.util.HashMap
 
 /**
- * Main class for API communication with DWAplatform to handle Cards.
- * Please use DWAplatform to get PaymentCard API instance; do not create directly
- *
+ * Created by ingrid on 21/12/17.
  */
-open class PaymentCardAPI @Inject constructor(
-        internal val restAPI: PaymentCardRestAPI,
-        internal val log: Log,
-        internal val paymentCardHelper: PaymentCardHelper) {
+class PaymentCardAPI constructor(internal val hostName: String,
+                                 internal val queue: IRequestQueue,
+                                 internal val requestProvider: IRequestProvider,
+                                 internal val log: Log,
+                                 internal val sandbox: Boolean) {
+    private val TAG = "DWApayAPI"
+    private val PROTOCOL_CHARSET = "utf-8"
 
-    /**
-     * Represent the error send as reply from DWAplatform API.
-     *
-     * @property json error as json array, can be null in case of json parsing error
-     * @property throwable error returned from the underlying HTTP library
-     */
-    data class APIReplyError(val json: JSONArray?, val throwable: Throwable) : Exception(throwable)
+    private fun getURL(path: String): String {
+        if(hostName.startsWith("http://") || hostName.startsWith("https://")){
+            return "$hostName$path"
+        } else {
+            return "https://$hostName$path"
+        }
+    }
 
-    /**
-     * Represent the error during DWAplatform API response parse.
-     *
-     * @property throwable error returned from parser
-     */
-    data class ParseReplyParamsException(val throwable: Throwable) : Exception(throwable)
+    inner class ReplyParamsUnexpected(throwable: Throwable) : Exception(throwable)
 
-    private val TAG = "PaymentCardAPI"
+    inner class GenericCommunicationError(throwable: Throwable) : Exception(throwable)
 
-    /**
-     *  Register a PaymentCard. Use this method to register a user card and PLEASE DO NOT save card information on your own client or server side.
-     *
-     *  @property token token returned from DWAplatform to the create card request.
-     *  @property cardNumber 16 digits user card number, without spaces or dashes
-     *  @property expiration card expiration date in MMYY format
-     *  @property cxv  3 digit cxv card number
-     *  @property completionHandler callback called after the server communication is done and containing a PaymentCard object or an Exception in case of error.
-     */
-    open fun registerCard(token: String,
-                     cardNumber: String,
-                     expiration: String,
-                     cxv: String,
-                     completionHandler: (PaymentCardItem?, Exception?) -> Unit) {
-
-        log.debug(TAG, "fun registerCard called")
+    interface FailureCallback {
+        fun onFailure(e: Exception)
+    }
 
 
-        paymentCardHelper.checkCardFormat(cardNumber, expiration, cxv)
+    interface CardRegistrationCallback : FailureCallback {
+        fun onSuccess(cardRegistration: CardRegistration)
+    }
 
-        // TODO: enqueue the following requests in a modadic for comprehension style.
-        restAPI.postCardRegister(token, paymentCardHelper.generateAlias(cardNumber), expiration) { optCardRegistration, optError ->
-            optError?.let { error -> completionHandler(null, error); return@postCardRegister }
-            optCardRegistration?.let { cardRegistration ->
+    data class CardToRegister(val cardNumber: String,
+                              val expiration: String,
+                              val cvx: String)
 
-                restAPI.getCardSafe(PaymentCardRestAPI.CardToRegister(cardNumber, expiration, cxv)) { optCardSafe, optErrorCS ->
-                    optErrorCS?.let { error -> completionHandler(null, error); return@getCardSafe }
-                    optCardSafe?.let { cardSafe ->
 
-                        restAPI.postCardRegistrationData(cardSafe, cardRegistration) { optRegistration, optErrorPCRD ->
-                            optErrorPCRD?.let { error -> completionHandler(null, error); return@postCardRegistrationData }
-                            optRegistration?.let { registration ->
-                                restAPI.putRegisterCard(token, cardRegistration.cardRegistrationId, registration) { optCard, optErrorPRC ->
-                                    optErrorPRC?.let { error -> completionHandler(null, error); return@putRegisterCard }
-                                    completionHandler(optCard, null)
-                                } // end putRegisterCard
-                            }
-                        } // end postCardRegistrationData
+    data class CardRegistration(val cardRegistrationId: String,
+                                val url: String,
+                                val preregistrationData: String,
+                                val accessKey: String,
+                                val tokenCard: String? = null)
+
+
+    private val defaultpolicy = DefaultRetryPolicy(
+            30000, 0, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT)
+
+    private fun authorizationToken(token: String): Map<String, String> {
+        val header = HashMap<String, String>()
+        header.put("Authorization", "Bearer $token")
+        return header
+    }
+
+    fun createCreditCard(userId: String,
+                         accountId: String,
+                         token: String,
+                         cnumber: String,
+                         exp: String, cvxValue: String,
+                         completion: (PaymentCardItem?, Exception?) -> Unit): IRequest<*>? {
+
+        log.debug("DWAPAY", "createCreditCard")
+
+        val cardnumber: String
+        val expiration: String
+        val cvx: String
+        if (sandbox) {
+            cardnumber = "3569990000000157"
+            expiration = "1220"
+            cvx = "123"
+        } else {
+            cardnumber = cnumber
+            expiration = exp
+            cvx = cvxValue
+        }
+
+        val numberalias: String
+        if (cardnumber.length >= 16) {
+            numberalias = cardnumber.substring(0, 6) + "XXXXXX" +
+                    cardnumber.substring(cardnumber.length - 4, cardnumber.length)
+        } else {
+            numberalias = "XXXXXXXXXXXXXXXX"
+        }
+
+        val request = createCreditCardRegistration(userId,
+                accountId,
+                token, numberalias, expiration,
+                object : CardRegistrationCallback {
+                    override fun onSuccess(cardRegistration: CardRegistration) {
+                        log.debug("DWAPAY", "on success createCreditCard")
+
+                        getCardRegistrationData(userId,
+                                accountId,
+                                token,
+                                cardnumber,
+                                expiration,
+                                cvx,
+                                cardRegistration,
+                                completion)
+
                     }
-                } // end getCardSafe
-            }
-        } // end postCardRegister
+
+                    override fun onFailure(e: Exception) {
+                        completion(null, e)
+                    }
+                })
+
+        return request
+    }
+
+    private fun createCreditCardRegistration(userId: String,
+                                             accountId: String, token: String, numberalias: String, expiration: String,
+                                             callback: CardRegistrationCallback): IRequest<*>? {
+
+        log.debug("DWAPAY", "createCreditCardRegistration")
+        val url = getURL("/rest/v1/" + userId + "/fin/creditcards")
+
+        var request: IRequest<*>?
+        try {
+            val jo = JSONObject()
+            jo.put("numberalias", numberalias)
+            jo.put("expiration", expiration)
+
+            request = requestProvider.jsonObjectRequest(Request.Method.POST, url, jo,
+                    authorizationToken(token),
+                    { response ->
+                        log.debug("DWAPAY", "on response createCreditCardRegistration")
+                        try {
+                            //creditcardid
+                            val creditcardid = response.getString("id")
+
+                            val cardRegistration = response.getJSONObject("cardRegistration")
+                            val preregistrationData =
+                                    cardRegistration.getString("preregistrationData")
+                            val accessKey = cardRegistration.getString("accessKey")
+                            val crurl = cardRegistration.getString("url")
+
+                            val c = CardRegistration(creditcardid,
+                                    crurl,
+                                    preregistrationData,
+                                    accessKey,
+                                    null)
+
+                            callback.onSuccess(c)
+                        } catch (e: JSONException) {
+                            callback.onFailure(ReplyParamsUnexpected(e))
+                        }
+                    }) { error -> callback.onFailure(GenericCommunicationError(error)) }
+
+            request!!.setIRetryPolicy(defaultpolicy)
+            queue.add(request)
+
+        } catch (e: Exception) {
+            log.error(TAG, "transactions error", e)
+            request = null
+        }
+
+        return request
+
+    }
+
+    private fun getCardRegistrationData(userId: String,
+                                        accountId: String,
+                                        token: String,
+                                        cardnumber: String,
+                                        expiration: String, cvx: String,
+                                        cardRegistration: CardRegistration,
+                                        completion: (PaymentCardItem?, Exception?) -> Unit)
+            : IRequest<*> {
+
+        log.debug("DWAPAY", "getCardRegistrationData")
+        val url = cardRegistration.url
+
+        val params = HashMap<String, String>()
+        params.put("data", cardRegistration.preregistrationData)
+        params.put("accessKeyRef", cardRegistration.accessKey)
+        params.put("cardNumber", cardnumber)
+        params.put("cardExpirationDate", expiration)
+        params.put("cardCvx", cvx)
+
+        val header = HashMap<String, String>()
+        header.put("Content-Type", "application/x-www-form-urlencoded")
+
+        val request = requestProvider.stringRequest(Request.Method.POST, url, params, header,
+                { response ->
+                    log.debug("DWAPAY", "on response getCardRegistrationData")
+                    sendCardResponseString(userId, accountId, token, response, cardRegistration, completion)
+                }) { error -> completion(null, GenericCommunicationError(error)) }
+
+        request.setIRetryPolicy(defaultpolicy)
+        queue.add(request)
+        return request
+    }
+
+    private fun sendCardResponseString(userId: String,
+                                       accountId: String,
+                                       token: String,
+                                       regresponse: String,
+                                       cardRegistration: CardRegistration,
+                                       completion: (PaymentCardItem?, Exception?) -> Unit)
+            : IRequest<*>? {
+        log.debug("DWAPAY", "sendCardResponseString")
+        val url = getURL("/rest/v1/" + userId + "/fin/creditcards/" +
+                cardRegistration.cardRegistrationId)
+
+        var request: IRequest<*>?
+        try {
+            val jo = JSONObject()
+            jo.put("registration", regresponse)
+
+            request = requestProvider.jsonObjectRequest(Request.Method.PUT, url, jo,
+                    authorizationToken(token),
+                    { response ->
+                        log.debug("DWAPAY", "on response sendCardResponseString")
+                        try {
+                            //creditcardid
+                            val creditcardid = response.getString("creditcardid")
+                            val numberalias = response.getString("numberalias")
+                            val expirationdate = response.getString("expirationdate")
+                            val activestate = response.getString("activestate")
+
+                            val createOpt: String? = response.optString("create")
+                            val createDate = createOpt?.let { create ->
+                                DateTimeConversion.convertFromRFC3339(create)
+                            }
+                            val c = PaymentCardItem(creditcardid, numberalias,
+                                    expirationdate, "EUR", null, activestate, null, createDate)
+                            completion(c, null)
+                        } catch (e: JSONException) {
+                            completion(null, ReplyParamsUnexpected(e))
+                        }
+                    }) { error -> completion(null, GenericCommunicationError(error)) }
+
+            request!!.setIRetryPolicy(defaultpolicy)
+            queue.add(request)
+
+        } catch (e: Exception) {
+            log.error(TAG, "transactions error", e)
+            request = null
+        }
+
+        return request
+
     }
 
 }

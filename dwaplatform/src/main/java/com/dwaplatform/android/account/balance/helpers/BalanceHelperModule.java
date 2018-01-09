@@ -3,6 +3,7 @@ package com.dwaplatform.android.account.balance.helpers;
 import com.dwaplatform.android.account.balance.api.BalanceAPI;
 import com.dwaplatform.android.account.balance.db.DBBalance;
 import com.dwaplatform.android.account.balance.db.DBBalancePersistence;
+import com.dwaplatform.android.auth.keys.KeyChain;
 
 import javax.inject.Singleton;
 
@@ -31,8 +32,9 @@ public class BalanceHelperModule {
     @Provides
     @Singleton
     BalanceHelper provideBalanceHelper(BalancePersistence persistence,
-                                       BalanceAPI api) {
-        return new BalanceHelper(persistence, api);
+                                       BalanceAPI api,
+                                       KeyChain keyChain) {
+        return new BalanceHelper(persistence, api, keyChain);
     }
 
 }

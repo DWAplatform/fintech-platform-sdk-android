@@ -1,0 +1,20 @@
+package com.dwaplatform.android.transactions.models
+
+data class TransactionResponse (val id: String,
+                            val transactionids: String?,
+                            val status: String,
+                            val operationtype: String,
+                            val creationdate: Long,
+                            val resultcode: String,
+                            val crediteduserid: String? = null,
+                            val debiteduserid: String? = null,
+                            val brokerid: String? = null,
+                            val creditedfunds: Int? = null,
+                            val debitedfunds: Int? = null,
+                            val dwafunds: Int? = null,
+                            val crediteduserfullname: String? = null,
+                            val debiteduserfullname: String? = null,
+                            val message: String? = null,
+                            val brokerfunds: Int? = null,
+                            val brokerlegaluserid: String? = null,
+                            val clientname: String? = null)

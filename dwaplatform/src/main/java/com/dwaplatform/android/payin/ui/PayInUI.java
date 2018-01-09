@@ -6,22 +6,18 @@ import android.content.Intent;
 import com.android.volley.toolbox.Volley;
 import com.dwaplatform.android.account.balance.api.BalanceAPIModule;
 import com.dwaplatform.android.api.NetModule;
+import com.dwaplatform.android.auth.keys.KeyChainModule;
 import com.dwaplatform.android.card.ui.PaymentCardUI;
 import com.dwaplatform.android.payin.PayInActivity;
 import com.dwaplatform.android.payin.PayInContract;
 import com.dwaplatform.android.payin.api.PayInAPIModule;
-import com.dwaplatform.android.payin.models.PayInConfiguration;
+import com.dwaplatform.android.models.DataAccount;
 import com.dwaplatform.android.secure3d.ui.Secure3DUI;
-
-/**
- * Created by tcappellari on 08/12/2017.
- */
 
 public class PayInUI {
 
     String hostName;
-    String token;
-    PayInConfiguration configuration;
+    DataAccount configuration;
     Secure3DUI secure3DUI;
     PaymentCardUI paymentCardUI;
 
@@ -30,9 +26,8 @@ public class PayInUI {
     protected PayInUI() {
     }
 
-    public PayInUI(String hostName, String token, PayInConfiguration configuration, Secure3DUI secure3DUI, PaymentCardUI paymentCardUI) {
+    public PayInUI(String hostName, DataAccount configuration, Secure3DUI secure3DUI, PaymentCardUI paymentCardUI) {
         this.hostName = hostName;
-        this.token = token;
         this.configuration = configuration;
         this.secure3DUI = secure3DUI;
         this.paymentCardUI = paymentCardUI;
@@ -41,11 +36,10 @@ public class PayInUI {
     protected PayInViewComponent buildPayInViewComponent(Context context, PayInContract.View v)  {
         return DaggerPayInViewComponent.builder()
                 .payInPresenterModule(new PayInPresenterModule(v, instance.configuration))
-                .payInAPIModule(new PayInAPIModule(instance.hostName,
-                        instance.token))
+                .payInAPIModule(new PayInAPIModule(instance.hostName))
+                .keyChainModule(new KeyChainModule(context))
                 .netModule(new NetModule(Volley.newRequestQueue(context)))
-                .balanceAPIModule(new BalanceAPIModule(instance.hostName,
-                        instance.token))
+                .balanceAPIModule(new BalanceAPIModule(instance.hostName))
                 .secure3DUIModule(new Secure3DUIModule(secure3DUI))
                 .paymentCardUIModule(new PaymentCardUIModule(paymentCardUI))
                 .build();
@@ -69,11 +63,11 @@ public class PayInUI {
         return hostName;
     }
 
-    public String getToken() {
-        return token;
-    }
+//    public String getToken() {
+//        return keyChain.get("tokenuser");
+//    }
 
-    public PayInConfiguration getConfiguration() {
+    public DataAccount getConfiguration() {
         return configuration;
     }
 }

@@ -1,7 +1,9 @@
 package com.dwaplatform.android.card.ui;
 
+import com.dwaplatform.android.auth.keys.KeyChain;
 import com.dwaplatform.android.card.api.PaymentCardAPI;
 import com.dwaplatform.android.card.db.PaymentCardPersistenceDB;
+import com.dwaplatform.android.models.DataAccount;
 
 import javax.inject.Singleton;
 
@@ -14,15 +16,17 @@ import dagger.Provides;
 @Module
 public class PaymentCardPresenterModule {
     private PaymentCardContract.View view;
+    private DataAccount dataAccount;
 
-    public PaymentCardPresenterModule(PaymentCardContract.View view) {
+    public PaymentCardPresenterModule(PaymentCardContract.View view, DataAccount dataAccount) {
         this.view = view;
+        this.dataAccount = dataAccount;
     }
 
     @Provides
     @Singleton
-    PaymentCardContract.Presenter providesPaymentCardPresenter(PaymentCardAPI api, PaymentCardPersistenceDB paymentCardPersistenceDB) {
-        return new PaymentCardPresenter(view, api, paymentCardPersistenceDB);
+    PaymentCardContract.Presenter providesPaymentCardPresenter(PaymentCardAPI api, PaymentCardPersistenceDB paymentCardPersistenceDB, KeyChain keyChain) {
+        return new PaymentCardPresenter(view, api, dataAccount, paymentCardPersistenceDB, keyChain);
     }
 
 }

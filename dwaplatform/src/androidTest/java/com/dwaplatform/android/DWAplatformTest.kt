@@ -2,7 +2,7 @@ package com.dwaplatform.android
 
 import android.support.test.InstrumentationRegistry
 import android.support.test.runner.AndroidJUnit4
-import com.dwaplatform.android.payin.models.PayInConfiguration
+import com.dwaplatform.android.models.DataAccount
 import org.junit.Assert
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -68,7 +68,7 @@ class DWAplatformTest {
         val payIn = DWAplatform.buildPayIn()
         val payInComponent = payIn.createPayInUIComponent(
                 hostName,
-                token, PayInConfiguration(userId, accountId, paymentCardId))
+                token, DataAccount(userId, accountId, paymentCardId))
         payInComponent.payInUI.start(context)
 
         Thread.sleep(20000)

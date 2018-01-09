@@ -6,7 +6,7 @@ import com.dwaplatform.android.api.IRequest
 import com.dwaplatform.android.api.IRequestProvider
 import com.dwaplatform.android.api.IRequestQueue
 import com.dwaplatform.android.log.Log
-import com.dwaplatform.android.models.Money
+import com.dwaplatform.android.money.Money
 import com.dwaplatform.android.payin.models.PayInReply
 import org.json.JSONObject
 import java.util.*
@@ -17,7 +17,6 @@ import javax.inject.Inject
  */
 open class PayInAPI @Inject constructor(
         internal val hostName: String,
-        internal val token: String,
         internal val queue: IRequestQueue,
         internal val requestProvider: IRequestProvider,
         internal val log: Log) {
@@ -47,7 +46,8 @@ open class PayInAPI @Inject constructor(
         return header
     }
 
-    open fun payIn(userId: String,
+    open fun payIn(token: String,
+                   userId: String,
                    accountId: String,
                    creditcardId: String,
                    amount: Money,

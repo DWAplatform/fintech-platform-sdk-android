@@ -5,9 +5,8 @@ import com.android.volley.Request
 import com.dwaplatform.android.api.IRequest
 import com.dwaplatform.android.api.IRequestProvider
 import com.dwaplatform.android.api.IRequestQueue
-import com.dwaplatform.android.card.helpers.JSONHelper
-import com.dwaplatform.android.keys.CheckPin
-import com.dwaplatform.android.keys.CheckPinState
+import com.dwaplatform.android.auth.keys.CheckPin
+import com.dwaplatform.android.auth.keys.CheckPinState
 import com.dwaplatform.android.log.Log
 import org.json.JSONException
 import org.json.JSONObject
@@ -19,12 +18,9 @@ import java.util.HashMap
  * Created by ingrid on 18/12/17.
  */
 class AuthenticationAPI constructor(internal val hostName: String,
-                                    internal val token: String,
                                     internal val queue: IRequestQueue,
                                     internal val requestProvider: IRequestProvider,
-                                    internal val jsonHelper: JSONHelper,
-                                    internal val log: Log,
-                                    internal val sandbox: Boolean){
+                                    internal val log: Log){
     inner class GenericCommunicationError(throwable: Throwable) : Exception(throwable)
 
     inner class ReplyParamsUnexpected(throwable: Throwable) : Exception(throwable)
@@ -95,7 +91,7 @@ class AuthenticationAPI constructor(internal val hostName: String,
             val rurl = getUrlDataString(url, params)
 
             val r = requestProvider.jsonObjectRequest(Request.Method.GET, rurl,
-                    null, authorizationToken(token), { response ->
+                    null, { response ->
                 try {
 
                     val userid = response.getString("userid")

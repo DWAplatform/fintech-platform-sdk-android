@@ -1,6 +1,322 @@
 <resources>
-    <string name="app_name">CardAPI</string>
+    <string name="app_name">DWApay</string>
 
+    <!-- Deprecated -->
+    <string name="deprecated_continua">Continua</string>
+    <string name="deprecated_signinnametitle">Inserisci i tuoi dati anagrafici</string>
+    <string name="deprecated_name">Nome</string>
+    <string name="deprecated_surname">Cognome</string>
+    <string name="deprecated_avanti">avanti</string>
+
+    <string name="deprecated_signinheader">Numero telefono</string>
+    <string name="deprecated_signincountrytitle">Inserisci la tua Nazione di residenza</string>
+    <string name="deprecated_signincountry">Nazione</string>
+    <string name="deprecated_signincftitle">Inserisci il tuo codice fiscale</string>
+    <string name="deprecated_signincf">Codice Fiscale</string>
+    <string name="deprecated_signintelephonetitle">Inserisci il tuo numero di telefono</string>
+    <string name="deprecated_signintelephone">Telefono</string>
+    <string name="deprecated_signinemailtitle">Inserisci la tua e-mail</string>
+    <string name="deprecated_signinemail">E-mail</string>
+    <string name="deprecated_signinphototitle">Scegli una foto</string>
+
+    <string name="deprecated_signinibantitle">Inserisci il tuo IBAN</string>
+    <string name="deprecated_signiniban">IBAN</string>
+
+    <string name="deprecated_signincctitle">Numero</string>
+    <string name="deprecated_signinccdate">Scadenza</string>
+    <string name="deprecated_signincvv">CVV</string>
+    <string name="deprecated_signincccardholder">Titolare della carta</string>
+
+    <string name="deprecated_signincfinvalidformat">Formato codice fiscale non valido</string>
+    <string name="deprecated_signincfinvalidsurname">Cognome non corrispondente a codice fiscale</string>
+    <string name="deprecated_signincfinvalidname">Nome non corrispondente a codice fiscale</string>
+
+    <string name="deprecated_signuptitle">Riepilogo</string>
+
+    <string name="deprecated_signupreadcc">Leggi da Fotocamera</string>
+    <string name="deprecated_signupormanualcc">oppure inserisci le informazioni manualmente</string>
+    <string name="deprecated_signupcctitle">Inserisci i dati della tua Carta di credito</string>
+    <!-- End deprecated -->
+
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_refresh">Refresh</string>
+
+    <string name="welcome_title">My Working Account</string>
+    <string name="welcome_subtitle">conto di monetica digitale</string>
+
+    <string name="welcome_startbutton">Accedi</string>
+    <string name="welcome_loginbutton">or click here to sign in</string>
+    <string name="welcome_footer">DWA FinTech LTD - Londra</string>
+    <string name="title_activity_main2">Main2Activity</string>
+
+    <string name="payin">Ricarica conto</string>
+    <string name="payout">Prelievo</string>
+    <string name="balance_before">SALDO disponibile</string>
+    <string name="balance_new">NUOVO saldo</string>
+    <string name="confirmpayment">CONFERMA PAGAMENTO</string>
+
+    <string name="notification_send">Notifica inviata</string>
+    <string name="payment_confirmed">Pagamento confermato</string>
+    <string name="payment_denied">Pagamento rifiutato</string>
+    <string name="transfer">Trasferimento</string>
+
+    <string name="payment_confirmed_toast">Attendere, pagamento confermato</string>
+    <string name="payment_deny_toast">Attendere, pagamento rifiutato</string>
+    <string name="payment_3d_not_supported_toast">Secure code 3d non supportato dalla carta</string>
+    <string name="wait_payin">Attendere, ricarica in corso</string>
+    <string name="wait_payout">Attendere, prelievo in corso</string>
+    <string name="wait_transfer">Attendere, trasferimento corso</string>
+
+    <string name="welcome_second_title">Benvenuto in DWAPay</string>
+
+    <string name="place_holder_full">Lorem ipsum dolor sit amet, consectetur adipisci elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur. Quis aute iure reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint obcaecat cupiditat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</string>
+
+    <string name="signin_telephone">Inserisci il numero telefonico\ndi questo cellulare:</string>
+    <string name="confirm">Conferma</string>
+    <string name="wait_signin">Accesso in corso</string>
+    <string name="server_communication_error">Errore, verificare l\'accesso a internet</string>
+
+    <string name="network_select_recipient">Seleziona destinatario</string>
+
+    <string name="qr_scan">Lettore QR code</string>
+    <string name="network_list_notification">Lista notifiche</string>
+    <string name="news_list_notification">Lista news</string>
+
+
+    <string name="send_money_title">Invia denaro</string>
+    <string name="send_money_message_hint">Inserisci un messaggio</string>
+
+    <string name="signin">Accesso a DWAPay</string>
+
+    <string name="mycards">Dati finanziari</string>
+
+    <string name="transfer_amount">Invia denaro</string>
+
+    <string name="transfer_fee">Commissione</string>
+
+    <string name="fabpayin">Ricarica</string>
+    <string name="fabpayout">Prelievo</string>
+    <string name="fabpay">Paga</string>
+
+    <string name="scanqr">DWApay</string>
+    <string name="dwapay">DWApay</string>
+
+    <string name="exit">Stai per uscire dall\'app</string>
+    <string name="areyousure">Sei sicuro?</string>
+    <string name="logout">Conferma uscita</string>
+    <string name="yes">Si</string>
+    <string name="no">No</string>
+
+    <string name="payment_notification_title">DWAPay Payment</string>
+
+    <string name="abort">Annulla</string>
+
+    <string name="qr_error">QR Code non valido</string>
+
+
+    <string name="nav_withdrawal">Prelievo</string>
+    <string name="nav_mycards">Dati finanziari</string>
+    <string name="nav_creditcard">Carta di credito</string>
+    <string name="nav_iban">IBAN</string>
+    <string name="nav_contacts">Contattaci</string>
+    <string name="nav_logout">Logout</string>
+
+
+    <!-- Signin -->
+    <string name="signin_header">Numero telefono utente</string>
+    <string name="signin_title">Inserisci il numero telefonico di questo cellulare:</string>
+    <string name="signin_placeholder">Numero di cellulare</string>
+    <string name="signin_footer">Il numero di cellulare è necessario solo per gestire via SMS l’attivazione del servizio.</string>
+
+    <string name="smswait_header">Numero telefono utente</string>
+    <string name="smswait_title">Fase verifica e conferma\nnumero cellulare</string>
+    <string name="smswait_sms">Ti abbiamo inviato un SMS al numero\n%1$s clicca su link in esso contenuto. Attendi conferma automatica.</string>
+
+    <string name="smscode_send">Conferma</string>
+    <string name="smscode_code">Ti abbiamo inviato un SMS al numero\n%1$s. Inserisci il codice qui sotto.</string>
+
+    <string name="smscode_error_code_message">Codice Errato. Verifica il codice inserito</string>
+    <string name="smscode_threshold_code_message">Numero massimo tentativi superato. Contattare %1$ per sbloccare</string>
+
+
+    <string name="smswait_resend">reinvia SMS</string>
+    <string name="smswait_resend_toast">Invio sms in corso</string>
+    <string name="smswait_contact">Hai bisogno di aiuto? <![CDATA[<a href="http://www.dwapay.com/">CONTATTACI</a>]]></string>
+
+    <string name="signup_telephone_title">Numero Telefonico</string>
+    <string name="signup_telephone_prefix">Pref</string>
+    <string name="signup_telephone">Numero di telefono</string>
+
+    <string name="signup_telephoneverify_title">Verifica Telefono</string>
+    <string name="signup_telephonev_desc">Inserisci il codice che ti abbiamo inviato via SMS. Per i nuovi utenti è necessario anche il codice invito.</string>
+
+    <string name="signup_codeText">Codice</string>
+    <string name="signup_invitationCodeText">Codice invito</string>
+
+    <string name="signup_email_title">Email</string>
+
+    <string name="signup_privacyandcontract_title">Iscriviti a DWApay</string>
+
+    <string name="signup_light_data">Dati Anagrafici</string>
+    <string name="signup_light_data_name">Nome</string>
+    <string name="signup_light_data_surname">Cognome</string>
+    <string name="signup_light_data_birthday">Data di nascita</string>
+    <string name="signup_light_data_nationality">Nazionalità</string>
+    <string name="signup_light_data_countryofresidence">Stato di residenza</string>
+
+    <string name="signup_pin_title">PIN accesso</string>
+    <string name="signup_pin_desc">(5 cifre)</string>
+
+    <string name="signup_pin">PIN</string>
+    <string name="signup_repeatpin">Ridigita PIN</string>
+
+    <string name="navheader_back">Indietro</string>
+    <string name="navheader_forward">Avanti</string>
+    <string name="navheader_confirm">Conferma</string>
+    <string name="navheader_abort">Annulla</string>
+
+    <string name="transfer_message">Messaggio</string>
+
+
+    <string name="signup_welcome">Iscriviti a DWApay</string>
+    <string name="signup_welcome_text">In 4 semplici passi ti guideremo alla creazione del tuo account DWApay. </string>
+    <string name="signup_continue">avanti</string>
+
+    <string name="signup_privacy">Accettazione PRIVACY</string>
+    <string name="signup_privacy_title">PUNTI ESSENZIALI\nINFORMATIVA PRIVACY</string>>
+    <string name="signup_privacy_text"><![CDATA[
+    <b>1.</b>   I tuoi dati sono utilizzati solo dai soggetti necessari ad erogare il servizio, non sono condivisi con terzi estranei<br>
+        In particolare il tuo numero di telefono non sarà usato per messaggi marketing.<br>
+    <b>2.</b>   ...<br>
+    <b>3.</b>   ...]]></string>
+
+    <string name="signup_privacy_footer">Accetta l\'<![CDATA[<a href="http://www.dwapay.com/">informativa completa</a>]]></string>
+    <string name="signup_privacy_accept">Accetta le <![CDATA[<a href="https://www.dwaplatform.com/privacy.html">norme sulla privacy</a>]]></string>
+
+    <string name="signup_contract">Accettazione CONTRATTO</string>
+    <string name="signup_contract_title">PUNTI ESSENZIALI TERMINI E\nCONDIZIONI DI UTILIZZO</string>
+    >
+
+    <string name="signup_contract_text"><![CDATA[
+        <b>1.</b>   Termini e condizioni di utilizzo servizi di pagamento DWApay<br>
+        <b>2.</b>   Durata ...<br>
+        <b>3.</b>   Diritto di recesso ...<br>
+        <b>4.</b>   Regole per l\'uso di moneta elettronica erogata da <font color="red"><b>Mangopay</b></b> ...]]></string>
+    <string name="signup_contract_footer"><![CDATA[<a href="http://www.dwapay.com/">DWApay termini e condizioni</a>]]></string>
+    <string name="signup_contract_accept">Accetta le <![CDATA[<a href="https://www.dwaplatform.com/conditions.html">condizioni di utilizzo</a>]]></string>
+
+    <string name="signup_documents">Iscriviti a DWApay</string>
+    <string name="signup_documents_text"><![CDATA[In base alle norme europee sulla
+        sicurezza finanziaria ti chiediamo
+        la foto dei seguenti documenti:<br><br>
+        <b>1. Carta identità  valida</b><br><br>
+        <b>2. Tessera sanitaria per codice  fiscale.</b><br><br><br>
+        Seguirà la richiesta dei tuoi  dati
+        anagrafici e di residenza.]]></string>
+
+    <string name="signup_identitycard">Carta identità</string>
+    <string name="signup_identitycard_front">FRONTE - Carta identità</string>
+    <string name="signup_identitycard_rear">RETRO - Carta identità</string>
+    <string name="signup_identitycard_photo">Scegli una foto</string>
+
+    <string name="signup_healthcard">Tessera sanitaria</string>
+    <string name="signup_healthcard_front">FRONTE - Tessera sanitaria</string>
+    <string name="signup_healthcard_rear">RETRO - Tessera sanitaria</string>
+    <string name="signup_healthcard_photo">Scegli una foto</string>
+    <string name="signup_healthcard_send_toast">Elaborazione documenti</string>
+
+    <string name="signup_summary">Dati anagrafici</string>
+    <string name="signup_summary_name">Nome</string>
+    <string name="signup_summary_surname">Cognome</string>
+    <string name="signup_summary_cf">Codice fiscale</string>
+    <string name="signup_summary_country">Stato residenza</string>
+    <string name="signup_summary_address">Indirizzo di residenza</string>
+    <string name="signup_summary_address_number">Numero civico</string>
+    <string name="signup_summary_cap">Codice Postale</string>
+    <string name="signup_summary_city">Città</string>
+    <string name="signup_summary_province">Provincia</string>
+    <string name="signup_summary_region">Regione</string>
+
+    <string name="signup_email">Indirizzo email</string>
+    <string name="signup_email_email">e-mail</string>
+
+    <string name="signup_emailwait">Inserisci e-mail</string>
+    <string name="signup_emailwait_title">Fase verifica e conferma\nindirizzo e-mail</string>
+    <string name="signup_emailwait_email">Ti abbiamo inviato una e-mail all\'indirizzo\n%1$s clicca su link in esso contenuto. Attendi conferma automatica.</string>
+    <string name="signup_emailwait_resend">reinvia E-MAIL</string>
+    <string name="signup_emailwait_resend_toast">Invio email in corso</string>
+
+    <string name="signup_emailcode">Inserisci e-mail</string>
+    <string name="signup_emailcode_email">Ti abbiamo inviato una e-mail all\'indirizzo\n%1$s. Inserisci il codice qui sotto.</string>
+    <string name="signup_email_confirm">Conferma</string>
+
+    <string name="telephonecode_hint">Codice SMS</string>
+    <string name="invitationcode_hint">Codice invito</string>
+
+    <string name="signin_pin_title">Per accedere digita il PIN</string>
+
+    <!--<string name="signup_pin">Inserisci PIN (5 cifre)</string>-->
+    <string name="signup_pin_pin">PIN</string>
+    <string name="signup_pin_check">Ridigita PIN</string>
+    <string name="signup_pin_save_toast">Creazione utente in corso</string>
+
+    <string name="creditcard_header">Carta di Credito</string>
+    <string name="creditcard_number">Numero Carta Credito</string>
+    <string name="creditcard_expiration">Scadenza MMYY</string>
+    <string name="creditcard_ccv">CCV</string>
+    <string name="creditcard_save_toast">Registrazione carta in corso</string>
+
+    <string name="iban_header">Conto bancario</string>
+    <string name="iban_number">Numero IBAN</string>
+    <string name="iban_save_toast">Registrazione IBAN in corso</string>
+    <string name="iban_address">Indirizzo e numero civico</string>
+    <string name="iban_zipcode">Codice Postale</string>
+    <string name="iban_city">Città</string>
+
+
+    <string name="financialdata_header">Dati Finanziari</string>
+    <string name="financialdata_header_cc">Carta di Credito/Debito</string>
+    <string name="financialdata_header_iban">Conto Bancario</string>
+
+
+    <string name="financialdata_creditcard">Carta di Credito</string>
+    <string name="financialdata_creditcard_number">451234578901234</string>
+    <string name="financialdata_creditcard_expiration">12/2017</string>
+    <string name="financialdata_iban">IBAN</string>
+    <string name="financialdata_iban_number">IT00A01234567890123456789012</string>
+    <string name="financialdata_close">Chiudi</string>
+
+    <string name="pin_title">Inserisci PIN</string>
+    <string name="pin_confirm">Conferma</string>
+    <string name="pin_wrong">Pin errato</string>
+
+    <string name="main_restriction_msg">Limiti operatività</string>
+    <string name="main_selfie_photo">Scegli una foto</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="balance_limit_alert_title">Limiti operatività</string>
+    <string name="balance_limit_alert_message">Completa il tuo profilo utente per non aver vincoli di operatività.</string>
+
+    <string name="progress_title">Limiti operatività</string>
+    <!-- qr receive -->
+    <string name="qr_receive_title">Richiedi denaro</string>
+    <string name="qr_receive_message">Indicare l\'importo da richiedere</string>
+
+    <string name="qr_receive_show_message">Fai leggere questo Qr Code</string>
+
+    <string name="qr_receive_button_message">Genera QrCode</string>
+
+    <string name="dashboard_title">Dashboard</string>
+    <string name="dashboard_balance">Balance:</string>
+
+
+
+    <!-- payin -->
     <string name="payin_title">Ricarica conto</string>
     <string name="payin_subtitle">indicare l\'importo da ricaricare</string>
 
@@ -13,7 +329,22 @@
 
     <string name="payin_cc">Metodo pagamento</string>
 
-    <string name="confirm">Conferma</string>
+    <string name="payout_title">Prelievo conto</string>
+    <string name="payout_subtitle">indicare l\'importo da prelevare</string>
 
-    <string name="navheader_forward">Avanti</string>
+    <string name="p2p_title">Invia Denaro</string>
+
+    <string name="payout_amount">Prelievo</string>
+    <string name="payout_fee">Commissione</string>
+
+    <string name="payout_iban">Metodo prelievo</string>
+
+
+    <string name="payment_amount_confirm">Pagamento</string>
+
+    <string name="signuppin_confirm">Conferma</string>
+    <string name="profile_header">Profilo</string>
+    <string name="no_updates">Non è possibile aggiornare le informazioni</string>
+    <string name="choose_salary">Seleziona la tua retribuzione</string>
+
 </resources>

@@ -2,23 +2,27 @@ package com.dwaplatform.android.payin
 
 import com.dwaplatform.android.account.balance.helpers.BalanceHelper
 import com.dwaplatform.android.account.balance.models.BalanceItem
-import com.dwaplatform.android.models.FeeHelper
-import com.dwaplatform.android.models.Money
+import com.dwaplatform.android.auth.keys.KeyChain
+import com.dwaplatform.android.card.db.PaymentCardPersistenceDB
+import com.dwaplatform.android.money.FeeHelper
+import com.dwaplatform.android.money.Money
 import com.dwaplatform.android.money.MoneyHelper
 import com.dwaplatform.android.payin.api.PayInAPI
-import com.dwaplatform.android.payin.models.PayInConfiguration
+import com.dwaplatform.android.models.DataAccount
 import java.util.*
 import javax.inject.Inject
 
 /**
  * Created by ingrid on 07/09/17.
  */
-class PayInPresenter @Inject constructor(val configuration: PayInConfiguration,
+class PayInPresenter @Inject constructor(val configuration: DataAccount,
                                          val view: PayInContract.View,
                                          val api: PayInAPI,
                                          val moneyHelper: MoneyHelper,
                                          val balanceHelper: BalanceHelper,
-                                         val feeHelper: FeeHelper
+                                         val feeHelper: FeeHelper,
+                                         val paymentCardpersistanceDB: PaymentCardPersistenceDB,
+                                         val key: KeyChain
 )
     : PayInContract.Presenter {
 
@@ -49,7 +53,8 @@ class PayInPresenter @Inject constructor(val configuration: PayInConfiguration,
     }
 
     override fun onConfirm() {
-        if (configuration.paymentCardId == null) {
+        val paycard = paymentCardpersistanceDB.paymentCardId()
+        if (paycard == null) {
             view.setForward("")
             view.goToCreditCard()
             return
@@ -61,9 +66,10 @@ class PayInPresenter @Inject constructor(val configuration: PayInConfiguration,
 
         val money = Money.valueOf(view.getAmount())
 
-        api.payIn(configuration.userId,
+        api.payIn(key.get("tokenuser"),
+                configuration.userId,
                 configuration.accountId,
-                configuration.paymentCardId,
+                paycard,
                 money,
                 idempPayin) { optpayinreply, opterror ->
 
@@ -81,8 +87,7 @@ class PayInPresenter @Inject constructor(val configuration: PayInConfiguration,
             }
 
             if (optpayinreply == null) {
-                // FIXME: Why idempotency error?
-                view.showIdempotencyError()
+                view.showCommunicationInternalError()
                 return@payIn
             }
             val payinreply = optpayinreply
@@ -101,7 +106,7 @@ class PayInPresenter @Inject constructor(val configuration: PayInConfiguration,
     }
 
     private fun hasCreditCard(): Boolean {
-        return configuration.paymentCardId != null
+        return paymentCardpersistanceDB.paymentCardId() != null
     }
 
     private fun refreshConfirmButtonName() {
@@ -120,7 +125,7 @@ class PayInPresenter @Inject constructor(val configuration: PayInConfiguration,
     }
 
     private fun reloadBalance() {
-        balanceHelper.api.balance(configuration.userId, configuration.accountId) { optbalance, opterror ->
+        balanceHelper.api.balance(key.get("tokenuser"), configuration.userId, configuration.accountId) { optbalance, opterror ->
             if (opterror != null) {
                 return@balance
             }

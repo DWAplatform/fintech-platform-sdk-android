@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="60dip"
+    android:background="@color/white"
+    android:padding="5dip"
+    android:layout_marginBottom="1dp">
+
+    <TextView
+        android:text="31-01-2017 17:19:52"
+        android:textSize="12dp"
+        android:textColor="@android:color/black"
+        android:id="@+id/listitem_when"
+        android:layout_alignParentRight="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <View
+        android:id="@+id/listitem_newitem"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginLeft="8dp"
+        android:background="@drawable/circle_transaction" />
+
+    <TextView
+        android:id="@+id/listitem_what"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Trasferimento denaro"
+        android:layout_marginRight="8dp"
+        android:textSize="14dp"
+        android:textColor="@android:color/black"
+        android:textAlignment="textEnd"
+        android:gravity="end"
+        android:lines="1"
+        android:layout_toRightOf="@id/listitem_newitem"
+        android:layout_toLeftOf="@+id/listitem_when"
+        android:layout_alignBaseline="@id/listitem_when" />
+
+    <TextView
+        android:text="+200,00 €"
+        android:textSize="20dp"
+        android:textColor="@android:color/darker_gray"
+        android:id="@+id/listitem_amount"
+        android:layout_alignParentRight="true"
+        android:layout_width="wrap_content"
+        android:layout_below="@+id/listitem_when"
+        android:layout_marginTop="5dp"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:id="@+id/listitem_error"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Errore"
+        android:layout_marginLeft="8dp"
+        android:textSize="14dp"
+        android:textColor="@android:color/white"
+        android:textStyle="bold"
+        android:padding="2dp"
+        android:lines="1"
+        android:layout_alignBaseline="@id/listitem_amount"
+        android:background="@drawable/error_rounded_corner" />
+
+    <TextView
+        android:text="Ricarica da carta di credito"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="8dp"
+        android:textSize="17dp"
+        android:textColor="@android:color/black"
+        android:id="@+id/listitem_who"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:singleLine="true"
+        android:textAlignment="textEnd"
+        android:gravity="end"
+        android:ellipsize="end"
+        android:layout_toRightOf="@id/listitem_error"
+        android:layout_toLeftOf="@+id/listitem_amount"
+        android:layout_alignBaseline="@id/listitem_amount" />
+
+</RelativeLayout>

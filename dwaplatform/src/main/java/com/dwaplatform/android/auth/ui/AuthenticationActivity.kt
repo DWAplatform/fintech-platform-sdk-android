@@ -5,13 +5,11 @@ import android.os.Bundle
 import android.support.v4.app.FragmentActivity
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.View
 import com.dwaplatform.android.R
 import com.dwaplatform.android.alert.AlertHelpers
-import com.dwaplatform.android.keys.CheckPinState
-import com.dwaplatform.android.keys.KeyChain
-import com.dwaplatform.android.models.SendEmailHelper
+import com.dwaplatform.android.auth.keys.KeyChain
+import com.dwaplatform.android.email.SendEmailHelper
 import kotlinx.android.synthetic.main.activity_auth.*
 import javax.inject.Inject
 
@@ -21,15 +19,12 @@ import javax.inject.Inject
 class AuthenticationActivity: FragmentActivity(), AuthenticationContract.View {
 
     @Inject lateinit var presenter: AuthenticationContract.Presenter
-    //@Inject lateinit var api: DWApayAPI
     @Inject lateinit var alertHelpers: AlertHelpers
-    //@Inject lateinit var dbhelper: DBUsersHelper
-    @Inject lateinit var keyChain: KeyChain
     @Inject lateinit var emailHelper: SendEmailHelper
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        //(application as App).netComponent?.inject(this)
+        AuthUI.createAuthViewComponent(this, this).inject(this)
         setContentView(R.layout.activity_auth)
 
         pinEntry.addTextChangedListener(object : TextWatcher {
@@ -56,13 +51,9 @@ class AuthenticationActivity: FragmentActivity(), AuthenticationContract.View {
     }
 
     override fun goToMain() {
-//        startActivity(Intent(this, MainActivity::class.java))
-//        finish()
-    }
-
-    override fun setTokenUser(token: String) {
-        //todo sharedpreferences need application context?
-        keyChain.set("tokenuser", token, this)
+        //TODO gotoMain from auth Activity
+        //startActivity(Main)
+        finish()
     }
 
     override fun showMaxAttemptExpired() {

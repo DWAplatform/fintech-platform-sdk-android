@@ -2,7 +2,7 @@ package com.dwaplatform.android.account.balance.db
 
 import com.dwaplatform.android.account.balance.helpers.BalancePersistence
 import com.dwaplatform.android.account.balance.models.BalanceItem
-import com.dwaplatform.android.models.Money
+import com.dwaplatform.android.money.Money
 
 /**
  * Created by ingrid on 07/12/17.

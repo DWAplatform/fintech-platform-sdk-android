@@ -16,5 +16,20 @@
         <activity
             android:name=".card.ui.PaymentCardActivity">
         </activity>
+        <activity
+            android:name=".auth.ui.AuthenticationActivity">
+        </activity>
+        <activity
+            android:name=".payout.ui.PayOutActivity">
+        </activity>
+        <activity
+            android:name=".iban.ui.IBANActivity">
+        </activity>
+        <activity
+            android:name=".transactions.ui.TransactionsActivity">
+        </activity>
+        <activity
+            android:name=".transactions.ui.transactionDetail.ui.TransactionDetailActivity">
+        </activity>
     </application>
 </manifest>

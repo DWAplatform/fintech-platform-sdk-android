@@ -1,12 +1,14 @@
 package com.dwaplatform.android.payin.ui;
 
 import com.dwaplatform.android.account.balance.helpers.BalanceHelper;
-import com.dwaplatform.android.models.FeeHelper;
+import com.dwaplatform.android.auth.keys.KeyChain;
+import com.dwaplatform.android.card.db.PaymentCardPersistenceDB;
+import com.dwaplatform.android.money.FeeHelper;
 import com.dwaplatform.android.money.MoneyHelper;
 import com.dwaplatform.android.payin.PayInContract;
 import com.dwaplatform.android.payin.PayInPresenter;
 import com.dwaplatform.android.payin.api.PayInAPI;
-import com.dwaplatform.android.payin.models.PayInConfiguration;
+import com.dwaplatform.android.models.DataAccount;
 
 import javax.inject.Singleton;
 
@@ -21,10 +23,10 @@ import dagger.Provides;
 public class PayInPresenterModule {
 
     private final PayInContract.View view;
-    private final PayInConfiguration configuration;
+    private final DataAccount configuration;
 
     public PayInPresenterModule(PayInContract.View view,
-                                PayInConfiguration configuration) {
+                                DataAccount configuration) {
         this.view = view;
         this.configuration = configuration;
     }
@@ -34,7 +36,9 @@ public class PayInPresenterModule {
     PayInContract.Presenter providePayInPresenter(PayInAPI api,
                                                   MoneyHelper moneyHelper,
                                                   BalanceHelper balanceHelper,
-                                                  FeeHelper feeHelper) {
-        return new PayInPresenter(configuration, view, api, moneyHelper, balanceHelper, feeHelper);
+                                                  FeeHelper feeHelper,
+                                                  PaymentCardPersistenceDB persistenceDB,
+                                                  KeyChain key) {
+        return new PayInPresenter(configuration, view, api, moneyHelper, balanceHelper, feeHelper, persistenceDB, key);
     }
 }

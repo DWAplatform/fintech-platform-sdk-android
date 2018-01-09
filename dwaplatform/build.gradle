@@ -66,6 +66,7 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'com.android.support:appcompat-v7:26.1.0'
     implementation 'com.android.support:design:26.1.0'
+    implementation 'com.android.support:cardview-v7:26.1.0'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation('com.android.support.test.espresso:espresso-core:3.0.1', {
         exclude group: 'com.android.support', module: 'support-annotations'
@@ -78,6 +79,8 @@ dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
 
+    implementation 'com.github.mukeshsolanki:country-picker-android:1.1.9'
+    implementation 'cn.pedant.sweetalert:library:1.3'
 }
 
 dependencies {
@@ -113,8 +116,6 @@ dependencies {
 
     // kotlin extensions
     implementation "com.github.Raizlabs.DBFlow:dbflow-kotlinextensions:${dbflow_version}@aar"
-
-    implementation 'cn.pedant.sweetalert:library:1.3'
 }
 
 repositories {

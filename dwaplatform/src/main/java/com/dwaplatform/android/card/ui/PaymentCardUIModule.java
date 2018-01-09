@@ -1,5 +1,7 @@
 package com.dwaplatform.android.card.ui;
 
+import com.dwaplatform.android.models.DataAccount;
+
 import javax.inject.Singleton;
 
 import dagger.Module;
@@ -11,19 +13,19 @@ import dagger.Provides;
 @Module
 public class PaymentCardUIModule {
 
-    String hostname;
-    String token;
-    boolean sandbox;
+    private String hostname;
+    private boolean sandbox;
+    private DataAccount dataAccount;
 
-    public PaymentCardUIModule(String hostname, String token, boolean sandbox) {
+    public PaymentCardUIModule(String hostname, boolean sandbox, DataAccount dataAccount) {
         this.hostname = hostname;
-        this.token = token;
         this.sandbox = sandbox;
+        this.dataAccount = dataAccount;
     }
 
     @Provides
     @Singleton
     PaymentCardUI providesPaymentCardUI() {
-        return new PaymentCardUI(hostname, token, sandbox);
+        return new PaymentCardUI(hostname, sandbox, dataAccount);
     }
 }

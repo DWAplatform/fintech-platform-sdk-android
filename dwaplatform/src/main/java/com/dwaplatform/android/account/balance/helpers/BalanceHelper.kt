@@ -2,19 +2,21 @@ package com.dwaplatform.android.account.balance.helpers
 
 import com.dwaplatform.android.account.balance.api.BalanceAPI
 import com.dwaplatform.android.account.balance.models.BalanceItem
-import com.dwaplatform.android.models.Money
+import com.dwaplatform.android.auth.keys.KeyChain
+import com.dwaplatform.android.money.Money
 import javax.inject.Inject
 
 /**
  * Created by tcappellari on 08/12/2017.
  */
 open class BalanceHelper @Inject constructor(val persistence: BalancePersistence,
-                                             val api: BalanceAPI) {
+                                             val api: BalanceAPI,
+                                             val keyChain: KeyChain) {
 
 
     fun getAndUpdateCachedBalance(userId: String, accountId: String, callback: (Money?, Exception?) -> Unit): Money {
 
-        api.balance(userId, accountId) {  optbalance, opterror ->
+        api.balance(keyChain["tokenuser"], userId, accountId) {  optbalance, opterror ->
             if (opterror != null) {
                 callback(null, opterror)
                 return@balance

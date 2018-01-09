@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:background="@color/background"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:id="@+id/header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/headerbackgroundcolor">
+
+            <Button
+                android:id="@+id/backwardButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Annulla"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:textSize="18dp"
+                android:layout_marginLeft="5dp"
+                android:textAllCaps="false"
+                style="@style/headerButtonStyle" />
+
+            <Button
+                android:id="@+id/forwardButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/navheader_forward"
+                android:layout_alignBaseline="@id/backwardButton"
+                android:layout_marginRight="5dp"
+                android:enabled="false"
+                android:layout_alignParentRight="true"
+                style="@style/headerButtonStyle"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/backwardButton"
+                android:layout_marginBottom="25dp">
+
+                <TextView
+                    android:id="@+id/navheader_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:text="@string/payout_title"
+                    android:textSize="22dp"
+                    android:textColor="@android:color/white"
+                    android:textAlignment="center"/>
+
+                <ProgressBar
+                    android:id="@+id/activityIndicator"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:indeterminateOnly="true"
+                    android:keepScreenOn="true"
+                    android:layout_marginLeft="20dp"
+                    android:layout_toRightOf="@id/navheader_title"
+                    android:indeterminateTint="@color/white"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/navheader_subtitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:text="@string/payout_subtitle"
+                    android:textSize="17dp"
+                    android:textColor="@android:color/white"
+                    android:layout_below="@id/navheader_title"
+                    android:textAlignment="center"/>
+
+            </RelativeLayout>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:layout_below="@+id/header">
+
+            <EditText
+                android:id="@+id/amountText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/black"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="10dp"
+                android:padding="5dp"
+                android:inputType="numberDecimal"
+                android:layout_toLeftOf="@id/currencyLabel"
+                android:hint="0,00"
+                android:gravity="right"
+                android:singleLine="true"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/background_entry"
+                android:textSize="24dp" />
+
+            <TextView
+                android:id="@+id/currencyLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="24dp"
+                android:text="€"
+                android:textColor="@android:color/black"
+                android:layout_alignParentEnd="true"
+                android:layout_marginRight="20dp"
+                android:layout_alignBaseline="@id/amountText" />
+
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/newBalanceAmountLabel"
+            android:layout_marginTop="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="15dp"
+            android:layout_below="@id/content"
+            android:layout_alignParentEnd="true"
+            android:text="€"
+            android:textColor="@android:color/black"
+            android:layout_marginRight="20dp" />
+
+        <TextView
+            android:id="@+id/newBalanceLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="15dp"
+            android:layout_alignBaseline="@id/newBalanceAmountLabel"
+            android:layout_toLeftOf="@id/newBalanceAmountLabel"
+            android:text="@string/payin_newbalance_label"
+            android:textColor="@android:color/black"
+            android:layout_marginRight="10dp" />
+
+        <TextView
+            android:id="@+id/feeAmountLabel"
+            android:layout_marginTop="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="15dp"
+            android:layout_below="@id/newBalanceAmountLabel"
+            android:layout_alignParentEnd="true"
+            android:text="€"
+            android:textColor="@android:color/black"
+            android:layout_marginRight="20dp" />
+
+        <TextView
+            android:id="@+id/feeLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="15dp"
+            android:layout_alignBaseline="@id/feeAmountLabel"
+            android:layout_toLeftOf="@id/feeAmountLabel"
+            android:text="@string/payin_fee_label"
+            android:layout_alignEnd="@id/newBalanceLabel"
+            android:textColor="@android:color/black" />
+
+    </RelativeLayout>
+
+
+
+</RelativeLayout>
