@@ -11,7 +11,9 @@ class UsersPersistanceDB @Inject constructor(val dbUsers: UsersDB) {
 
     fun userid(): String {
         val user = dbUsers.findUser()
-        return user!!.id!!
+        return user?.id?.let {
+             it
+        }?: ""
     }
 
     fun fullName(): String {

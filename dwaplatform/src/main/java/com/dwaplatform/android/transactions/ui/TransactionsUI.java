@@ -52,9 +52,10 @@ public class TransactionsUI {
         return createTransactionItemComponent(v);
     }
 
-    public void start(Context context) {
+    public TransactionsFragment start() {
         instance = this;
-        Intent intent = new Intent(context, TransactionsActivity.class);
-        context.startActivity(intent);
+//        Intent intent = new Intent(context, TransactionsFragment.class);
+//        context.startActivity(intent);
+        return TransactionsFragment.Companion.newInstance();
     }
 }

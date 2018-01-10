@@ -6,8 +6,12 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.os.Bundle
+import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentActivity
 import android.support.v7.widget.LinearLayoutManager
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import com.dwaplatform.android.R
 import com.dwaplatform.android.transactions.models.TransactionItem
 import com.dwaplatform.android.transactions.models.TransactionsManager
@@ -19,7 +23,7 @@ import javax.inject.Inject
 /**
  * Transactions list view fragment
  */
-class TransactionsActivity: FragmentActivity(), TransactionsContract.View {
+class TransactionsFragment : Fragment(), TransactionsContract.View {
 
     @Inject lateinit var manager: TransactionsManager
     @Inject lateinit var presenter: TransactionsContract.Presenter
@@ -30,32 +34,30 @@ class TransactionsActivity: FragmentActivity(), TransactionsContract.View {
             presenter.refreshTransactions()
         }
     }
-//
-//    companion object {
-//        fun newInstance(): TransactionsFragment {
-//            return TransactionsFragment()
-//        }
-//    }
-//
-//    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
-//                              savedInstanceState: Bundle?): View? {
-//        val view = inflater?.inflate(R.layout.activity_transactions, container, false)
-//        App.buildTransactionsComponent(this, this).inject(this)
-//        return view
-//    }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_transactions)
+    companion object {
+        fun newInstance(): TransactionsFragment {
+            return TransactionsFragment()
+        }
+    }
 
-        TransactionsUI.instance.createTransactionsViewComponent(this, this).inject(this)
+    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
+                              savedInstanceState: Bundle?): View? {
+        val view = inflater?.inflate(R.layout.activity_transactions, container, false)
+        TransactionsUI.instance.createTransactionsViewComponent(context, this).inject(this)
+
+        return view
+    }
+
+    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
 
         swipeLayout.setOnRefreshListener { presenter.refreshTransactions() }
 
-        listView.layoutManager = LinearLayoutManager(this)
-        listView.adapter = TransactionsAdapter(this, manager) { transaction ->
+        listView.layoutManager = LinearLayoutManager(context)
+        listView.adapter = TransactionsAdapter(activity, manager) { transaction ->
             presenter.transactionClick(transaction)
         }
+
     }
 
     override fun onResume() {
@@ -63,7 +65,7 @@ class TransactionsActivity: FragmentActivity(), TransactionsContract.View {
 
         val filter = IntentFilter()
         //filter.addAction(DwapayFirebaseMessagingService.BROADCAST_PAYMENT)
-        registerReceiver(notificationReceiver, filter)
+        activity.registerReceiver(notificationReceiver, filter)
 
         presenter.refreshTransactions()
         presenter.currentTransactions()
@@ -71,15 +73,15 @@ class TransactionsActivity: FragmentActivity(), TransactionsContract.View {
 
     override fun onPause() {
         super.onPause()
-        unregisterReceiver(notificationReceiver)
+        activity.unregisterReceiver(notificationReceiver)
     }
 
-//    override fun onHiddenChanged(hidden: Boolean) {
-//        //todo super.onHiddenChanged(hidden) transactions activity
-//        if (!hidden) {
-//            presenter.currentTransactions()
-//        }
-//    }
+    override fun onHiddenChanged(hidden: Boolean) {
+        //todo super.onHiddenChanged(hidden) transactions activity
+        if (!hidden) {
+            presenter.currentTransactions()
+        }
+    }
 
     override fun showTransactions(trs: List<TransactionItem>) {
         swipeLayout.isRefreshing = false
@@ -91,7 +93,7 @@ class TransactionsActivity: FragmentActivity(), TransactionsContract.View {
 //        val intent = Intent(this, TransactionDetailActivity::class.java)
 //        intent.putExtra("transaction", transaction)
 //        startActivity(intent)
-        transactionDetail.start(this, transaction)
+        transactionDetail.start(context, transaction)
     }
 
 }
