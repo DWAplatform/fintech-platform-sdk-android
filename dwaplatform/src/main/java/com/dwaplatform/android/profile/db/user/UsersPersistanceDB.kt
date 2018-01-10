@@ -1,4 +1,4 @@
-package com.dwaplatform.android.profile.db
+package com.dwaplatform.android.profile.db.user
 
 import com.dwaplatform.android.iban.models.UserResidential
 import com.dwaplatform.android.profile.models.UserContacts

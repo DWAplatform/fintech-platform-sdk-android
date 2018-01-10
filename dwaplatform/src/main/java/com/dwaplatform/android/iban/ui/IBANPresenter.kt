@@ -5,7 +5,7 @@ import com.dwaplatform.android.iban.api.IbanAPI
 import com.dwaplatform.android.iban.db.IbanPersistanceDB
 import com.dwaplatform.android.iban.models.UserResidential
 import com.dwaplatform.android.models.DataAccount
-import com.dwaplatform.android.profile.db.UsersPersistanceDB
+import com.dwaplatform.android.profile.db.user.UsersPersistanceDB
 import com.mukesh.countrypicker.Country
 import javax.inject.Inject
 

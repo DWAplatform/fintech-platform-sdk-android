@@ -1,0 +1,112 @@
+package com.dwaplatform.android.profile.idcards.ui
+
+import android.content.Intent
+import android.graphics.Bitmap
+import com.dwaplatform.android.auth.keys.KeyChain
+import com.dwaplatform.android.images.ImageHelper
+import com.dwaplatform.android.models.DataAccount
+import com.dwaplatform.android.profile.api.ProfileAPI
+import com.dwaplatform.android.profile.db.documents.DocumentsPersistanceDB
+import com.dwaplatform.android.profile.db.user.UsersPersistanceDB
+import com.dwaplatform.android.profile.models.UserDocuments
+import java.util.*
+import javax.inject.Inject
+
+/**
+ * Created by ingrid on 10/01/18.
+ */
+class IdentityCardsPresenter @Inject constructor(val view: IdentityCardsContract.View,
+                                                 val api: ProfileAPI,
+                                                 val configuration: DataAccount,
+                                                 val dbDocumentsHelper: DocumentsPersistanceDB,
+                                                 val usersPersistanceDB: UsersPersistanceDB,
+                                                 val keyChain: KeyChain,
+                                                 val imageHelper: ImageHelper): IdentityCardsContract.Presenter {
+
+    var photosBase64 = arrayOfNulls<String?>(2)
+    var index = -1
+    var idempotencyIDcard: String? = null
+
+    override fun initializate() {
+        val documents = dbDocumentsHelper.getDocuments()
+        documents?.pages?.let { docs ->
+            photosBase64 = docs
+            photosBase64[0]?.let { view.setFrontImage(imageHelper.bitmapImageView(it)) }
+            photosBase64[1]?.let { view.setBackImage(imageHelper.bitmapImageView(it)) }
+        }
+
+        idempotencyIDcard = UUID.randomUUID().toString()
+    }
+
+    override fun onRefresh() {
+        if(index >= 0) {
+            photosBase64[0]?.let { view.setFrontImage(imageHelper.bitmapImageView(it)) }
+            photosBase64[1]?.let { view.setBackImage(imageHelper.bitmapImageView(it)) }
+        }
+    }
+
+    override fun onAbort() {
+        view.goBack()
+    }
+
+    override fun onConfirm() {
+        view.showWaiting()
+
+        val idempDocs = this.idempotencyIDcard ?: return
+
+        api.documents(
+                keyChain["tokenuser"],
+                configuration.userId,
+                "IDENTITY_CARD",
+                photosBase64,
+                idempDocs) { optDocs, opterror ->
+
+            view.hideWaiting()
+
+            if(opterror != null) {
+                view.showCommunicationInternalNetwork()
+                return@documents
+            }
+
+            if(optDocs == null) {
+                view.showCommunicationInternalNetwork()
+                return@documents
+            }
+
+            val userDocuments = UserDocuments(configuration.userId,"IDENTITY_CARD", photosBase64)
+            view.enableConfirmButton(false)
+            dbDocumentsHelper.replaceDocuments(userDocuments)
+            view.goBack()
+        }
+    }
+
+    override fun refreshConfirmButton() {
+        view.setAbortText()
+        if(photosBase64.filterNotNull().size == 2){
+            view.enableConfirmButton(true)
+        } else {
+            view.enableConfirmButton(false)
+        }
+    }
+
+    override fun onCameraFrontClick() {
+        view.checkCameraPermission()
+        view.goToCameraFront()
+    }
+
+    override fun onCameraBackClick() {
+        view.checkCameraPermission()
+        view.goToCameraBack()
+    }
+
+    override fun onPictureTaken(optData: Intent?, index: Int) {
+        val data = optData?: return
+        val bitmap = data.extras["data"] as Bitmap
+        val photoBase64 = imageHelper.resizeBitmapViewCardId(bitmap)
+        photosBase64[index] = photoBase64
+        refreshConfirmButton()
+        this.index = index
+    }
+
+
+}

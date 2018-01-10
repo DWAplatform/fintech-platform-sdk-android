@@ -8,9 +8,10 @@ import com.dwaplatform.android.api.IRequestQueue
 import com.dwaplatform.android.iban.models.UserResidential
 import com.dwaplatform.android.log.Log
 import com.dwaplatform.android.profile.models.*
+import org.json.JSONArray
 import org.json.JSONObject
 import java.net.URLEncoder
-import java.util.HashMap
+import java.util.*
 import javax.inject.Inject
 
 
@@ -24,6 +25,11 @@ class ProfileAPI @Inject constructor(
             30000, 0, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT)
 
     private val TAG = "ProfileAPI"
+
+
+    inner class GenericCommunicationError(throwable: Throwable) : Exception(throwable)
+
+    inner class IdempotencyError(throwable: Throwable) : Exception(throwable)
 
     private fun getURL(path: String): String {
         if (hostName.startsWith("http://") || hostName.startsWith("https://")){
@@ -201,6 +207,52 @@ class ProfileAPI @Inject constructor(
         return request
     }
 
+    fun documents(token: String,
+                  userid: String,
+                  doctype: String,
+                  documents: Array<String?>,
+                  idempotency: String?,
+                  completion: (Boolean?, Exception?) -> Unit): IRequest<*>? {
+
+        val url = getURL("/rest/1.0/users/$userid/documents")
+
+        var request : IRequest<*>?
+
+        try {
+            val ja = JSONArray()
+            for(i in 0 until documents.size){
+                ja.put(documents[i])
+            }
+
+            val jsonObject = JSONObject()
+            jsonObject.put("doctype", doctype)
+            jsonObject.put("pages", ja)
+            jsonObject.putOpt("idempotency", idempotency)
+
+            val r = requestProvider.jsonObjectRequest(Request.Method.POST, url, jsonObject, authorizationToken(token), { response ->
+                completion(true, null)
+            }) { error ->
+                val status = if (error.networkResponse != null)
+                    error.networkResponse.statusCode else -1
+                when (status) {
+                    409 -> {
+                        completion(null, IdempotencyError(error))
+                    }
+                    else -> completion(null, GenericCommunicationError(error))
+                }
+            }
+
+            r.setIRetryPolicy(defaultpolicy)
+            queue.add(r)
+            request = r
+        } catch (e: Exception){
+            log.error(TAG, "documents", e)
+            request = null
+        }
+
+        return request
+    }
+
     fun lightdata(token: String,
                   lightData: UserLightData,
                   completion: (UserProfileReply?, Exception?) -> Unit) {
@@ -248,4 +300,5 @@ class ProfileAPI @Inject constructor(
                 income = jobInfo.income,
                 completion = completion)
     }
+
 }

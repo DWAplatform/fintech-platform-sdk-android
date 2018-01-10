@@ -11,7 +11,7 @@ import com.dwaplatform.android.card.db.PaymentCardDB
 import com.dwaplatform.android.card.db.PaymentCardPersistenceDB
 import com.dwaplatform.android.card.models.PaymentCardItem
 import com.dwaplatform.android.models.DataAccount
-import com.dwaplatform.android.profile.db.Users
+import com.dwaplatform.android.profile.db.user.Users
 import com.raizlabs.android.dbflow.kotlinextensions.insert
 import com.raizlabs.android.dbflow.sql.language.SQLite
 import kotlinx.android.synthetic.main.activity_main.*
@@ -103,6 +103,15 @@ class MainActivity : AppCompatActivity() {
 
             val builder = DWAplatform.buildProfile().createJobInfoUI(hostName, DataAccount(userId, accountId))
             builder.jobInfoUI.start(this)
+        }
+
+        idcards.setOnClickListener {
+            val user = Users()
+            user.id = userId
+            user.save()
+
+            val builder = DWAplatform.buildProfile().createIdCardsUI(hostName, DataAccount(userId, accountId))
+            builder.identityCardsUI.start(this)
         }
     }
 }

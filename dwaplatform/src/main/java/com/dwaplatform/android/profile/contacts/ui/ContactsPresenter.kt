@@ -4,7 +4,7 @@ import com.dwaplatform.android.auth.keys.KeyChain
 import com.dwaplatform.android.email.EmailHelper
 import com.dwaplatform.android.models.DataAccount
 import com.dwaplatform.android.profile.api.ProfileAPI
-import com.dwaplatform.android.profile.db.UsersPersistanceDB
+import com.dwaplatform.android.profile.db.user.UsersPersistanceDB
 import com.dwaplatform.android.profile.models.UserContacts
 import com.dwaplatform.android.profile.models.UserProfileReply
 import javax.inject.Inject

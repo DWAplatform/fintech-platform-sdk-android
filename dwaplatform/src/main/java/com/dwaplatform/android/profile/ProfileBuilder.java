@@ -7,8 +7,11 @@ import com.dwaplatform.android.profile.address.ui.AddressUIModule;
 import com.dwaplatform.android.profile.contacts.ContactsUIComponent;
 import com.dwaplatform.android.profile.contacts.DaggerContactsUIComponent;
 import com.dwaplatform.android.profile.contacts.ui.ContactsUIModule;
-import com.dwaplatform.android.profile.jobinfo.DaggerJobInfoUIComponet;
-import com.dwaplatform.android.profile.jobinfo.JobInfoUIComponet;
+import com.dwaplatform.android.profile.idcards.DaggerIdentityCardsUIComponent;
+import com.dwaplatform.android.profile.idcards.IdentityCardsUIComponent;
+import com.dwaplatform.android.profile.idcards.ui.IdentityCardsUIModule;
+import com.dwaplatform.android.profile.jobinfo.DaggerJobInfoUIComponent;
+import com.dwaplatform.android.profile.jobinfo.JobInfoUIComponent;
 import com.dwaplatform.android.profile.jobinfo.ui.JobInfoUIModule;
 import com.dwaplatform.android.profile.lightdata.DaggerLightDataUIComponent;
 import com.dwaplatform.android.profile.lightdata.LightDataUIComponent;
@@ -34,9 +37,15 @@ public class ProfileBuilder {
                 .build();
     }
 
-    public JobInfoUIComponet createJobInfoUI(String hostname, DataAccount dataAccount ) {
-        return DaggerJobInfoUIComponet.builder()
+    public JobInfoUIComponent createJobInfoUI(String hostname, DataAccount dataAccount ) {
+        return DaggerJobInfoUIComponent.builder()
                 .jobInfoUIModule(new JobInfoUIModule(hostname, dataAccount))
+                .build();
+    }
+
+    public IdentityCardsUIComponent createIdCardsUI(String hostname, DataAccount dataAccount) {
+        return DaggerIdentityCardsUIComponent.builder()
+                .identityCardsUIModule(new IdentityCardsUIModule(hostname, dataAccount))
                 .build();
     }
 }

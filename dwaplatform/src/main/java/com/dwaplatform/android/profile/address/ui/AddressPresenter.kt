@@ -4,7 +4,7 @@ import com.dwaplatform.android.auth.keys.KeyChain
 import com.dwaplatform.android.iban.models.UserResidential
 import com.dwaplatform.android.models.DataAccount
 import com.dwaplatform.android.profile.api.ProfileAPI
-import com.dwaplatform.android.profile.db.UsersPersistanceDB
+import com.dwaplatform.android.profile.db.user.UsersPersistanceDB
 import com.mukesh.countrypicker.Country
 import javax.inject.Inject
 
@@ -15,7 +15,7 @@ class AddressPresenter @Inject constructor(val view: AddressContract.View,
                                            val api: ProfileAPI,
                                            val keyChain: KeyChain,
                                            val configuration: DataAccount,
-                                           val usersPersistanceDB: UsersPersistanceDB ) : AddressContract.Presenter {
+                                           val usersPersistanceDB: UsersPersistanceDB) : AddressContract.Presenter {
 
     override fun initializate() {
 

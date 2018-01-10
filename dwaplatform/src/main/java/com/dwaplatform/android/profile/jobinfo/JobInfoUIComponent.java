@@ -1,6 +1,5 @@
 package com.dwaplatform.android.profile.jobinfo;
 
-import com.dwaplatform.android.profile.jobinfo.ui.JobInfoContract;
 import com.dwaplatform.android.profile.jobinfo.ui.JobInfoUI;
 import com.dwaplatform.android.profile.jobinfo.ui.JobInfoUIModule;
 
@@ -12,6 +11,6 @@ import dagger.Component;
 @Component (modules = {
         JobInfoUIModule.class
 })
-public interface JobInfoUIComponet {
+public interface JobInfoUIComponent {
     JobInfoUI getJobInfoUI();
 }

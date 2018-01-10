@@ -1,12 +1,11 @@
 package com.dwaplatform.android.profile.address.ui;
 
-import com.dwaplatform.android.alert.AlertHelpers;
 import com.dwaplatform.android.alert.AlertHelpersModule;
 import com.dwaplatform.android.api.NetModule;
 import com.dwaplatform.android.auth.keys.KeyChainModule;
 import com.dwaplatform.android.log.LogModule;
 import com.dwaplatform.android.profile.api.ProfileAPIModule;
-import com.dwaplatform.android.profile.db.UsersPersistanceDBModule;
+import com.dwaplatform.android.profile.db.user.UsersPersistanceDBModule;
 
 import javax.inject.Singleton;
 

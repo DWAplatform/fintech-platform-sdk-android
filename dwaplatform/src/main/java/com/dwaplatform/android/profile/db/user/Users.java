@@ -1,4 +1,4 @@
-package com.dwaplatform.android.profile.db;
+package com.dwaplatform.android.profile.db.user;
 
 import com.dwaplatform.android.db.PlatformDB;
 import com.raizlabs.android.dbflow.annotation.Column;
