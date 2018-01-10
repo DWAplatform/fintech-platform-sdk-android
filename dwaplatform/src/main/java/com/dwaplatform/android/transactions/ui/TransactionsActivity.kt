@@ -15,7 +15,6 @@ import android.view.ViewGroup
 import com.dwaplatform.android.R
 import com.dwaplatform.android.transactions.models.TransactionItem
 import com.dwaplatform.android.transactions.models.TransactionsManager
-import com.dwaplatform.android.transactions.ui.transactionDetail.ui.TransactionDetailActivity
 import com.dwaplatform.android.transactions.ui.transactionDetail.ui.TransactionDetailUI
 import kotlinx.android.synthetic.main.activity_transactions.*
 import javax.inject.Inject
@@ -23,7 +22,7 @@ import javax.inject.Inject
 /**
  * Transactions list view fragment
  */
-class TransactionsFragment : Fragment(), TransactionsContract.View {
+class TransactionsActivity : FragmentActivity(), TransactionsContract.View {
 
     @Inject lateinit var manager: TransactionsManager
     @Inject lateinit var presenter: TransactionsContract.Presenter
@@ -35,29 +34,23 @@ class TransactionsFragment : Fragment(), TransactionsContract.View {
         }
     }
 
-    companion object {
-        fun newInstance(): TransactionsFragment {
-            return TransactionsFragment()
-        }
-    }
+//    companion object {
+//        fun newInstance(): TransactionsActivity {
+//            return TransactionsActivity()
+//        }
+//    }
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
-        val view = inflater?.inflate(R.layout.activity_transactions, container, false)
-        TransactionsUI.instance.createTransactionsViewComponent(context, this).inject(this)
-
-        return view
-    }
-
-    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+    override fun onCreate(savedInstanceState: Bundle?){
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_transactions)
+        TransactionsUI.instance.createTransactionsViewComponent(this, this).inject(this)
 
         swipeLayout.setOnRefreshListener { presenter.refreshTransactions() }
 
-        listView.layoutManager = LinearLayoutManager(context)
-        listView.adapter = TransactionsAdapter(activity, manager) { transaction ->
+        listView.layoutManager = LinearLayoutManager(this)
+        listView.adapter = TransactionsAdapter(this, manager) { transaction ->
             presenter.transactionClick(transaction)
         }
-
     }
 
     override fun onResume() {
@@ -65,7 +58,7 @@ class TransactionsFragment : Fragment(), TransactionsContract.View {
 
         val filter = IntentFilter()
         //filter.addAction(DwapayFirebaseMessagingService.BROADCAST_PAYMENT)
-        activity.registerReceiver(notificationReceiver, filter)
+        registerReceiver(notificationReceiver, filter)
 
         presenter.refreshTransactions()
         presenter.currentTransactions()
@@ -73,15 +66,15 @@ class TransactionsFragment : Fragment(), TransactionsContract.View {
 
     override fun onPause() {
         super.onPause()
-        activity.unregisterReceiver(notificationReceiver)
+        unregisterReceiver(notificationReceiver)
     }
 
-    override fun onHiddenChanged(hidden: Boolean) {
-        //todo super.onHiddenChanged(hidden) transactions activity
-        if (!hidden) {
-            presenter.currentTransactions()
-        }
-    }
+//    override fun onHiddenChanged(hidden: Boolean) {
+//        //todo super.onHiddenChanged(hidden) transactions activity
+//        if (!hidden) {
+//            presenter.currentTransactions()
+//        }
+//    }
 
     override fun showTransactions(trs: List<TransactionItem>) {
         swipeLayout.isRefreshing = false
@@ -93,7 +86,7 @@ class TransactionsFragment : Fragment(), TransactionsContract.View {
 //        val intent = Intent(this, TransactionDetailActivity::class.java)
 //        intent.putExtra("transaction", transaction)
 //        startActivity(intent)
-        transactionDetail.start(context, transaction)
+        transactionDetail.start(this, transaction)
     }
 
 }

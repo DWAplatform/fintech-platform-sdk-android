@@ -16,7 +16,7 @@ class ContactsPresenter @Inject constructor(val view: ContactsContract.View,
                                             val usersPersistanceDB: UsersPersistanceDB): ContactsContract.Presenter {
 
     override fun initializate() {
-        val userProfile = usersPersistanceDB.userProfile()
+        val userProfile = usersPersistanceDB.userProfile(configuration.userId)
         userProfile?.let {
             view.setEmailText(it.email?: "")
             view.setTelephoneText(it.telephone?: "")
@@ -27,7 +27,7 @@ class ContactsPresenter @Inject constructor(val view: ContactsContract.View,
         view.enableAllTexts(false)
 
         api.searchUser(keyChain["tokenuser"],
-                usersPersistanceDB.userid()){ profile, exception ->
+                configuration.userId){ profile, exception ->
 
             if (exception != null){
                 return@searchUser

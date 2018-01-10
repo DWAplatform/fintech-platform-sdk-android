@@ -30,7 +30,7 @@
             android:theme="@style/Theme.AppCompat.NoActionBar">
         </activity>
         <activity
-            android:name=".transactions.ui.TransactionsFragment"
+            android:name=".transactions.ui.TransactionsActivity"
             android:theme="@style/noAnimTheme">
         </activity>
         <activity

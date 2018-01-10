@@ -113,7 +113,7 @@ class JobInfoPresenter @Inject constructor(val view: JobInfoContract.View,
 
 
     private fun reloadUserData() {
-        val userProfile = usersPersistanceDB.userProfile()
+        val userProfile = usersPersistanceDB.userProfile(configuration.userId)
         userProfile?.let {
             view.setJobInfoText(it.jobinfo ?: "")
             view.setIcomeText(setSalaryValue(it.income ?: ""))

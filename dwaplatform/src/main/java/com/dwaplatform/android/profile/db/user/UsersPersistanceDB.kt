@@ -9,24 +9,22 @@ import javax.inject.Inject
 
 class UsersPersistanceDB @Inject constructor(val dbUsers: UsersDB) {
 
-    fun userid(): String {
-        val user = dbUsers.findUser()
-        return user?.id?.let {
-             it
-        }?: ""
-    }
+//    fun userid(): String {
+//        val user = dbUsers.findUserId()
+//        return user!!.id!!
+//    }
 
-    fun fullName(): String {
-        val optuser = dbUsers.findUser()
+    fun fullName(userId: String): String {
+        val optuser = dbUsers.findUser(userId)
         return optuser?.let { user ->
             "${user.myname ?: ""} ${user.surname ?: ""}"
         } ?: ""
     }
 
-    fun userProfile(): UserProfile? {
-        val optuserobj = dbUsers.findUser()
+    fun userProfile(userId: String): UserProfile? {
+        val optuserobj = dbUsers.findUser(userId)
         return optuserobj?.let {
-            UserProfile(userid(),
+            UserProfile(userId,
                     it.myname,
                     it.surname,
                     it.nationality,
@@ -43,21 +41,21 @@ class UsersPersistanceDB @Inject constructor(val dbUsers: UsersDB) {
         }
     }
 
-    fun residential(): UserResidential? {
-        val optuserobj = dbUsers.findUser()
+    fun residential(userId: String): UserResidential? {
+        val optuserobj = dbUsers.findUser(userId)
         return optuserobj?.let { userobj ->
             UserResidential(userobj.id, userobj.address,
                     userobj.ZIPcode, userobj.city, userobj.countryofresidence)
         }
     }
 
-    fun iconBase64Image(): String? {
-        val optuser = dbUsers.findUser()
+    fun iconBase64Image(userId: String): String? {
+        val optuser = dbUsers.findUser(userId)
         return optuser?.photo
     }
 
-    fun saveUserPhoto(photo: String) {
-        val optobj = dbUsers.findUser()
+    fun saveUserPhoto(userId: String, photo: String) {
+        val optobj = dbUsers.findUser(userId)
         optobj?.let { obj ->
             obj.photo = photo
             dbUsers.saveUser(obj)
@@ -65,8 +63,7 @@ class UsersPersistanceDB @Inject constructor(val dbUsers: UsersDB) {
     }
 
     fun saveResidential(residential: UserResidential): Boolean {
-
-        val optobj = dbUsers.findUser()
+        val optobj = dbUsers.findUser(residential.userid)
         return optobj?.let { obj ->
             obj.address = residential.address
             obj.city = residential.city
@@ -77,20 +74,17 @@ class UsersPersistanceDB @Inject constructor(val dbUsers: UsersDB) {
         } ?: false
     }
 
-    fun saveLightData(userProfile: UserLightData): Boolean {
-        val optUser = dbUsers.findUser()
-        return optUser?.let {
-            it.myname = userProfile.name
-            it.surname = userProfile.surname
-            it.nationality = userProfile.nationality
-            it.dateOfBirth = userProfile.birthday
-            dbUsers.saveUser(it)
-            true
-        }?: false
+    fun saveLightData(userProfile: UserLightData) {
+        val user = dbUsers.findUser(userProfile.userid) ?: Users()
+            user.myname = userProfile.name
+            user.surname = userProfile.surname
+            user.nationality = userProfile.nationality
+            user.dateOfBirth = userProfile.birthday
+        dbUsers.saveUser(user)
     }
 
     fun saveContacts(userProfile: UserContacts): Boolean {
-        val optUser = dbUsers.findUser()
+        val optUser = dbUsers.findUser(userProfile.userid)
         return optUser?.let {
             it.email = userProfile.email
             it.telephone = userProfile.telephone
@@ -100,7 +94,7 @@ class UsersPersistanceDB @Inject constructor(val dbUsers: UsersDB) {
     }
 
     fun saveJobInfo(userProfile: UserJobInfo): Boolean {
-        val optUser = dbUsers.findUser()
+        val optUser = dbUsers.findUser(userProfile.userid)
         return optUser?.let {
             it.jobinfo = userProfile.jobinfo
             it.income = userProfile.income
@@ -109,14 +103,14 @@ class UsersPersistanceDB @Inject constructor(val dbUsers: UsersDB) {
         }?: false
     }
 
-    fun saveLimitAccount(limitAccount: String){
-        val optUser = dbUsers.findUser()
+    fun saveLimitAccount(id: String, limitAccount: String){
+        val optUser = dbUsers.findUser(id)
         optUser?.let { it.accountLimit = limitAccount
             dbUsers.saveUser(it)}
     }
 
-    fun limitAccountUser(): String? {
-        val optuser = dbUsers.findUser()
+    fun limitAccountUser(id: String): String? {
+        val optuser = dbUsers.findUser(id)
         return optuser?.accountLimit
     }
 }

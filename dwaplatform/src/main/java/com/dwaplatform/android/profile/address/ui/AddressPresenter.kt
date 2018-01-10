@@ -19,7 +19,7 @@ class AddressPresenter @Inject constructor(val view: AddressContract.View,
 
     override fun initializate() {
 
-        val userProfile = usersPersistanceDB.residential()
+        val userProfile = usersPersistanceDB.residential(configuration.userId)
         userProfile?.let {
             view.setAddressText(it.address?: "")
             view.setPostalCodeText(it.ZIPcode?: "")

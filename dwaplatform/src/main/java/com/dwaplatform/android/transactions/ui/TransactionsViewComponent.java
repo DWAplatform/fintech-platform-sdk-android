@@ -25,5 +25,5 @@ import dagger.Component;
         TransactionDetailUIModule.class
 })
 public interface TransactionsViewComponent {
-    void inject(TransactionsFragment activity);
+    void inject(TransactionsActivity activity);
 }

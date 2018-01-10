@@ -1,11 +1,15 @@
 package com.dwaplatform.android.profile.db.user
 
+import com.raizlabs.android.dbflow.kotlinextensions.where
 import com.raizlabs.android.dbflow.sql.language.SQLite
 
 open class UsersDB {
 
-    fun findUser(): Users? {
-        return SQLite.select().from(Users::class.java).querySingle()
+    fun findUser(userId: String): Users? {
+        return SQLite.select()
+                .from(Users::class.java)
+                .where(Users_Table.id.`is`(userId))
+                .querySingle()
     }
 
     fun deleteUser() {

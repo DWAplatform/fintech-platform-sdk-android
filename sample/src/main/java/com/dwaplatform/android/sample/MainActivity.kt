@@ -69,11 +69,6 @@ class MainActivity : AppCompatActivity() {
         }
 
         ligtdata.setOnClickListener {
-            val user = Users()
-            user.id = userId
-            user.address = "via della Lettiera"
-            user.save()
-
             val builder = DWAplatform.buildProfile().createLightDataUI(hostName, DataAccount(userId, accountId))
             builder.lightData.start(this)
         }
