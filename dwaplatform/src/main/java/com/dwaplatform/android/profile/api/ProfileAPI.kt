@@ -207,6 +207,46 @@ class ProfileAPI @Inject constructor(
         return request
     }
 
+    fun getDocuments(token: String, userid: String, completion: (ArrayList<UserDocuments?>?, Exception?) -> Unit): IRequest<*>? {
+        val url = getURL("/rest/1.0/users/$userid/documents")
+
+        var request: IRequest<*>?
+        try {
+
+            val r = requestProvider.jsonArrayRequest(Request.Method.GET, url,
+                    null, authorizationToken(token),
+                    { response: JSONArray ->
+                        val documents = ArrayList<UserDocuments?>()
+
+                        for(i in 0 until response.length()){
+
+                            val jo = response.getJSONObject(i)
+                            val pages = jo.getJSONArray("pages")
+                            val docs = mutableListOf<String?>()
+
+                            for (j in 0 until pages.length()) {
+                                docs.add(pages.getString(j))
+                            }
+
+                            val userdoc = UserDocuments(userid, jo.getString("doctype"), docs.toTypedArray())
+                            documents.add(userdoc)
+                        }
+
+                        completion(documents, null)
+                    })
+            {error ->
+                completion(null, error) }
+            r.setIRetryPolicy(defaultpolicy)
+            queue.add(r)
+            request = r
+        } catch (e: Exception) {
+            log.error(TAG, "getDocuments", e)
+            request = null
+        }
+
+        return request
+    }
+
     fun documents(token: String,
                   userid: String,
                   doctype: String,

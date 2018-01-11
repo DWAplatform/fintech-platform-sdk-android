@@ -28,6 +28,7 @@ class IdentityCardsActivity: AppCompatActivity(), IdentityCardsContract.View {
         super.onCreate(savedInstanceState)
 
         IdentityCardsUI.instance.createIdCardsViewComponent(this as Context, this).inject(this)
+
         setContentView(R.layout.activity_profile_ids)
 
         backwardButton.setOnClickListener { presenter.onAbort() }
@@ -84,6 +85,7 @@ class IdentityCardsActivity: AppCompatActivity(), IdentityCardsContract.View {
                 Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED ||
                 ActivityCompat.checkSelfPermission(this@IdentityCardsActivity,
                         Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+
             ActivityCompat.requestPermissions(this@IdentityCardsActivity,
                     arrayOf(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE),
                     PICK_ID_CARD)

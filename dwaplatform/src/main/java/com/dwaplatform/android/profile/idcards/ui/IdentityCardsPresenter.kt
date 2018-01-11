@@ -6,6 +6,7 @@ import com.dwaplatform.android.auth.keys.KeyChain
 import com.dwaplatform.android.images.ImageHelper
 import com.dwaplatform.android.models.DataAccount
 import com.dwaplatform.android.profile.api.ProfileAPI
+import com.dwaplatform.android.profile.db.documents.Documents
 import com.dwaplatform.android.profile.db.documents.DocumentsPersistanceDB
 import com.dwaplatform.android.profile.db.user.UsersPersistanceDB
 import com.dwaplatform.android.profile.models.UserDocuments
@@ -28,11 +29,24 @@ class IdentityCardsPresenter @Inject constructor(val view: IdentityCardsContract
     var idempotencyIDcard: String? = null
 
     override fun initializate() {
-        val documents = dbDocumentsHelper.getDocuments()
-        documents?.pages?.let { docs ->
-            photosBase64 = docs
-            photosBase64[0]?.let { view.setFrontImage(imageHelper.bitmapImageView(it)) }
-            photosBase64[1]?.let { view.setBackImage(imageHelper.bitmapImageView(it)) }
+        view.checkCameraPermission()
+
+        dbDocumentsHelper.getDocuments()?.let {
+
+            it.pages?.let { docs ->
+                photosBase64 = docs
+                photosBase64[0]?.let { view.setFrontImage(imageHelper.bitmapImageView(it)) }
+                photosBase64[1]?.let { view.setBackImage(imageHelper.bitmapImageView(it)) }
+            }
+
+        }?: askDocuments {
+
+            it?.pages?.let { docs ->
+                photosBase64 = docs
+                photosBase64[0]?.let { view.setFrontImage(imageHelper.bitmapImageView(it)) }
+                photosBase64[1]?.let { view.setBackImage(imageHelper.bitmapImageView(it)) }
+            }
+
         }
 
         idempotencyIDcard = UUID.randomUUID().toString()
@@ -90,12 +104,10 @@ class IdentityCardsPresenter @Inject constructor(val view: IdentityCardsContract
     }
 
     override fun onCameraFrontClick() {
-        view.checkCameraPermission()
         view.goToCameraFront()
     }
 
     override fun onCameraBackClick() {
-        view.checkCameraPermission()
         view.goToCameraBack()
     }
 
@@ -108,5 +120,25 @@ class IdentityCardsPresenter @Inject constructor(val view: IdentityCardsContract
         this.index = index
     }
 
+    fun askDocuments(completion1: (UserDocuments?) -> Unit) {
 
+        api.getDocuments(keyChain["tokenuser"], configuration.userId) {
+            userDocs: ArrayList<UserDocuments?>?, opterror: Exception? ->
+
+            if (opterror != null) {
+                return@getDocuments
+            }
+
+            if (userDocs == null) {
+                return@getDocuments
+            }
+
+            for (i in 0 until userDocs.size) {
+                userDocs[i]?.let {
+                    dbDocumentsHelper.saveDocuments(it)
+                    completion1(it)
+                }
+            }
+        }
+    }
 }
