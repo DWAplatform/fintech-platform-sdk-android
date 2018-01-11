@@ -1,4 +1,4 @@
-package com.dwaplatform.android.transactions.ui.transactionDetail.ui;
+package com.dwaplatform.android.transactions.ui.detail.ui;
 
 import android.content.Context;
 import android.content.Intent;

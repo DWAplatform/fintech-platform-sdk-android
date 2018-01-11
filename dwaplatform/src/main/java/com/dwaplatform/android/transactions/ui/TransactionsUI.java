@@ -9,10 +9,10 @@ import com.dwaplatform.android.api.NetModule;
 import com.dwaplatform.android.auth.keys.KeyChainModule;
 import com.dwaplatform.android.models.DataAccount;
 import com.dwaplatform.android.transactions.api.TransactionsAPIModule;
-import com.dwaplatform.android.transactions.ui.transactionDetail.ui.TransactionDetailUI;
-import com.dwaplatform.android.transactions.ui.transactionItemView.DaggerTransactionItemComponent;
-import com.dwaplatform.android.transactions.ui.transactionItemView.TransactionItemComponent;
-import com.dwaplatform.android.transactions.ui.transactionItemView.TransactionItemPresenterModule;
+import com.dwaplatform.android.transactions.ui.detail.ui.TransactionDetailUI;
+import com.dwaplatform.android.transactions.ui.itemview.DaggerTransactionItemComponent;
+import com.dwaplatform.android.transactions.ui.itemview.TransactionItemComponent;
+import com.dwaplatform.android.transactions.ui.itemview.TransactionItemPresenterModule;
 
 public class TransactionsUI {
 

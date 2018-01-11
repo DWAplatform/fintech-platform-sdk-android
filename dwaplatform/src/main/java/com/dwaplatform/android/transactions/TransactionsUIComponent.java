@@ -2,7 +2,7 @@ package com.dwaplatform.android.transactions;
 
 import com.dwaplatform.android.transactions.ui.TransactionsUI;
 import com.dwaplatform.android.transactions.ui.TransactionsUIModule;
-import com.dwaplatform.android.transactions.ui.transactionDetail.ui.TransactionDetailUIModule;
+import com.dwaplatform.android.transactions.ui.detail.ui.TransactionDetailUIModule;
 
 import javax.inject.Singleton;
 

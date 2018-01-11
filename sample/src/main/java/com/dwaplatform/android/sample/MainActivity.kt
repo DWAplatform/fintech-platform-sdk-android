@@ -45,10 +45,6 @@ class MainActivity : AppCompatActivity() {
 
             payInComponent.payInUI.start(this@MainActivity)
 
-//            val query = SQLite.select().from(Animals::class.java).querySingle()
-//            query?.let {
-//                Log.d("HALLELUJA", balance?.id)
-//            }
         }
 
         auth.setOnClickListener {
@@ -74,37 +70,21 @@ class MainActivity : AppCompatActivity() {
         }
 
         contacts.setOnClickListener {
-            val user = Users()
-            user.id = userId
-            user.save()
-
             val builder = DWAplatform.buildProfile().createContactsUI(hostName, DataAccount(userId, accountId))
             builder.contactsUI.start(this)
         }
 
         address.setOnClickListener {
-            val user = Users()
-            user.id = userId
-            user.save()
-
             val builder = DWAplatform.buildProfile().createAddressUI(hostName, DataAccount(userId, accountId))
             builder.addressUI.start(this)
         }
 
         job.setOnClickListener {
-            val user = Users()
-            user.id = userId
-            user.save()
-
             val builder = DWAplatform.buildProfile().createJobInfoUI(hostName, DataAccount(userId, accountId))
             builder.jobInfoUI.start(this)
         }
 
         idcards.setOnClickListener {
-            val user = Users()
-            user.id = userId
-            user.save()
-
             val builder = DWAplatform.buildProfile().createIdCardsUI(hostName, DataAccount(userId, accountId))
             builder.identityCardsUI.start(this)
         }

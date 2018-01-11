@@ -9,11 +9,6 @@ import javax.inject.Inject
 
 class UsersPersistanceDB @Inject constructor(val dbUsers: UsersDB) {
 
-//    fun userid(): String {
-//        val user = dbUsers.findUserId()
-//        return user!!.id!!
-//    }
-
     fun fullName(userId: String): String {
         val optuser = dbUsers.findUser(userId)
         return optuser?.let { user ->
@@ -24,7 +19,7 @@ class UsersPersistanceDB @Inject constructor(val dbUsers: UsersDB) {
     fun userProfile(userId: String): UserProfile? {
         val optuserobj = dbUsers.findUser(userId)
         return optuserobj?.let {
-            UserProfile(userId,
+            UserProfile(it.id,
                     it.myname,
                     it.surname,
                     it.nationality,
@@ -44,7 +39,7 @@ class UsersPersistanceDB @Inject constructor(val dbUsers: UsersDB) {
     fun residential(userId: String): UserResidential? {
         val optuserobj = dbUsers.findUser(userId)
         return optuserobj?.let { userobj ->
-            UserResidential(userobj.id, userobj.address,
+            UserResidential(userId, userobj.address,
                     userobj.ZIPcode, userobj.city, userobj.countryofresidence)
         }
     }
@@ -65,6 +60,7 @@ class UsersPersistanceDB @Inject constructor(val dbUsers: UsersDB) {
     fun saveResidential(residential: UserResidential): Boolean {
         val optobj = dbUsers.findUser(residential.userid)
         return optobj?.let { obj ->
+            obj.id = residential.userid
             obj.address = residential.address
             obj.city = residential.city
             obj.ZIPcode = residential.ZIPcode
@@ -76,6 +72,7 @@ class UsersPersistanceDB @Inject constructor(val dbUsers: UsersDB) {
 
     fun saveLightData(userProfile: UserLightData) {
         val user = dbUsers.findUser(userProfile.userid) ?: Users()
+            user.id = userProfile.userid
             user.myname = userProfile.name
             user.surname = userProfile.surname
             user.nationality = userProfile.nationality
@@ -86,6 +83,7 @@ class UsersPersistanceDB @Inject constructor(val dbUsers: UsersDB) {
     fun saveContacts(userProfile: UserContacts): Boolean {
         val optUser = dbUsers.findUser(userProfile.userid)
         return optUser?.let {
+            it.id = userProfile.userid
             it.email = userProfile.email
             it.telephone = userProfile.telephone
             dbUsers.saveUser(it)
@@ -96,6 +94,7 @@ class UsersPersistanceDB @Inject constructor(val dbUsers: UsersDB) {
     fun saveJobInfo(userProfile: UserJobInfo): Boolean {
         val optUser = dbUsers.findUser(userProfile.userid)
         return optUser?.let {
+            it.id = userProfile.userid
             it.jobinfo = userProfile.jobinfo
             it.income = userProfile.income
             dbUsers.saveUser(it)
@@ -105,8 +104,10 @@ class UsersPersistanceDB @Inject constructor(val dbUsers: UsersDB) {
 
     fun saveLimitAccount(id: String, limitAccount: String){
         val optUser = dbUsers.findUser(id)
-        optUser?.let { it.accountLimit = limitAccount
-            dbUsers.saveUser(it)}
+        optUser?.let {
+            it.accountLimit = limitAccount
+            dbUsers.saveUser(it)
+        }
     }
 
     fun limitAccountUser(id: String): String? {

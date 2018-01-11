@@ -1,4 +1,4 @@
-package com.dwaplatform.android.transactions.ui.transactionDetail;
+package com.dwaplatform.android.transactions.ui.detail;
 
 public class TransactionDetailBuilder {
     public TransactionDetailUIComponent cerateTransactionDetailComponent() {

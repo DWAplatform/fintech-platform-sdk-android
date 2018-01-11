@@ -1,4 +1,4 @@
-package com.dwaplatform.android.transactions.ui.transactionItemView;
+package com.dwaplatform.android.transactions.ui.itemview;
 
 import javax.inject.Singleton;
 

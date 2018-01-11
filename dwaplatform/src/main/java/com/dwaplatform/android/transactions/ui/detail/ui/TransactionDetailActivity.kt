@@ -1,4 +1,4 @@
-package com.dwaplatform.android.transactions.ui.transactionDetail.ui
+package com.dwaplatform.android.transactions.ui.detail.ui
 
 import android.os.Bundle
 import android.support.v4.app.FragmentActivity

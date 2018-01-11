@@ -1,4 +1,4 @@
-package com.dwaplatform.android.transactions.ui.transactionItemView
+package com.dwaplatform.android.transactions.ui.itemview
 
 import com.dwaplatform.android.transactions.models.TransactionItem
 import javax.inject.Inject

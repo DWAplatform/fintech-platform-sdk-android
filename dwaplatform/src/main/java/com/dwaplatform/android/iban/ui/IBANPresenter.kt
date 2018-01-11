@@ -30,7 +30,7 @@ class IBANPresenter @Inject constructor(val view: IBANContract.View,
     }
 
     override fun initIBAN() {
-        val residential = usersPersistanceDB.residential()
+        val residential = usersPersistanceDB.residential(configuration.userId)
 
         view.setIBANText(calcIBANValue() ?: "")
         view.setAddressText(residential?.address ?: "")

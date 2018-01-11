@@ -6,8 +6,8 @@ import android.content.Intent;
 import com.android.volley.toolbox.Volley;
 import com.dwaplatform.android.api.NetModule;
 import com.dwaplatform.android.auth.api.AuthenticationAPIModule;
-import com.dwaplatform.android.auth.ui.AuthUIModule;
 import com.dwaplatform.android.auth.keys.DaggerKeyChainComponent;
+import com.dwaplatform.android.auth.ui.AuthUIModule;
 import com.dwaplatform.android.auth.keys.KeyChainComponent;
 import com.dwaplatform.android.auth.keys.KeyChainModule;
 

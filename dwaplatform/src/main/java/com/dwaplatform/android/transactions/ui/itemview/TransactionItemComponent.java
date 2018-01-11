@@ -1,4 +1,4 @@
-package com.dwaplatform.android.transactions.ui.transactionItemView;
+package com.dwaplatform.android.transactions.ui.itemview;
 
 import com.dwaplatform.android.alert.AlertHelpersModule;
 import com.dwaplatform.android.money.MoneyHelperModule;

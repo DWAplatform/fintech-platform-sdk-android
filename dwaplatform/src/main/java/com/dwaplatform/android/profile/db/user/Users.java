@@ -9,6 +9,7 @@ import com.raizlabs.android.dbflow.structure.BaseModel;
 @Table(database = PlatformDB.class)
 public class Users extends BaseModel {
     @PrimaryKey
+    @Column
     public String id;
     @Column
     public Boolean access;

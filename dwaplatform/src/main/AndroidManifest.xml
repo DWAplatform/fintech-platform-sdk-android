@@ -34,7 +34,7 @@
             android:theme="@style/noAnimTheme">
         </activity>
         <activity
-            android:name=".transactions.ui.transactionDetail.ui.TransactionDetailActivity"
+            android:name=".transactions.ui.detail.ui.TransactionDetailActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar">
         </activity>
 

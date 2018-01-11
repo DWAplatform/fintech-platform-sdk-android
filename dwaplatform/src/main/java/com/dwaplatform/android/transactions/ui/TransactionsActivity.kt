@@ -6,16 +6,12 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentActivity
 import android.support.v7.widget.LinearLayoutManager
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import com.dwaplatform.android.R
 import com.dwaplatform.android.transactions.models.TransactionItem
 import com.dwaplatform.android.transactions.models.TransactionsManager
-import com.dwaplatform.android.transactions.ui.transactionDetail.ui.TransactionDetailUI
+import com.dwaplatform.android.transactions.ui.detail.ui.TransactionDetailUI
 import kotlinx.android.synthetic.main.activity_transactions.*
 import javax.inject.Inject
 
