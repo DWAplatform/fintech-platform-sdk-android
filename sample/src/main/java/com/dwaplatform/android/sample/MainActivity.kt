@@ -88,5 +88,15 @@ class MainActivity : AppCompatActivity() {
             val builder = DWAplatform.buildProfile().createIdCardsUI(hostName, DataAccount(userId, accountId))
             builder.identityCardsUI.start(this)
         }
+
+        card.setOnClickListener {
+            val builder = DWAplatform.buildPaymentCardBuilder().createPaymentCardUI(hostName, true, DataAccount(userId, accountId))
+            builder.paymentCardUI.start(this)
+        }
+
+        iban.setOnClickListener {
+            val builder = DWAplatform.buildIBAN().createIBANUIComponent(hostName, DataAccount(userId,accountId))
+            builder.ibanUI.start(this)
+        }
     }
 }

@@ -42,12 +42,18 @@ class AddressPresenter @Inject constructor(val view: AddressContract.View,
                 return@searchUser
             }
 
+            val res = UserResidential(
+                    profile.userid,
+                    profile.address,
+                    profile.ZIPcode,
+                    profile.city,
+                    profile.countryofresidence)
+
+            usersPersistanceDB.saveResidential(res)
+
             view.enableAllTexts(true)
 
-            view.setAddressText(profile.address?: "")
-            view.setPostalCodeText(profile.ZIPcode?: "")
-            view.setCityText(profile.city?: "")
-            view.setResidenceCountry(profile.countryofresidence?: "")
+            initializate()
 
             view.setBackwardText()
             view.enableConfirmButton(false)

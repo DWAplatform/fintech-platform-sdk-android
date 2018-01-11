@@ -96,4 +96,24 @@
         android:text="docs"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ligtdata" />
+
+    <Button
+        android:id="@+id/iban"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="32dp"
+        android:text="iban"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/idcards" />
+
+    <Button
+        android:id="@+id/card"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="32dp"
+        android:text="card"
+        app:layout_constraintStart_toEndOf="@+id/iban"
+        app:layout_constraintTop_toBottomOf="@+id/idcards" />
 </android.support.constraint.ConstraintLayout>
