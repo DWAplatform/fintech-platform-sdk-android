@@ -18,6 +18,18 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
+    fun requestToken(completion: (String) -> Unit) {
+//        val token = keychain["accountToken"]
+//        if (t != null)
+//            completion(t)
+//        else // TODO: richiedi PIN e salva il token su variabile token.
+//            // nota: se chiamate multiple, prima che activity ritorni, verrà chiamata la callback relativa all'ultima chiamata.
+            DWAplatform.buildAuth()
+                    .createAuthUI("22863c52-ca29-11e7-94c6-b35ff6d69059", "http://192.168.1.73:9000")
+                    .authUI.start(this@MainActivity)
+    }
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -27,7 +39,7 @@ class MainActivity : AppCompatActivity() {
         val hostName = "http://192.168.1.73:9000"
         val userId = "22863c52-ca29-11e7-94c6-b35ff6d69059"
         val accountId = "22b50b86-ca29-11e7-90f2-dbaf50363c38"
-       // val hostName = "https://api.sandbox.dwaplatform.com"
+        // val hostName = "https://api.sandbox.dwaplatform.com"
 //        val userId = "60e279ec-918b-11e7-8d55-dbaaa24cc5c2"
 //        val accountId = "722c4d74-ba56-11e7-8487-a7b42609a5c1"
 
@@ -41,7 +53,7 @@ class MainActivity : AppCompatActivity() {
 
             val builder = DWAplatform.buildPayIn()
             val payInComponent = builder.createPayInUIComponent(
-                    hostName,true, DataAccount(userId, accountId))
+                    hostName,true, DataAccount(userId, accountId, ::requestToken ))
 
             payInComponent.payInUI.start(this@MainActivity)
 
@@ -54,49 +66,50 @@ class MainActivity : AppCompatActivity() {
             authComponent.authUI.start(this@MainActivity)
         }
 
-        payout.setOnClickListener {
-            val builder = DWAplatform.buildPayOut().createPayOutUI(hostName, DataAccount(userId, accountId))
-            builder.payOutUI.start(this)
-        }
-
-        transactions.setOnClickListener {
-            val builder = DWAplatform.buildTransactions().createTransactionsUI(hostName, DataAccount(userId,accountId))
-            builder.transactiosUI.start(this)
-        }
-
-        ligtdata.setOnClickListener {
-            val builder = DWAplatform.buildProfile().createLightDataUI(hostName, DataAccount(userId, accountId))
-            builder.lightData.start(this)
-        }
-
-        contacts.setOnClickListener {
-            val builder = DWAplatform.buildProfile().createContactsUI(hostName, DataAccount(userId, accountId))
-            builder.contactsUI.start(this)
-        }
-
-        address.setOnClickListener {
-            val builder = DWAplatform.buildProfile().createAddressUI(hostName, DataAccount(userId, accountId))
-            builder.addressUI.start(this)
-        }
-
-        job.setOnClickListener {
-            val builder = DWAplatform.buildProfile().createJobInfoUI(hostName, DataAccount(userId, accountId))
-            builder.jobInfoUI.start(this)
-        }
-
-        idcards.setOnClickListener {
-            val builder = DWAplatform.buildProfile().createIdCardsUI(hostName, DataAccount(userId, accountId))
-            builder.identityCardsUI.start(this)
-        }
-
-        card.setOnClickListener {
-            val builder = DWAplatform.buildPaymentCardBuilder().createPaymentCardUI(hostName, true, DataAccount(userId, accountId))
-            builder.paymentCardUI.start(this)
-        }
+//        payout.setOnClickListener {
+//            val builder = DWAplatform.buildPayOut().createPayOutUI(hostName, DataAccount(userId, accountId))
+//            builder.payOutUI.start(this)
+//        }
+//
+//        transactions.setOnClickListener {
+//            val builder = DWAplatform.buildTransactions().createTransactionsUI(hostName, DataAccount(userId,accountId))
+//            builder.transactiosUI.start(this)
+//        }
+//
+//        ligtdata.setOnClickListener {
+//            val builder = DWAplatform.buildProfile().createLightDataUI(hostName, DataAccount(userId, accountId))
+//            builder.lightData.start(this)
+//        }
+//
+//        contacts.setOnClickListener {
+//            val builder = DWAplatform.buildProfile().createContactsUI(hostName, DataAccount(userId, accountId))
+//            builder.contactsUI.start(this)
+//        }
+//
+//        address.setOnClickListener {
+//            val builder = DWAplatform.buildProfile().createAddressUI(hostName, DataAccount(userId, accountId))
+//            builder.addressUI.start(this)
+//        }
+//
+//        job.setOnClickListener {
+//            val builder = DWAplatform.buildProfile().createJobInfoUI(hostName, DataAccount(userId, accountId))
+//            builder.jobInfoUI.start(this)
+//        }
+//
+//        idcards.setOnClickListener {
+//            val builder = DWAplatform.buildProfile().createIdCardsUI(hostName, DataAccount(userId, accountId))
+//            builder.identityCardsUI.start(this)
+//        }
+//
+//        card.setOnClickListener {
+//            val builder = DWAplatform.buildPaymentCardBuilder().createPaymentCardUI(hostName, true, DataAccount(userId, accountId))
+//            builder.paymentCardUI.start(this)
+//        }
 
         iban.setOnClickListener {
-            val builder = DWAplatform.buildIBAN().createIBANUIComponent(hostName, DataAccount(userId,accountId))
+            val builder = DWAplatform.buildIBAN().createIBANUIComponent(hostName, DataAccount(userId,accountId,::requestToken))
             builder.ibanUI.start(this)
         }
     }
+
 }

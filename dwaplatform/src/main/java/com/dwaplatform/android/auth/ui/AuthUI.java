@@ -1,5 +1,6 @@
 package com.dwaplatform.android.auth.ui;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 
@@ -7,10 +8,6 @@ import com.android.volley.toolbox.Volley;
 import com.dwaplatform.android.api.NetModule;
 import com.dwaplatform.android.auth.api.AuthenticationAPIModule;
 import com.dwaplatform.android.auth.keys.KeyChainModule;
-
-/**
- * Created by ingrid on 19/12/17.
- */
 
 public class AuthUI {
 
@@ -38,9 +35,9 @@ public class AuthUI {
         return instance.buildAuthViewComponent(view, context);
     }
 
-    public void start(Context context){
+    public void start(Activity activity){
         instance = this;
-        Intent intent = new Intent(context, AuthenticationActivity.class);
-        context.startActivity(intent);
+        Intent intent = new Intent(activity, AuthenticationActivity.class);
+        activity.startActivity(intent);
     }
 }

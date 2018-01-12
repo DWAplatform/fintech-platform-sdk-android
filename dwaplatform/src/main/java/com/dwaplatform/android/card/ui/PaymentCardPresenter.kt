@@ -37,7 +37,6 @@ class PaymentCardPresenter @Inject constructor(var view: PaymentCardContract.Vie
                 paymentCardpersistanceDB.savePaymentCard(c)
             }
         }
-
     }
 
     override fun onConfirm() {

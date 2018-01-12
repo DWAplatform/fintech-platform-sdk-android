@@ -1,8 +1,10 @@
 package com.dwaplatform.android.payin
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.FragmentActivity
+import android.support.v7.app.AppCompatActivity
 import android.text.Editable
 import android.text.InputFilter
 import android.text.TextWatcher
@@ -18,13 +20,14 @@ import com.dwaplatform.android.secure3d.ui.Secure3DUI
 import kotlinx.android.synthetic.main.activity_payin.*
 import javax.inject.Inject
 
-class PayInActivity : FragmentActivity(), PayInContract.View {
+class PayInActivity : AppCompatActivity(), PayInContract.View {
 
     @Inject lateinit var alertHelpers: AlertHelpers
     @Inject lateinit var presenter: PayInContract.Presenter
     @Inject lateinit var secure3DUI: Secure3DUI
     @Inject lateinit var paymentCard: PaymentCardUI
 
+    var token: String?=null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         PayInUI.createPayInViewComponent(this as Context, this).inject(this)
@@ -52,9 +55,6 @@ class PayInActivity : FragmentActivity(), PayInContract.View {
         backwardButton.setOnClickListener {
             presenter.onAbortClick()
         }
-
-        // FIXME commented due to sdk refactor
-        //WindowBarColor.update(window, resources)
 
         presenter.initialize(initialAmount)
 
@@ -141,5 +141,13 @@ class PayInActivity : FragmentActivity(), PayInContract.View {
     override fun hideKeyboard() {
         window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN)
     }
+
+//    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+//        super.onActivityResult(requestCode, resultCode, data)
+//
+//        if(requestCode == 100 && resultCode == RESULT_OK) {
+//            token = data?.data.toString()
+//        }
+//    }
 }
 
