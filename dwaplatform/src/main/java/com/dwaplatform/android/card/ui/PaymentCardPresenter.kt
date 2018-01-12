@@ -22,6 +22,24 @@ class PaymentCardPresenter @Inject constructor(var view: PaymentCardContract.Vie
         view.confirmButtonEnable(isEnabled)
     }
 
+    override fun initPaymentCard(){
+        paymentCardpersistanceDB.deletePaymentCard()
+        api.getPaymentCards(key["tokenuser"], dataAccountHelper.userId){ optcards, opterror ->
+
+            if (opterror != null) {
+                return@getPaymentCards
+            }
+            if (optcards == null) {
+                return@getPaymentCards
+            }
+            val cards = optcards
+            cards.forEach { c ->
+                paymentCardpersistanceDB.savePaymentCard(c)
+            }
+        }
+
+    }
+
     override fun onConfirm() {
         view.confirmButtonEnable(false)
 

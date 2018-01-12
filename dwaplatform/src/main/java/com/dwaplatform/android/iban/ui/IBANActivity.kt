@@ -130,6 +130,10 @@ class IBANActivity: FragmentActivity(), IBANContract.View{
         cityText.setText(city)
     }
 
+    override fun setNumberText(iban: String) {
+        numberText.setText(iban)
+    }
+
     override fun setCountryofresidenceText(countryOfResidence: String) {
         countryofresidenceText.setText(countryOfResidence)
     }

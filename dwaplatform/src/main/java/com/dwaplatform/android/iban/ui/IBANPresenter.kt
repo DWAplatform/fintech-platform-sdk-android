@@ -2,7 +2,9 @@ package com.dwaplatform.android.iban.ui
 
 import com.dwaplatform.android.auth.keys.KeyChain
 import com.dwaplatform.android.iban.api.IbanAPI
+import com.dwaplatform.android.iban.db.Iban
 import com.dwaplatform.android.iban.db.IbanPersistanceDB
+import com.dwaplatform.android.iban.models.BankAccount
 import com.dwaplatform.android.iban.models.UserResidential
 import com.dwaplatform.android.models.DataAccount
 import com.dwaplatform.android.profile.db.user.UsersPersistanceDB
@@ -39,6 +41,11 @@ class IBANPresenter @Inject constructor(val view: IBANContract.View,
         view.setCountryofresidenceText(residential?.countryofresidence ?: "")
         countryofresidenceCode = residential?.countryofresidence
 
+        ibanPersistanceDB.load()?.let {
+            view.setNumberText(it.iban?:"")
+        }?: initBankAccount(configuration.userId){
+            view.setNumberText(it?.iban?:"")
+        }
     }
 
     override fun onCountryOfResidenceClick() {
@@ -132,6 +139,29 @@ class IBANPresenter @Inject constructor(val view: IBANContract.View,
     fun calcIBANValue(): String? {
         val optiban = ibanPersistanceDB.load()
         return optiban?.iban
+    }
+
+    fun initBankAccount(userid: String, completion: (BankAccount?) -> Unit) {
+        ibanPersistanceDB.delete()
+
+        api.getbankAccounts(keyChain["tokenuser"], userid) { optbankaccounts, opterror ->
+
+            if (opterror != null) {
+                completion(null)
+                return@getbankAccounts
+            }
+            if (optbankaccounts == null) {
+                completion(null)
+                return@getbankAccounts
+            }
+            val bankaccounts = optbankaccounts
+            bankaccounts.forEach { ba ->
+                val iban = BankAccount(ba.bankaccountid, ba.iban, ba.activestate)
+
+                ibanPersistanceDB.save(iban)
+                completion(iban)
+            }
+        }
     }
 
 }

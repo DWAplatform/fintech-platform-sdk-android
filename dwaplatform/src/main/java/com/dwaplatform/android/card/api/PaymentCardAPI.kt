@@ -8,8 +8,11 @@ import com.dwaplatform.android.api.IRequestQueue
 import com.dwaplatform.android.card.helpers.DateTimeConversion
 import com.dwaplatform.android.card.models.PaymentCardItem
 import com.dwaplatform.android.log.Log
+import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
+import java.io.UnsupportedEncodingException
+import java.net.URLEncoder
 import java.util.HashMap
 
 /**
@@ -29,6 +32,27 @@ class PaymentCardAPI constructor(internal val hostName: String,
         } else {
             return "https://$hostName$path"
         }
+    }
+
+    @Throws(UnsupportedEncodingException::class)
+    private fun getUrlDataString(url: String, params: HashMap<String, Any>): String {
+
+        val result = StringBuilder()
+        var first = true
+        result.append(url)
+        for ((key, value) in params) {
+            if (first) {
+                result.append("?")
+                first = false
+            } else
+                result.append("&")
+
+            result.append(URLEncoder.encode(key, "UTF-8"))
+            result.append("=")
+            result.append(URLEncoder.encode(value.toString(), "UTF-8"))
+        }
+
+        return result.toString()
     }
 
     inner class ReplyParamsUnexpected(throwable: Throwable) : Exception(throwable)
@@ -254,6 +278,54 @@ class PaymentCardAPI constructor(internal val hostName: String,
 
         return request
 
+    }
+
+
+    fun getPaymentCards(token:String,
+                       userid: String,
+                       completion: (List<PaymentCardItem>?, Exception?) -> Unit): IRequest<*>? {
+
+        val baseurl = getURL("/rest/1.0/fin/creditcard/list")
+
+        var request: IRequest<*>?
+        try {
+            val params = HashMap<String, Any>()
+            params.put("userid", userid)
+            val url = getUrlDataString(baseurl, params)
+
+
+            // Request a string response from the provided URL.
+            val r = requestProvider.jsonArrayRequest(Request.Method.GET, url,
+                    null, authorizationToken(token),
+                    { response: JSONArray ->
+
+                        val creditcards = IntArray(response.length()) {i -> i}.map { i ->
+                            val reply = response.getJSONObject(i)
+
+                            PaymentCardItem(
+                                    reply.optString("creditcardid"),
+                                    reply.optString("numberalias"),
+                                    reply.optString("expirationdate"),
+                                    reply.optString("currency"),
+                                    null,
+                                    reply.optString("activestate"),
+                                    null,
+                                    null)
+                        }
+
+                        completion(creditcards, null)
+                    })
+            {error ->
+                completion(null, error) }
+            r.setIRetryPolicy(defaultpolicy)
+            queue.add(r)
+            request = r
+        } catch (e: Exception) {
+            log.error(TAG, "getcreditcards", e)
+            request = null
+        }
+
+        return request
     }
 
 }

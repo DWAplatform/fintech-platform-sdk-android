@@ -24,6 +24,7 @@ interface IBANContract {
         fun setCityText(city: String)
         fun setCountryofresidenceText(countryOfResidence: String)
         fun setAbortText()
+        fun setNumberText(iban: String)
         fun setBackwardText()
 
         fun closeCountryPicker()

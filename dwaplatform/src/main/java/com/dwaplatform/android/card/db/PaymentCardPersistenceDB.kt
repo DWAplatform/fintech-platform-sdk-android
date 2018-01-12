@@ -34,4 +34,8 @@ class PaymentCardPersistenceDB constructor(val paymentCardDB: PaymentCardDB): Pa
 
         paymentCardDB.savePaymentCard(card)
     }
+
+    fun deletePaymentCard() {
+        paymentCardDB.deletePaymentCard()
+    }
 }

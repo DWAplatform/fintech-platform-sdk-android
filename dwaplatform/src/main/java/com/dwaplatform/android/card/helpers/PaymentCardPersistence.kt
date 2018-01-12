@@ -14,4 +14,5 @@ interface PaymentCardPersistence {
     fun replace(paymentcard: PaymentCardItem)
 
     fun paymentCardId():String?
+
 }

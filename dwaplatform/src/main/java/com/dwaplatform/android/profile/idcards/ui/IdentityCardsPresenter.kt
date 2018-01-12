@@ -120,7 +120,7 @@ class IdentityCardsPresenter @Inject constructor(val view: IdentityCardsContract
         this.index = index
     }
 
-    fun askDocuments(completion1: (UserDocuments?) -> Unit) {
+    fun askDocuments(completion: (UserDocuments?) -> Unit) {
 
         api.getDocuments(keyChain["tokenuser"], configuration.userId) {
             userDocs: ArrayList<UserDocuments?>?, opterror: Exception? ->
@@ -136,7 +136,7 @@ class IdentityCardsPresenter @Inject constructor(val view: IdentityCardsContract
             for (i in 0 until userDocs.size) {
                 userDocs[i]?.let {
                     dbDocumentsHelper.saveDocuments(it)
-                    completion1(it)
+                    completion(it)
                 }
             }
         }

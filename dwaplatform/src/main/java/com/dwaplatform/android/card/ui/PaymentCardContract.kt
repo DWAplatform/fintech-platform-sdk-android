@@ -23,6 +23,7 @@ interface PaymentCardContract {
     }
 
     interface Presenter {
+        fun initPaymentCard()
         fun refreshConfirmButton()
         fun onConfirm()
         fun onAbortClick()
