@@ -32,20 +32,18 @@ class IBANPresenter @Inject constructor(val view: IBANContract.View,
     }
 
     override fun initIBAN() {
-        val residential = usersPersistanceDB.residential(configuration.userId)
-
-        view.setIBANText(calcIBANValue() ?: "")
-        view.setAddressText(residential?.address ?: "")
-        view.setZipcodeText(residential?.ZIPcode ?: "")
-        view.setCityText(residential?.city ?: "")
-        view.setCountryofresidenceText(residential?.countryofresidence ?: "")
-        countryofresidenceCode = residential?.countryofresidence
+        usersPersistanceDB.residential(configuration.userId).let {
+            view.setIBANText(calcIBANValue() ?: "")
+            view.setAddressText(it?.address ?: "")
+            view.setZipcodeText(it?.ZIPcode ?: "")
+            view.setCityText(it?.city ?: "")
+            view.setCountryofresidenceText(it?.countryofresidence ?: "")
+            countryofresidenceCode = it?.countryofresidence
+        }
 
         ibanPersistanceDB.load()?.let {
             view.setNumberText(it.iban?:"")
-        }?: initBankAccount(configuration.userId){
-            view.setNumberText(it?.iban?:"")
-        }
+        }?: initBankAccount(configuration.userId)
     }
 
     override fun onCountryOfResidenceClick() {
@@ -141,17 +139,15 @@ class IBANPresenter @Inject constructor(val view: IBANContract.View,
         return optiban?.iban
     }
 
-    fun initBankAccount(userid: String, completion: (BankAccount?) -> Unit) {
+    fun initBankAccount(userid: String) {
         ibanPersistanceDB.delete()
 
         api.getbankAccounts(keyChain["tokenuser"], userid) { optbankaccounts, opterror ->
 
             if (opterror != null) {
-                completion(null)
                 return@getbankAccounts
             }
             if (optbankaccounts == null) {
-                completion(null)
                 return@getbankAccounts
             }
             val bankaccounts = optbankaccounts
@@ -159,8 +155,9 @@ class IBANPresenter @Inject constructor(val view: IBANContract.View,
                 val iban = BankAccount(ba.bankaccountid, ba.iban, ba.activestate)
 
                 ibanPersistanceDB.save(iban)
-                completion(iban)
             }
+
+            initIBAN()
         }
     }
 

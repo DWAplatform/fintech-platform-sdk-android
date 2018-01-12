@@ -39,15 +39,7 @@ class IdentityCardsPresenter @Inject constructor(val view: IdentityCardsContract
                 photosBase64[1]?.let { view.setBackImage(imageHelper.bitmapImageView(it)) }
             }
 
-        }?: askDocuments {
-
-            it?.pages?.let { docs ->
-                photosBase64 = docs
-                photosBase64[0]?.let { view.setFrontImage(imageHelper.bitmapImageView(it)) }
-                photosBase64[1]?.let { view.setBackImage(imageHelper.bitmapImageView(it)) }
-            }
-
-        }
+        }?: askDocuments()
 
         idempotencyIDcard = UUID.randomUUID().toString()
     }
@@ -120,7 +112,7 @@ class IdentityCardsPresenter @Inject constructor(val view: IdentityCardsContract
         this.index = index
     }
 
-    fun askDocuments(completion: (UserDocuments?) -> Unit) {
+    fun askDocuments() {
 
         api.getDocuments(keyChain["tokenuser"], configuration.userId) {
             userDocs: ArrayList<UserDocuments?>?, opterror: Exception? ->
@@ -136,9 +128,10 @@ class IdentityCardsPresenter @Inject constructor(val view: IdentityCardsContract
             for (i in 0 until userDocs.size) {
                 userDocs[i]?.let {
                     dbDocumentsHelper.saveDocuments(it)
-                    completion(it)
                 }
             }
+
+            initializate()
         }
     }
 }
