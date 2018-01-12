@@ -32,4 +32,8 @@ class IbanPersistanceDB @Inject constructor(val ibanDB: IbanDB){
             BankAccount(iban.id, iban.number, iban.state)
         }
     }
+
+    fun delete(){
+        ibanDB.deleteBankAccount()
+    }
 }

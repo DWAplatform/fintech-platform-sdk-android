@@ -60,7 +60,7 @@ android {
     }
 
 }
-def kotlin_version = "1.2.0"
+def kotlin_version = "1.2.10"
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
@@ -116,6 +116,7 @@ dependencies {
 
     // kotlin extensions
     implementation "com.github.Raizlabs.DBFlow:dbflow-kotlinextensions:${dbflow_version}@aar"
+    implementation "me.tatarka:gradle-retrolambda:3.4.0"
 }
 
 repositories {

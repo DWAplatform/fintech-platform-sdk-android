@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="salaries">
+        <item>0 – 18k €</item>
+        <item>18 – 30k €</item>
+        <item>30 – 50k €</item>
+        <item>50 – 80k €</item>
+        <item>80 – 120k €</item>
+        <item>> 120k € </item>
+    </string-array>
+</resources>

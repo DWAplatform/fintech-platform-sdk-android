@@ -6,15 +6,18 @@ import com.dwaplatform.android.account.balance.BalanceBuilder
 import com.dwaplatform.android.api.volley.VolleyRequestProvider
 import com.dwaplatform.android.api.volley.VolleyRequestQueueProvider
 import com.dwaplatform.android.auth.AuthBuilder
+import com.dwaplatform.android.card.PaymentCardBuilder
 import com.dwaplatform.android.card.client.api.ClientCardAPI
 import com.dwaplatform.android.card.client.api.ClientCardRestAPI
 import com.dwaplatform.android.card.helpers.PaymentCardHelper
 import com.dwaplatform.android.card.helpers.JSONHelper
 import com.dwaplatform.android.card.helpers.SanityCheck
 import com.dwaplatform.android.db.PlatformDB
+import com.dwaplatform.android.iban.IBANBuilder
 import com.dwaplatform.android.log.Log
 import com.dwaplatform.android.payin.PayInBuilder
 import com.dwaplatform.android.payout.PayOutBuilder
+import com.dwaplatform.android.profile.ProfileBuilder
 import com.dwaplatform.android.secure3d.Secure3DBuilder
 import com.dwaplatform.android.transactions.TransactionsBuilder
 import com.raizlabs.android.dbflow.config.FlowManager
@@ -104,8 +107,19 @@ class DWAplatform {
             return PayOutBuilder()
         }
 
+        fun buildPaymentCardBuilder(): PaymentCardBuilder {
+            return PaymentCardBuilder()
+        }
+        fun buildIBAN(): IBANBuilder {
+            return IBANBuilder()
+        }
+
         fun buildTransactions(): TransactionsBuilder {
             return TransactionsBuilder()
+        }
+
+        fun buildProfile(): ProfileBuilder {
+            return ProfileBuilder()
         }
 
 /*
@@ -122,8 +136,6 @@ class DWAplatform {
         }
 
 */
-
-
 
     }
 

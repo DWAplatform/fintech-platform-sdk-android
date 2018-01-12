@@ -1,6 +1,7 @@
 package com.dwaplatform.android.profile.lightdata.ui
 
 import android.app.DatePickerDialog
+import android.content.Context
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.text.Editable
@@ -23,7 +24,7 @@ class LightDataActivity : AppCompatActivity(), LightDataContract.View {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        //App.buildSummaryComponent(this as Context, this).inject(this)
+        LightDataUI.instance.createLightDataViewComponent(this as Context, this).inject(this)
         setContentView(R.layout.activity_lightdata)
 
         presenter.initialize()

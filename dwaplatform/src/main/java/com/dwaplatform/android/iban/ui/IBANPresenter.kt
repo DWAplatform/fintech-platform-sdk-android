@@ -2,10 +2,12 @@ package com.dwaplatform.android.iban.ui
 
 import com.dwaplatform.android.auth.keys.KeyChain
 import com.dwaplatform.android.iban.api.IbanAPI
+import com.dwaplatform.android.iban.db.Iban
 import com.dwaplatform.android.iban.db.IbanPersistanceDB
+import com.dwaplatform.android.iban.models.BankAccount
 import com.dwaplatform.android.iban.models.UserResidential
 import com.dwaplatform.android.models.DataAccount
-import com.dwaplatform.android.profile.db.UsersPersistanceDB
+import com.dwaplatform.android.profile.db.user.UsersPersistanceDB
 import com.mukesh.countrypicker.Country
 import javax.inject.Inject
 
@@ -30,15 +32,18 @@ class IBANPresenter @Inject constructor(val view: IBANContract.View,
     }
 
     override fun initIBAN() {
-        val residential = usersPersistanceDB.residential()
+        usersPersistanceDB.residential(configuration.userId).let {
+            view.setIBANText(calcIBANValue() ?: "")
+            view.setAddressText(it?.address ?: "")
+            view.setZipcodeText(it?.ZIPcode ?: "")
+            view.setCityText(it?.city ?: "")
+            view.setCountryofresidenceText(it?.countryofresidence ?: "")
+            countryofresidenceCode = it?.countryofresidence
+        }
 
-        view.setIBANText(calcIBANValue() ?: "")
-        view.setAddressText(residential?.address ?: "")
-        view.setZipcodeText(residential?.ZIPcode ?: "")
-        view.setCityText(residential?.city ?: "")
-        view.setCountryofresidenceText(residential?.countryofresidence ?: "")
-        countryofresidenceCode = residential?.countryofresidence
-
+        ibanPersistanceDB.load()?.let {
+            view.setNumberText(it.iban?:"")
+        }?: initBankAccount(configuration.userId)
     }
 
     override fun onCountryOfResidenceClick() {
@@ -132,6 +137,28 @@ class IBANPresenter @Inject constructor(val view: IBANContract.View,
     fun calcIBANValue(): String? {
         val optiban = ibanPersistanceDB.load()
         return optiban?.iban
+    }
+
+    fun initBankAccount(userid: String) {
+        ibanPersistanceDB.delete()
+
+        api.getbankAccounts(keyChain["tokenuser"], userid) { optbankaccounts, opterror ->
+
+            if (opterror != null) {
+                return@getbankAccounts
+            }
+            if (optbankaccounts == null) {
+                return@getbankAccounts
+            }
+            val bankaccounts = optbankaccounts
+            bankaccounts.forEach { ba ->
+                val iban = BankAccount(ba.bankaccountid, ba.iban, ba.activestate)
+
+                ibanPersistanceDB.save(iban)
+            }
+
+            initIBAN()
+        }
     }
 
 }

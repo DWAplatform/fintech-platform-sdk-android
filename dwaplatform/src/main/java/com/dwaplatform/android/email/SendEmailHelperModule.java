@@ -21,4 +21,8 @@ public class SendEmailHelperModule {
     SendEmailIntentHelper providesIntentEmailHelper(){
         return new SendEmailIntentHelper();
     }
+
+    @Provides
+    @Singleton
+    EmailHelper providesEmailHelper() { return new EmailHelper(); }
 }

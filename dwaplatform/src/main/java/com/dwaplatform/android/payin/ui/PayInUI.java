@@ -49,15 +49,18 @@ public class PayInUI {
         return instance.buildPayInViewComponent(context, v);
     }
 
-    public PayInFragment createFragment() {
-        return new PayInFragment();
+    public void start(Context context, Long amount) {
+        instance = this;
+        Intent intent = new Intent(context, PayInActivity.class);
+        intent.putExtra("initialAmount", amount);
+        context.startActivity(intent);
     }
 
-    /*public void start(Context context) {
+    public void start(Context context) {
         instance = this;
         Intent intent = new Intent(context, PayInActivity.class);
         context.startActivity(intent);
-    }*/
+    }
 
     public String getHostName() {
         return hostName;

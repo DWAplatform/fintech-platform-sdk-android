@@ -1,5 +1,6 @@
 package com.dwaplatform.android.payin
 
+import android.os.CountDownTimer
 import com.dwaplatform.android.account.balance.helpers.BalanceHelper
 import com.dwaplatform.android.account.balance.models.BalanceItem
 import com.dwaplatform.android.auth.keys.KeyChain
@@ -12,9 +13,6 @@ import com.dwaplatform.android.models.DataAccount
 import java.util.*
 import javax.inject.Inject
 
-/**
- * Created by ingrid on 07/09/17.
- */
 class PayInPresenter @Inject constructor(val configuration: DataAccount,
                                          val view: PayInContract.View,
                                          val api: PayInAPI,
@@ -27,6 +25,7 @@ class PayInPresenter @Inject constructor(val configuration: DataAccount,
     : PayInContract.Presenter {
 
     var idempotencyPayin: String? = null
+    var token: String? = null
 
     override fun initialize(initialAmount: Long?) {
         idempotencyPayin = UUID.randomUUID().toString()
@@ -44,7 +43,13 @@ class PayInPresenter @Inject constructor(val configuration: DataAccount,
     override fun refresh() {
         view.showKeyboardAmount()
         refreshConfirmButtonName()
-        reloadBalance()
+
+        configuration.accountToken { newToken ->
+            token = newToken
+            reloadBalance()
+            refreshConfirmButtonName()
+
+        }
     }
 
     override fun onEditingChanged() {
@@ -52,6 +57,7 @@ class PayInPresenter @Inject constructor(val configuration: DataAccount,
         refreshData()
     }
 
+    var retries = 0
     override fun onConfirm() {
         val paycard = paymentCardpersistanceDB.paymentCardId()
         if (paycard == null) {
@@ -66,7 +72,7 @@ class PayInPresenter @Inject constructor(val configuration: DataAccount,
 
         val money = Money.valueOf(view.getAmount())
 
-        api.payIn(key.get("tokenuser"),
+        api.payIn(token!!,
                 configuration.userId,
                 configuration.accountId,
                 paycard,
@@ -76,13 +82,9 @@ class PayInPresenter @Inject constructor(val configuration: DataAccount,
             view.hideCommunicationWait()
             refreshConfirmButton()
 
+
             if (opterror != null) {
-                when (opterror) {
-                    is PayInAPI.IdempotencyError ->
-                        view.showIdempotencyError()
-                    else ->
-                        view.showCommunicationInternalError()
-                }
+                handleErrors(opterror)
                 return@payIn
             }
 
@@ -90,6 +92,8 @@ class PayInPresenter @Inject constructor(val configuration: DataAccount,
                 view.showCommunicationInternalError()
                 return@payIn
             }
+
+            retries = 0
             val payinreply = optpayinreply
             if (payinreply.securecodeneeded) {
                 view.goToSecure3D(payinreply.redirecturl ?: "")
@@ -98,6 +102,29 @@ class PayInPresenter @Inject constructor(val configuration: DataAccount,
             }
         }
 
+    }
+
+    private fun handleErrors(opterror: Exception) {
+        when (opterror) {
+            is PayInAPI.IdempotencyError ->
+                view.showIdempotencyError()
+            is PayInAPI.TokenError ->
+                if (retries > 2)
+                    view.showCommunicationInternalError()
+                else {
+                    retries++
+                    configuration.accountToken { opttoken ->
+
+                        token = opttoken
+                        onConfirm()
+
+                        //TODO plus con timer.recall(1us, onConfirm)
+
+                    }
+                }
+            else ->
+                view.showCommunicationInternalError()
+        }
     }
 
     override fun onAbortClick() {
@@ -118,6 +145,8 @@ class PayInPresenter @Inject constructor(val configuration: DataAccount,
     }
 
     private fun refreshConfirmButton() {
+        // TODO if token == null allora disable confirm
+
         if ((view.getAmount().length) > 0)
             view.forwardEnable()
         else
@@ -125,7 +154,7 @@ class PayInPresenter @Inject constructor(val configuration: DataAccount,
     }
 
     private fun reloadBalance() {
-        balanceHelper.api.balance(key.get("tokenuser"), configuration.userId, configuration.accountId) { optbalance, opterror ->
+        balanceHelper.api.balance(token!!, configuration.userId, configuration.accountId) { optbalance, opterror ->
             if (opterror != null) {
                 return@balance
             }

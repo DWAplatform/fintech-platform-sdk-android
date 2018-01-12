@@ -5,7 +5,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.View
 import com.dwaplatform.android.R
 import com.dwaplatform.android.transactions.models.TransactionItem
-import com.dwaplatform.android.transactions.ui.transactionItemView.TransactionItemContract
+import com.dwaplatform.android.transactions.ui.itemview.TransactionItemContract
 import kotlinx.android.synthetic.main.transaction_item.view.*
 import javax.inject.Inject
 

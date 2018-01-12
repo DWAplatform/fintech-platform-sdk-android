@@ -8,26 +8,21 @@
 
     <Button
         android:id="@+id/payin"
-        android:layout_width="wrap_content"
+        android:layout_width="113dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginEnd="248dp"
+        android:layout_marginTop="8dp"
         android:text="@string/payin_amount"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.502"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/auth" />
 
     <Button
         android:id="@+id/auth"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="136dp"
         android:layout_marginTop="16dp"
         android:text="auth token"
-        app:layout_constraintEnd_toStartOf="@+id/payin"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -35,21 +30,90 @@
         android:id="@+id/payout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:text="payout"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/payin"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/auth" />
 
     <Button
         android:id="@+id/transactions"
+        android:layout_width="118dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="8dp"
+        android:text="lista transazioni"
+        app:layout_constraintStart_toEndOf="@+id/payout"
+        app:layout_constraintTop_toBottomOf="@+id/auth"
+        tools:ignore="MissingConstraints" />
+
+    <Button
+        android:id="@+id/ligtdata"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="36dp"
-        android:text="lista transazioni"
+        android:layout_marginTop="8dp"
+        android:text="data"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/auth" />
+        app:layout_constraintTop_toBottomOf="@+id/payin" />
+
+    <Button
+        android:id="@+id/contacts"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="contacts"
+        app:layout_constraintStart_toEndOf="@+id/ligtdata"
+        app:layout_constraintTop_toBottomOf="@+id/payin" />
+
+    <Button
+        android:id="@+id/address"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="Address"
+        app:layout_constraintStart_toEndOf="@+id/contacts"
+        app:layout_constraintTop_toBottomOf="@+id/transactions" />
+
+    <Button
+        android:id="@+id/job"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="job"
+        app:layout_constraintStart_toEndOf="@+id/address"
+        app:layout_constraintTop_toBottomOf="@+id/transactions" />
+
+    <Button
+        android:id="@+id/idcards"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="docs"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ligtdata" />
+
+    <Button
+        android:id="@+id/iban"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="32dp"
+        android:text="iban"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/idcards" />
+
+    <Button
+        android:id="@+id/card"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="32dp"
+        android:text="card"
+        app:layout_constraintStart_toEndOf="@+id/iban"
+        app:layout_constraintTop_toBottomOf="@+id/idcards" />
 </android.support.constraint.ConstraintLayout>

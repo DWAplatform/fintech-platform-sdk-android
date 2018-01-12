@@ -12,9 +12,6 @@ import org.json.JSONObject
 import java.util.*
 import javax.inject.Inject
 
-/**
- * Created by ingrid on 06/12/17.
- */
 open class PayInAPI @Inject constructor(
         internal val hostName: String,
         internal val queue: IRequestQueue,
@@ -24,6 +21,8 @@ open class PayInAPI @Inject constructor(
     inner class GenericCommunicationError(throwable: Throwable) : Exception(throwable)
 
     inner class IdempotencyError(throwable: Throwable) : Exception(throwable)
+
+    inner class TokenError(throwable: Throwable) : Exception(throwable)
 
     private final val TAG = "PayInAPI"
 
@@ -77,6 +76,10 @@ open class PayInAPI @Inject constructor(
                 val status = if (error.networkResponse != null) error.networkResponse.statusCode
                 else -1
                 when (status) {
+                    403 -> {
+                        completion(null, TokenError(error))
+                    }
+
                     409 -> {
                         completion(null, IdempotencyError(error))
                     }

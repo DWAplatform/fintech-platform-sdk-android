@@ -7,7 +7,7 @@ import com.dwaplatform.android.auth.keys.KeyChainModule;
 import com.dwaplatform.android.iban.api.IbanAPIModule;
 import com.dwaplatform.android.iban.db.IbanPersistanceDBModule;
 import com.dwaplatform.android.log.LogModule;
-import com.dwaplatform.android.profile.db.UsersPersistanceDBModule;
+import com.dwaplatform.android.profile.db.user.UsersPersistanceDBModule;
 
 import javax.inject.Singleton;
 

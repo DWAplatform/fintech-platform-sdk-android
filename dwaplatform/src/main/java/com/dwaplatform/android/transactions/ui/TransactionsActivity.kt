@@ -11,15 +11,14 @@ import android.support.v7.widget.LinearLayoutManager
 import com.dwaplatform.android.R
 import com.dwaplatform.android.transactions.models.TransactionItem
 import com.dwaplatform.android.transactions.models.TransactionsManager
-import com.dwaplatform.android.transactions.ui.transactionDetail.ui.TransactionDetailActivity
-import com.dwaplatform.android.transactions.ui.transactionDetail.ui.TransactionDetailUI
+import com.dwaplatform.android.transactions.ui.detail.ui.TransactionDetailUI
 import kotlinx.android.synthetic.main.activity_transactions.*
 import javax.inject.Inject
 
 /**
  * Transactions list view fragment
  */
-class TransactionsActivity: FragmentActivity(), TransactionsContract.View {
+class TransactionsActivity : FragmentActivity(), TransactionsContract.View {
 
     @Inject lateinit var manager: TransactionsManager
     @Inject lateinit var presenter: TransactionsContract.Presenter
@@ -30,24 +29,16 @@ class TransactionsActivity: FragmentActivity(), TransactionsContract.View {
             presenter.refreshTransactions()
         }
     }
-//
+
 //    companion object {
-//        fun newInstance(): TransactionsFragment {
-//            return TransactionsFragment()
+//        fun newInstance(): TransactionsActivity {
+//            return TransactionsActivity()
 //        }
 //    }
-//
-//    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
-//                              savedInstanceState: Bundle?): View? {
-//        val view = inflater?.inflate(R.layout.activity_transactions, container, false)
-//        App.buildTransactionsComponent(this, this).inject(this)
-//        return view
-//    }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
+    override fun onCreate(savedInstanceState: Bundle?){
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_transactions)
-
         TransactionsUI.instance.createTransactionsViewComponent(this, this).inject(this)
 
         swipeLayout.setOnRefreshListener { presenter.refreshTransactions() }

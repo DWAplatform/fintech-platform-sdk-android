@@ -5,7 +5,7 @@ import com.dwaplatform.android.auth.keys.KeyChain;
 import com.dwaplatform.android.iban.api.IbanAPI;
 import com.dwaplatform.android.iban.db.IbanPersistanceDB;
 import com.dwaplatform.android.models.DataAccount;
-import com.dwaplatform.android.profile.db.UsersPersistanceDB;
+import com.dwaplatform.android.profile.db.user.UsersPersistanceDB;
 
 import javax.inject.Singleton;
 

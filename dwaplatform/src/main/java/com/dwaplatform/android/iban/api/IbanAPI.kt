@@ -7,13 +7,14 @@ import com.dwaplatform.android.api.IRequestProvider
 import com.dwaplatform.android.api.IRequestQueue
 import com.dwaplatform.android.iban.models.BankAccount
 import com.dwaplatform.android.log.Log
+import com.dwaplatform.android.profile.models.UserProfileReply
+import org.json.JSONArray
 import org.json.JSONObject
+import java.io.UnsupportedEncodingException
+import java.net.URLEncoder
 import java.util.HashMap
 import javax.inject.Inject
 
-/**
- * Created by ingrid on 04/01/18.
- */
 class IbanAPI @Inject constructor(internal val hostName: String,
                                   internal val queue: IRequestQueue,
                                   internal val requestProvider: IRequestProvider,
@@ -21,10 +22,6 @@ class IbanAPI @Inject constructor(internal val hostName: String,
 
 ){
     inner class GenericCommunicationError(throwable: Throwable) : Exception(throwable)
-
-    inner class IdempotencyError(throwable: Throwable) : Exception(throwable)
-
-    data class UserProfileReply(val userid: String, val token: String)
 
     private val TAG = "IbanAPI"
 
@@ -36,6 +33,27 @@ class IbanAPI @Inject constructor(internal val hostName: String,
         } else {
             return "https://$hostName$path"
         }
+    }
+
+    @Throws(UnsupportedEncodingException::class)
+    private fun getUrlDataString(url: String, params: HashMap<String, Any>): String {
+
+        val result = StringBuilder()
+        var first = true
+        result.append(url)
+        for ((key, value) in params) {
+            if (first) {
+                result.append("?")
+                first = false
+            } else
+                result.append("&")
+
+            result.append(URLEncoder.encode(key, "UTF-8"))
+            result.append("=")
+            result.append(URLEncoder.encode(value.toString(), "UTF-8"))
+        }
+
+        return result.toString()
     }
 
     private val defaultpolicy = DefaultRetryPolicy(
@@ -134,5 +152,46 @@ class IbanAPI @Inject constructor(internal val hostName: String,
             }
 
             return request
+    }
+
+    fun getbankAccounts(token: String,
+                        userid: String,
+                        completion: (List<BankAccount>?, Exception?) -> Unit): IRequest<*>? {
+
+        val baseurl = getURL("/rest/1.0/fin/iban/list")
+
+        var request: IRequest<*>?
+        try {
+            val params = HashMap<String, Any>()
+            params.put("userid", userid)
+            val url = getUrlDataString(baseurl, params)
+
+            // Request a string response from the provided URL.
+            val r = requestProvider.jsonArrayRequest(Request.Method.GET, url,
+                    null, authorizationToken(token),
+                    { response: JSONArray ->
+
+                        val bas = IntArray(response.length()) {i -> i}.map { i ->
+                            val reply = response.getJSONObject(i)
+
+                            BankAccount(
+                                    reply.optString("ibanid"),
+                                    reply.optString("iban"),
+                                    reply.optString("activestate"))
+                        }
+
+                        completion(bas, null)
+                    })
+            {error ->
+                completion(null, error) }
+            r.setIRetryPolicy(defaultpolicy)
+            queue.add(r)
+            request = r
+        } catch (e: Exception) {
+            log.error(TAG, "getbankAccounts", e)
+            request = null
+        }
+
+        return request
     }
 }
