@@ -2,7 +2,7 @@ package com.dwaplatform.android.payin
 
 import android.content.Context
 import android.os.Bundle
-import android.support.v4.app.FragmentActivity
+import android.support.v7.app.AppCompatActivity
 import android.text.Editable
 import android.text.InputFilter
 import android.text.TextWatcher
@@ -18,7 +18,7 @@ import com.dwaplatform.android.secure3d.ui.Secure3DUI
 import kotlinx.android.synthetic.main.activity_payin.*
 import javax.inject.Inject
 
-class PayInActivity : FragmentActivity(), PayInContract.View {
+class PayInActivity : AppCompatActivity(), PayInContract.View {
 
     @Inject lateinit var alertHelpers: AlertHelpers
     @Inject lateinit var presenter: PayInContract.Presenter
@@ -52,9 +52,6 @@ class PayInActivity : FragmentActivity(), PayInContract.View {
         backwardButton.setOnClickListener {
             presenter.onAbortClick()
         }
-
-        // FIXME commented due to sdk refactor
-        //WindowBarColor.update(window, resources)
 
         presenter.initialize(initialAmount)
 

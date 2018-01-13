@@ -5,7 +5,6 @@ import com.dwaplatform.android.account.balance.api.BalanceAPIModule;
 import com.dwaplatform.android.account.balance.helpers.BalanceHelperModule;
 import com.dwaplatform.android.alert.AlertHelpersModule;
 import com.dwaplatform.android.api.NetModule;
-import com.dwaplatform.android.auth.keys.KeyChainModule;
 import com.dwaplatform.android.iban.db.IbanPersistanceDBModule;
 import com.dwaplatform.android.log.LogModule;
 import com.dwaplatform.android.money.FeeHelperModule;
@@ -27,7 +26,6 @@ import dagger.Component;
         BalanceAPIModule.class,
         FeeHelperModule.class,
         PayOutAPIModule.class,
-        KeyChainModule.class,
         IbanPersistanceDBModule.class,
         IbanUIModule.class
 })

@@ -1,6 +1,5 @@
 package com.dwaplatform.android.profile.jobinfo.ui;
 
-import com.dwaplatform.android.auth.keys.KeyChain;
 import com.dwaplatform.android.models.DataAccount;
 import com.dwaplatform.android.profile.api.ProfileAPI;
 import com.dwaplatform.android.profile.db.user.UsersPersistanceDB;
@@ -23,7 +22,7 @@ public class JobInfoPresenterModule {
 
     @Provides
     @Singleton
-    JobInfoContract.Presenter providesJobInfoPresenter(ProfileAPI api, KeyChain keyChain, UsersPersistanceDB usersPersistanceDB) {
-        return new JobInfoPresenter(view, api, configuration, keyChain, usersPersistanceDB);
+    JobInfoContract.Presenter providesJobInfoPresenter(ProfileAPI api, UsersPersistanceDB usersPersistanceDB) {
+        return new JobInfoPresenter(view, api, configuration, usersPersistanceDB);
     }
 }

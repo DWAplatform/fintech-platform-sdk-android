@@ -1,6 +1,5 @@
 package com.dwaplatform.android.transactions.ui;
 
-import com.dwaplatform.android.auth.keys.KeyChain;
 import com.dwaplatform.android.models.DataAccount;
 import com.dwaplatform.android.transactions.api.TransactionsAPI;
 import com.dwaplatform.android.transactions.db.TransactionPersistanceDB;
@@ -24,8 +23,7 @@ public class TransactionsPresenterModule {
     @Provides
     @Singleton
     TransactionsContract.Presenter providesTransactionsPresenter(TransactionsAPI api,
-                                                                 KeyChain key,
                                                                  TransactionPersistanceDB transactionsPersistance) {
-        return new TransactionsPresenter(view, api, configuration, key, transactionsPersistance);
+        return new TransactionsPresenter(view, api, configuration, transactionsPersistance);
     }
 }

@@ -1,6 +1,5 @@
 package com.dwaplatform.android.profile.idcards.ui;
 
-import com.dwaplatform.android.auth.keys.KeyChain;
 import com.dwaplatform.android.images.ImageHelper;
 import com.dwaplatform.android.models.DataAccount;
 import com.dwaplatform.android.profile.api.ProfileAPI;
@@ -28,8 +27,7 @@ public class IdentityCardsPresenterModule {
     IdentityCardsContract.Presenter providesIdentityCardsPresenter(ProfileAPI api,
                                                                    DocumentsPersistanceDB documents,
                                                                    UsersPersistanceDB users,
-                                                                   KeyChain keyChain,
                                                                    ImageHelper imageHelper) {
-        return new IdentityCardsPresenter(view, api, configuration, documents, users, keyChain, imageHelper);
+        return new IdentityCardsPresenter(view, api, configuration, documents, users, imageHelper);
     }
 }

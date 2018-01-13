@@ -1,7 +1,6 @@
 package com.dwaplatform.android.iban.ui;
 
 
-import com.dwaplatform.android.auth.keys.KeyChain;
 import com.dwaplatform.android.iban.api.IbanAPI;
 import com.dwaplatform.android.iban.db.IbanPersistanceDB;
 import com.dwaplatform.android.models.DataAccount;
@@ -27,8 +26,7 @@ public class IBANPresenterModule {
     @Provides
     IBANContract.Presenter providesIBanPresenter(IbanAPI api,
                                                  IbanPersistanceDB ibanPersistanceDB,
-                                                 UsersPersistanceDB usersPersistanceDB,
-                                                 KeyChain keyChain){
-        return new IBANPresenter(view, api, configuration, ibanPersistanceDB, usersPersistanceDB, keyChain);
+                                                 UsersPersistanceDB usersPersistanceDB){
+        return new IBANPresenter(view, api, configuration, ibanPersistanceDB, usersPersistanceDB);
     }
 }

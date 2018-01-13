@@ -13,7 +13,7 @@ import org.json.JSONArray
 import org.json.JSONObject
 import java.io.UnsupportedEncodingException
 import java.net.URLEncoder
-import java.util.HashMap
+import java.util.*
 import javax.inject.Inject
 
 class IbanAPI @Inject constructor(internal val hostName: String,

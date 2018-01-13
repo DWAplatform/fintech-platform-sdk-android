@@ -47,12 +47,12 @@ class MainActivity : AppCompatActivity() {
 
         }
 
-        auth.setOnClickListener {
-            val builder = DWAplatform.buildAuth()
-            val authComponent = builder.createAuthUI( userId, hostName)
-
-            authComponent.authUI.start(this@MainActivity)
-        }
+//        auth.setOnClickListener {
+//            val builder = DWAplatform.buildAuth()
+//            val authComponent = builder.createAuthUI( userId, hostName)
+//
+//            authComponent.authUI.start(this@MainActivity)
+//        }
 
         payout.setOnClickListener {
             val builder = DWAplatform.buildPayOut().createPayOutUI(hostName, DataAccount(userId, accountId))

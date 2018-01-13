@@ -2,31 +2,26 @@ package com.dwaplatform.android.profile.idcards.ui
 
 import android.content.Intent
 import android.graphics.Bitmap
-import com.dwaplatform.android.auth.keys.KeyChain
 import com.dwaplatform.android.images.ImageHelper
 import com.dwaplatform.android.models.DataAccount
 import com.dwaplatform.android.profile.api.ProfileAPI
-import com.dwaplatform.android.profile.db.documents.Documents
 import com.dwaplatform.android.profile.db.documents.DocumentsPersistanceDB
 import com.dwaplatform.android.profile.db.user.UsersPersistanceDB
 import com.dwaplatform.android.profile.models.UserDocuments
 import java.util.*
 import javax.inject.Inject
 
-/**
- * Created by ingrid on 10/01/18.
- */
 class IdentityCardsPresenter @Inject constructor(val view: IdentityCardsContract.View,
                                                  val api: ProfileAPI,
                                                  val configuration: DataAccount,
                                                  val dbDocumentsHelper: DocumentsPersistanceDB,
                                                  val usersPersistanceDB: UsersPersistanceDB,
-                                                 val keyChain: KeyChain,
                                                  val imageHelper: ImageHelper): IdentityCardsContract.Presenter {
 
     var photosBase64 = arrayOfNulls<String?>(2)
     var index = -1
     var idempotencyIDcard: String? = null
+    var token: String? = null
 
     override fun initializate() {
         view.checkCameraPermission()
@@ -61,7 +56,7 @@ class IdentityCardsPresenter @Inject constructor(val view: IdentityCardsContract
         val idempDocs = this.idempotencyIDcard ?: return
 
         api.documents(
-                keyChain["tokenuser"],
+                token!!,
                 configuration.userId,
                 "IDENTITY_CARD",
                 photosBase64,
@@ -114,7 +109,7 @@ class IdentityCardsPresenter @Inject constructor(val view: IdentityCardsContract
 
     fun askDocuments() {
 
-        api.getDocuments(keyChain["tokenuser"], configuration.userId) {
+        api.getDocuments(token!!, configuration.userId) {
             userDocs: ArrayList<UserDocuments?>?, opterror: Exception? ->
 
             if (opterror != null) {

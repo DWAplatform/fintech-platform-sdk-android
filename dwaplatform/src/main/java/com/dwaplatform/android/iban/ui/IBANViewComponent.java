@@ -3,7 +3,6 @@ package com.dwaplatform.android.iban.ui;
 
 import com.dwaplatform.android.alert.AlertHelpersModule;
 import com.dwaplatform.android.api.NetModule;
-import com.dwaplatform.android.auth.keys.KeyChainModule;
 import com.dwaplatform.android.iban.api.IbanAPIModule;
 import com.dwaplatform.android.iban.db.IbanPersistanceDBModule;
 import com.dwaplatform.android.log.LogModule;
@@ -23,8 +22,7 @@ import dagger.Component;
         NetModule.class,
         LogModule.class,
         UsersPersistanceDBModule.class,
-        IbanPersistanceDBModule.class,
-        KeyChainModule.class
+        IbanPersistanceDBModule.class
 })
 public interface IBANViewComponent {
     void inject(IBANActivity activity);

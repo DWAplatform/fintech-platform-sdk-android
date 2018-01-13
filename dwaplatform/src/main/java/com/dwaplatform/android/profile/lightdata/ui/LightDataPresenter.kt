@@ -1,6 +1,5 @@
 package com.dwaplatform.android.profile.lightdata.ui
 
-import com.dwaplatform.android.auth.keys.KeyChain
 import com.dwaplatform.android.models.DataAccount
 import com.dwaplatform.android.profile.api.ProfileAPI
 import com.dwaplatform.android.profile.db.user.UsersPersistanceDB
@@ -13,11 +12,11 @@ import javax.inject.Inject
 class LightDataPresenter @Inject constructor(val view: LightDataContract.View,
                                              val api: ProfileAPI,
                                              val configuration: DataAccount,
-                                             val key: KeyChain,
                                              val usersPersistanceDB: UsersPersistanceDB): LightDataContract.Presenter {
 
 
     private var birthdayDate: String? = null
+    var token:String?=null
 
     override fun initialize() {
 
@@ -43,7 +42,7 @@ class LightDataPresenter @Inject constructor(val view: LightDataContract.View,
                 view.getNationalityText() )
 
         api.lightdata(
-                key["tokenuser"],
+                token!!,
                 lightdata){ userProfileReply, exception ->
 
             if (exception != null){
@@ -113,7 +112,7 @@ class LightDataPresenter @Inject constructor(val view: LightDataContract.View,
 
         view.enableAllTexts(false)
 
-        api.searchUser(key["tokenuser"],
+        api.searchUser(token!!,
                  configuration.userId){ profile, exception ->
 
             if (exception != null){

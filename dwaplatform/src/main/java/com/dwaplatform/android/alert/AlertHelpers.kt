@@ -3,7 +3,6 @@ package com.dwaplatform.android.alert
 import android.app.AlertDialog
 import android.content.Context
 import android.content.DialogInterface
-import com.dwaplatform.android.R
 
 /**
  * Created by tcappellari on 08/12/2017.

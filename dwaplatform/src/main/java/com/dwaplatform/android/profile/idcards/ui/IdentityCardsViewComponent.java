@@ -1,7 +1,6 @@
 package com.dwaplatform.android.profile.idcards.ui;
 
 import com.dwaplatform.android.api.NetModule;
-import com.dwaplatform.android.auth.keys.KeyChainModule;
 import com.dwaplatform.android.images.ImageHelperModule;
 import com.dwaplatform.android.log.LogModule;
 import com.dwaplatform.android.profile.api.ProfileAPIModule;
@@ -18,7 +17,6 @@ import dagger.Component;
         ProfileAPIModule.class,
         NetModule.class,
         LogModule.class,
-        KeyChainModule.class,
         UsersPersistanceDBModule.class,
         DocumentsPersistanceDBModule.class,
         ImageHelperModule.class

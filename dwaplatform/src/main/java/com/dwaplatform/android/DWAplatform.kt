@@ -8,8 +8,8 @@ import com.dwaplatform.android.api.volley.VolleyRequestQueueProvider
 import com.dwaplatform.android.card.PaymentCardBuilder
 import com.dwaplatform.android.card.client.api.ClientCardAPI
 import com.dwaplatform.android.card.client.api.ClientCardRestAPI
-import com.dwaplatform.android.card.helpers.PaymentCardHelper
 import com.dwaplatform.android.card.helpers.JSONHelper
+import com.dwaplatform.android.card.helpers.PaymentCardHelper
 import com.dwaplatform.android.card.helpers.SanityCheck
 import com.dwaplatform.android.db.PlatformDB
 import com.dwaplatform.android.iban.IBANBuilder

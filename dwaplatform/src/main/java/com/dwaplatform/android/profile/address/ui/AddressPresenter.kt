@@ -1,6 +1,5 @@
 package com.dwaplatform.android.profile.address.ui
 
-import com.dwaplatform.android.auth.keys.KeyChain
 import com.dwaplatform.android.iban.models.UserResidential
 import com.dwaplatform.android.models.DataAccount
 import com.dwaplatform.android.profile.api.ProfileAPI
@@ -8,14 +7,12 @@ import com.dwaplatform.android.profile.db.user.UsersPersistanceDB
 import com.mukesh.countrypicker.Country
 import javax.inject.Inject
 
-/**
- * Created by ingrid on 09/01/18.
- */
 class AddressPresenter @Inject constructor(val view: AddressContract.View,
                                            val api: ProfileAPI,
-                                           val keyChain: KeyChain,
                                            val configuration: DataAccount,
                                            val usersPersistanceDB: UsersPersistanceDB) : AddressContract.Presenter {
+
+    var token:String?=null
 
     override fun initializate() {
 
@@ -31,7 +28,7 @@ class AddressPresenter @Inject constructor(val view: AddressContract.View,
     override fun onRefresh() {
         view.enableAllTexts(false)
 
-        api.searchUser( keyChain["tokenuser"],
+        api.searchUser(token!!,
                 configuration.userId){ profile, exception ->
 
             if (exception != null){
@@ -91,7 +88,7 @@ class AddressPresenter @Inject constructor(val view: AddressContract.View,
                 view.getResidenceCountry()
         )
 
-        api.residential( keyChain["tokenuser"],
+        api.residential(token!!,
                 residential) { optuserprofilereply, opterror ->
 
             view.enableConfirmButton(false)

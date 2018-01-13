@@ -1,11 +1,8 @@
-package com.dwaplatform.android.auth.ui;
+package com.dwaplatform.android.sample.auth.ui;
 
-import android.app.Activity;
-import android.content.Intent;
-
-import com.dwaplatform.android.auth.api.AuthenticationAPI;
-import com.dwaplatform.android.auth.keys.KeyChain;
 import com.dwaplatform.android.log.Log;
+import com.dwaplatform.android.sample.auth.api.AuthenticationAPI;
+import com.dwaplatform.android.sample.auth.keys.KeyChain;
 
 import javax.inject.Singleton;
 

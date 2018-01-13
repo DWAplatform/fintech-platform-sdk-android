@@ -2,7 +2,6 @@ package com.dwaplatform.android.payout.ui;
 
 
 import com.dwaplatform.android.account.balance.helpers.BalanceHelper;
-import com.dwaplatform.android.auth.keys.KeyChain;
 import com.dwaplatform.android.iban.db.IbanPersistanceDB;
 import com.dwaplatform.android.models.DataAccount;
 import com.dwaplatform.android.money.FeeHelper;
@@ -33,8 +32,7 @@ public class PayOutPresenterModule {
                                                     MoneyHelper moneyHelper,
                                                     BalanceHelper balanceHelper,
                                                     FeeHelper feeHelper,
-                                                    KeyChain key,
                                                     IbanPersistanceDB ibanPersistanceDB) {
-        return new PayOutPresenter(config, view, api, moneyHelper, balanceHelper, feeHelper, key, ibanPersistanceDB);
+        return new PayOutPresenter(config, view, api, moneyHelper, balanceHelper, feeHelper, ibanPersistanceDB);
     }
 }

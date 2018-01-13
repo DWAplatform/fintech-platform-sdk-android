@@ -1,7 +1,6 @@
 package com.dwaplatform.android.payout.ui
 
 import android.content.Context
-import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.support.v4.app.FragmentActivity
@@ -13,7 +12,6 @@ import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import com.dwaplatform.android.R
 import com.dwaplatform.android.alert.AlertHelpers
-import com.dwaplatform.android.iban.ui.IBANActivity
 import com.dwaplatform.android.iban.ui.IbanUI
 import com.dwaplatform.android.money.MoneyValueInputFilter
 import kotlinx.android.synthetic.main.activity_payout.*

@@ -1,10 +1,9 @@
-package com.dwaplatform.android.auth.ui
+package com.dwaplatform.android.sample.auth.ui
 
-import android.content.Intent
-import com.dwaplatform.android.auth.api.AuthenticationAPI
-import com.dwaplatform.android.auth.keys.CheckPinState
-import com.dwaplatform.android.auth.keys.KeyChain
 import com.dwaplatform.android.log.Log
+import com.dwaplatform.android.sample.auth.api.AuthenticationAPI
+import com.dwaplatform.android.sample.auth.keys.CheckPinState
+import com.dwaplatform.android.sample.auth.keys.KeyChain
 
 /**
  * Created by ingrid on 18/12/17.

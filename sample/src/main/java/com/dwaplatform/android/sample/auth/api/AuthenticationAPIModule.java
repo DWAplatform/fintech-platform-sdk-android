@@ -1,4 +1,4 @@
-package com.dwaplatform.android.auth.api;
+package com.dwaplatform.android.sample.auth.api;
 
 import com.dwaplatform.android.api.IRequestProvider;
 import com.dwaplatform.android.api.IRequestQueue;

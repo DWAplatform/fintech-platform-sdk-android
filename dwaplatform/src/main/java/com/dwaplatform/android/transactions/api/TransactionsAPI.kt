@@ -12,8 +12,7 @@ import org.json.JSONArray
 import org.json.JSONException
 import java.io.UnsupportedEncodingException
 import java.net.URLEncoder
-import java.util.ArrayList
-import java.util.HashMap
+import java.util.*
 import javax.inject.Inject
 
 class TransactionsAPI @Inject constructor(

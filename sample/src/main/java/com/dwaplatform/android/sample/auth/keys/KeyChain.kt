@@ -1,4 +1,4 @@
-package com.dwaplatform.android.auth.keys
+package com.dwaplatform.android.sample.auth.keys
 
 import android.content.Context
 

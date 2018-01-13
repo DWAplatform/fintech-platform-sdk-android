@@ -1,6 +1,5 @@
 package com.dwaplatform.android.profile.address.ui;
 
-import com.dwaplatform.android.auth.keys.KeyChain;
 import com.dwaplatform.android.models.DataAccount;
 import com.dwaplatform.android.profile.api.ProfileAPI;
 import com.dwaplatform.android.profile.db.user.UsersPersistanceDB;
@@ -23,7 +22,7 @@ public class AddressPresenterModule {
 
     @Provides
     @Singleton
-    AddressContract.Presenter providesAddressPresenter(ProfileAPI api, KeyChain keyChain, UsersPersistanceDB userPersistanceDB) {
-        return new AddressPresenter(view, api, keyChain, dataAccount, userPersistanceDB);
+    AddressContract.Presenter providesAddressPresenter(ProfileAPI api, UsersPersistanceDB userPersistanceDB) {
+        return new AddressPresenter(view, api, dataAccount, userPersistanceDB);
     }
 }

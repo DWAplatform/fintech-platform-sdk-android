@@ -1,18 +1,18 @@
-package com.dwaplatform.android.auth.api
+package com.dwaplatform.android.sample.auth.api
 
 import com.android.volley.DefaultRetryPolicy
 import com.android.volley.Request
 import com.dwaplatform.android.api.IRequest
 import com.dwaplatform.android.api.IRequestProvider
 import com.dwaplatform.android.api.IRequestQueue
-import com.dwaplatform.android.auth.keys.CheckPin
-import com.dwaplatform.android.auth.keys.CheckPinState
 import com.dwaplatform.android.log.Log
+import com.dwaplatform.android.sample.auth.keys.CheckPin
+import com.dwaplatform.android.sample.auth.keys.CheckPinState
 import org.json.JSONException
 import org.json.JSONObject
 import java.io.UnsupportedEncodingException
 import java.net.URLEncoder
-import java.util.HashMap
+import java.util.*
 
 /**
  * Created by ingrid on 18/12/17.

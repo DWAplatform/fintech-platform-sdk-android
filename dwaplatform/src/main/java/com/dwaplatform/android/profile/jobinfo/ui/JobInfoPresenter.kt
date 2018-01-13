@@ -1,6 +1,5 @@
 package com.dwaplatform.android.profile.jobinfo.ui
 
-import com.dwaplatform.android.auth.keys.KeyChain
 import com.dwaplatform.android.models.DataAccount
 import com.dwaplatform.android.profile.api.ProfileAPI
 import com.dwaplatform.android.profile.db.user.UsersPersistanceDB
@@ -10,10 +9,10 @@ import javax.inject.Inject
 class JobInfoPresenter @Inject constructor(val view: JobInfoContract.View,
                                            val api: ProfileAPI,
                                            val configuration: DataAccount,
-                                           val keyChain: KeyChain,
                                            val usersPersistanceDB: UsersPersistanceDB): JobInfoContract.Presenter, IncomePickerDialog.OnPickSalaryIncome {
 
     lateinit var salaries: Array<String>
+    var token:String?=null
 
     override fun initializate(array: Array<String>) {
 
@@ -25,7 +24,7 @@ class JobInfoPresenter @Inject constructor(val view: JobInfoContract.View,
     override fun onRefresh() {
         view.enableAllTexts(false)
 
-        api.searchUser(keyChain["tokenuser"], configuration.userId ) { profile, exception ->
+        api.searchUser(token!!, configuration.userId ) { profile, exception ->
 
             if (exception != null) {
                 return@searchUser
@@ -63,7 +62,7 @@ class JobInfoPresenter @Inject constructor(val view: JobInfoContract.View,
 
         val jobInfo = UserJobInfo(configuration.userId, view.getJobInfoText(), getKeySalaryValue( view.getIncomeText() ) )
         api.jobInfo(
-                keyChain["tokenuser"],
+                token!!,
                 jobInfo
                 ) { optuserprofilereply, opterror ->
 

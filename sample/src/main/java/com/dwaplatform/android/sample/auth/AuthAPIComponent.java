@@ -1,9 +1,9 @@
-package com.dwaplatform.android.auth;
+package com.dwaplatform.android.sample.auth;
 
 import com.dwaplatform.android.api.NetModule;
-import com.dwaplatform.android.auth.api.AuthenticationAPI;
-import com.dwaplatform.android.auth.api.AuthenticationAPIModule;
 import com.dwaplatform.android.log.LogModule;
+import com.dwaplatform.android.sample.auth.api.AuthenticationAPI;
+import com.dwaplatform.android.sample.auth.api.AuthenticationAPIModule;
 
 import javax.inject.Singleton;
 

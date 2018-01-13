@@ -1,8 +1,6 @@
 package com.dwaplatform.android.iban.ui
 
-import com.dwaplatform.android.auth.keys.KeyChain
 import com.dwaplatform.android.iban.api.IbanAPI
-import com.dwaplatform.android.iban.db.Iban
 import com.dwaplatform.android.iban.db.IbanPersistanceDB
 import com.dwaplatform.android.iban.models.BankAccount
 import com.dwaplatform.android.iban.models.UserResidential
@@ -15,11 +13,10 @@ class IBANPresenter @Inject constructor(val view: IBANContract.View,
                                         val api: IbanAPI,
                                         val configuration: DataAccount,
                                         val ibanPersistanceDB: IbanPersistanceDB,
-                                        val usersPersistanceDB: UsersPersistanceDB,
-                                        val keyChain: KeyChain): IBANContract.Presenter {
+                                        val usersPersistanceDB: UsersPersistanceDB): IBANContract.Presenter {
 
     private var countryofresidenceCode: String? = null
-
+    var token:String?=null
     override fun refreshConfirmButton() {
         view.setAbortText()
         val isEnabled = view.getNumberTextLength() >= 20 &&
@@ -67,7 +64,7 @@ class IBANPresenter @Inject constructor(val view: IBANContract.View,
         view.showCommunicationWait()
 
         api.residenceProfile(
-                keyChain["tokenuser"],
+                token!!,
                 configuration.userId,
                 countryofresidence = countryofresidenceCode,
                 address = view.getAddressText(),
@@ -104,7 +101,7 @@ class IBANPresenter @Inject constructor(val view: IBANContract.View,
         view.confirmButtonEnable(false)
         view.showCommunicationWait()
 
-        api.createIBAN(keyChain["tokenuser"],
+        api.createIBAN(token!!,
                 configuration.userId,
                 view.getNumberText()) { optbankaccount, opterror ->
 
@@ -142,7 +139,7 @@ class IBANPresenter @Inject constructor(val view: IBANContract.View,
     fun initBankAccount(userid: String) {
         ibanPersistanceDB.delete()
 
-        api.getbankAccounts(keyChain["tokenuser"], userid) { optbankaccounts, opterror ->
+        api.getbankAccounts(token!!, userid) { optbankaccounts, opterror ->
 
             if (opterror != null) {
                 return@getbankAccounts

@@ -1,6 +1,5 @@
 package com.dwaplatform.android.profile.lightdata.ui;
 
-import com.dwaplatform.android.auth.keys.KeyChain;
 import com.dwaplatform.android.models.DataAccount;
 import com.dwaplatform.android.profile.api.ProfileAPI;
 import com.dwaplatform.android.profile.db.user.UsersPersistanceDB;
@@ -23,7 +22,7 @@ public class LightDataPresenterModule {
 
     @Provides
     @Singleton
-    LightDataContract.Presenter providesLightDataPresenter(ProfileAPI api, KeyChain key, UsersPersistanceDB usersPersistanceDB) {
-        return new LightDataPresenter(view, api, configuration, key, usersPersistanceDB);
+    LightDataContract.Presenter providesLightDataPresenter(ProfileAPI api, UsersPersistanceDB usersPersistanceDB) {
+        return new LightDataPresenter(view, api, configuration, usersPersistanceDB);
     }
 }
