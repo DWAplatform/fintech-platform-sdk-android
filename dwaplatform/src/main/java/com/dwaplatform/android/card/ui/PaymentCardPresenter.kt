@@ -1,6 +1,5 @@
 package com.dwaplatform.android.card.ui
 
-import com.dwaplatform.android.auth.keys.KeyChain
 import com.dwaplatform.android.card.api.PaymentCardAPI
 import com.dwaplatform.android.card.db.PaymentCardPersistenceDB
 import com.dwaplatform.android.models.DataAccount
@@ -12,9 +11,9 @@ import javax.inject.Inject
 class PaymentCardPresenter @Inject constructor(var view: PaymentCardContract.View,
                                                var api: PaymentCardAPI,
                                                var dataAccountHelper: DataAccount,
-                                               val paymentCardpersistanceDB: PaymentCardPersistenceDB,
-                                               val key: KeyChain): PaymentCardContract.Presenter {
+                                               val paymentCardpersistanceDB: PaymentCardPersistenceDB ): PaymentCardContract.Presenter {
 
+    var token:String?=null
     override fun refreshConfirmButton() {
         val isEnabled = view.getNumberTextLength() >= 16
                 && view.getDateTextLength() >= 4
@@ -24,7 +23,7 @@ class PaymentCardPresenter @Inject constructor(var view: PaymentCardContract.Vie
 
     override fun initPaymentCard(){
         paymentCardpersistanceDB.deletePaymentCard()
-        api.getPaymentCards(key["tokenuser"], dataAccountHelper.userId){ optcards, opterror ->
+        api.getPaymentCards(token!!, dataAccountHelper.userId){ optcards, opterror ->
 
             if (opterror != null) {
                 return@getPaymentCards
@@ -46,7 +45,7 @@ class PaymentCardPresenter @Inject constructor(var view: PaymentCardContract.Vie
 
         api.createCreditCard(dataAccountHelper.userId,
                 dataAccountHelper.accountId,
-                key["tokenuser"],
+                token!!,
                 view.getNumberText(),
                 view.getDAteText(),
                 view.getCCvText()) { optcard, opterror ->

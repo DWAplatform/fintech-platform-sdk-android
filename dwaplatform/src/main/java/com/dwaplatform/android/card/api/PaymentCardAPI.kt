@@ -13,7 +13,7 @@ import org.json.JSONException
 import org.json.JSONObject
 import java.io.UnsupportedEncodingException
 import java.net.URLEncoder
-import java.util.HashMap
+import java.util.*
 
 /**
  * Created by ingrid on 21/12/17.

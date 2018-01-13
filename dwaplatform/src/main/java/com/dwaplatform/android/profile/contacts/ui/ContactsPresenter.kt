@@ -1,6 +1,5 @@
 package com.dwaplatform.android.profile.contacts.ui
 
-import com.dwaplatform.android.auth.keys.KeyChain
 import com.dwaplatform.android.email.EmailHelper
 import com.dwaplatform.android.models.DataAccount
 import com.dwaplatform.android.profile.api.ProfileAPI
@@ -12,8 +11,9 @@ import javax.inject.Inject
 class ContactsPresenter @Inject constructor(val view: ContactsContract.View,
                                             val api: ProfileAPI,
                                             val configuration: DataAccount,
-                                            val keyChain: KeyChain,
                                             val usersPersistanceDB: UsersPersistanceDB): ContactsContract.Presenter {
+
+    var token:String?=null
 
     override fun initializate() {
         val userProfile = usersPersistanceDB.userProfile(configuration.userId)
@@ -26,7 +26,7 @@ class ContactsPresenter @Inject constructor(val view: ContactsContract.View,
     override fun onRefresh() {
         view.enableAllTexts(false)
 
-        api.searchUser(keyChain["tokenuser"],
+        api.searchUser(token!!,
                 configuration.userId){ profile, exception ->
 
             if (exception != null){
@@ -70,7 +70,7 @@ class ContactsPresenter @Inject constructor(val view: ContactsContract.View,
             view.hideKeyboard()
 
             val contacts = UserContacts(configuration.userId, view.getEmailText(), view.getTelephoneText())
-            api.contacts(keyChain["tokenuser"],
+            api.contacts(token!!,
                     contacts) { profileReply: UserProfileReply?, exception: Exception? ->
                 if (exception != null) {
                     view.hideWaiting()

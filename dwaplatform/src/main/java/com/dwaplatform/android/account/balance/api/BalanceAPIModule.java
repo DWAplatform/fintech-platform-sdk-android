@@ -1,14 +1,8 @@
 package com.dwaplatform.android.account.balance.api;
 
-import com.android.volley.RequestQueue;
 import com.dwaplatform.android.api.IRequestProvider;
 import com.dwaplatform.android.api.IRequestQueue;
-import com.dwaplatform.android.api.volley.VolleyRequestProvider;
-import com.dwaplatform.android.api.volley.VolleyRequestQueueProvider;
-import com.dwaplatform.android.auth.keys.KeyChain;
-import com.dwaplatform.android.card.helpers.JSONHelper;
 import com.dwaplatform.android.log.Log;
-import com.dwaplatform.android.payin.api.PayInAPI;
 
 import javax.inject.Singleton;
 

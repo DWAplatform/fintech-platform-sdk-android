@@ -5,7 +5,6 @@ import android.content.Intent;
 
 import com.android.volley.toolbox.Volley;
 import com.dwaplatform.android.api.NetModule;
-import com.dwaplatform.android.auth.keys.KeyChainModule;
 import com.dwaplatform.android.models.DataAccount;
 import com.dwaplatform.android.profile.api.ProfileAPIModule;
 
@@ -28,7 +27,6 @@ public class JobInfoUI {
     protected JobInfoViewComponent buildJobInfoComponent(Context context, JobInfoContract.View view){
         return DaggerJobInfoViewComponent.builder()
                 .netModule(new NetModule(Volley.newRequestQueue(context)))
-                .keyChainModule(new KeyChainModule(context))
                 .jobInfoPresenterModule(new JobInfoPresenterModule(view, instance.configuration))
                 .profileAPIModule(new ProfileAPIModule(instance.hostName))
                 .build();

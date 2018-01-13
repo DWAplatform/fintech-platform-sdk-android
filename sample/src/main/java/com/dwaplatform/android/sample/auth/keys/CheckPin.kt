@@ -1,4 +1,4 @@
-package com.dwaplatform.android.auth.keys
+package com.dwaplatform.android.sample.auth.keys
 
 data class CheckPin(val userid: String, val token: String, val status: CheckPinState)
 

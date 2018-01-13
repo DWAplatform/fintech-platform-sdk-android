@@ -1,6 +1,4 @@
-package com.dwaplatform.android.auth.ui;
-
-import android.content.Intent;
+package com.dwaplatform.android.sample.auth.ui;
 
 import javax.inject.Singleton;
 

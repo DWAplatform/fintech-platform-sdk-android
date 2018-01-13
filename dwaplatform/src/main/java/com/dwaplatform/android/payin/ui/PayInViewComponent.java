@@ -4,8 +4,6 @@ import com.dwaplatform.android.account.balance.api.BalanceAPIModule;
 import com.dwaplatform.android.account.balance.helpers.BalanceHelperModule;
 import com.dwaplatform.android.alert.AlertHelpersModule;
 import com.dwaplatform.android.api.NetModule;
-import com.dwaplatform.android.auth.keys.KeyChain;
-import com.dwaplatform.android.auth.keys.KeyChainModule;
 import com.dwaplatform.android.card.db.PaymentCardPersistanceModule;
 import com.dwaplatform.android.log.LogModule;
 import com.dwaplatform.android.money.FeeHelperModule;
@@ -34,8 +32,7 @@ import dagger.Component;
         FeeHelperModule.class,
         NetModule.class,
         Secure3DUIModule.class,
-        PaymentCardUIModule.class,
-        KeyChainModule.class
+        PaymentCardUIModule.class
 })
 public interface PayInViewComponent {
     void inject(PayInActivity activity);

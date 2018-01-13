@@ -1,7 +1,6 @@
 package com.dwaplatform.android.transactions.ui;
 
 import com.dwaplatform.android.api.NetModule;
-import com.dwaplatform.android.auth.keys.KeyChainModule;
 import com.dwaplatform.android.log.LogModule;
 import com.dwaplatform.android.money.MoneyHelperModule;
 import com.dwaplatform.android.transactions.api.TransactionsAPIModule;
@@ -18,7 +17,6 @@ import dagger.Component;
         TransactionsAPIModule.class,
         NetModule.class,
         LogModule.class,
-        KeyChainModule.class,
         TransactionPersistanceDBModule.class,
         MoneyHelperModule.class,
         TransactionsManagerModule.class,

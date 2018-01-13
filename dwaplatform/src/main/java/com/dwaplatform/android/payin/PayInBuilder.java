@@ -5,8 +5,8 @@ import android.content.Context;
 import com.android.volley.toolbox.Volley;
 import com.dwaplatform.android.api.NetModule;
 import com.dwaplatform.android.card.ui.PaymentCardUIModule;
-import com.dwaplatform.android.payin.api.PayInAPIModule;
 import com.dwaplatform.android.models.DataAccount;
+import com.dwaplatform.android.payin.api.PayInAPIModule;
 import com.dwaplatform.android.payin.ui.PayInUIModule;
 
 /**

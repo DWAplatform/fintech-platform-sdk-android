@@ -2,7 +2,6 @@ package com.dwaplatform.android.payout.ui
 
 import com.dwaplatform.android.account.balance.helpers.BalanceHelper
 import com.dwaplatform.android.account.balance.models.BalanceItem
-import com.dwaplatform.android.auth.keys.KeyChain
 import com.dwaplatform.android.iban.db.IbanPersistanceDB
 import com.dwaplatform.android.models.DataAccount
 import com.dwaplatform.android.money.FeeHelper
@@ -12,20 +11,16 @@ import com.dwaplatform.android.payout.api.PayOutAPI
 import java.util.*
 import javax.inject.Inject
 
-/**
- * Created by ingrid on 11/09/17.
- */
-
 class PayOutPresenter @Inject constructor(val configuration: DataAccount,
                                           val view: PayOutContract.View,
                                           val api: PayOutAPI,
                                           val moneyHelper: MoneyHelper,
                                           val balanceHelper: BalanceHelper,
                                           val feeHelper: FeeHelper,
-                                          val key: KeyChain,
                                           val ibanPersistanceDB: IbanPersistanceDB
 ): PayOutContract.Presenter {
     var idempotencyPayout: String? = null
+    var token:String?=null
 
     override fun initialize() {
         idempotencyPayout = UUID.randomUUID().toString()
@@ -58,7 +53,7 @@ class PayOutPresenter @Inject constructor(val configuration: DataAccount,
         view.showCommunicationWait()
 
         val money = Money.valueOf(view.getAmount())
-        api.payOut(key["tokenuser"],
+        api.payOut(token!!,
                 configuration.userId,
                 bankAccountId,
                 money.value,
@@ -129,7 +124,7 @@ class PayOutPresenter @Inject constructor(val configuration: DataAccount,
     }
 
     private fun reloadBalance() {
-        balanceHelper.api.balance(key.get("tokenuser"), configuration.userId, configuration.accountId) { optbalance, opterror ->
+        balanceHelper.api.balance(token!!, configuration.userId, configuration.accountId) { optbalance, opterror ->
             if (opterror != null) {
                 return@balance
             }

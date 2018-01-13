@@ -6,7 +6,6 @@ import android.content.Intent;
 
 import com.android.volley.toolbox.Volley;
 import com.dwaplatform.android.api.NetModule;
-import com.dwaplatform.android.auth.keys.KeyChainModule;
 import com.dwaplatform.android.models.DataAccount;
 import com.dwaplatform.android.profile.api.ProfileAPIModule;
 
@@ -25,7 +24,6 @@ public class IdentityCardsUI {
     protected IdentityCardsViewComponent buildIdCardsViewComponent(Context context, IdentityCardsContract.View view) {
         return DaggerIdentityCardsViewComponent.builder()
                 .netModule(new NetModule(Volley.newRequestQueue(context)))
-                .keyChainModule(new KeyChainModule(context))
                 .identityCardsPresenterModule(new IdentityCardsPresenterModule(view, instance.configuration))
                 .profileAPIModule(new ProfileAPIModule(instance.hostName))
                 .build();

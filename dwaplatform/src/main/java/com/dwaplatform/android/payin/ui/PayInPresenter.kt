@@ -1,15 +1,13 @@
 package com.dwaplatform.android.payin
 
-import android.os.CountDownTimer
 import com.dwaplatform.android.account.balance.helpers.BalanceHelper
 import com.dwaplatform.android.account.balance.models.BalanceItem
-import com.dwaplatform.android.auth.keys.KeyChain
 import com.dwaplatform.android.card.db.PaymentCardPersistenceDB
+import com.dwaplatform.android.models.DataAccount
 import com.dwaplatform.android.money.FeeHelper
 import com.dwaplatform.android.money.Money
 import com.dwaplatform.android.money.MoneyHelper
 import com.dwaplatform.android.payin.api.PayInAPI
-import com.dwaplatform.android.models.DataAccount
 import java.util.*
 import javax.inject.Inject
 
@@ -19,8 +17,7 @@ class PayInPresenter @Inject constructor(val configuration: DataAccount,
                                          val moneyHelper: MoneyHelper,
                                          val balanceHelper: BalanceHelper,
                                          val feeHelper: FeeHelper,
-                                         val paymentCardpersistanceDB: PaymentCardPersistenceDB,
-                                         val key: KeyChain
+                                         val paymentCardpersistanceDB: PaymentCardPersistenceDB
 )
     : PayInContract.Presenter {
 

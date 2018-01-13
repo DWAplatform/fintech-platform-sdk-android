@@ -5,12 +5,11 @@ import com.android.volley.Request
 import com.dwaplatform.android.api.IRequest
 import com.dwaplatform.android.api.IRequestProvider
 import com.dwaplatform.android.api.IRequestQueue
-import com.dwaplatform.android.card.helpers.JSONHelper
 import com.dwaplatform.android.log.Log
 import org.json.JSONException
 import java.io.UnsupportedEncodingException
 import java.net.URLEncoder
-import java.util.HashMap
+import java.util.*
 import javax.inject.Inject
 
 /**

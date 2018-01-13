@@ -2,6 +2,7 @@ package com.dwaplatform.android.transactions.ui.detail.ui;
 
 import android.content.Context;
 import android.content.Intent;
+
 import com.dwaplatform.android.transactions.models.TransactionItem;
 
 public class TransactionDetailUI {

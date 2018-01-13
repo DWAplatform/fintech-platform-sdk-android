@@ -1,19 +1,9 @@
 package com.dwaplatform.android.sample
 
-import android.content.Intent
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
+import android.support.v7.app.AppCompatActivity
 import com.dwaplatform.android.DWAplatform
-import com.dwaplatform.android.account.balance.db.Balance
-import com.dwaplatform.android.card.db.PaymentCard
-import com.dwaplatform.android.card.db.PaymentCardDB
-import com.dwaplatform.android.card.db.PaymentCardPersistenceDB
-import com.dwaplatform.android.card.models.PaymentCardItem
 import com.dwaplatform.android.models.DataAccount
-import com.dwaplatform.android.profile.db.user.Users
-import com.raizlabs.android.dbflow.kotlinextensions.insert
-import com.raizlabs.android.dbflow.sql.language.SQLite
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -24,9 +14,9 @@ class MainActivity : AppCompatActivity() {
 //            completion(t)
 //        else // TODO: richiedi PIN e salva il token su variabile token.
 //            // nota: se chiamate multiple, prima che activity ritorni, verrà chiamata la callback relativa all'ultima chiamata.
-            DWAplatform.buildAuth()
-                    .createAuthUI("22863c52-ca29-11e7-94c6-b35ff6d69059", "http://192.168.1.73:9000")
-                    .authUI.start(this@MainActivity)
+//            DWAplatform.buildAuth()
+//                    .createAuthUI("22863c52-ca29-11e7-94c6-b35ff6d69059", "http://192.168.1.73:9000")
+//                    .authUI.start(this@MainActivity)
     }
 
 
@@ -59,12 +49,12 @@ class MainActivity : AppCompatActivity() {
 
         }
 
-        auth.setOnClickListener {
-            val builder = DWAplatform.buildAuth()
-            val authComponent = builder.createAuthUI( userId, hostName)
-
-            authComponent.authUI.start(this@MainActivity)
-        }
+//        auth.setOnClickListener {
+//            val builder = DWAplatform.buildAuth()
+//            val authComponent = builder.createAuthUI( userId, hostName)
+//
+//            authComponent.authUI.start(this@MainActivity)
+//        }
 
 //        payout.setOnClickListener {
 //            val builder = DWAplatform.buildPayOut().createPayOutUI(hostName, DataAccount(userId, accountId))

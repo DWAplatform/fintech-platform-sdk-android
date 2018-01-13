@@ -1,4 +1,4 @@
-package com.dwaplatform.android.auth.ui;
+package com.dwaplatform.android.sample.auth.ui;
 
 import android.app.Activity;
 import android.content.Context;
@@ -6,8 +6,9 @@ import android.content.Intent;
 
 import com.android.volley.toolbox.Volley;
 import com.dwaplatform.android.api.NetModule;
-import com.dwaplatform.android.auth.api.AuthenticationAPIModule;
-import com.dwaplatform.android.auth.keys.KeyChainModule;
+import com.dwaplatform.android.sample.auth.ui.DaggerAuthViewComponent;
+import com.dwaplatform.android.sample.auth.api.AuthenticationAPIModule;
+import com.dwaplatform.android.sample.auth.keys.KeyChainModule;
 
 public class AuthUI {
 

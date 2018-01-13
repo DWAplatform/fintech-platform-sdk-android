@@ -7,7 +7,7 @@ import com.dwaplatform.android.api.IRequestProvider
 import com.dwaplatform.android.api.IRequestQueue
 import com.dwaplatform.android.log.Log
 import org.json.JSONObject
-import java.util.HashMap
+import java.util.*
 import javax.inject.Inject
 
 /**

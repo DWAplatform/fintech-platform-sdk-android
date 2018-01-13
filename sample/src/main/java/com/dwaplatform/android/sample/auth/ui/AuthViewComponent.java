@@ -1,11 +1,11 @@
-package com.dwaplatform.android.auth.ui;
+package com.dwaplatform.android.sample.auth.ui;
 
 import com.dwaplatform.android.alert.AlertHelpersModule;
 import com.dwaplatform.android.api.NetModule;
-import com.dwaplatform.android.auth.api.AuthenticationAPIModule;
-import com.dwaplatform.android.auth.keys.KeyChainModule;
-import com.dwaplatform.android.log.LogModule;
 import com.dwaplatform.android.email.SendEmailHelperModule;
+import com.dwaplatform.android.log.LogModule;
+import com.dwaplatform.android.sample.auth.api.AuthenticationAPIModule;
+import com.dwaplatform.android.sample.auth.keys.KeyChainModule;
 
 import javax.inject.Singleton;
 

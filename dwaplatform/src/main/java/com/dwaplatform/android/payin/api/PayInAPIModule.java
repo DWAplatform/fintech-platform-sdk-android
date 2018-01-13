@@ -1,7 +1,5 @@
 package com.dwaplatform.android.payin.api;
 
-import android.content.Context;
-
 import com.dwaplatform.android.api.IRequestProvider;
 import com.dwaplatform.android.api.IRequestQueue;
 import com.dwaplatform.android.log.Log;

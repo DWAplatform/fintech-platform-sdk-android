@@ -1,4 +1,5 @@
-package com.dwaplatform.android.auth.keys;
+package com.dwaplatform.android.sample.auth.keys;
+
 
 import javax.inject.Singleton;
 

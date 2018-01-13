@@ -1,7 +1,4 @@
-package com.dwaplatform.android.auth.ui
-
-import android.app.Activity
-import android.content.Intent
+package com.dwaplatform.android.sample.auth.ui
 
 /**
  * Created by ingrid on 18/12/17.
