@@ -78,14 +78,15 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun requestToken(completion: (String) -> Unit) {
+    fun requestToken(renewToken: Boolean, completion: (String) -> Unit) {
         val token = KeyChain(this)["accountToken"]
-        if (token.isNotEmpty())
+
+        if (!renewToken && token.isNotEmpty())
             completion(token)
         else
         // nota: se chiamate multiple, prima che activity ritorni, verrà chiamata la callback relativa all'ultima chiamata.
             AuthBuilder()
-                    .createAuthUI(userId, hostName, completion)
+                    .createAuthUI(userId, hostName)
                     .authUI.start(this@MainActivity)
     }
 

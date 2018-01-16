@@ -3,6 +3,7 @@ package com.dwaplatform.android.card.ui
 import com.dwaplatform.android.card.api.PaymentCardAPI
 import com.dwaplatform.android.card.db.PaymentCardPersistenceDB
 import com.dwaplatform.android.models.DataAccount
+import com.dwaplatform.android.payin.api.PayInAPI
 import javax.inject.Inject
 
 /**
@@ -15,9 +16,12 @@ class PaymentCardPresenter @Inject constructor(var view: PaymentCardContract.Vie
 
     var token:String?=null
     override fun refreshConfirmButton() {
+
         val isEnabled = view.getNumberTextLength() >= 16
                 && view.getDateTextLength() >= 4
                 && view.getCCvTextLength() >= 3
+                && !token.isNullOrEmpty()
+
         view.confirmButtonEnable(isEnabled)
     }
 
@@ -37,7 +41,7 @@ class PaymentCardPresenter @Inject constructor(var view: PaymentCardContract.Vie
             }
         }
     }
-
+    var retries = 0
     override fun onConfirm() {
         view.confirmButtonEnable(false)
 
@@ -55,7 +59,7 @@ class PaymentCardPresenter @Inject constructor(var view: PaymentCardContract.Vie
             refreshConfirmButton()
 
             if (opterror != null) {
-                view.showCommunicationInternalError()
+                handleErrors(opterror)
                 return@createCreditCard
             }
 
@@ -78,6 +82,29 @@ class PaymentCardPresenter @Inject constructor(var view: PaymentCardContract.Vie
 
     override fun refresh() {
         view.showKeyboard()
-        refreshConfirmButton()
+
+        dataAccountHelper.accountToken(false) {
+            token = it
+            refreshConfirmButton()
+        }
+
+    }
+
+    private fun handleErrors(opterror: Exception) {
+        when (opterror) {
+            is PaymentCardAPI.TokenError ->
+                if (retries > 2)
+                    view.showCommunicationInternalError()
+                else {
+                    retries++
+                    dataAccountHelper.accountToken(true) { opttoken ->
+
+                        token = opttoken
+                        onConfirm()
+                    }
+                }
+            else ->
+                view.showCommunicationInternalError()
+        }
     }
 }

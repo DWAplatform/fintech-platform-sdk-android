@@ -76,7 +76,7 @@ open class PayInAPI @Inject constructor(
                 val status = if (error.networkResponse != null) error.networkResponse.statusCode
                 else -1
                 when (status) {
-                    403 -> {
+                    401 -> {
                         completion(null, TokenError(error))
                     }
 

@@ -1,6 +1,7 @@
 package com.dwaplatform.android.payin
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.text.Editable
@@ -140,12 +141,5 @@ class PayInActivity : AppCompatActivity(), PayInContract.View {
         window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN)
     }
 
-//    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-//        super.onActivityResult(requestCode, resultCode, data)
-//
-//        if(requestCode == 100 && resultCode == RESULT_OK) {
-//            token = data?.data.toString()
-//        }
-//    }
 }
 

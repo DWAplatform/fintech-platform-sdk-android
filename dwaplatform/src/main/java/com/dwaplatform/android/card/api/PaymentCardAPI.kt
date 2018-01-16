@@ -26,6 +26,8 @@ class PaymentCardAPI constructor(internal val hostName: String,
     private val TAG = "DWApayAPI"
     private val PROTOCOL_CHARSET = "utf-8"
 
+    inner class TokenError(throwable: Throwable) : Exception(throwable)
+
     private fun getURL(path: String): String {
         if(hostName.startsWith("http://") || hostName.startsWith("https://")){
             return "$hostName$path"

@@ -1,5 +1,7 @@
 package com.dwaplatform.android.payin
 
+import android.support.v7.app.AppCompatActivity
+
 /**
  * Created by ingrid on 07/09/17.
  */

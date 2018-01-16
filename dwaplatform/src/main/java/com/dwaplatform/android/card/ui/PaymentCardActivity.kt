@@ -3,6 +3,7 @@ package com.dwaplatform.android.card.ui
 import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.FragmentActivity
+import android.support.v7.app.AppCompatActivity
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
@@ -16,7 +17,7 @@ import javax.inject.Inject
 /**
  * UI for Credit card number, data, ccv
  */
-class PaymentCardActivity: FragmentActivity(), PaymentCardContract.View {
+class PaymentCardActivity: AppCompatActivity(), PaymentCardContract.View {
     @Inject lateinit var alertHelpers: AlertHelpers
     @Inject lateinit var presenter: PaymentCardContract.Presenter
 

@@ -14,17 +14,15 @@ import kotlin.jvm.functions.Function1;
 public class AuthUIModule {
     private String userid;
     private String hostname;
-    private Function1<String, Unit> completion;
 
-    public AuthUIModule(String userid, String hostname, Function1<String, Unit> completion) {
+    public AuthUIModule(String userid, String hostname) {
         this.userid = userid;
         this.hostname = hostname;
-        this.completion = completion;
     }
 
     @Provides
     @Singleton
     AuthUI providesAuthUI(){
-        return new AuthUI(hostname, userid, completion);
+        return new AuthUI(hostname, userid);
     }
 }

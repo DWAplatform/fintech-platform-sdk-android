@@ -19,17 +19,15 @@ public class AuthenticationPresenterModule {
 
     private AuthenticationContract.View view;
     private String userid;
-    private Function1<String, Unit> completion;
 
-    AuthenticationPresenterModule(AuthenticationContract.View view, String userid, Function1<String, Unit> completion) {
+    AuthenticationPresenterModule(AuthenticationContract.View view, String userid) {
         this.view = view;
         this.userid = userid;
-        this.completion = completion;
     }
 
     @Provides
     @Singleton
     AuthenticationContract.Presenter providesAuthPresenter(Log log, AuthenticationAPI api, KeyChain keyChain){
-        return new AuthenticationPresenter(view, log, api, userid, keyChain, completion);
+        return new AuthenticationPresenter(view, log, api, userid, keyChain);
     }
 }
