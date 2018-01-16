@@ -10,6 +10,9 @@ import com.dwaplatform.android.sample.auth.keys.KeyChainComponent;
 import com.dwaplatform.android.sample.auth.keys.KeyChainModule;
 import com.dwaplatform.android.sample.auth.ui.AuthUIModule;
 
+import kotlin.Unit;
+import kotlin.jvm.functions.Function1;
+
 
 public class AuthBuilder {
     public AuthAPIComponent createAuthAPI(String hostName, Context context) {
@@ -25,9 +28,9 @@ public class AuthBuilder {
                 .build();
     }
 
-    public AuthUIComponent createAuthUI(String userid, String hostname) {
+    public AuthUIComponent createAuthUI(String userid, String hostname, Function1<String, Unit> completion) {
         return DaggerAuthUIComponent.builder()
-                .authUIModule(new AuthUIModule(userid, hostname))
+                .authUIModule(new AuthUIModule(userid, hostname, completion))
                 .build();
     }
 }

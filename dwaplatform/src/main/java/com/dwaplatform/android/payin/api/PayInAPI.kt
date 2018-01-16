@@ -16,7 +16,7 @@ open class PayInAPI @Inject constructor(
         internal val hostName: String,
         internal val queue: IRequestQueue,
         internal val requestProvider: IRequestProvider,
-        internal val log: Log) {
+        internal val log: Log ){
 
     inner class GenericCommunicationError(throwable: Throwable) : Exception(throwable)
 

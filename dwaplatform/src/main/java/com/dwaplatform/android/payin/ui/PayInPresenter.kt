@@ -69,36 +69,37 @@ class PayInPresenter @Inject constructor(val configuration: DataAccount,
 
         val money = Money.valueOf(view.getAmount())
 
-        api.payIn(token!!,
-                configuration.userId,
-                configuration.accountId,
-                paycard,
-                money,
-                idempPayin) { optpayinreply, opterror ->
+        configuration.accountToken {
+            api.payIn(it,
+                    configuration.userId,
+                    configuration.accountId,
+                    paycard,
+                    money,
+                    idempPayin) { optpayinreply, opterror ->
 
-            view.hideCommunicationWait()
-            refreshConfirmButton()
+                view.hideCommunicationWait()
+                refreshConfirmButton()
 
 
-            if (opterror != null) {
-                handleErrors(opterror)
-                return@payIn
-            }
+                if (opterror != null) {
+                    handleErrors(opterror)
+                    return@payIn
+                }
 
-            if (optpayinreply == null) {
-                view.showCommunicationInternalError()
-                return@payIn
-            }
+                if (optpayinreply == null) {
+                    view.showCommunicationInternalError()
+                    return@payIn
+                }
 
-            retries = 0
-            val payinreply = optpayinreply
-            if (payinreply.securecodeneeded) {
-                view.goToSecure3D(payinreply.redirecturl ?: "")
-            } else {
-                view.goBack()
+                retries = 0
+                val payinreply = optpayinreply
+                if (payinreply.securecodeneeded) {
+                    view.goToSecure3D(payinreply.redirecturl ?: "")
+                } else {
+                    view.goBack()
+                }
             }
         }
-
     }
 
     private fun handleErrors(opterror: Exception) {
@@ -151,19 +152,22 @@ class PayInPresenter @Inject constructor(val configuration: DataAccount,
     }
 
     private fun reloadBalance() {
-        balanceHelper.api.balance(token!!, configuration.userId, configuration.accountId) { optbalance, opterror ->
-            if (opterror != null) {
-                return@balance
-            }
+        configuration.accountToken{
+            balanceHelper.api.balance(it, configuration.userId, configuration.accountId) { optbalance, opterror ->
+                if (opterror != null) {
+                    return@balance
+                }
 
-            if (optbalance == null) {
-                return@balance
-            }
-            val balance = optbalance
-            balanceHelper.persistence.saveBalance(BalanceItem(configuration.accountId, Money(balance)))
+                if (optbalance == null) {
+                    return@balance
+                }
+                val balance = optbalance
+                balanceHelper.persistence.saveBalance(BalanceItem(configuration.accountId, Money(balance)))
 
-            refreshBalance()
+                refreshBalance()
+            }
         }
+
     }
 
     private fun refreshData() {

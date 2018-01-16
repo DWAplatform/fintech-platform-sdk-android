@@ -9,7 +9,8 @@ class AuthenticationPresenter constructor(val view: AuthenticationContract.View,
                                           val log: Log,
                                           val api: AuthenticationAPI,
                                           val userid: String,
-                                          val keyChain: KeyChain
+                                          val keyChain: KeyChain,
+                                          val completion: (String) -> Unit
 ): AuthenticationContract.Presenter {
     override fun onEditingChanged() {
         val pin = view.getPinEntry()
@@ -43,7 +44,8 @@ class AuthenticationPresenter constructor(val view: AuthenticationContract.View,
                     view.showMaxAttemptExpired()
                 }
                 CheckPinState.SUCCESS -> {
-                    keyChain["tokenuser"] = checkPin.token
+                    keyChain["accountToken"] = checkPin.token
+                    completion(checkPin.token)
                     view.goToMain("")
                 }
             }

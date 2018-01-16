@@ -8,6 +8,8 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
+import kotlin.Unit;
+import kotlin.jvm.functions.Function1;
 
 /**
  * Created by tcappellari on 08/12/2017.
