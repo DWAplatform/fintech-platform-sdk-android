@@ -80,7 +80,7 @@ class MainActivity : AppCompatActivity() {
 
     fun requestToken(completion: (String) -> Unit) {
         val token = KeyChain(this)["accountToken"]
-        if (token.isNotBlank())
+        if (token.isNotEmpty())
             completion(token)
         else
         // nota: se chiamate multiple, prima che activity ritorni, verrà chiamata la callback relativa all'ultima chiamata.

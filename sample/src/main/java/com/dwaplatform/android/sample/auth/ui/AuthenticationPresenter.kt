@@ -46,7 +46,7 @@ class AuthenticationPresenter constructor(val view: AuthenticationContract.View,
                 CheckPinState.SUCCESS -> {
                     keyChain["accountToken"] = checkPin.token
                     completion(checkPin.token)
-                    view.goToMain("")
+                    view.goToMain()
                 }
             }
         }

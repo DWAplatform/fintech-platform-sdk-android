@@ -12,7 +12,7 @@ interface AuthenticationContract {
         fun showWaiting()
         fun hideWaiting()
         fun showInternalError()
-        fun goToMain(data: String)
+        fun goToMain()
     }
 
     interface Presenter {

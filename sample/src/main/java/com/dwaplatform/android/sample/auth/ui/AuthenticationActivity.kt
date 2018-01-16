@@ -51,10 +51,7 @@ class AuthenticationActivity: FragmentActivity(), AuthenticationContract.View {
                 "PIN Errato", "Ridigitare il pin").show()
     }
 
-    override fun goToMain(data: String) {
-//        val intent = Intent()
-//        intent.data = Uri.parse(data)
-//        setResult(RESULT_OK, intent)
+    override fun goToMain() {
         finish()
     }
 
