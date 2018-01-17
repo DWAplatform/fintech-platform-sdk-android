@@ -2,6 +2,7 @@ package com.dwaplatform.android.profile.api;
 
 import com.dwaplatform.android.api.IRequestProvider;
 import com.dwaplatform.android.api.IRequestQueue;
+import com.dwaplatform.android.api.NetHelper;
 import com.dwaplatform.android.log.Log;
 
 import javax.inject.Singleton;
@@ -20,7 +21,7 @@ public class ProfileAPIModule {
 
     @Provides
     @Singleton
-    ProfileAPI providesProfileAPI(IRequestQueue queue, IRequestProvider requestProvider, Log log) {
-        return new ProfileAPI(hostName, queue, requestProvider, log);
+    ProfileAPI providesProfileAPI(IRequestQueue queue, IRequestProvider requestProvider, Log log, NetHelper netHelper) {
+        return new ProfileAPI(hostName, queue, requestProvider, log, netHelper);
     }
 }
