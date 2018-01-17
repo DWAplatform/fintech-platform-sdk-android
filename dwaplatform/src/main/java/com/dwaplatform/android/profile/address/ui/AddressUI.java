@@ -22,7 +22,7 @@ public class AddressUI {
 
     protected AddressViewComponent buildAddressComponent(Context context, AddressContract.View view) {
         return DaggerAddressViewComponent.builder()
-                .netModule(new NetModule(Volley.newRequestQueue(context)))
+                .netModule(new NetModule(Volley.newRequestQueue(context),instance.hostName))
                 .profileAPIModule(new ProfileAPIModule(instance.hostName))
                 .addressPresenterModule(new AddressPresenterModule(view, instance.configuration))
                 .build();

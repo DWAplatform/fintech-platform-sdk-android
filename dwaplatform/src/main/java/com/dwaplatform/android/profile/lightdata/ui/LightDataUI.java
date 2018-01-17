@@ -23,7 +23,7 @@ public class LightDataUI {
 
     LightDataViewComponent buildLightDataViewComponent(Context context, LightDataContract.View view) {
         return DaggerLightDataViewComponent.builder()
-                .netModule(new NetModule(Volley.newRequestQueue(context)))
+                .netModule(new NetModule(Volley.newRequestQueue(context), instance.hostName))
                 .profileAPIModule(new ProfileAPIModule(instance.hostName))
                 .lightDataPresenterModule(new LightDataPresenterModule(view, instance.configuration))
                 .build();

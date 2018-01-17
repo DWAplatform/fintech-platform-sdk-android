@@ -2,6 +2,7 @@ package com.dwaplatform.android.transactions.api;
 
 import com.dwaplatform.android.api.IRequestProvider;
 import com.dwaplatform.android.api.IRequestQueue;
+import com.dwaplatform.android.api.NetHelper;
 import com.dwaplatform.android.log.Log;
 
 import javax.inject.Singleton;
@@ -19,7 +20,7 @@ public class TransactionsAPIModule {
 
     @Provides
     @Singleton
-    TransactionsAPI providesTransactionsAPI(IRequestQueue queue, IRequestProvider requestProvider, Log log) {
-        return new TransactionsAPI(hostname, queue, requestProvider, log);
+    TransactionsAPI providesTransactionsAPI(IRequestQueue queue, IRequestProvider requestProvider, Log log, NetHelper netHelper) {
+        return new TransactionsAPI(hostname, queue, requestProvider, log, netHelper);
     }
 }

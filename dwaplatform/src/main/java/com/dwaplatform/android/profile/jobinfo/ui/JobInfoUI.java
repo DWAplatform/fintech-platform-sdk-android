@@ -26,7 +26,7 @@ public class JobInfoUI {
 
     protected JobInfoViewComponent buildJobInfoComponent(Context context, JobInfoContract.View view){
         return DaggerJobInfoViewComponent.builder()
-                .netModule(new NetModule(Volley.newRequestQueue(context)))
+                .netModule(new NetModule(Volley.newRequestQueue(context), instance.hostName))
                 .jobInfoPresenterModule(new JobInfoPresenterModule(view, instance.configuration))
                 .profileAPIModule(new ProfileAPIModule(instance.hostName))
                 .build();

@@ -23,7 +23,7 @@ public class IdentityCardsUI {
 
     protected IdentityCardsViewComponent buildIdCardsViewComponent(Context context, IdentityCardsContract.View view) {
         return DaggerIdentityCardsViewComponent.builder()
-                .netModule(new NetModule(Volley.newRequestQueue(context)))
+                .netModule(new NetModule(Volley.newRequestQueue(context), instance.hostName))
                 .identityCardsPresenterModule(new IdentityCardsPresenterModule(view, instance.configuration))
                 .profileAPIModule(new ProfileAPIModule(instance.hostName))
                 .build();

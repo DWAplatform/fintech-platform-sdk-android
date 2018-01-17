@@ -1,6 +1,8 @@
 package com.dwaplatform.android.api
 
 import com.android.volley.DefaultRetryPolicy
+import com.dwaplatform.android.profile.models.UserProfile
+import org.json.JSONObject
 import java.io.UnsupportedEncodingException
 import java.net.URLEncoder
 import java.util.HashMap
@@ -56,5 +58,27 @@ class NetHelper constructor(val hostName: String) {
         return result.toString()
     }
 
+    data class UserReplyParserResult(val userprofile: UserProfile?, val error: Exception?)
+    fun searchUserReplyParser(response: JSONObject) : UserReplyParserResult {
 
+        val userprofile = UserProfile(
+                response.getString("userid"),
+                response.optString("name"),
+                response.optString("surname"),
+                response.optString("nationality"),
+                response.optString("birthday"),
+                response.optString("address"),
+                response.optString("ZIPcode"),
+                response.optString("city"),
+                response.optString("telephone"),
+                response.optString("email"),
+                response.optString("photo"),
+                response.optString("countryofresidence"),
+                response.optString("jobinfo"),
+                response.optString("income"),
+                response.optString("tokenuser"))
+
+        return UserReplyParserResult(userprofile, null)
+
+    }
 }

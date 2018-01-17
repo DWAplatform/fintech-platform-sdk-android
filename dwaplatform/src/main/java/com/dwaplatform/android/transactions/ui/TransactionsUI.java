@@ -33,7 +33,7 @@ public class TransactionsUI {
 
     protected TransactionsViewComponent buildTransactionsViewComponent(Context context, TransactionsContract.View view) {
         return DaggerTransactionsViewComponent.builder()
-                .netModule(new NetModule(Volley.newRequestQueue(context)))
+                .netModule(new NetModule(Volley.newRequestQueue(context), instance.hostname))
                 .transactionsPresenterModule(new TransactionsPresenterModule(view, instance.configuration))
                 .transactionsAPIModule(new TransactionsAPIModule(instance.hostname))
                 .transactionDetailUIModule(new TransactionDetailUIModule(detailUI))

@@ -2,6 +2,7 @@ package com.dwaplatform.android.iban.api;
 
 import com.dwaplatform.android.api.IRequestProvider;
 import com.dwaplatform.android.api.IRequestQueue;
+import com.dwaplatform.android.api.NetHelper;
 import com.dwaplatform.android.log.Log;
 
 import javax.inject.Singleton;
@@ -20,7 +21,7 @@ public class IbanAPIModule {
 
     @Provides
     @Singleton
-    IbanAPI providesIbanAPI(IRequestQueue queue, IRequestProvider requestProvider, Log log) {
-        return new IbanAPI(hostname, queue, requestProvider, log);
+    IbanAPI providesIbanAPI(IRequestQueue queue, IRequestProvider requestProvider, Log log, NetHelper netHelper) {
+        return new IbanAPI(hostname, queue, requestProvider, log, netHelper);
     }
 }

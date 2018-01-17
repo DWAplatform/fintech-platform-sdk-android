@@ -5,6 +5,7 @@ import com.android.volley.Request
 import com.dwaplatform.android.api.IRequest
 import com.dwaplatform.android.api.IRequestProvider
 import com.dwaplatform.android.api.IRequestQueue
+import com.dwaplatform.android.api.NetHelper
 import com.dwaplatform.android.log.Log
 import com.dwaplatform.android.transactions.models.TransactionResponse
 import org.json.JSONArray
@@ -18,60 +19,18 @@ class TransactionsAPI @Inject constructor(
         internal val hostName: String,
         internal val queue: IRequestQueue,
         internal val requestProvider: IRequestProvider,
-        internal val log: Log) {
+        internal val log: Log,
+        val netHelper: NetHelper
+        ) {
 
-    private val PROTOCOL_CHARSET = "utf-8"
     private val TAG = "TransactionsAPI"
-
-    private fun getURL(path: String): String {
-        if(hostName.startsWith("http://") || hostName.startsWith("https://")){
-            return "$hostName$path"
-        } else {
-            return "https://$hostName$path"
-        }
-    }
-
-    private val defaultpolicy = DefaultRetryPolicy(
-            30000, 0, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT)
-
-    private fun authorizationToken(token: String): Map<String, String> {
-        val header = HashMap<String, String>()
-        header.put("Authorization", "Bearer $token")
-        return header
-    }
-
-
-    @Throws(UnsupportedEncodingException::class)
-    private fun getUrlDataString(url: String, params: HashMap<String, Any>): String {
-
-        val result = StringBuilder()
-        var first = true
-        result.append(url)
-        for ((key, value) in params) {
-            if (first) {
-                result.append("?")
-                first = false
-            } else
-                result.append("&")
-
-            result.append(URLEncoder.encode(key, "UTF-8"))
-            result.append("=")
-            result.append(URLEncoder.encode(value.toString(), "UTF-8"))
-        }
-
-        return result.toString()
-    }
-
-    inner class GenericCommunicationError(throwable: Throwable) : Exception(throwable)
-
-    inner class ReplyParamsUnexpected(throwable: Throwable) : Exception(throwable)
 
     fun transactions(token: String,
                      userid: String, limit: Int?,
                      offset: Int?,
                      completion: (List<TransactionResponse>?, Exception?) -> Unit): IRequest<*>? {
 
-        val url = getURL("/rest/1.0/fin/user/transactions")
+        val url = netHelper.getURL("/rest/1.0/fin/user/transactions")
 
         var request: IRequest<*>?
         try {
@@ -79,21 +38,21 @@ class TransactionsAPI @Inject constructor(
             params.put("userid", userid)
             params.put("limit", limit ?: 0)
             params.put("offset", offset ?: 10)
-            val rurl = getUrlDataString(url, params)
+            val rurl = netHelper.getUrlDataString(url, params)
 
             request = requestProvider.jsonArrayRequest(Request.Method.GET,
-                    rurl, null, authorizationToken(token),
+                    rurl, null, netHelper.authorizationToken(token),
                     { response ->
                         try {
                             val l = transactionsResponse(response)
                             completion(l, null)
                         } catch (e: JSONException) {
-                            completion(null, ReplyParamsUnexpected(e))
+                            completion(null, netHelper.ReplyParamsUnexpected(e))
                         }
                     }) { error ->
-                completion(null, GenericCommunicationError(error)) }
+                completion(null, netHelper.GenericCommunicationError(error)) }
 
-            request.setIRetryPolicy(defaultpolicy)
+            request.setIRetryPolicy(netHelper.defaultpolicy)
             queue.add(request)
 
         } catch (e: Exception) {
