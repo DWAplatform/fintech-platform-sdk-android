@@ -54,7 +54,7 @@ class PayOutPresenter @Inject constructor(val configuration: DataAccount,
 
         val money = Money.valueOf(view.getAmount())
 
-        api.payOut(token!!,
+        api.payOut(configuration.accessToken,
                 configuration.userId,
                 bankAccountId,
                 money.value,
@@ -64,12 +64,7 @@ class PayOutPresenter @Inject constructor(val configuration: DataAccount,
             refreshConfirmButton()
 
             if (opterror != null) {
-                when (opterror) {
-                    is NetHelper.IdempotencyError ->
-                        view.showIdempotencyError()
-                    else ->
-                        view.showCommunicationInternalError()
-                }
+                handleErrors(opterror)
                 return@payOut
             }
 
@@ -126,8 +121,9 @@ class PayOutPresenter @Inject constructor(val configuration: DataAccount,
 
     private fun reloadBalance() {
 
-        balanceHelper.api.balance(token!!, configuration.userId, configuration.accountId) { optbalance, opterror ->
+        balanceHelper.api.balance(configuration.accessToken, configuration.userId, configuration.accountId) { optbalance, opterror ->
             if (opterror != null) {
+                handleErrors(opterror)
                 return@balance
             }
 
@@ -164,5 +160,16 @@ class PayOutPresenter @Inject constructor(val configuration: DataAccount,
                 }
 
         view.setFeeAmountLabel(moneyHelper.toString(moneyFee))
+    }
+
+    fun handleErrors(opterror: Exception) {
+        when (opterror) {
+            is NetHelper.IdempotencyError ->
+                view.showIdempotencyError()
+            is NetHelper.TokenError ->
+                view.showTokenExpiredWarning()
+            else ->
+                view.showCommunicationInternalError()
+        }
     }
 }

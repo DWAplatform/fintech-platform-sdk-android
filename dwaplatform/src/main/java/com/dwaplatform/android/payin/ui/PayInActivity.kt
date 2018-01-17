@@ -114,6 +114,12 @@ class PayInActivity : AppCompatActivity(), PayInContract.View {
         alertHelpers.idempotencyError(this).show()
     }
 
+    override fun showTokenExpiredWarning() {
+        alertHelpers.tokenExpired(this, { _,_ ->
+            finish()
+        })
+    }
+
     override fun goToCreditCard() {
         paymentCard.start(this)
     }

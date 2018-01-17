@@ -19,16 +19,17 @@ class PaymentCardPresenter @Inject constructor(var view: PaymentCardContract.Vie
         val isEnabled = view.getNumberTextLength() >= 16
                 && view.getDateTextLength() >= 4
                 && view.getCCvTextLength() >= 3
-                && !token.isNullOrEmpty()
+                && dataAccountHelper.accessToken.isNullOrEmpty()
 
         view.confirmButtonEnable(isEnabled)
     }
 
     override fun initPaymentCard(){
         paymentCardpersistanceDB.deletePaymentCard()
-        api.getPaymentCards(token!!, dataAccountHelper.userId){ optcards, opterror ->
+        api.getPaymentCards(dataAccountHelper.accessToken, dataAccountHelper.userId){ optcards, opterror ->
 
             if (opterror != null) {
+                handleErrors(opterror)
                 return@getPaymentCards
             }
             if (optcards == null) {
@@ -49,7 +50,7 @@ class PaymentCardPresenter @Inject constructor(var view: PaymentCardContract.Vie
 
         api.createCreditCard(dataAccountHelper.userId,
                 dataAccountHelper.accountId,
-                token!!,
+                dataAccountHelper.accessToken,
                 view.getNumberText(),
                 view.getDAteText(),
                 view.getCCvText()) { optcard, opterror ->
@@ -88,16 +89,7 @@ class PaymentCardPresenter @Inject constructor(var view: PaymentCardContract.Vie
     private fun handleErrors(opterror: Exception) {
         when (opterror) {
             is NetHelper.TokenError ->
-                if (retries > 2)
-                    view.showCommunicationInternalError()
-                else {
-                    retries++
-                    dataAccountHelper.accountToken(true) { opttoken ->
-
-                        token = opttoken
-                        onConfirm()
-                    }
-                }
+                view.showTokenExpiredWarning()
             else ->
                 view.showCommunicationInternalError()
         }

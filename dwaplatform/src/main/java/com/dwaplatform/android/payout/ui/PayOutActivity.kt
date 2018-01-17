@@ -128,6 +128,12 @@ class PayOutActivity: FragmentActivity(), PayOutContract.View {
         alertHelpers.idempotencyError(this).show()
     }
 
+    override fun showTokenExpiredWarning() {
+        alertHelpers.tokenExpired(this, { _,_ ->
+            finish()
+        })
+    }
+
     override fun hideSoftkeyboard() {
         window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN)
     }

@@ -20,6 +20,7 @@ interface PayOutContract {
         fun showCommunicationWait()
         fun hideCommunicationWait()
         fun showCommunicationInternalError()
+        fun showTokenExpiredWarning()
         fun showIdempotencyError()
         fun hideSoftkeyboard()
         fun goBack()
