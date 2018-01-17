@@ -2,6 +2,7 @@ package com.dwaplatform.android.payout.api;
 
 import com.dwaplatform.android.api.IRequestProvider;
 import com.dwaplatform.android.api.IRequestQueue;
+import com.dwaplatform.android.api.NetHelper;
 import com.dwaplatform.android.log.Log;
 
 import javax.inject.Singleton;
@@ -20,7 +21,7 @@ public class PayOutAPIModule {
 
     @Provides
     @Singleton
-    PayOutAPI providePayInAPI(IRequestQueue queue, IRequestProvider requestProvider, Log log) {
-        return new PayOutAPI(hostName, queue, requestProvider, log);
+    PayOutAPI providePayInAPI(IRequestQueue queue, IRequestProvider requestProvider, Log log, NetHelper netHelper) {
+        return new PayOutAPI(hostName, queue, requestProvider, log, netHelper);
     }
 }

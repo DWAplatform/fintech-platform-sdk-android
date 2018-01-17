@@ -2,6 +2,7 @@ package com.dwaplatform.android.card.api;
 
 import com.dwaplatform.android.api.IRequestProvider;
 import com.dwaplatform.android.api.IRequestQueue;
+import com.dwaplatform.android.api.NetHelper;
 import com.dwaplatform.android.log.Log;
 
 import javax.inject.Singleton;
@@ -25,7 +26,7 @@ public class PaymentCardAPIModule {
 
     @Provides
     @Singleton
-    PaymentCardAPI providesPaymentCardAPI(IRequestQueue queue, IRequestProvider provider, Log log) {
-        return new PaymentCardAPI(hostname, queue, provider, log, sandbox);
+    PaymentCardAPI providesPaymentCardAPI(IRequestQueue queue, IRequestProvider provider, Log log, NetHelper netHelper) {
+        return new PaymentCardAPI(hostname, queue, provider, log, sandbox, netHelper);
     }
 }
