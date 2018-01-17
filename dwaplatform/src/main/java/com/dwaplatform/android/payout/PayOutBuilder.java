@@ -15,7 +15,7 @@ public class PayOutBuilder {
     public PayOutAPIComponent createPayOutAPI(Context context, String hostName) {
         return DaggerPayOutAPIComponent.builder()
                 .payOutAPIModule(new PayOutAPIModule(hostName))
-                .netModule(new NetModule(Volley.newRequestQueue(context)))
+                .netModule(new NetModule(Volley.newRequestQueue(context), hostName))
                 .build();
     }
 

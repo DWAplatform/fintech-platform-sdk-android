@@ -1,6 +1,6 @@
 package com.dwaplatform.android.card.ui
 
-import com.dwaplatform.android.auth.keys.KeyChain
+import com.dwaplatform.android.api.NetHelper
 import com.dwaplatform.android.card.api.PaymentCardAPI
 import com.dwaplatform.android.card.db.PaymentCardPersistenceDB
 import com.dwaplatform.android.models.DataAccount
@@ -12,19 +12,21 @@ import javax.inject.Inject
 class PaymentCardPresenter @Inject constructor(var view: PaymentCardContract.View,
                                                var api: PaymentCardAPI,
                                                var dataAccountHelper: DataAccount,
-                                               val paymentCardpersistanceDB: PaymentCardPersistenceDB,
-                                               val key: KeyChain): PaymentCardContract.Presenter {
+                                               val paymentCardpersistanceDB: PaymentCardPersistenceDB ): PaymentCardContract.Presenter {
 
     override fun refreshConfirmButton() {
+
         val isEnabled = view.getNumberTextLength() >= 16
                 && view.getDateTextLength() >= 4
                 && view.getCCvTextLength() >= 3
+                && !token.isNullOrEmpty()
+
         view.confirmButtonEnable(isEnabled)
     }
 
     override fun initPaymentCard(){
         paymentCardpersistanceDB.deletePaymentCard()
-        api.getPaymentCards(key["tokenuser"], dataAccountHelper.userId){ optcards, opterror ->
+        api.getPaymentCards(token!!, dataAccountHelper.userId){ optcards, opterror ->
 
             if (opterror != null) {
                 return@getPaymentCards
@@ -47,7 +49,7 @@ class PaymentCardPresenter @Inject constructor(var view: PaymentCardContract.Vie
 
         api.createCreditCard(dataAccountHelper.userId,
                 dataAccountHelper.accountId,
-                key["tokenuser"],
+                token!!,
                 view.getNumberText(),
                 view.getDAteText(),
                 view.getCCvText()) { optcard, opterror ->
@@ -57,7 +59,7 @@ class PaymentCardPresenter @Inject constructor(var view: PaymentCardContract.Vie
             refreshConfirmButton()
 
             if (opterror != null) {
-                view.showCommunicationInternalError()
+                handleErrors(opterror)
                 return@createCreditCard
             }
 
@@ -81,5 +83,23 @@ class PaymentCardPresenter @Inject constructor(var view: PaymentCardContract.Vie
     override fun refresh() {
         view.showKeyboard()
         refreshConfirmButton()
+    }
+
+    private fun handleErrors(opterror: Exception) {
+        when (opterror) {
+            is NetHelper.TokenError ->
+                if (retries > 2)
+                    view.showCommunicationInternalError()
+                else {
+                    retries++
+                    dataAccountHelper.accountToken(true) { opttoken ->
+
+                        token = opttoken
+                        onConfirm()
+                    }
+                }
+            else ->
+                view.showCommunicationInternalError()
+        }
     }
 }

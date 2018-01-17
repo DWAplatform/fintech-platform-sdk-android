@@ -5,7 +5,6 @@ import com.android.volley.toolbox.Volley
 import com.dwaplatform.android.account.balance.BalanceBuilder
 import com.dwaplatform.android.api.volley.VolleyRequestProvider
 import com.dwaplatform.android.api.volley.VolleyRequestQueueProvider
-import com.dwaplatform.android.auth.AuthBuilder
 import com.dwaplatform.android.card.PaymentCardBuilder
 import com.dwaplatform.android.card.client.api.ClientCardAPI
 import com.dwaplatform.android.card.client.api.ClientCardRestAPI
@@ -99,9 +98,9 @@ class DWAplatform {
             return Secure3DBuilder()
         }
 
-        fun buildAuth(): AuthBuilder {
-            return AuthBuilder()
-        }
+//        fun buildAuth(): AuthBuilder {
+//            return AuthBuilder()
+//        }
 
         fun buildPayOut(): PayOutBuilder {
             return PayOutBuilder()
@@ -121,21 +120,6 @@ class DWAplatform {
         fun buildProfile(): ProfileBuilder {
             return ProfileBuilder()
         }
-
-/*
-        fun buildAccount(user: User) : Account {
-            return Account(user)
-        }
-
-        fun buildUser(): User {
-            return User()
-        }
-
-        fun buildPaymentCard(account: Account): PaymentCard {
-            return PaymentCard(account)
-        }
-
-*/
 
     }
 

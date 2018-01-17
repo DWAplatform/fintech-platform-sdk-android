@@ -17,9 +17,11 @@ import dagger.Provides;
 public class NetModule {
 
     private RequestQueue requestQueue;
+    private String hostName;
 
-    public NetModule(RequestQueue requestQueue) {
+    public NetModule(RequestQueue requestQueue, String hostName) {
         this.requestQueue = requestQueue;
+        this.hostName = hostName;
     }
 
     @Provides
@@ -34,4 +36,9 @@ public class NetModule {
         return new VolleyRequestQueueProvider(requestQueue);
     }
 
+    @Provides
+    @Singleton
+    NetHelper providesNetHelper() {
+        return new NetHelper(hostName);
+    }
 }

@@ -6,7 +6,6 @@ import android.content.Intent;
 import com.android.volley.toolbox.Volley;
 import com.dwaplatform.android.account.balance.api.BalanceAPIModule;
 import com.dwaplatform.android.api.NetModule;
-import com.dwaplatform.android.auth.keys.KeyChainModule;
 import com.dwaplatform.android.card.ui.PaymentCardUI;
 import com.dwaplatform.android.payin.PayInActivity;
 import com.dwaplatform.android.payin.PayInContract;
@@ -37,8 +36,7 @@ public class PayInUI {
         return DaggerPayInViewComponent.builder()
                 .payInPresenterModule(new PayInPresenterModule(v, instance.configuration))
                 .payInAPIModule(new PayInAPIModule(instance.hostName))
-                .keyChainModule(new KeyChainModule(context))
-                .netModule(new NetModule(Volley.newRequestQueue(context)))
+                .netModule(new NetModule(Volley.newRequestQueue(context), instance.hostName))
                 .balanceAPIModule(new BalanceAPIModule(instance.hostName))
                 .secure3DUIModule(new Secure3DUIModule(secure3DUI))
                 .paymentCardUIModule(new PaymentCardUIModule(paymentCardUI))
