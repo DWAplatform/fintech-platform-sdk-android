@@ -1,5 +1,6 @@
 package com.dwaplatform.android.profile.jobinfo.ui
 
+import com.dwaplatform.android.api.NetHelper
 import com.dwaplatform.android.models.DataAccount
 import com.dwaplatform.android.profile.api.ProfileAPI
 import com.dwaplatform.android.profile.db.user.UsersPersistanceDB
@@ -24,7 +25,7 @@ class JobInfoPresenter @Inject constructor(val view: JobInfoContract.View,
     override fun onRefresh() {
         view.enableAllTexts(false)
 
-        api.searchUser(token!!, configuration.userId ) { profile, exception ->
+        api.searchUser(configuration.accessToken, configuration.userId ) { profile, exception ->
 
             if (exception != null) {
                 return@searchUser
@@ -62,19 +63,18 @@ class JobInfoPresenter @Inject constructor(val view: JobInfoContract.View,
 
         val jobInfo = UserJobInfo(configuration.userId, view.getJobInfoText(), getKeySalaryValue( view.getIncomeText() ) )
         api.jobInfo(
-                token!!,
+                configuration.accessToken,
                 jobInfo
                 ) { optuserprofilereply, opterror ->
 
             view.hideWaiting()
 
             if (opterror != null) {
-                view.showCommunicationInternalNetwork()
+                handleErrors(opterror)
                 return@jobInfo
             }
 
             if (optuserprofilereply?.userid.isNullOrBlank()) {
-                view.showCommunicationInternalNetwork()
                 return@jobInfo
             }
 
@@ -128,5 +128,14 @@ class JobInfoPresenter @Inject constructor(val view: JobInfoContract.View,
             val index = key.toInt().minus(1)
             return salaries[index]
         } else return ""
+    }
+
+    private fun handleErrors(opterror: Exception) {
+        when (opterror) {
+            is NetHelper.TokenError ->
+                view.showTokenExpiredWarning()
+            else ->
+                view.showInternalError()
+        }
     }
 }

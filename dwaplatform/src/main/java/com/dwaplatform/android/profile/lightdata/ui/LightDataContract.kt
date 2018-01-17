@@ -17,7 +17,7 @@ interface LightDataContract {
         fun getDateOfBirthText(): String
         fun enableAllTexts(areEnables: Boolean)
         fun enableConfirmButton(isEnable: Boolean)
-        fun showCommunicationInternalNetwork()
+        fun showTokenExpired()
         fun showWaiting()
         fun hideWaiting()
         fun hideKeyboard()

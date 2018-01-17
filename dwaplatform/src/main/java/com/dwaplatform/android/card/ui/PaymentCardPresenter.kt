@@ -19,7 +19,7 @@ class PaymentCardPresenter @Inject constructor(var view: PaymentCardContract.Vie
         val isEnabled = view.getNumberTextLength() >= 16
                 && view.getDateTextLength() >= 4
                 && view.getCCvTextLength() >= 3
-                && dataAccountHelper.accessToken.isNullOrEmpty()
+                && !dataAccountHelper.accessToken.isNullOrEmpty()
 
         view.confirmButtonEnable(isEnabled)
     }

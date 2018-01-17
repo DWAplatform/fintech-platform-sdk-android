@@ -28,7 +28,7 @@ public class AuthUI {
 
     protected AuthViewComponent buildAuthViewComponent(AuthenticationContract.View view, Context context){
         return DaggerAuthViewComponent.builder()
-                .netModule(new NetModule(Volley.newRequestQueue(context)))
+                .netModule(new NetModule(Volley.newRequestQueue(context), hostname))
                 .authenticationPresenterModule(new AuthenticationPresenterModule(view, userid))
                 .authenticationAPIModule(new AuthenticationAPIModule(hostname))
                 .keyChainModule(new KeyChainModule(context))

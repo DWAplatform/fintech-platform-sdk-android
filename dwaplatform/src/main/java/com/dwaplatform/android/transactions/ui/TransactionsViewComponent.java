@@ -1,5 +1,6 @@
 package com.dwaplatform.android.transactions.ui;
 
+import com.dwaplatform.android.alert.AlertHelpersModule;
 import com.dwaplatform.android.api.NetModule;
 import com.dwaplatform.android.log.LogModule;
 import com.dwaplatform.android.money.MoneyHelperModule;
@@ -19,6 +20,7 @@ import dagger.Component;
         LogModule.class,
         TransactionPersistanceDBModule.class,
         MoneyHelperModule.class,
+        AlertHelpersModule.class,
         TransactionsManagerModule.class,
         TransactionDetailUIModule.class
 })

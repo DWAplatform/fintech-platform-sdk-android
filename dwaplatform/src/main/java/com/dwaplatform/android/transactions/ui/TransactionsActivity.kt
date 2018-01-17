@@ -9,6 +9,7 @@ import android.os.Bundle
 import android.support.v4.app.FragmentActivity
 import android.support.v7.widget.LinearLayoutManager
 import com.dwaplatform.android.R
+import com.dwaplatform.android.alert.AlertHelpers
 import com.dwaplatform.android.transactions.models.TransactionItem
 import com.dwaplatform.android.transactions.models.TransactionsManager
 import com.dwaplatform.android.transactions.ui.detail.ui.TransactionDetailUI
@@ -23,6 +24,7 @@ class TransactionsActivity : FragmentActivity(), TransactionsContract.View {
     @Inject lateinit var manager: TransactionsManager
     @Inject lateinit var presenter: TransactionsContract.Presenter
     @Inject lateinit var transactionDetail: TransactionDetailUI
+    @Inject lateinit var alerthelper: AlertHelpers
 
     private val notificationReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
@@ -71,6 +73,12 @@ class TransactionsActivity : FragmentActivity(), TransactionsContract.View {
 //            presenter.currentTransactions()
 //        }
 //    }
+
+    override fun showTokenExpired() {
+        alerthelper.tokenExpired(this, { _,_ ->
+            finish()
+        })
+    }
 
     override fun showTransactions(trs: List<TransactionItem>) {
         swipeLayout.isRefreshing = false

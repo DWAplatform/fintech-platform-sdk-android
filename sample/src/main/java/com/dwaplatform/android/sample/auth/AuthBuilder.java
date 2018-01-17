@@ -15,7 +15,7 @@ public class AuthBuilder {
     public AuthAPIComponent createAuthAPI(String hostName, Context context) {
         return DaggerAuthAPIComponent.builder()
                 .authenticationAPIModule(new AuthenticationAPIModule(hostName))
-                .netModule(new NetModule(Volley.newRequestQueue(context)))
+                .netModule(new NetModule(Volley.newRequestQueue(context), hostName))
                 .build();
     }
 

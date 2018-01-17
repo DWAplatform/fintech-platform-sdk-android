@@ -20,8 +20,7 @@ class TransactionsAPI @Inject constructor(
         internal val queue: IRequestQueue,
         internal val requestProvider: IRequestProvider,
         internal val log: Log,
-        val netHelper: NetHelper
-        ) {
+        val netHelper: NetHelper ) {
 
     private val TAG = "TransactionsAPI"
 
@@ -50,7 +49,19 @@ class TransactionsAPI @Inject constructor(
                             completion(null, netHelper.ReplyParamsUnexpected(e))
                         }
                     }) { error ->
-                completion(null, netHelper.GenericCommunicationError(error)) }
+                val status = if (error.networkResponse != null)
+                    error.networkResponse.statusCode else -1
+                when (status) {
+                    409 -> {
+                        completion(null, netHelper.IdempotencyError(error))
+                    }
+
+                    401 -> {
+                        completion(null, netHelper.TokenError(error))
+                    }
+                    else -> completion(null, netHelper.GenericCommunicationError(error))
+                }
+            }
 
             request.setIRetryPolicy(netHelper.defaultpolicy)
             queue.add(request)

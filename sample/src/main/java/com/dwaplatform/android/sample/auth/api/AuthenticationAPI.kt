@@ -46,8 +46,7 @@ class AuthenticationAPI constructor(internal val hostName: String,
         return header
     }
 
-
-    open fun sendTokenNoReply(userid: String, token: String): IRequest<*>? {
+    fun sendTokenNoReply(userid: String, token: String): IRequest<*>? {
         return sendToken(userid, token) {}
     }
 

@@ -11,6 +11,7 @@ interface TransactionsContract {
     interface View {
         fun showTransactions(trs: List<TransactionItem>)
         fun showTransactionDetail(transaction: TransactionItem)
+        fun showTokenExpired()
     }
 
     interface Presenter {

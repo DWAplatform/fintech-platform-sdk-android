@@ -46,7 +46,7 @@ class AuthenticationPresenter constructor(val view: AuthenticationContract.View,
                     view.showMaxAttemptExpired()
                 }
                 CheckPinState.SUCCESS -> {
-                    keyChain["tokenuser"] = checkPin.token
+                    keyChain["accessToken"] = checkPin.token
                     view.goToMain()
                 }
             }

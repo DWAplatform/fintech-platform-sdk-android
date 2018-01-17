@@ -2,6 +2,7 @@ package com.dwaplatform.android.profile.jobinfo.ui
 
 import android.content.Context
 import android.os.Bundle
+import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.text.Editable
 import android.text.TextWatcher
@@ -9,6 +10,7 @@ import android.view.View
 import android.view.WindowManager
 import android.widget.Toast
 import com.dwaplatform.android.R
+import com.dwaplatform.android.alert.AlertHelpers
 import kotlinx.android.synthetic.main.activity_profile_job.*
 import javax.inject.Inject
 
@@ -19,14 +21,13 @@ import javax.inject.Inject
 class JobInfoActivity: AppCompatActivity(), JobInfoContract.View {
 
     @Inject lateinit var presenter: JobInfoContract.Presenter
+    @Inject lateinit var alertHelper: AlertHelpers
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         JobInfoUI.instance.createJobInfoComponent(this as Context, this).inject(this)
         setContentView(R.layout.activity_profile_job)
-
-        //WindowBarColor.update(window, resources)
 
         jobText.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(p0: Editable?) {}
@@ -96,8 +97,14 @@ class JobInfoActivity: AppCompatActivity(), JobInfoContract.View {
         incomeText.isEnabled = isEnables
     }
 
-    override fun showCommunicationInternalNetwork() {
-        Toast.makeText(this, getString(R.string.no_updates), Toast.LENGTH_LONG).show()
+    override fun showTokenExpiredWarning() {
+        alertHelper.tokenExpired(this, { _,_ ->
+            finish()
+        })
+    }
+
+    override fun showInternalError() {
+        alertHelper.internalError(this)
     }
 
     override fun enableConfirmButton(isEnable: Boolean) {

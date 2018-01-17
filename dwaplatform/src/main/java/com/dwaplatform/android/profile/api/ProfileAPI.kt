@@ -77,8 +77,16 @@ class ProfileAPI @Inject constructor(
                         val (userprofile, error) = netHelper.searchUserReplyParser(response)
                         completion(userprofile, error)
                     })
-            {error ->
-                completion(null, error) }
+            { error ->
+                val status = if (error.networkResponse != null) error.networkResponse.statusCode
+                else -1
+                when (status) {
+                    401 ->
+                        completion(null, netHelper.TokenError(error))
+                    else ->
+                        completion(null, netHelper.GenericCommunicationError(error))
+                }
+            }
             r.setIRetryPolicy(netHelper.defaultpolicy)
             queue.add(r)
             request = r
@@ -151,8 +159,16 @@ class ProfileAPI @Inject constructor(
 
                         completion(userprofile, null)
                     })
-            {error ->
-                completion(null, error) }
+            { error ->
+                val status = if (error.networkResponse != null) error.networkResponse.statusCode
+                else -1
+                when (status) {
+                    401 ->
+                        completion(null, netHelper.TokenError(error))
+                    else ->
+                        completion(null, netHelper.GenericCommunicationError(error))
+                }
+            }
             r.setIRetryPolicy(netHelper.defaultpolicy)
             queue.add(r)
             request = r
@@ -191,8 +207,16 @@ class ProfileAPI @Inject constructor(
 
                         completion(documents, null)
                     })
-            {error ->
-                completion(null, error) }
+            { error ->
+                val status = if (error.networkResponse != null) error.networkResponse.statusCode
+                else -1
+                when (status) {
+                    401 ->
+                        completion(null, netHelper.TokenError(error))
+                    else ->
+                        completion(null, netHelper.GenericCommunicationError(error))
+                }
+            }
             r.setIRetryPolicy(netHelper.defaultpolicy)
             queue.add(r)
             request = r
@@ -234,6 +258,10 @@ class ProfileAPI @Inject constructor(
                 when (status) {
                     409 -> {
                         completion(null, netHelper.IdempotencyError(error))
+                    }
+
+                    401 -> {
+                        completion(null, netHelper.TokenError(error))
                     }
                     else -> completion(null, netHelper.GenericCommunicationError(error))
                 }

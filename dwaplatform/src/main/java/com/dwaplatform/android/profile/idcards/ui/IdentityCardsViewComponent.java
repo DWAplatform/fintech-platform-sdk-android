@@ -1,5 +1,6 @@
 package com.dwaplatform.android.profile.idcards.ui;
 
+import com.dwaplatform.android.alert.AlertHelpersModule;
 import com.dwaplatform.android.api.NetModule;
 import com.dwaplatform.android.images.ImageHelperModule;
 import com.dwaplatform.android.log.LogModule;
@@ -19,6 +20,7 @@ import dagger.Component;
         LogModule.class,
         UsersPersistanceDBModule.class,
         DocumentsPersistanceDBModule.class,
+        AlertHelpersModule.class,
         ImageHelperModule.class
 })
 public interface IdentityCardsViewComponent {

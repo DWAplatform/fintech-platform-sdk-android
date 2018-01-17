@@ -28,6 +28,7 @@ interface IBANContract {
         fun setBackwardText()
 
         fun closeCountryPicker()
+        fun showTokenExpiredWarning()
         fun showCountryPicker()
         fun showCommunicationWait()
         fun hideCommunicationWait()
