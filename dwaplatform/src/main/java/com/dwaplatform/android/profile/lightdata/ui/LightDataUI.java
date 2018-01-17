@@ -6,7 +6,6 @@ import android.content.Intent;
 
 import com.android.volley.toolbox.Volley;
 import com.dwaplatform.android.api.NetModule;
-import com.dwaplatform.android.auth.keys.KeyChainModule;
 import com.dwaplatform.android.models.DataAccount;
 import com.dwaplatform.android.profile.api.ProfileAPIModule;
 
@@ -24,8 +23,7 @@ public class LightDataUI {
 
     LightDataViewComponent buildLightDataViewComponent(Context context, LightDataContract.View view) {
         return DaggerLightDataViewComponent.builder()
-                .netModule(new NetModule(Volley.newRequestQueue(context)))
-                .keyChainModule(new KeyChainModule(context))
+                .netModule(new NetModule(Volley.newRequestQueue(context), instance.hostName))
                 .profileAPIModule(new ProfileAPIModule(instance.hostName))
                 .lightDataPresenterModule(new LightDataPresenterModule(view, instance.configuration))
                 .build();

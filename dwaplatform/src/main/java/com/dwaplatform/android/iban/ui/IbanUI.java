@@ -29,7 +29,7 @@ public class IbanUI {
 
     protected IBANViewComponent buildIbanViewComponent(Context context, IBANContract.View view) {
         return DaggerIBANViewComponent.builder()
-                .netModule(new NetModule(Volley.newRequestQueue(context)))
+                .netModule(new NetModule(Volley.newRequestQueue(context), instance.hostname))
                 .iBANPresenterModule(new IBANPresenterModule(view, instance.configuration))
                 .ibanAPIModule(new IbanAPIModule(instance.hostname))
                 .keyChainModule(new KeyChainModule(context))

@@ -5,6 +5,7 @@ import com.android.volley.Request
 import com.dwaplatform.android.api.IRequest
 import com.dwaplatform.android.api.IRequestProvider
 import com.dwaplatform.android.api.IRequestQueue
+import com.dwaplatform.android.api.NetHelper
 import com.dwaplatform.android.iban.models.UserResidential
 import com.dwaplatform.android.log.Log
 import com.dwaplatform.android.profile.models.*
@@ -19,55 +20,11 @@ class ProfileAPI @Inject constructor(
         internal val hostName: String,
         internal val queue: IRequestQueue,
         internal val requestProvider: IRequestProvider,
-        internal val log: Log) {
-
-    private val defaultpolicy = DefaultRetryPolicy(
-            30000, 0, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT)
+        internal val log: Log,
+        val netHelper: NetHelper) {
 
     private val TAG = "ProfileAPI"
 
-
-    inner class GenericCommunicationError(throwable: Throwable) : Exception(throwable)
-
-    inner class IdempotencyError(throwable: Throwable) : Exception(throwable)
-
-    private fun getURL(path: String): String {
-        if (hostName.startsWith("http://") || hostName.startsWith("https://")){
-            return "$hostName$path"
-        } else {
-            return "https://$hostName$path"
-        }
-    }
-
-    private fun authorizationToken(token: String): Map<String, String> {
-        val header = HashMap<String, String>()
-        header.put("Authorization", "Bearer $token")
-        return header
-    }
-
-    data class UserReplyParserResult(val userprofile: UserProfile?, val error: Exception?)
-    fun searchUserReplyParser(response: JSONObject) : UserReplyParserResult {
-
-        val userprofile = UserProfile(
-                response.getString("userid"),
-                response.optString("name"),
-                response.optString("surname"),
-                response.optString("nationality"),
-                response.optString("birthday"),
-                response.optString("address"),
-                response.optString("ZIPcode"),
-                response.optString("city"),
-                response.optString("telephone"),
-                response.optString("email"),
-                response.optString("photo"),
-                response.optString("countryofresidence"),
-                response.optString("jobinfo"),
-                response.optString("income"),
-                response.optString("tokenuser"))
-
-        return UserReplyParserResult(userprofile, null)
-
-    }
     /*
     fun searchUser(telephone: String,
                    phonetoken: String,
@@ -109,20 +66,20 @@ class ProfileAPI @Inject constructor(
 
     fun searchUser(token: String, userid: String, completion: (UserProfile?, Exception?) -> Unit): IRequest<*>? {
         val encodedUserId = URLEncoder.encode(userid, "UTF-8")
-        val url = getURL("/rest/v1/users/$encodedUserId/profile")
+        val url = netHelper.getURL("/rest/v1/users/$encodedUserId/profile")
 
         var request: IRequest<*>?
         try {
             // Request a string response from the provided URL.
             val r = requestProvider.jsonObjectRequest(Request.Method.GET, url,
-                    null, authorizationToken(token),
+                    null, netHelper.authorizationToken(token),
                     { response ->
-                        val (userprofile, error) = searchUserReplyParser(response)
+                        val (userprofile, error) = netHelper.searchUserReplyParser(response)
                         completion(userprofile, error)
                     })
             {error ->
                 completion(null, error) }
-            r.setIRetryPolicy(defaultpolicy)
+            r.setIRetryPolicy(netHelper.defaultpolicy)
             queue.add(r)
             request = r
         } catch (e: Exception) {
@@ -153,7 +110,7 @@ class ProfileAPI @Inject constructor(
                  completion: (UserProfileReply?, Exception?) -> Unit): IRequest<*>? {
 
 
-        val url = getURL("/rest/1.0/user/profile")
+        val url = netHelper.getURL("/rest/1.0/user/profile")
 
         var request: IRequest<*>?
         try {
@@ -176,7 +133,7 @@ class ProfileAPI @Inject constructor(
 
             val hparams: Map<String, String>
             if (userid != null) {
-                hparams = authorizationToken(token)
+                hparams = netHelper.authorizationToken(token)
             } else {
                 val h = HashMap<String, String>()
                 h.put("Authorization", "Bearer " + phonetoken)
@@ -196,7 +153,7 @@ class ProfileAPI @Inject constructor(
                     })
             {error ->
                 completion(null, error) }
-            r.setIRetryPolicy(defaultpolicy)
+            r.setIRetryPolicy(netHelper.defaultpolicy)
             queue.add(r)
             request = r
         } catch (e: Exception) {
@@ -208,13 +165,13 @@ class ProfileAPI @Inject constructor(
     }
 
     fun getDocuments(token: String, userid: String, completion: (ArrayList<UserDocuments?>?, Exception?) -> Unit): IRequest<*>? {
-        val url = getURL("/rest/1.0/users/$userid/documents")
+        val url = netHelper.getURL("/rest/1.0/users/$userid/documents")
 
         var request: IRequest<*>?
         try {
 
             val r = requestProvider.jsonArrayRequest(Request.Method.GET, url,
-                    null, authorizationToken(token),
+                    null, netHelper.authorizationToken(token),
                     { response: JSONArray ->
                         val documents = ArrayList<UserDocuments?>()
 
@@ -236,7 +193,7 @@ class ProfileAPI @Inject constructor(
                     })
             {error ->
                 completion(null, error) }
-            r.setIRetryPolicy(defaultpolicy)
+            r.setIRetryPolicy(netHelper.defaultpolicy)
             queue.add(r)
             request = r
         } catch (e: Exception) {
@@ -254,7 +211,7 @@ class ProfileAPI @Inject constructor(
                   idempotency: String?,
                   completion: (Boolean?, Exception?) -> Unit): IRequest<*>? {
 
-        val url = getURL("/rest/1.0/users/$userid/documents")
+        val url = netHelper.getURL("/rest/1.0/users/$userid/documents")
 
         var request : IRequest<*>?
 
@@ -269,20 +226,20 @@ class ProfileAPI @Inject constructor(
             jsonObject.put("pages", ja)
             jsonObject.putOpt("idempotency", idempotency)
 
-            val r = requestProvider.jsonObjectRequest(Request.Method.POST, url, jsonObject, authorizationToken(token), { response ->
+            val r = requestProvider.jsonObjectRequest(Request.Method.POST, url, jsonObject, netHelper.authorizationToken(token), { response ->
                 completion(true, null)
             }) { error ->
                 val status = if (error.networkResponse != null)
                     error.networkResponse.statusCode else -1
                 when (status) {
                     409 -> {
-                        completion(null, IdempotencyError(error))
+                        completion(null, netHelper.IdempotencyError(error))
                     }
-                    else -> completion(null, GenericCommunicationError(error))
+                    else -> completion(null, netHelper.GenericCommunicationError(error))
                 }
             }
 
-            r.setIRetryPolicy(defaultpolicy)
+            r.setIRetryPolicy(netHelper.defaultpolicy)
             queue.add(r)
             request = r
         } catch (e: Exception){

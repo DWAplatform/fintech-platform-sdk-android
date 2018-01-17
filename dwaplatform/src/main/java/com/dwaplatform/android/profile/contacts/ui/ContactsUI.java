@@ -5,7 +5,6 @@ import android.content.Intent;
 
 import com.android.volley.toolbox.Volley;
 import com.dwaplatform.android.api.NetModule;
-import com.dwaplatform.android.auth.keys.KeyChainModule;
 import com.dwaplatform.android.models.DataAccount;
 import com.dwaplatform.android.profile.api.ProfileAPIModule;
 
@@ -22,8 +21,7 @@ public class ContactsUI {
 
     private ContactsViewComponent buildContactsViewComponet(Context context, ContactsContract.View view) {
         return DaggerContactsViewComponent.builder()
-                .netModule(new NetModule(Volley.newRequestQueue(context)))
-                .keyChainModule(new KeyChainModule(context))
+                .netModule(new NetModule(Volley.newRequestQueue(context), instance.hostName))
                 .contactsPresenterModule(new ContactsPresenterModule(view, instance.configuration))
                 .profileAPIModule(new ProfileAPIModule(instance.hostName))
                 .build();
