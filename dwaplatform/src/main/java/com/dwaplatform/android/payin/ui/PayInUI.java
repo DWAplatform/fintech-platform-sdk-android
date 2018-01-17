@@ -40,7 +40,7 @@ public class PayInUI {
         return DaggerPayInViewComponent.builder()
                 .payInPresenterModule(new PayInPresenterModule(v, instance.configuration))
                 .payInAPIModule(new PayInAPIModule(instance.hostName))
-                .netModule(new NetModule(Volley.newRequestQueue(context)))
+                .netModule(new NetModule(Volley.newRequestQueue(context), instance.hostName))
                 .balanceAPIModule(new BalanceAPIModule(instance.hostName))
                 .secure3DUIModule(new Secure3DUIModule(secure3DUI))
                 .paymentCardUIModule(new PaymentCardUIModule(paymentCardUI))

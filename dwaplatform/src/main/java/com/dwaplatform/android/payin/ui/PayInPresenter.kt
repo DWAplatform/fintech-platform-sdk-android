@@ -2,6 +2,7 @@ package com.dwaplatform.android.payin
 
 import com.dwaplatform.android.account.balance.helpers.BalanceHelper
 import com.dwaplatform.android.account.balance.models.BalanceItem
+import com.dwaplatform.android.api.NetHelper
 import com.dwaplatform.android.card.db.PaymentCardPersistenceDB
 import com.dwaplatform.android.models.DataAccount
 import com.dwaplatform.android.money.FeeHelper
@@ -100,25 +101,6 @@ class PayInPresenter @Inject constructor(val configuration: DataAccount,
 
     }
 
-    private fun handleErrors(opterror: Exception) {
-        when (opterror) {
-            is PayInAPI.IdempotencyError ->
-                view.showIdempotencyError()
-            is PayInAPI.TokenError ->
-                if (retries > 2)
-                    view.showCommunicationInternalError()
-                else {
-                    retries++
-                    configuration.accountToken(true){ opttoken ->
-                        token = opttoken
-                        onConfirm()
-                    }
-                }
-            else ->
-                view.showCommunicationInternalError()
-        }
-    }
-
     override fun onAbortClick() {
         view.hideKeyboard()
         view.goBack()
@@ -161,6 +143,26 @@ class PayInPresenter @Inject constructor(val configuration: DataAccount,
             refreshBalance()
         }
 
+    }
+
+
+    fun handleErrors(opterror: Exception) {
+        when (opterror) {
+            is NetHelper.IdempotencyError ->
+                view.showIdempotencyError()
+            is NetHelper.TokenError ->
+                if (retries > 2)
+                    view.showCommunicationInternalError()
+                else {
+                    retries++
+                    configuration.accountToken(true){ opttoken ->
+                        token = opttoken
+                        onConfirm()
+                    }
+                }
+            else ->
+                view.showCommunicationInternalError()
+        }
     }
 
     private fun refreshData() {

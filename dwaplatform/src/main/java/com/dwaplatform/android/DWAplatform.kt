@@ -98,10 +98,6 @@ class DWAplatform {
             return Secure3DBuilder()
         }
 
-//        fun buildAuth(): AuthBuilder {
-//            return AuthBuilder()
-//        }
-
         fun buildPayOut(): PayOutBuilder {
             return PayOutBuilder()
         }
@@ -120,21 +116,6 @@ class DWAplatform {
         fun buildProfile(): ProfileBuilder {
             return ProfileBuilder()
         }
-
-/*
-        fun buildAccount(user: User) : Account {
-            return Account(user)
-        }
-
-        fun buildUser(): User {
-            return User()
-        }
-
-        fun buildPaymentCard(account: Account): PaymentCard {
-            return PaymentCard(account)
-        }
-
-*/
 
     }
 

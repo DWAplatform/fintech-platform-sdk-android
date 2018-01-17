@@ -1,49 +1,24 @@
 package com.dwaplatform.android.payin.api
 
-import com.android.volley.DefaultRetryPolicy
 import com.android.volley.Request
 import com.dwaplatform.android.api.IRequest
 import com.dwaplatform.android.api.IRequestProvider
 import com.dwaplatform.android.api.IRequestQueue
+import com.dwaplatform.android.api.NetHelper
 import com.dwaplatform.android.log.Log
 import com.dwaplatform.android.money.Money
 import com.dwaplatform.android.payin.models.PayInReply
 import org.json.JSONObject
-import java.util.*
 import javax.inject.Inject
 
 open class PayInAPI @Inject constructor(
         internal val hostName: String,
         internal val queue: IRequestQueue,
         internal val requestProvider: IRequestProvider,
-        internal val log: Log ){
+        internal val log: Log,
+        val netHelper: NetHelper) {
 
-    inner class GenericCommunicationError(throwable: Throwable) : Exception(throwable)
-
-    inner class IdempotencyError(throwable: Throwable) : Exception(throwable)
-
-    inner class TokenError(throwable: Throwable) : Exception(throwable)
-
-    private final val TAG = "PayInAPI"
-
-    private val PROTOCOL_CHARSET = "utf-8"
-
-    private fun getURL(path: String): String {
-        if(hostName.startsWith("http://") || hostName.startsWith("https://")){
-            return "$hostName$path"
-        } else {
-            return "https://$hostName$path"
-        }
-    }
-
-    private val defaultpolicy = DefaultRetryPolicy(
-            30000, 0, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT)
-
-    private fun authorizationToken(token: String): Map<String, String> {
-        val header = HashMap<String, String>()
-        header.put("Authorization", "Bearer $token")
-        return header
-    }
+    private val TAG = "PayInAPI"
 
     open fun payIn(token: String,
                    userId: String,
@@ -52,7 +27,7 @@ open class PayInAPI @Inject constructor(
                    amount: Money,
                    idempotency: String,
                    completion: (PayInReply?, Exception?) -> Unit): IRequest<*>? {
-        val url = getURL("/rest/1.0/fin/payin")
+        val url = netHelper.getURL("/rest/1.0/fin/payin")
 
         var request: IRequest<*>?
         try {
@@ -64,7 +39,7 @@ open class PayInAPI @Inject constructor(
 
             // Request a string response from the provided URL.
             val r = requestProvider.jsonObjectRequest(Request.Method.POST, url, jsonObject,
-                    authorizationToken(token), { response ->
+                    netHelper.authorizationToken(token), { response ->
                 val transactionid = response.getString("transactionid")
                 val securecodeneeded = response.getBoolean("securecodeneeded")
                 val redirecturl = response.optString("redirecturl")
@@ -77,16 +52,16 @@ open class PayInAPI @Inject constructor(
                 else -1
                 when (status) {
                     401 -> {
-                        completion(null, TokenError(error))
+                        completion(null, netHelper.TokenError(error))
                     }
 
                     409 -> {
-                        completion(null, IdempotencyError(error))
+                        completion(null, netHelper.IdempotencyError(error))
                     }
-                    else -> completion(null, GenericCommunicationError(error))
+                    else -> completion(null, netHelper.GenericCommunicationError(error))
                 }
             }
-            r.setIRetryPolicy(defaultpolicy)
+            r.setIRetryPolicy(netHelper.defaultpolicy)
             queue.add(r)
             request = r
         } catch (e: Exception) {

@@ -1,18 +1,16 @@
 package com.dwaplatform.android.card.api
 
-import com.android.volley.DefaultRetryPolicy
 import com.android.volley.Request
 import com.dwaplatform.android.api.IRequest
 import com.dwaplatform.android.api.IRequestProvider
 import com.dwaplatform.android.api.IRequestQueue
+import com.dwaplatform.android.api.NetHelper
 import com.dwaplatform.android.card.helpers.DateTimeConversion
 import com.dwaplatform.android.card.models.PaymentCardItem
 import com.dwaplatform.android.log.Log
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
-import java.io.UnsupportedEncodingException
-import java.net.URLEncoder
 import java.util.*
 
 /**
@@ -22,44 +20,9 @@ class PaymentCardAPI constructor(internal val hostName: String,
                                  internal val queue: IRequestQueue,
                                  internal val requestProvider: IRequestProvider,
                                  internal val log: Log,
-                                 internal val sandbox: Boolean) {
-    private val TAG = "DWApayAPI"
-    private val PROTOCOL_CHARSET = "utf-8"
-
-    inner class TokenError(throwable: Throwable) : Exception(throwable)
-
-    private fun getURL(path: String): String {
-        if(hostName.startsWith("http://") || hostName.startsWith("https://")){
-            return "$hostName$path"
-        } else {
-            return "https://$hostName$path"
-        }
-    }
-
-    @Throws(UnsupportedEncodingException::class)
-    private fun getUrlDataString(url: String, params: HashMap<String, Any>): String {
-
-        val result = StringBuilder()
-        var first = true
-        result.append(url)
-        for ((key, value) in params) {
-            if (first) {
-                result.append("?")
-                first = false
-            } else
-                result.append("&")
-
-            result.append(URLEncoder.encode(key, "UTF-8"))
-            result.append("=")
-            result.append(URLEncoder.encode(value.toString(), "UTF-8"))
-        }
-
-        return result.toString()
-    }
-
-    inner class ReplyParamsUnexpected(throwable: Throwable) : Exception(throwable)
-
-    inner class GenericCommunicationError(throwable: Throwable) : Exception(throwable)
+                                 internal val sandbox: Boolean,
+                                 val netHelper: NetHelper) {
+    private val TAG = "PaymentCardAPI"
 
     interface FailureCallback {
         fun onFailure(e: Exception)
@@ -80,16 +43,6 @@ class PaymentCardAPI constructor(internal val hostName: String,
                                 val preregistrationData: String,
                                 val accessKey: String,
                                 val tokenCard: String? = null)
-
-
-    private val defaultpolicy = DefaultRetryPolicy(
-            30000, 0, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT)
-
-    private fun authorizationToken(token: String): Map<String, String> {
-        val header = HashMap<String, String>()
-        header.put("Authorization", "Bearer $token")
-        return header
-    }
 
     fun createCreditCard(userId: String,
                          accountId: String,
@@ -152,7 +105,7 @@ class PaymentCardAPI constructor(internal val hostName: String,
                                              callback: CardRegistrationCallback): IRequest<*>? {
 
         log.debug("DWAPAY", "createCreditCardRegistration")
-        val url = getURL("/rest/v1/" + userId + "/fin/creditcards")
+        val url = netHelper.getURL("/rest/v1/" + userId + "/fin/creditcards")
 
         var request: IRequest<*>?
         try {
@@ -161,7 +114,7 @@ class PaymentCardAPI constructor(internal val hostName: String,
             jo.put("expiration", expiration)
 
             request = requestProvider.jsonObjectRequest(Request.Method.POST, url, jo,
-                    authorizationToken(token),
+                    netHelper.authorizationToken(token),
                     { response ->
                         log.debug("DWAPAY", "on response createCreditCardRegistration")
                         try {
@@ -182,11 +135,11 @@ class PaymentCardAPI constructor(internal val hostName: String,
 
                             callback.onSuccess(c)
                         } catch (e: JSONException) {
-                            callback.onFailure(ReplyParamsUnexpected(e))
+                            callback.onFailure(netHelper.ReplyParamsUnexpected(e))
                         }
-                    }) { error -> callback.onFailure(GenericCommunicationError(error)) }
+                    }) { error -> callback.onFailure(netHelper.GenericCommunicationError(error)) }
 
-            request!!.setIRetryPolicy(defaultpolicy)
+            request!!.setIRetryPolicy(netHelper.defaultpolicy)
             queue.add(request)
 
         } catch (e: Exception) {
@@ -224,9 +177,9 @@ class PaymentCardAPI constructor(internal val hostName: String,
                 { response ->
                     log.debug("DWAPAY", "on response getCardRegistrationData")
                     sendCardResponseString(userId, accountId, token, response, cardRegistration, completion)
-                }) { error -> completion(null, GenericCommunicationError(error)) }
+                }) { error -> completion(null, netHelper.GenericCommunicationError(error)) }
 
-        request.setIRetryPolicy(defaultpolicy)
+        request.setIRetryPolicy(netHelper.defaultpolicy)
         queue.add(request)
         return request
     }
@@ -239,7 +192,7 @@ class PaymentCardAPI constructor(internal val hostName: String,
                                        completion: (PaymentCardItem?, Exception?) -> Unit)
             : IRequest<*>? {
         log.debug("DWAPAY", "sendCardResponseString")
-        val url = getURL("/rest/v1/" + userId + "/fin/creditcards/" +
+        val url = netHelper.getURL("/rest/v1/" + userId + "/fin/creditcards/" +
                 cardRegistration.cardRegistrationId)
 
         var request: IRequest<*>?
@@ -248,7 +201,7 @@ class PaymentCardAPI constructor(internal val hostName: String,
             jo.put("registration", regresponse)
 
             request = requestProvider.jsonObjectRequest(Request.Method.PUT, url, jo,
-                    authorizationToken(token),
+                    netHelper.authorizationToken(token),
                     { response ->
                         log.debug("DWAPAY", "on response sendCardResponseString")
                         try {
@@ -266,11 +219,11 @@ class PaymentCardAPI constructor(internal val hostName: String,
                                     expirationdate, "EUR", null, activestate, null, createDate)
                             completion(c, null)
                         } catch (e: JSONException) {
-                            completion(null, ReplyParamsUnexpected(e))
+                            completion(null, netHelper.ReplyParamsUnexpected(e))
                         }
-                    }) { error -> completion(null, GenericCommunicationError(error)) }
+                    }) { error -> completion(null, netHelper.GenericCommunicationError(error)) }
 
-            request!!.setIRetryPolicy(defaultpolicy)
+            request!!.setIRetryPolicy(netHelper.defaultpolicy)
             queue.add(request)
 
         } catch (e: Exception) {
@@ -287,18 +240,18 @@ class PaymentCardAPI constructor(internal val hostName: String,
                        userid: String,
                        completion: (List<PaymentCardItem>?, Exception?) -> Unit): IRequest<*>? {
 
-        val baseurl = getURL("/rest/1.0/fin/creditcard/list")
+        val baseurl = netHelper.getURL("/rest/1.0/fin/creditcard/list")
 
         var request: IRequest<*>?
         try {
             val params = HashMap<String, Any>()
             params.put("userid", userid)
-            val url = getUrlDataString(baseurl, params)
+            val url = netHelper.getUrlDataString(baseurl, params)
 
 
             // Request a string response from the provided URL.
             val r = requestProvider.jsonArrayRequest(Request.Method.GET, url,
-                    null, authorizationToken(token),
+                    null, netHelper.authorizationToken(token),
                     { response: JSONArray ->
 
                         val creditcards = IntArray(response.length()) {i -> i}.map { i ->
@@ -319,7 +272,7 @@ class PaymentCardAPI constructor(internal val hostName: String,
                     })
             {error ->
                 completion(null, error) }
-            r.setIRetryPolicy(defaultpolicy)
+            r.setIRetryPolicy(netHelper.defaultpolicy)
             queue.add(r)
             request = r
         } catch (e: Exception) {

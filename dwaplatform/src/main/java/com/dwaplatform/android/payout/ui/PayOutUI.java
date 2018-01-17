@@ -31,7 +31,7 @@ public class PayOutUI {
         return DaggerPayOutViewComponent.builder()
                 .payOutPresenterModule(new PayOutPresenterModule(view, instance.configuration))
                 .payOutAPIModule(new PayOutAPIModule(instance.hostname))
-                .netModule(new NetModule(Volley.newRequestQueue(context)))
+                .netModule(new NetModule(Volley.newRequestQueue(context), hostname))
                 .balanceAPIModule(new BalanceAPIModule(instance.hostname))
                 .ibanUIModule(new IbanUIModule(ibanUI))
                 .build();

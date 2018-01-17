@@ -1,5 +1,6 @@
 package com.dwaplatform.android.card.ui
 
+import com.dwaplatform.android.api.NetHelper
 import com.dwaplatform.android.card.api.PaymentCardAPI
 import com.dwaplatform.android.card.db.PaymentCardPersistenceDB
 import com.dwaplatform.android.models.DataAccount
@@ -92,7 +93,7 @@ class PaymentCardPresenter @Inject constructor(var view: PaymentCardContract.Vie
 
     private fun handleErrors(opterror: Exception) {
         when (opterror) {
-            is PaymentCardAPI.TokenError ->
+            is NetHelper.TokenError ->
                 if (retries > 2)
                     view.showCommunicationInternalError()
                 else {

@@ -30,7 +30,7 @@ public class PaymentCardUI {
         return DaggerPaymentCardViewComponent.builder()
                 .paymentCardPresenterModule(new PaymentCardPresenterModule(view, dataAccount))
                 .paymentCardAPIModule(new PaymentCardAPIModule(instance.hostname, instance.sandbox))
-                .netModule(new NetModule(Volley.newRequestQueue(context)))
+                .netModule(new NetModule(Volley.newRequestQueue(context), hostname))
                 .build();
     }
 
