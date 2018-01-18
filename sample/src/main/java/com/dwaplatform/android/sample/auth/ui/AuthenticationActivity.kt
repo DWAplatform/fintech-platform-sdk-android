@@ -1,7 +1,6 @@
 package com.dwaplatform.android.sample.auth.ui
 
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.FragmentActivity
 import android.text.Editable
@@ -22,7 +21,6 @@ class AuthenticationActivity: FragmentActivity(), AuthenticationContract.View {
     @Inject lateinit var alertHelpers: AlertHelpers
     @Inject lateinit var emailHelper: SendEmailHelper
 
-    val TOKEN = 100
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         AuthUI.createAuthViewComponent(this, this).inject(this)
@@ -51,7 +49,10 @@ class AuthenticationActivity: FragmentActivity(), AuthenticationContract.View {
                 "PIN Errato", "Ridigitare il pin").show()
     }
 
-    override fun goToMain(data: String) {
+    override fun goToMain() {
+//        val intent = Intent()
+//        intent.data = Uri.parse(data)
+//        setResult(RESULT_OK, intent)
         finish()
     }
 

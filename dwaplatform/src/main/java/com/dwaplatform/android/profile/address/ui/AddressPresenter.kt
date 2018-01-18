@@ -1,5 +1,6 @@
 package com.dwaplatform.android.profile.address.ui
 
+import com.dwaplatform.android.api.NetHelper
 import com.dwaplatform.android.iban.models.UserResidential
 import com.dwaplatform.android.models.DataAccount
 import com.dwaplatform.android.profile.api.ProfileAPI
@@ -11,8 +12,6 @@ class AddressPresenter @Inject constructor(val view: AddressContract.View,
                                            val api: ProfileAPI,
                                            val configuration: DataAccount,
                                            val usersPersistanceDB: UsersPersistanceDB) : AddressContract.Presenter {
-
-    var token:String?=null
 
     override fun initializate() {
 
@@ -28,10 +27,11 @@ class AddressPresenter @Inject constructor(val view: AddressContract.View,
     override fun onRefresh() {
         view.enableAllTexts(false)
 
-        api.searchUser(token!!,
+        api.searchUser(configuration.accessToken,
                 configuration.userId){ profile, exception ->
 
             if (exception != null){
+                handleErrors(exception)
                 return@searchUser
             }
 
@@ -88,19 +88,18 @@ class AddressPresenter @Inject constructor(val view: AddressContract.View,
                 view.getResidenceCountry()
         )
 
-        api.residential(token!!,
+        api.residential(configuration.accessToken,
                 residential) { optuserprofilereply, opterror ->
 
             view.enableConfirmButton(false)
             view.hideWaiting()
 
             if (opterror != null) {
-                view.showCommunicationInternalNetwork()
+                handleErrors(opterror)
                 return@residential
             }
 
             if (optuserprofilereply?.userid == null) {
-                view.showCommunicationInternalNetwork()
                 return@residential
             }
 
@@ -140,5 +139,14 @@ class AddressPresenter @Inject constructor(val view: AddressContract.View,
             country.code == code
         }
         return matches.singleOrNull()?.name
+    }
+
+    private fun handleErrors(opterror: Exception) {
+        when (opterror) {
+            is NetHelper.TokenError ->
+                view.showTokenExpiredWarning()
+            else ->
+                return
+        }
     }
 }

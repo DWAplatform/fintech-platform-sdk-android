@@ -2,6 +2,7 @@ package com.dwaplatform.android.profile.idcards.ui
 
 import android.content.Intent
 import android.graphics.Bitmap
+import com.dwaplatform.android.api.NetHelper
 import com.dwaplatform.android.images.ImageHelper
 import com.dwaplatform.android.models.DataAccount
 import com.dwaplatform.android.profile.api.ProfileAPI
@@ -56,7 +57,7 @@ class IdentityCardsPresenter @Inject constructor(val view: IdentityCardsContract
         val idempDocs = this.idempotencyIDcard ?: return
 
         api.documents(
-                token!!,
+                configuration.accessToken,
                 configuration.userId,
                 "IDENTITY_CARD",
                 photosBase64,
@@ -65,12 +66,11 @@ class IdentityCardsPresenter @Inject constructor(val view: IdentityCardsContract
             view.hideWaiting()
 
             if(opterror != null) {
-                view.showCommunicationInternalNetwork()
+                handleErrors(opterror)
                 return@documents
             }
 
             if(optDocs == null) {
-                view.showCommunicationInternalNetwork()
                 return@documents
             }
 
@@ -113,6 +113,7 @@ class IdentityCardsPresenter @Inject constructor(val view: IdentityCardsContract
             userDocs: ArrayList<UserDocuments?>?, opterror: Exception? ->
 
             if (opterror != null) {
+                handleErrors(opterror)
                 return@getDocuments
             }
 
@@ -127,6 +128,15 @@ class IdentityCardsPresenter @Inject constructor(val view: IdentityCardsContract
             }
 
             initializate()
+        }
+    }
+
+    private fun handleErrors(opterror: Exception) {
+        when (opterror) {
+            is NetHelper.TokenError ->
+                view.showTokenExpiredWarning()
+            else ->
+                return
         }
     }
 }

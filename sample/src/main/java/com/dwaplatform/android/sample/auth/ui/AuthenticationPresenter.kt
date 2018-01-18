@@ -5,6 +5,9 @@ import com.dwaplatform.android.sample.auth.api.AuthenticationAPI
 import com.dwaplatform.android.sample.auth.keys.CheckPinState
 import com.dwaplatform.android.sample.auth.keys.KeyChain
 
+/**
+ * Created by ingrid on 18/12/17.
+ */
 class AuthenticationPresenter constructor(val view: AuthenticationContract.View,
                                           val log: Log,
                                           val api: AuthenticationAPI,
@@ -43,8 +46,8 @@ class AuthenticationPresenter constructor(val view: AuthenticationContract.View,
                     view.showMaxAttemptExpired()
                 }
                 CheckPinState.SUCCESS -> {
-                    keyChain["accountToken"] = checkPin.token
-                    view.goToMain(checkPin.token)
+                    keyChain["accessToken"] = checkPin.token
+                    view.goToMain()
                 }
             }
         }

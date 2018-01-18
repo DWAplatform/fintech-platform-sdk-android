@@ -137,7 +137,16 @@ class PaymentCardAPI constructor(internal val hostName: String,
                         } catch (e: JSONException) {
                             callback.onFailure(netHelper.ReplyParamsUnexpected(e))
                         }
-                    }) { error -> callback.onFailure(netHelper.GenericCommunicationError(error)) }
+                    }) { error ->
+                val status = if (error.networkResponse != null) error.networkResponse.statusCode
+                else -1
+                when (status) {
+                    401 ->
+                        callback.onFailure(netHelper.TokenError(error))
+                    else ->
+                    callback.onFailure(netHelper.GenericCommunicationError(error))
+                }
+            }
 
             request!!.setIRetryPolicy(netHelper.defaultpolicy)
             queue.add(request)
@@ -177,7 +186,16 @@ class PaymentCardAPI constructor(internal val hostName: String,
                 { response ->
                     log.debug("DWAPAY", "on response getCardRegistrationData")
                     sendCardResponseString(userId, accountId, token, response, cardRegistration, completion)
-                }) { error -> completion(null, netHelper.GenericCommunicationError(error)) }
+                }) { error ->
+            val status = if (error.networkResponse != null) error.networkResponse.statusCode
+            else -1
+            when (status) {
+                401 ->
+                    completion(null, netHelper.TokenError(error))
+                else ->
+                    completion(null, netHelper.GenericCommunicationError(error))
+            }
+        }
 
         request.setIRetryPolicy(netHelper.defaultpolicy)
         queue.add(request)
@@ -221,7 +239,16 @@ class PaymentCardAPI constructor(internal val hostName: String,
                         } catch (e: JSONException) {
                             completion(null, netHelper.ReplyParamsUnexpected(e))
                         }
-                    }) { error -> completion(null, netHelper.GenericCommunicationError(error)) }
+                    }) { error ->
+                val status = if (error.networkResponse != null) error.networkResponse.statusCode
+                else -1
+                when (status) {
+                    401 ->
+                        completion(null, netHelper.TokenError(error))
+                    else ->
+                        completion(null, netHelper.GenericCommunicationError(error))
+                }
+            }
 
             request!!.setIRetryPolicy(netHelper.defaultpolicy)
             queue.add(request)
@@ -271,7 +298,15 @@ class PaymentCardAPI constructor(internal val hostName: String,
                         completion(creditcards, null)
                     })
             {error ->
-                completion(null, error) }
+                val status = if (error.networkResponse != null) error.networkResponse.statusCode
+                else -1
+                when (status) {
+                    401 ->
+                        completion(null, netHelper.TokenError(error))
+                    else ->
+                        completion(null, netHelper.GenericCommunicationError(error))
+                }
+            }
             r.setIRetryPolicy(netHelper.defaultpolicy)
             queue.add(r)
             request = r

@@ -15,7 +15,7 @@ interface IdentityCardsContract {
         fun checkCameraPermission()
         fun goToCameraFront()
         fun goToCameraBack()
-        fun showCommunicationInternalNetwork()
+        fun showTokenExpiredWarning()
         fun enableConfirmButton(isEnable: Boolean)
         fun showWaiting()
         fun hideWaiting()

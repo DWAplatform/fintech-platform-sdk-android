@@ -1,5 +1,6 @@
 package com.dwaplatform.android.transactions.ui
 
+import com.dwaplatform.android.api.NetHelper
 import com.dwaplatform.android.models.DataAccount
 import com.dwaplatform.android.transactions.api.TransactionsAPI
 import com.dwaplatform.android.transactions.db.TransactionPersistanceDB
@@ -18,11 +19,13 @@ open class TransactionsPresenter @Inject constructor(val view: TransactionsContr
     var token:String?=null
 
     override fun refreshTransactions() {
-        api.transactions(token!!, configuration.userId, 50, 0)
+        api.transactions(configuration.accessToken, configuration.userId, 50, 0)
         { opttransactionsFull, opterror ->
 
-            if (opterror != null)
+            if (opterror != null) {
+                handleErrors(opterror)
                 return@transactions
+            }
 
             opttransactionsFull?.let { transactionsFull ->
                 dbTransactionsPHelper.saveAll(transactionsFull, configuration.userId)
@@ -39,6 +42,14 @@ open class TransactionsPresenter @Inject constructor(val view: TransactionsContr
     override fun transactionClick(transaction: TransactionItem) {
         view.showTransactionDetail(transaction)
 
+    }
+
+    private fun handleErrors(opterror: Exception) {
+        when (opterror) {
+            is NetHelper.TokenError ->
+                view.showTokenExpired()
+            else -> return
+        }
     }
 
 }

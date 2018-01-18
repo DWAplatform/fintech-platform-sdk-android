@@ -26,8 +26,6 @@ class ContactsActivity: AppCompatActivity(), ContactsContract.View {
         ContactsUI.instance.createContactsComponent(this as Context, this).inject(this)
         setContentView(R.layout.activity_profile_contacts)
 
-        //WindowBarColor.update(window, resources)
-
         emailText.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(p0: Editable?) {}
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
@@ -83,8 +81,10 @@ class ContactsActivity: AppCompatActivity(), ContactsContract.View {
         telephoneText.isEnabled = isEnable
     }
 
-    override fun showCommunicationInternalNetwork() {
-        Toast.makeText(this, getString(R.string.no_updates), Toast.LENGTH_LONG).show()
+    override fun showTokenExpiredWarning() {
+        alertHelper.tokenExpired(this, { _,_ ->
+            finish()
+        })
     }
 
     override fun showEmailError() {

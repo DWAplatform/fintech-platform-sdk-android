@@ -10,15 +10,12 @@ import com.dwaplatform.android.sample.auth.keys.KeyChainComponent;
 import com.dwaplatform.android.sample.auth.keys.KeyChainModule;
 import com.dwaplatform.android.sample.auth.ui.AuthUIModule;
 
-import kotlin.Unit;
-import kotlin.jvm.functions.Function1;
-
 
 public class AuthBuilder {
     public AuthAPIComponent createAuthAPI(String hostName, Context context) {
         return DaggerAuthAPIComponent.builder()
                 .authenticationAPIModule(new AuthenticationAPIModule(hostName))
-                .netModule(new NetModule(Volley.newRequestQueue(context)))
+                .netModule(new NetModule(Volley.newRequestQueue(context), hostName))
                 .build();
     }
 

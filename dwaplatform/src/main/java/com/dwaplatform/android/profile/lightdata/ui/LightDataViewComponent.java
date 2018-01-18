@@ -1,5 +1,6 @@
 package com.dwaplatform.android.profile.lightdata.ui;
 
+import com.dwaplatform.android.alert.AlertHelpersModule;
 import com.dwaplatform.android.api.NetModule;
 import com.dwaplatform.android.log.LogModule;
 import com.dwaplatform.android.profile.api.ProfileAPIModule;
@@ -15,6 +16,7 @@ import dagger.Component;
         ProfileAPIModule.class,
         NetModule.class,
         LogModule.class,
+        AlertHelpersModule.class,
         UsersPersistanceDBModule.class
 })
 public interface LightDataViewComponent {

@@ -1,5 +1,6 @@
 package com.dwaplatform.android.profile.contacts.ui
 
+import com.dwaplatform.android.api.NetHelper
 import com.dwaplatform.android.email.EmailHelper
 import com.dwaplatform.android.models.DataAccount
 import com.dwaplatform.android.profile.api.ProfileAPI
@@ -26,10 +27,11 @@ class ContactsPresenter @Inject constructor(val view: ContactsContract.View,
     override fun onRefresh() {
         view.enableAllTexts(false)
 
-        api.searchUser(token!!,
+        api.searchUser(configuration.accessToken,
                 configuration.userId){ profile, exception ->
 
             if (exception != null){
+                handlerErrors(exception)
                 return@searchUser
             }
 
@@ -70,17 +72,17 @@ class ContactsPresenter @Inject constructor(val view: ContactsContract.View,
             view.hideKeyboard()
 
             val contacts = UserContacts(configuration.userId, view.getEmailText(), view.getTelephoneText())
-            api.contacts(token!!,
+            api.contacts(configuration.accessToken,
                     contacts) { profileReply: UserProfileReply?, exception: Exception? ->
+
                 if (exception != null) {
                     view.hideWaiting()
-                    view.showCommunicationInternalNetwork()
+                    handlerErrors(exception)
                     return@contacts
                 }
 
                 if (profileReply == null) {
                     view.hideWaiting()
-                    view.showCommunicationInternalNetwork()
                     return@contacts
                 }
 
@@ -97,6 +99,15 @@ class ContactsPresenter @Inject constructor(val view: ContactsContract.View,
         } else {
             view.hideWaiting()
             view.showEmailError()
+        }
+    }
+
+    private fun handlerErrors(opterror: Exception) {
+        when (opterror) {
+            is NetHelper.TokenError ->
+                view.showTokenExpiredWarning()
+            else ->
+                return
         }
     }
 

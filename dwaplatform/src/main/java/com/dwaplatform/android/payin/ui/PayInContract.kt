@@ -31,7 +31,7 @@ interface PayInContract {
         fun hideCommunicationWait()
 
         fun showCommunicationInternalError()
-
+        fun showTokenExpiredWarning()
         fun showIdempotencyError()
 
         fun goToCreditCard()

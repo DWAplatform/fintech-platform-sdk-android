@@ -1,5 +1,6 @@
 package com.dwaplatform.android.profile.lightdata.ui
 
+import com.dwaplatform.android.api.NetHelper
 import com.dwaplatform.android.models.DataAccount
 import com.dwaplatform.android.profile.api.ProfileAPI
 import com.dwaplatform.android.profile.db.user.UsersPersistanceDB
@@ -42,18 +43,16 @@ class LightDataPresenter @Inject constructor(val view: LightDataContract.View,
                 view.getNationalityText() )
 
         api.lightdata(
-                token!!,
+                configuration.accessToken,
                 lightdata){ userProfileReply, exception ->
 
             if (exception != null){
                 view.hideWaiting()
-                view.showCommunicationInternalNetwork()
+                handleErrors(exception)
                 return@lightdata
             }
 
             if (userProfileReply?.userid == null) {
-                view.hideWaiting()
-                view.showCommunicationInternalNetwork()
                 return@lightdata
             }
 
@@ -112,10 +111,11 @@ class LightDataPresenter @Inject constructor(val view: LightDataContract.View,
 
         view.enableAllTexts(false)
 
-        api.searchUser(token!!,
+        api.searchUser(configuration.accessToken,
                  configuration.userId){ profile, exception ->
 
             if (exception != null){
+                handleErrors(exception)
                 return@searchUser
             }
 
@@ -167,4 +167,12 @@ class LightDataPresenter @Inject constructor(val view: LightDataContract.View,
         }
     }
 
+    private fun handleErrors(opterror: Exception) {
+        when (opterror) {
+            is NetHelper.TokenError ->
+                view.showTokenExpired()
+            else ->
+                return
+        }
+    }
 }

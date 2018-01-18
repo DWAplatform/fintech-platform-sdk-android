@@ -98,6 +98,10 @@ class DWAplatform {
             return Secure3DBuilder()
         }
 
+//        fun buildAuth(): AuthBuilder {
+//            return AuthBuilder()
+//        }
+
         fun buildPayOut(): PayOutBuilder {
             return PayOutBuilder()
         }

@@ -1,18 +1,17 @@
 package com.dwaplatform.android.sample.auth.ui;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 
 import com.android.volley.toolbox.Volley;
 import com.dwaplatform.android.api.NetModule;
-import com.dwaplatform.android.sample.MainActivity;
 import com.dwaplatform.android.sample.auth.ui.DaggerAuthViewComponent;
 import com.dwaplatform.android.sample.auth.api.AuthenticationAPIModule;
 import com.dwaplatform.android.sample.auth.keys.KeyChainModule;
 
-import kotlin.Unit;
-import kotlin.jvm.functions.Function1;
+/**
+ * Created by ingrid on 19/12/17.
+ */
 
 public class AuthUI {
 
@@ -29,7 +28,7 @@ public class AuthUI {
 
     protected AuthViewComponent buildAuthViewComponent(AuthenticationContract.View view, Context context){
         return DaggerAuthViewComponent.builder()
-                .netModule(new NetModule(Volley.newRequestQueue(context)))
+                .netModule(new NetModule(Volley.newRequestQueue(context), hostname))
                 .authenticationPresenterModule(new AuthenticationPresenterModule(view, userid))
                 .authenticationAPIModule(new AuthenticationAPIModule(hostname))
                 .keyChainModule(new KeyChainModule(context))
@@ -40,9 +39,9 @@ public class AuthUI {
         return instance.buildAuthViewComponent(view, context);
     }
 
-    public void start(Activity activity){
+    public void start(Context context){
         instance = this;
-        Intent intent = new Intent(activity, AuthenticationActivity.class);
-        activity.startActivity(intent);
+        Intent intent = new Intent(context, AuthenticationActivity.class);
+        context.startActivity(intent);
     }
 }

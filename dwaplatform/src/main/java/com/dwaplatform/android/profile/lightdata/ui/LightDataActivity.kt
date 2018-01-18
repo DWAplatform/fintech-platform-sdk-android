@@ -10,6 +10,7 @@ import android.view.View
 import android.view.WindowManager
 import android.widget.Toast
 import com.dwaplatform.android.R
+import com.dwaplatform.android.alert.AlertHelpers
 import com.mukesh.countrypicker.CountryPicker
 import kotlinx.android.synthetic.main.activity_lightdata.*
 import java.util.*
@@ -21,6 +22,7 @@ import javax.inject.Inject
 class LightDataActivity : AppCompatActivity(), LightDataContract.View {
 
     @Inject lateinit var presenter: LightDataContract.Presenter
+    @Inject lateinit var alertHelper: AlertHelpers
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -142,8 +144,10 @@ class LightDataActivity : AppCompatActivity(), LightDataContract.View {
         confirmButton.isEnabled = isEnable
     }
 
-    override fun showCommunicationInternalNetwork() {
-        Toast.makeText(this, getString(R.string.no_updates), Toast.LENGTH_LONG).show()
+    override fun showTokenExpired() {
+        alertHelper.tokenExpired(this, { _,_ ->
+            finish()
+        })
     }
 
     override fun showWaiting() {

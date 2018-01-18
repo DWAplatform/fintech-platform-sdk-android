@@ -9,6 +9,7 @@ import android.view.View
 import android.view.WindowManager
 import android.widget.Toast
 import com.dwaplatform.android.R
+import com.dwaplatform.android.alert.AlertHelpers
 import com.mukesh.countrypicker.CountryPicker
 import kotlinx.android.synthetic.main.activity_profile_address.*
 import javax.inject.Inject
@@ -17,6 +18,7 @@ import javax.inject.Inject
 class AddressActivity: AppCompatActivity(), AddressContract.View {
 
     @Inject lateinit var presenter: AddressContract.Presenter
+    @Inject lateinit var alertHelper: AlertHelpers
 
     var picker: CountryPicker? = null
 
@@ -64,8 +66,6 @@ class AddressActivity: AppCompatActivity(), AddressContract.View {
         backwardButton.setOnClickListener { presenter.onAbort() }
 
         confirmButton.setOnClickListener { presenter.onConfirm() }
-
-        //WindowBarColor.update(window, resources)
     }
 
     override fun onBackPressed() {
@@ -149,8 +149,14 @@ class AddressActivity: AppCompatActivity(), AddressContract.View {
         activityIndicator.visibility = View.GONE
     }
 
-    override fun showCommunicationInternalNetwork() {
-        Toast.makeText(this, getString(R.string.no_updates), Toast.LENGTH_LONG).show()
+    override fun showTokenExpiredWarning() {
+        alertHelper.tokenExpired(this, { _,_ ->
+            finish()
+        })
+    }
+
+    override fun showCommunicationInternalError() {
+        alertHelper.internalError(this).show()
     }
 
     override fun hideKeyboard() {

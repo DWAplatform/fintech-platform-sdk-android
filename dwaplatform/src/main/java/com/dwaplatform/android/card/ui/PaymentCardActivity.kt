@@ -109,6 +109,12 @@ class PaymentCardActivity: AppCompatActivity(), PaymentCardContract.View {
         alertHelpers.internalError(this).show()
     }
 
+    override fun showTokenExpiredWarning() {
+        alertHelpers.tokenExpired(this, { _,_ ->
+            finish()
+        })
+    }
+
     override fun hideKeyboard() {
         window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN)
     }

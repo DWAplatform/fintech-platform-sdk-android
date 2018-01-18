@@ -99,4 +99,13 @@ open class AlertHelpers {
         builder.show()
     }
 
+    fun tokenExpired(context: Context, handlerOk: (DialogInterface, Int) -> Unit) {
+        val builder = android.support.v7.app.AlertDialog.Builder(context)
+                .setTitle("Sessione scaduta")
+                .setMessage("rifare l'accesso")
+                .setPositiveButton("Ok", handlerOk)
+
+        builder.show()
+    }
+
 }

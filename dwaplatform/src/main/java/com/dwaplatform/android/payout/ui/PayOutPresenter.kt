@@ -1,6 +1,5 @@
 package com.dwaplatform.android.payout.ui
 
-import android.support.v7.app.AppCompatActivity
 import com.dwaplatform.android.account.balance.helpers.BalanceHelper
 import com.dwaplatform.android.account.balance.models.BalanceItem
 import com.dwaplatform.android.api.NetHelper
@@ -22,7 +21,6 @@ class PayOutPresenter @Inject constructor(val configuration: DataAccount,
                                           val ibanPersistanceDB: IbanPersistanceDB
 ): PayOutContract.Presenter {
     var idempotencyPayout: String? = null
-    var token:String?=null
 
     override fun initialize() {
         idempotencyPayout = UUID.randomUUID().toString()
@@ -38,13 +36,8 @@ class PayOutPresenter @Inject constructor(val configuration: DataAccount,
 
     override fun refresh() {
         view.showKeyboardAmount()
-
-        configuration.accountToken(false) { newToken ->
-            token = newToken
-            reloadBalance()
-            refreshConfirmButtonName()
-
-        }
+        refreshConfirmButtonName()
+        reloadBalance()
     }
 
     override fun onConfirm() {
@@ -61,7 +54,7 @@ class PayOutPresenter @Inject constructor(val configuration: DataAccount,
 
         val money = Money.valueOf(view.getAmount())
 
-        api.payOut(token!!,
+        api.payOut(configuration.accessToken,
                 configuration.userId,
                 bankAccountId,
                 money.value,
@@ -71,18 +64,12 @@ class PayOutPresenter @Inject constructor(val configuration: DataAccount,
             refreshConfirmButton()
 
             if (opterror != null) {
-                when (opterror) {
-                    is NetHelper.IdempotencyError ->
-                        view.showIdempotencyError()
-                    else ->
-                        view.showCommunicationInternalError()
-                }
+                handleErrors(opterror)
                 return@payOut
             }
 
             view.goBack()
         }
-
     }
 
     override fun onAbortClick() {
@@ -134,8 +121,9 @@ class PayOutPresenter @Inject constructor(val configuration: DataAccount,
 
     private fun reloadBalance() {
 
-        balanceHelper.api.balance(token!!, configuration.userId, configuration.accountId) { optbalance, opterror ->
+        balanceHelper.api.balance(configuration.accessToken, configuration.userId, configuration.accountId) { optbalance, opterror ->
             if (opterror != null) {
+                handleErrors(opterror)
                 return@balance
             }
 
@@ -172,5 +160,16 @@ class PayOutPresenter @Inject constructor(val configuration: DataAccount,
                 }
 
         view.setFeeAmountLabel(moneyHelper.toString(moneyFee))
+    }
+
+    fun handleErrors(opterror: Exception) {
+        when (opterror) {
+            is NetHelper.IdempotencyError ->
+                view.showIdempotencyError()
+            is NetHelper.TokenError ->
+                view.showTokenExpiredWarning()
+            else ->
+                view.showCommunicationInternalError()
+        }
     }
 }

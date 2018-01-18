@@ -4,11 +4,11 @@ import com.dwaplatform.android.account.balance.helpers.BalanceHelper
 import com.dwaplatform.android.account.balance.models.BalanceItem
 import com.dwaplatform.android.api.NetHelper
 import com.dwaplatform.android.card.db.PaymentCardPersistenceDB
-import com.dwaplatform.android.models.DataAccount
 import com.dwaplatform.android.money.FeeHelper
 import com.dwaplatform.android.money.Money
 import com.dwaplatform.android.money.MoneyHelper
 import com.dwaplatform.android.payin.api.PayInAPI
+import com.dwaplatform.android.models.DataAccount
 import java.util.*
 import javax.inject.Inject
 
@@ -23,7 +23,6 @@ class PayInPresenter @Inject constructor(val configuration: DataAccount,
     : PayInContract.Presenter {
 
     var idempotencyPayin: String? = null
-    var token: String? = null
 
     override fun initialize(initialAmount: Long?) {
         idempotencyPayin = UUID.randomUUID().toString()
@@ -41,12 +40,7 @@ class PayInPresenter @Inject constructor(val configuration: DataAccount,
     override fun refresh() {
         view.showKeyboardAmount()
         refreshConfirmButtonName()
-
-        configuration.accountToken(false){ newToken ->
-            token = newToken
-            reloadBalance()
-            refreshConfirmButtonName()
-        }
+        reloadBalance()
     }
 
     override fun onEditingChanged() {
@@ -54,7 +48,6 @@ class PayInPresenter @Inject constructor(val configuration: DataAccount,
         refreshData()
     }
 
-    var retries = 0
     override fun onConfirm() {
         val paycard = paymentCardpersistanceDB.paymentCardId()
         if (paycard == null) {
@@ -69,7 +62,7 @@ class PayInPresenter @Inject constructor(val configuration: DataAccount,
 
         val money = Money.valueOf(view.getAmount())
 
-        api.payIn(token!!,
+        api.payIn(configuration.accessToken,
                 configuration.userId,
                 configuration.accountId,
                 paycard,
@@ -78,7 +71,6 @@ class PayInPresenter @Inject constructor(val configuration: DataAccount,
 
             view.hideCommunicationWait()
             refreshConfirmButton()
-
 
             if (opterror != null) {
                 handleErrors(opterror)
@@ -89,8 +81,6 @@ class PayInPresenter @Inject constructor(val configuration: DataAccount,
                 view.showCommunicationInternalError()
                 return@payIn
             }
-
-            retries = 0
             val payinreply = optpayinreply
             if (payinreply.securecodeneeded) {
                 view.goToSecure3D(payinreply.redirecturl ?: "")
@@ -119,18 +109,15 @@ class PayInPresenter @Inject constructor(val configuration: DataAccount,
     }
 
     private fun refreshConfirmButton() {
-        token?.let {
-            if ((view.getAmount().length) > 0)
-                view.forwardEnable()
-            else
-                view.forwardDisable()
-        }?: view.forwardDisable()
+        if ((view.getAmount().length) > 0)
+            view.forwardEnable()
+        else
+            view.forwardDisable()
     }
 
     private fun reloadBalance() {
-        balanceHelper.api.balance(token!!, configuration.userId, configuration.accountId) { optbalance, opterror ->
+        balanceHelper.api.balance(configuration.accessToken, configuration.userId, configuration.accountId) { optbalance, opterror ->
             if (opterror != null) {
-                handleErrors(opterror)
                 return@balance
             }
 
@@ -142,7 +129,6 @@ class PayInPresenter @Inject constructor(val configuration: DataAccount,
 
             refreshBalance()
         }
-
     }
 
 
@@ -151,15 +137,7 @@ class PayInPresenter @Inject constructor(val configuration: DataAccount,
             is NetHelper.IdempotencyError ->
                 view.showIdempotencyError()
             is NetHelper.TokenError ->
-                if (retries > 2)
-                    view.showCommunicationInternalError()
-                else {
-                    retries++
-                    configuration.accountToken(true){ opttoken ->
-                        token = opttoken
-                        onConfirm()
-                    }
-                }
+                view.showTokenExpiredWarning()
             else ->
                 view.showCommunicationInternalError()
         }

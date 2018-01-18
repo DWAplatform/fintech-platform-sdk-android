@@ -13,12 +13,14 @@ import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.widget.Toast
 import com.dwaplatform.android.R
+import com.dwaplatform.android.alert.AlertHelpers
 import kotlinx.android.synthetic.main.activity_profile_ids.*
 import javax.inject.Inject
 
 class IdentityCardsActivity: AppCompatActivity(), IdentityCardsContract.View {
 
     @Inject lateinit var presenter: IdentityCardsContract.Presenter
+    @Inject lateinit var alertHelper: AlertHelpers
 
     val PICK_ID_CARD = 10
     val PICK_ID_CARD_FRONT = 20
@@ -76,8 +78,10 @@ class IdentityCardsActivity: AppCompatActivity(), IdentityCardsContract.View {
         activityIndicator.visibility = View.GONE
     }
 
-    override fun showCommunicationInternalNetwork() {
-        Toast.makeText(this, getString(R.string.no_updates), Toast.LENGTH_LONG).show()
+    override fun showTokenExpiredWarning() {
+        alertHelper.tokenExpired(this, { _,_ ->
+            finish()
+        })
     }
 
     override fun checkCameraPermission() {

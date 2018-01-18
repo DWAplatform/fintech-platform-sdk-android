@@ -20,7 +20,7 @@ class IbanAPI @Inject constructor(internal val hostName: String,
                                   internal val queue: IRequestQueue,
                                   internal val requestProvider: IRequestProvider,
                                   internal val log: Log,
-                                  val nethelper: NetHelper
+                                  val netHelper: NetHelper
 
 ){
     private val TAG = "IbanAPI"
@@ -29,7 +29,7 @@ class IbanAPI @Inject constructor(internal val hostName: String,
                    userid: String,
                    iban: String,
                    completion: (BankAccount?, Exception?) -> Unit): IRequest<*>? {
-        val url = nethelper.getURL("/rest/1.0/fin/iban/create")
+        val url = netHelper.getURL("/rest/1.0/fin/iban/create")
 
         var request: IRequest<*>?
         try {
@@ -39,7 +39,7 @@ class IbanAPI @Inject constructor(internal val hostName: String,
 
             // Request a string response from the provided URL.
             val r = requestProvider.jsonObjectRequest(Request.Method.POST, url, jsonObject,
-                    nethelper.authorizationToken(token), { response ->
+                    netHelper.authorizationToken(token), { response ->
 
                 val ibanid = response.getString("ibanid")
                 val iban = response.getString("iban")
@@ -47,10 +47,17 @@ class IbanAPI @Inject constructor(internal val hostName: String,
 
                 completion(BankAccount(ibanid, iban, activestate), null)
             }) { error ->
-                completion(null, nethelper.GenericCommunicationError(error))
+                val status = if (error.networkResponse != null) error.networkResponse.statusCode
+                else -1
+                when (status) {
+                    401 ->
+                        completion(null, netHelper.TokenError(error))
+                    else ->
+                        completion(null, netHelper.GenericCommunicationError(error))
+                }
             }
 
-            r.setIRetryPolicy(nethelper.defaultpolicy)
+            r.setIRetryPolicy(netHelper.defaultpolicy)
             queue.add(r)
             request = r
         } catch (e: Exception) {
@@ -71,7 +78,7 @@ class IbanAPI @Inject constructor(internal val hostName: String,
                          completion: (UserProfileReply?, Exception?) -> Unit): IRequest<*>? {
 
 
-            val url = nethelper.getURL("/rest/1.0/user/profile")
+            val url = netHelper.getURL("/rest/1.0/user/profile")
 
             var request: IRequest<*>?
             try {
@@ -84,7 +91,7 @@ class IbanAPI @Inject constructor(internal val hostName: String,
                 if (city != null) jsonObject.put("city", city)
 
 
-                var hparams: Map<String, String> = nethelper.authorizationToken(token)
+                var hparams: Map<String, String> = netHelper.authorizationToken(token)
                 if (userid == null) {
                     val h = HashMap<String, String>()
                     h.put("Authorization", "Bearer " + phonetoken)
@@ -103,7 +110,7 @@ class IbanAPI @Inject constructor(internal val hostName: String,
                         })
                 {error ->
                     completion(null, error) }
-                r.setIRetryPolicy(nethelper.defaultpolicy)
+                r.setIRetryPolicy(netHelper.defaultpolicy)
                 queue.add(r)
                 request = r
             } catch (e: Exception) {
@@ -118,17 +125,17 @@ class IbanAPI @Inject constructor(internal val hostName: String,
                         userid: String,
                         completion: (List<BankAccount>?, Exception?) -> Unit): IRequest<*>? {
 
-        val baseurl = nethelper.getURL("/rest/1.0/fin/iban/list")
+        val baseurl = netHelper.getURL("/rest/1.0/fin/iban/list")
 
         var request: IRequest<*>?
         try {
             val params = HashMap<String, Any>()
             params.put("userid", userid)
-            val url = nethelper.getUrlDataString(baseurl, params)
+            val url = netHelper.getUrlDataString(baseurl, params)
 
             // Request a string response from the provided URL.
             val r = requestProvider.jsonArrayRequest(Request.Method.GET, url,
-                    null, nethelper.authorizationToken(token),
+                    null, netHelper.authorizationToken(token),
                     { response: JSONArray ->
 
                         val bas = IntArray(response.length()) {i -> i}.map { i ->
@@ -144,7 +151,7 @@ class IbanAPI @Inject constructor(internal val hostName: String,
                     })
             {error ->
                 completion(null, error) }
-            r.setIRetryPolicy(nethelper.defaultpolicy)
+            r.setIRetryPolicy(netHelper.defaultpolicy)
             queue.add(r)
             request = r
         } catch (e: Exception) {

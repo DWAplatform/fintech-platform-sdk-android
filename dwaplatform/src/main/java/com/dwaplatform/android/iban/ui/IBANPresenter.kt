@@ -1,5 +1,6 @@
 package com.dwaplatform.android.iban.ui
 
+import com.dwaplatform.android.api.NetHelper
 import com.dwaplatform.android.iban.api.IbanAPI
 import com.dwaplatform.android.iban.db.IbanPersistanceDB
 import com.dwaplatform.android.iban.models.BankAccount
@@ -16,7 +17,7 @@ class IBANPresenter @Inject constructor(val view: IBANContract.View,
                                         val usersPersistanceDB: UsersPersistanceDB): IBANContract.Presenter {
 
     private var countryofresidenceCode: String? = null
-    var token:String?=null
+
     override fun refreshConfirmButton() {
         view.setAbortText()
         val isEnabled = view.getNumberTextLength() >= 20 &&
@@ -64,7 +65,7 @@ class IBANPresenter @Inject constructor(val view: IBANContract.View,
         view.showCommunicationWait()
 
         api.residenceProfile(
-                token!!,
+                configuration.accessToken,
                 configuration.userId,
                 countryofresidence = countryofresidenceCode,
                 address = view.getAddressText(),
@@ -75,7 +76,7 @@ class IBANPresenter @Inject constructor(val view: IBANContract.View,
             view.hideCommunicationWait()
 
             if (opterror != null) {
-                view.showCommunicationInternalError()
+                handleErrors(opterror)
                 return@residenceProfile
             }
 
@@ -101,7 +102,7 @@ class IBANPresenter @Inject constructor(val view: IBANContract.View,
         view.confirmButtonEnable(false)
         view.showCommunicationWait()
 
-        api.createIBAN(token!!,
+        api.createIBAN(configuration.accessToken,
                 configuration.userId,
                 view.getNumberText()) { optbankaccount, opterror ->
 
@@ -109,7 +110,7 @@ class IBANPresenter @Inject constructor(val view: IBANContract.View,
             refreshConfirmButton()
 
             if (opterror != null) {
-                view.showCommunicationInternalError()
+                handleErrors(opterror)
                 return@createIBAN
             }
 
@@ -139,7 +140,7 @@ class IBANPresenter @Inject constructor(val view: IBANContract.View,
     fun initBankAccount(userid: String) {
         ibanPersistanceDB.delete()
 
-        api.getbankAccounts(token!!, userid) { optbankaccounts, opterror ->
+        api.getbankAccounts(configuration.accessToken, userid) { optbankaccounts, opterror ->
 
             if (opterror != null) {
                 return@getbankAccounts
@@ -150,11 +151,19 @@ class IBANPresenter @Inject constructor(val view: IBANContract.View,
             val bankaccounts = optbankaccounts
             bankaccounts.forEach { ba ->
                 val iban = BankAccount(ba.bankaccountid, ba.iban, ba.activestate)
-
                 ibanPersistanceDB.save(iban)
             }
 
             initIBAN()
+        }
+    }
+
+    private fun handleErrors(opterror: Exception) {
+        when (opterror) {
+            is NetHelper.TokenError ->
+                view.showTokenExpiredWarning()
+            else ->
+                view.showCommunicationInternalError()
         }
     }
 

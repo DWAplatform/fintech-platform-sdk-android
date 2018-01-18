@@ -1,7 +1,5 @@
 package com.dwaplatform.android.card.ui
 
-import android.support.v7.app.AppCompatActivity
-
 /**
  * Created by ingrid on 13/12/17.
  */
@@ -11,6 +9,7 @@ interface PaymentCardContract {
         fun getDateTextLength(): Int
         fun getCCvTextLength(): Int
         fun confirmButtonEnable(isEnabled: Boolean)
+        fun showTokenExpiredWarning()
         fun getNumberText(): String
         fun getDAteText(): String
         fun getCCvText(): String

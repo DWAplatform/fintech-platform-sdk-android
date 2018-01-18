@@ -172,6 +172,12 @@ class IBANActivity: FragmentActivity(), IBANContract.View{
         picker?.dismiss()
     }
 
+    override fun showTokenExpiredWarning() {
+        alertHelpers.tokenExpired(this, { _,_->
+            finish()
+        })
+    }
+
     override fun showCommunicationWait() {
         activityIndicator.visibility = View.VISIBLE
     }
