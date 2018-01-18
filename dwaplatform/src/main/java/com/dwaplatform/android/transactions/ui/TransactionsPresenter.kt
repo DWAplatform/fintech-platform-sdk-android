@@ -41,7 +41,6 @@ open class TransactionsPresenter @Inject constructor(val view: TransactionsContr
 
     override fun transactionClick(transaction: TransactionItem) {
         view.showTransactionDetail(transaction)
-
     }
 
     private fun handleErrors(opterror: Exception) {

@@ -1,0 +1,182 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    tools:context="com.dwaplatform.android.account.financialdata.ui.FinancialDataActivity">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:id="@+id/header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/headerbackgroundcolor">
+
+            <Button
+                android:id="@+id/backwardButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/navheader_back"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:textSize="18dp"
+                android:layout_marginStart="5dp"
+                android:textAllCaps="false"
+                android:visibility="visible"
+                style="@style/headerButtonStyle" />
+
+            <Button
+                android:id="@+id/confirmButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/navheader_confirm"
+                android:layout_alignBaseline="@id/backwardButton"
+                android:layout_marginEnd="5dp"
+                android:enabled="false"
+                android:layout_alignParentRight="true"
+                android:visibility="gone"
+                style="@style/headerButtonStyle"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/backwardButton"
+                android:layout_marginBottom="12dp"
+                android:layout_marginTop="5dp">
+
+                <TextView
+                    android:id="@+id/navheader_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:text="@string/financialdata_header"
+                    android:textSize="22dp"
+                    android:layout_marginBottom="12dp"
+                    android:textColor="@android:color/white"
+                    android:textAlignment="center"/>
+
+                <ProgressBar
+                    android:id="@+id/activityIndicator"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:indeterminateOnly="true"
+                    android:keepScreenOn="true"
+                    android:layout_marginStart="20dp"
+                    android:layout_toEndOf="@id/navheader_title"
+                    android:indeterminateTint="@color/white"
+                    android:visibility="gone" />
+
+            </RelativeLayout>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/header">
+
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="10dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+
+                    <TextView
+                        android:id="@+id/tableheader_cc"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="16dp"
+                        android:paddingStart="16dp"
+                        android:layout_marginTop="20dp"
+                        android:paddingBottom="5dp"
+                        android:textColor="@color/half_black"
+                        android:background="@color/background"
+                        android:text="@string/financialdata_header_cc"/>
+
+                    <RelativeLayout
+                        android:id="@+id/cardcontainer"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_below="@id/tableheader_cc"
+                        android:background="@color/white">
+
+
+                        <TextView
+                            android:id="@+id/cardValueText"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textColor="@android:color/black"
+                            android:padding="15dp"
+                            android:textSize="17dp"
+                            android:layout_toLeftOf="@id/cardDetailarrow"
+                            android:layout_marginLeft="10dp"/>
+
+                        <ImageView
+                            android:id="@+id/cardDetailarrow"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="10dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:src="@drawable/ic_chevron_right_black_24dp"/>
+
+                    </RelativeLayout>
+
+                    <TextView
+                        android:id="@+id/tableheader_iban"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:textSize="16dp"
+                        android:paddingStart="16dp"
+                        android:paddingBottom="5dp"
+                        android:textColor="@color/half_black"
+                        android:background="@color/background"
+                        android:layout_below="@id/cardcontainer"
+                        android:text="@string/financialdata_header_iban"/>
+
+                    <RelativeLayout
+                        android:id="@+id/ibancontainer"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_below="@id/tableheader_iban"
+                        android:background="@color/white">
+
+                        <TextView
+                            android:id="@+id/ibanText"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textColor="@android:color/black"
+                            android:padding="15dp"
+                            android:textSize="17dp"
+                            android:layout_toLeftOf="@id/ibanDetailarrow"
+                            android:layout_marginLeft="10dp" />
+
+                        <ImageView
+                            android:id="@+id/ibanDetailarrow"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="10dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:src="@drawable/ic_chevron_right_black_24dp"/>
+
+                    </RelativeLayout>
+                </RelativeLayout>
+
+            </ScrollView>
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+</RelativeLayout>

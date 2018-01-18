@@ -100,5 +100,10 @@ class MainActivity : AppCompatActivity() {
             val builder = DWAplatform.buildIBAN().createIBANUIComponent(hostName, DataAccount(userId,accountId, token))
             builder.ibanUI.start(this)
         }
+
+        financial.setOnClickListener {
+            val builder = DWAplatform.buildFinancialData().createFinancialsUI(hostName, DataAccount(userId, accountId, token), true)
+            builder.financialDataUI.start(this)
+        }
     }
 }

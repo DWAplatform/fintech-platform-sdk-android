@@ -26,6 +26,7 @@ interface IBANContract {
         fun setAbortText()
         fun setNumberText(iban: String)
         fun setBackwardText()
+        fun enableAllTexts(isEnable: Boolean)
 
         fun closeCountryPicker()
         fun showTokenExpiredWarning()

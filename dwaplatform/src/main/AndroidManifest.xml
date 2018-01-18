@@ -16,11 +16,11 @@
 
         <activity android:name=".card.ui.PaymentCardActivity"/>
 
-        <activity android:name=".auth.ui.AuthenticationActivity"/>
-
         <activity android:name=".payout.ui.PayOutActivity" />
 
         <activity android:name=".iban.ui.IBANActivity" />
+
+        <activity android:name=".account.financialdata.ui.FinancialDataActivity" />
         <activity
             android:name=".transactions.ui.TransactionsActivity"
             android:theme="@style/noAnimTheme" />
