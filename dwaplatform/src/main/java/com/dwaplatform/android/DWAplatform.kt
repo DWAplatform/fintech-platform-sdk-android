@@ -3,7 +3,7 @@ package com.dwaplatform.android
 import android.content.Context
 import com.android.volley.toolbox.Volley
 import com.dwaplatform.android.account.balance.BalanceBuilder
-import com.dwaplatform.android.account.financialdata.FinancialDataBuilder
+import com.dwaplatform.android.account.payinpayoutfinancialdata.PayInPayOutFinancialDataBuilder
 import com.dwaplatform.android.api.volley.VolleyRequestProvider
 import com.dwaplatform.android.api.volley.VolleyRequestQueueProvider
 import com.dwaplatform.android.card.PaymentCardBuilder
@@ -122,8 +122,8 @@ class DWAplatform {
             return ProfileBuilder()
         }
 
-        fun buildFinancialData(): FinancialDataBuilder {
-            return FinancialDataBuilder()
+        fun buildFinancialData(): PayInPayOutFinancialDataBuilder {
+            return PayInPayOutFinancialDataBuilder()
         }
 
     }

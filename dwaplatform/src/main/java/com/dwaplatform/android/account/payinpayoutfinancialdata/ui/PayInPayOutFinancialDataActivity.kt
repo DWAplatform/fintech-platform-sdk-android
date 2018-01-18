@@ -1,4 +1,4 @@
-package com.dwaplatform.android.account.financialdata.ui
+package com.dwaplatform.android.account.payinpayoutfinancialdata.ui
 
 import android.os.Bundle
 import android.support.v4.app.FragmentActivity
@@ -13,17 +13,17 @@ import javax.inject.Inject
 /**
  * Menu for Credit card and IBAN CRUD operations
  */
-class FinancialDataActivity: FragmentActivity() , FinancialDataContract.View {
+class PayInPayOutFinancialDataActivity : FragmentActivity() , PayInPayOutFinancialDataContract.View {
 
     @Inject lateinit var alertHelpers: AlertHelpers
-    @Inject lateinit var presenter: FinancialDataContract.Presenter
+    @Inject lateinit var presenter: PayInPayOutFinancialDataContract.Presenter
     @Inject lateinit var bankAccountUI: IbanUI
     @Inject lateinit var paymentCardUI: PaymentCardUI
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_financialdata)
-        FinancialDataUI.instance.buildFinancialDataViewComponent(this).inject(this)
+        PayInPayOutFinancialDataUI.instance.buildFinancialDataViewComponent(this).inject(this)
         cardcontainer.setOnClickListener {
             alertHelpers.confirmCancelGeneric(this,
                     "Registrazione Carta Debito/Credito",

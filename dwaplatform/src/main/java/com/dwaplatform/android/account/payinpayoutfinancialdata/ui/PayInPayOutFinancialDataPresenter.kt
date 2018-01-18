@@ -1,17 +1,16 @@
-package com.dwaplatform.android.account.financialdata.ui
+package com.dwaplatform.android.account.payinpayoutfinancialdata.ui
 
 import com.dwaplatform.android.card.db.PaymentCardPersistenceDB
 import com.dwaplatform.android.iban.db.IbanPersistanceDB
-import com.dwaplatform.android.models.DataAccount
 import javax.inject.Inject
 
 /**
  * Created by ingrid on 18/01/18.
  */
-class FinancialDataPresenter @Inject constructor(val view: FinancialDataContract.View,
+class PayInPayOutFinancialDataPresenter @Inject constructor(val view: PayInPayOutFinancialDataContract.View,
                                                  //val configuration: DataAccount,
-                                                 val ibanDB: IbanPersistanceDB,
-                                                 val cardDB: PaymentCardPersistenceDB): FinancialDataContract.Presenter {
+                                                            val ibanDB: IbanPersistanceDB,
+                                                            val cardDB: PaymentCardPersistenceDB): PayInPayOutFinancialDataContract.Presenter {
     override fun onBackwardClicked(){
         view.goBack()
     }

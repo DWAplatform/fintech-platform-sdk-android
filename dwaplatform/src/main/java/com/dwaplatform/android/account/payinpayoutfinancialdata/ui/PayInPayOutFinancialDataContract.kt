@@ -1,9 +1,9 @@
-package com.dwaplatform.android.account.financialdata.ui
+package com.dwaplatform.android.account.payinpayoutfinancialdata.ui
 
 /**
  * Created by ingrid on 18/01/18.
  */
-interface FinancialDataContract {
+interface PayInPayOutFinancialDataContract {
     interface View {
         fun goBack()
     }

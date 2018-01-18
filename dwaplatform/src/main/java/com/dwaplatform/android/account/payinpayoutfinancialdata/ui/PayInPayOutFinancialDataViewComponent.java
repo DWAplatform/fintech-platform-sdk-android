@@ -1,7 +1,5 @@
-package com.dwaplatform.android.account.financialdata.ui;
+package com.dwaplatform.android.account.payinpayoutfinancialdata.ui;
 
-import com.dwaplatform.android.account.financialdata.ui.FinancialDataActivity;
-import com.dwaplatform.android.account.financialdata.ui.FinancialDataPresenterModule;
 import com.dwaplatform.android.alert.AlertHelpersModule;
 import com.dwaplatform.android.card.db.PaymentCardPersistanceModule;
 import com.dwaplatform.android.iban.db.IbanPersistanceDBModule;
@@ -17,13 +15,13 @@ import dagger.Component;
  */
 @Singleton
 @Component (modules = {
-        FinancialDataPresenterModule.class,
+        PayInPayOutFinancialDataPresenterModule.class,
         PaymentCardPersistanceModule.class,
         IbanPersistanceDBModule.class,
         AlertHelpersModule.class,
         PaymentCardUIModule.class,
         IbanUIModule.class
 })
-public interface FinancialDataViewComponent {
-    void inject(FinancialDataActivity activity);
+public interface PayInPayOutFinancialDataViewComponent {
+    void inject(PayInPayOutFinancialDataActivity activity);
 }
