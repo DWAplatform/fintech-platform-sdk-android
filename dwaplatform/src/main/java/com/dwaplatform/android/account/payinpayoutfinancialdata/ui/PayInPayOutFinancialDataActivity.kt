@@ -13,7 +13,7 @@ import javax.inject.Inject
 /**
  * Menu for Credit card and IBAN CRUD operations
  */
-class PayInPayOutFinancialDataActivity : FragmentActivity() , PayInPayOutFinancialDataContract.View {
+open class PayInPayOutFinancialDataActivity : FragmentActivity() , PayInPayOutFinancialDataContract.View {
 
     @Inject lateinit var alertHelpers: AlertHelpers
     @Inject lateinit var presenter: PayInPayOutFinancialDataContract.Presenter
@@ -23,7 +23,10 @@ class PayInPayOutFinancialDataActivity : FragmentActivity() , PayInPayOutFinanci
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_financialdata)
-        PayInPayOutFinancialDataUI.instance.buildFinancialDataViewComponent(this).inject(this)
+        PayInPayOutFinancialDataUI.instance.buildFinancialDataViewComponent(this, this).inject(this)
+
+        presenter.initFinancialData()
+
         cardcontainer.setOnClickListener {
             alertHelpers.confirmCancelGeneric(this,
                     "Registrazione Carta Debito/Credito",
@@ -52,5 +55,23 @@ class PayInPayOutFinancialDataActivity : FragmentActivity() , PayInPayOutFinanci
         super.onResume()
         cardValueText.text = presenter.calcCardValue() ?: ""
         ibanText.text = presenter.calcIBANValue() ?: ""
+    }
+
+    override fun showTokenExpiredWarning() {
+        alertHelpers.tokenExpired(this) { _,_ ->
+            finish()
+        }
+    }
+
+    override fun showCommunicationInternalError() {
+        alertHelpers.internalError(this)
+    }
+
+    override fun setPaymentCardNumber(cardNumber: String) {
+        cardValueText.text = cardNumber
+    }
+
+    override fun setBankAccountText(iban: String) {
+        ibanText.text = iban
     }
 }

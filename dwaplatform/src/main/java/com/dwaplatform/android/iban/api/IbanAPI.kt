@@ -68,59 +68,6 @@ class IbanAPI @Inject constructor(internal val hostName: String,
         return request
     }
 
-    fun residenceProfile(token: String,
-                         userid: String,
-                         countryofresidence: String? = null,
-                         address: String? = null,
-                         zipcode: String? = null,
-                         city: String? = null,
-                         phonetoken: String? = null,
-                         completion: (UserProfileReply?, Exception?) -> Unit): IRequest<*>? {
-
-
-            val url = netHelper.getURL("/rest/1.0/user/profile")
-
-            var request: IRequest<*>?
-            try {
-                val jsonObject = JSONObject()
-                jsonObject.put("userid", userid)
-                if (countryofresidence != null) jsonObject.put("countryofresidence",
-                        countryofresidence)
-                if (address != null) jsonObject.put("address", address)
-                if (zipcode != null) jsonObject.put("ZIPcode", zipcode)
-                if (city != null) jsonObject.put("city", city)
-
-
-                var hparams: Map<String, String> = netHelper.authorizationToken(token)
-                if (userid == null) {
-                    val h = HashMap<String, String>()
-                    h.put("Authorization", "Bearer " + phonetoken)
-                    hparams = h
-                }
-
-                val r = requestProvider.jsonObjectRequest(Request.Method.POST, url, jsonObject,
-                        hparams,
-                        { response ->
-
-                            val userprofile = UserProfileReply(
-                                    response.getString("userid"),
-                                    response.optString("tokenuser"))
-
-                            completion(userprofile, null)
-                        })
-                {error ->
-                    completion(null, error) }
-                r.setIRetryPolicy(netHelper.defaultpolicy)
-                queue.add(r)
-                request = r
-            } catch (e: Exception) {
-                log.error(TAG, "phoneCodeVerify", e)
-                request = null
-            }
-
-            return request
-    }
-
     fun getbankAccounts(token: String,
                         userid: String,
                         completion: (List<BankAccount>?, Exception?) -> Unit): IRequest<*>? {
@@ -150,7 +97,15 @@ class IbanAPI @Inject constructor(internal val hostName: String,
                         completion(bas, null)
                     })
             {error ->
-                completion(null, error) }
+                val status = if (error.networkResponse != null) error.networkResponse.statusCode
+                else -1
+                when (status) {
+                    401 ->
+                        completion(null, netHelper.TokenError(error))
+                    else ->
+                        completion(null, netHelper.GenericCommunicationError(error))
+                }
+            }
             r.setIRetryPolicy(netHelper.defaultpolicy)
             queue.add(r)
             request = r

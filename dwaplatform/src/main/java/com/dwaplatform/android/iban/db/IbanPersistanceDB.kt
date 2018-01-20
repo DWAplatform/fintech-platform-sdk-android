@@ -3,9 +3,6 @@ package com.dwaplatform.android.iban.db
 import com.dwaplatform.android.iban.models.BankAccount
 import javax.inject.Inject
 
-/**
- * Created by ingrid on 04/01/18.
- */
 class IbanPersistanceDB @Inject constructor(val ibanDB: IbanDB){
 
     fun save(bankAccount: BankAccount) {

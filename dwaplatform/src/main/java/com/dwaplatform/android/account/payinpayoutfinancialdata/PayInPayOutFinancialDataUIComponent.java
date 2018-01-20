@@ -13,7 +13,8 @@ import dagger.Component;
  * Created by ingrid on 18/01/18.
  */
 @Singleton
-@Component (modules = { PayInPayOutFinancialDataUIModule.class,
+@Component (modules = {
+        PayInPayOutFinancialDataUIModule.class,
         IbanUIModule.class,
         PaymentCardUIModule.class
 

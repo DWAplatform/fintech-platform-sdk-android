@@ -20,29 +20,22 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
+
+    val hostName = "http://10.0.0.7:9000"
+    val userId = "22863c52-ca29-11e7-94c6-b35ff6d69059"
+    val accountId = "22b50b86-ca29-11e7-90f2-dbaf50363c38"
+    // val hostName = "https://api.sandbox.dwaplatform.com"
+//        val userId = "60e279ec-918b-11e7-8d55-dbaaa24cc5c2"
+//        val accountId = "722c4d74-ba56-11e7-8487-a7b42609a5c1"
+
+    var token = String()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         DWAplatform.initialize(this)
 
-        val hostName = "http://192.168.1.73:9000"
-        val userId = "22863c52-ca29-11e7-94c6-b35ff6d69059"
-        val accountId = "22b50b86-ca29-11e7-90f2-dbaf50363c38"
-       // val hostName = "https://api.sandbox.dwaplatform.com"
-//        val userId = "60e279ec-918b-11e7-8d55-dbaaa24cc5c2"
-//        val accountId = "722c4d74-ba56-11e7-8487-a7b42609a5c1"
-
-        /*val pet = Animals()
-        pet.id = "123456\n"
-        pet.kind = "cat\n"
-        pet.name = "gatto\n"
-        pet.save()*/
-        val token = KeyChain(this)["accessToken"]
-
-        if(token.isNullOrEmpty()) {
-            AuthBuilder().createAuthUI(userId, hostName).authUI.start(this)
-        }
 
         payin.setOnClickListener {
             val builder = DWAplatform.buildPayIn()
@@ -50,6 +43,10 @@ class MainActivity : AppCompatActivity() {
                     hostName,true, DataAccount(userId, accountId, token))
 
             payInComponent.payInUI.start(this@MainActivity)
+        }
+
+        clean.setOnClickListener {
+            KeyChain(this)["accessToken"] = ""
         }
 
         auth.setOnClickListener {
@@ -105,5 +102,21 @@ class MainActivity : AppCompatActivity() {
             val builder = DWAplatform.buildFinancialData().createFinancialsUI(hostName, DataAccount(userId, accountId, token), true)
             builder.financialDataUI.start(this)
         }
+
+        bankfinancial.setOnClickListener {
+            val builder = DWAplatform.buildFinancialData().createFinancialBankInfo(hostName, DataAccount(userId, accountId, token), true)
+            builder.financialDataUI.start(this)
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        token = KeyChain(this)["accessToken"]
+
+        if(token.isEmpty()) {
+            AuthBuilder().createAuthUI(userId, hostName).authUI.start(this)
+        }
+
     }
 }

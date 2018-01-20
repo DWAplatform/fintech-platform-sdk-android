@@ -21,6 +21,8 @@
         <activity android:name=".iban.ui.IBANActivity" />
 
         <activity android:name=".account.payinpayoutfinancialdata.ui.PayInPayOutFinancialDataActivity" />
+
+        <activity android:name=".account.financialdata.ui.FinancialDataActivity" />
         <activity
             android:name=".transactions.ui.TransactionsActivity"
             android:theme="@style/noAnimTheme" />

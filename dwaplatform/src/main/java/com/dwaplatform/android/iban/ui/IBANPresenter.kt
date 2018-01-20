@@ -71,25 +71,22 @@ class IBANPresenter @Inject constructor(val view: IBANContract.View,
         view.confirmButtonEnable(false)
         view.showCommunicationWait()
 
-        api.residenceProfile(
+        val residential = UserResidential(configuration.userId, view.getAddressText(),  view.getZipcodeText(), view.getCityText(), countryofresidenceCode)
+        apiProfile.residential(
                 configuration.accessToken,
-                configuration.userId,
-                countryofresidence = countryofresidenceCode,
-                address = view.getAddressText(),
-                zipcode = view.getZipcodeText(),
-                city = view.getCityText()) { optuserprofilereply, opterror ->
+                residential) { optuserprofilereply, opterror ->
 
             view.confirmButtonEnable(true)
             view.hideCommunicationWait()
 
             if (opterror != null) {
                 handleErrors(opterror)
-                return@residenceProfile
+                return@residential
             }
 
             if (optuserprofilereply?.userid == null) {
                 view.showCommunicationInternalError()
-                return@residenceProfile
+                return@residential
             }
 
             val res = UserResidential(
@@ -150,6 +147,7 @@ class IBANPresenter @Inject constructor(val view: IBANContract.View,
         api.getbankAccounts(configuration.accessToken, configuration.userId) { optbankaccounts, opterror ->
 
             if (opterror != null) {
+                handleErrors(opterror)
                 return@getbankAccounts
             }
             if (optbankaccounts == null) {
