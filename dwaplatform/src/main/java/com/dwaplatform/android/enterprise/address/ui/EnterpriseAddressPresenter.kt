@@ -4,9 +4,7 @@ import com.dwaplatform.android.api.NetHelper
 import com.dwaplatform.android.enterprise.api.EnterpriseProfileAPI
 import com.dwaplatform.android.enterprise.db.enterprise.EnterprisePersistanceDB
 import com.dwaplatform.android.enterprise.models.EnterpriseAddress
-import com.dwaplatform.android.iban.models.UserResidential
 import com.dwaplatform.android.models.DataAccount
-import com.dwaplatform.android.profile.db.user.UsersPersistanceDB
 import com.mukesh.countrypicker.Country
 import javax.inject.Inject
 

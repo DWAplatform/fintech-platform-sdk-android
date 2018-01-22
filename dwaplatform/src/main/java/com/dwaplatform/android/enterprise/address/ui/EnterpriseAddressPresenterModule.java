@@ -3,10 +3,6 @@ package com.dwaplatform.android.enterprise.address.ui;
 import com.dwaplatform.android.enterprise.api.EnterpriseProfileAPI;
 import com.dwaplatform.android.enterprise.db.enterprise.EnterprisePersistanceDB;
 import com.dwaplatform.android.models.DataAccount;
-import com.dwaplatform.android.profile.address.ui.AddressContract;
-import com.dwaplatform.android.profile.address.ui.AddressPresenter;
-import com.dwaplatform.android.profile.api.ProfileAPI;
-import com.dwaplatform.android.profile.db.user.UsersPersistanceDB;
 
 import javax.inject.Singleton;
 

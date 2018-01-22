@@ -8,9 +8,6 @@ import com.dwaplatform.android.api.NetModule;
 import com.dwaplatform.android.enterprise.api.EnterpriseAPIModule;
 import com.dwaplatform.android.models.DataAccount;
 import com.dwaplatform.android.profile.address.ui.AddressActivity;
-import com.dwaplatform.android.profile.address.ui.AddressContract;
-import com.dwaplatform.android.profile.address.ui.DaggerAddressViewComponent;
-import com.dwaplatform.android.profile.api.ProfileAPIModule;
 
 public class EnterpriseAddressUI {
 

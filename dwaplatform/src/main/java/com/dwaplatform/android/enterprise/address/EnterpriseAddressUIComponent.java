@@ -11,6 +11,6 @@ import dagger.Component;
 @Component (modules = {
         EnterpriseAddressUIModule.class
 })
-public interface AddressUIComponent {
-    EnterpriseAddressUI getAddressUI();
+public interface EnterpriseAddressUIComponent {
+    EnterpriseAddressUI getEnterpriseAddressUI();
 }

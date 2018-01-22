@@ -1,4 +1,4 @@
-package com.dwaplatform.android.enterprise.address.ui;
+package com.dwaplatform.android.enterprise.info.ui;
 
 import com.dwaplatform.android.alert.AlertHelpersModule;
 import com.dwaplatform.android.api.NetModule;
@@ -12,13 +12,13 @@ import dagger.Component;
 
 @Singleton
 @Component (modules = {
-        EnterpriseAddressPresenterModule.class,
+        EnterpriseInfoPresenterModule.class,
         EnterpriseAPIModule.class,
         NetModule.class,
         LogModule.class,
         AlertHelpersModule.class,
         EnterprisePersistanceDBModule.class
 })
-public interface EnterpriseAddressViewComponent {
-    void inject(EnterpriseAddressActivity activity);
+public interface EnterpriseInfoViewComponent {
+    void inject(EnterpriseInfoActivity activity);
 }

@@ -12,7 +12,7 @@ import com.dwaplatform.android.enterprise.models.EnterpriseProfile
 import com.dwaplatform.android.log.Log
 import org.json.JSONObject
 import java.net.URLEncoder
-import java.util.HashMap
+import java.util.*
 import javax.inject.Inject
 
 class EnterpriseProfileAPI @Inject constructor(internal val hostName: String,
