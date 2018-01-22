@@ -173,7 +173,7 @@ class ProfileAPI @Inject constructor(
             queue.add(r)
             request = r
         } catch (e: Exception) {
-            log.error(TAG, "phoneCodeVerify", e)
+            log.error(TAG, "profile", e)
             request = null
         }
 
