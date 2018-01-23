@@ -1,6 +1,6 @@
 package com.dwaplatform.android.enterprise.contacts.ui;
 
-import com.dwaplatform.android.enterprise.api.EnterpriseProfileAPI;
+import com.dwaplatform.android.enterprise.api.EnterpriseAPI;
 import com.dwaplatform.android.enterprise.db.enterprise.EnterprisePersistanceDB;
 import com.dwaplatform.android.models.DataAccount;
 
@@ -21,7 +21,7 @@ public class EnterpriseContactsPresenterModule {
 
     @Provides
     @Singleton
-    EnterpriseContactsContract.Presenter providesContactsPresenter(EnterpriseProfileAPI api, EnterprisePersistanceDB persistanceDB) {
+    EnterpriseContactsContract.Presenter providesContactsPresenter(EnterpriseAPI api, EnterprisePersistanceDB persistanceDB) {
         return new EnterpriseContactsPresenter(view, api, configuration, persistanceDB);
 
     }

@@ -15,12 +15,12 @@ import java.net.URLEncoder
 import java.util.*
 import javax.inject.Inject
 
-class EnterpriseProfileAPI @Inject constructor(internal val hostName: String,
-                                               internal val queue: IRequestQueue,
-                                               internal val requestProvider: IRequestProvider,
-                                               internal val log: Log,
-                                               val netHelper: NetHelper) {
-    private val TAG = "EnterpriseProfileAPI"
+class EnterpriseAPI @Inject constructor(internal val hostName: String,
+                                        internal val queue: IRequestQueue,
+                                        internal val requestProvider: IRequestProvider,
+                                        internal val log: Log,
+                                        val netHelper: NetHelper) {
+    private val TAG = "EnterpriseAPI"
 
     fun getEnterprise(token: String, userid: String, completion: (EnterpriseProfile?, Exception?) -> Unit): IRequest<*>? {
         val encodedUserId = URLEncoder.encode(userid, "UTF-8")
@@ -48,7 +48,7 @@ class EnterpriseProfileAPI @Inject constructor(internal val hostName: String,
             queue.add(r)
             request = r
         } catch (e: Exception) {
-            log.error(TAG, "searchUser", e)
+            log.error(TAG, "getEnterprise", e)
             request = null
         }
 

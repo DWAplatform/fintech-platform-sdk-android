@@ -1,21 +1,21 @@
 package com.dwaplatform.android.enterprise.info.ui
 
 import com.dwaplatform.android.api.NetHelper
-import com.dwaplatform.android.enterprise.api.EnterpriseProfileAPI
+import com.dwaplatform.android.enterprise.api.EnterpriseAPI
 import com.dwaplatform.android.enterprise.db.enterprise.EnterprisePersistanceDB
 import com.dwaplatform.android.enterprise.models.EnterpriseInfo
 import com.dwaplatform.android.models.DataAccount
 import javax.inject.Inject
 
 class EnterpriseInfoPresenter @Inject constructor(val view: EnterpriseInfoContract.View,
-                                                  val api: EnterpriseProfileAPI,
+                                                  val api: EnterpriseAPI,
                                                   val configuration: DataAccount,
                                                   val enterprisePersistanceDB: EnterprisePersistanceDB): EnterpriseInfoContract.Presenter {
 
 
     override fun initialize() {
 
-        val enterpriseProfile = enterprisePersistanceDB.enterpriseProfile(configuration.userId)
+        val enterpriseProfile = enterprisePersistanceDB.enterpriseProfile(configuration.accountId)
         enterpriseProfile?.let {
             view.setNameText(enterpriseProfile.name?: "")
             view.setEnterpriseType(enterpriseProfile.enterpriseType?: "")
@@ -28,7 +28,7 @@ class EnterpriseInfoPresenter @Inject constructor(val view: EnterpriseInfoContra
         view.hideKeyboard()
 
         val info = EnterpriseInfo(
-                configuration.userId,
+                configuration.accountId,
                 view.getNameText(),
                 view.getEnterpriseType())
 
@@ -50,7 +50,7 @@ class EnterpriseInfoPresenter @Inject constructor(val view: EnterpriseInfoContra
             view.hideWaiting()
 
             val infoEnterprise = EnterpriseInfo(
-                    configuration.userId,
+                    configuration.accountId,
                     view.getNameText(),
                     view.getEnterpriseType())
 
@@ -81,7 +81,7 @@ class EnterpriseInfoPresenter @Inject constructor(val view: EnterpriseInfoContra
         view.enableAllTexts(false)
 
         api.getEnterprise(configuration.accessToken,
-                 configuration.userId){ enterprise, exception ->
+                 configuration.accountId){ enterprise, exception ->
 
             if (exception != null){
                 handleErrors(exception)
@@ -95,7 +95,7 @@ class EnterpriseInfoPresenter @Inject constructor(val view: EnterpriseInfoContra
             view.enableAllTexts(true)
 
             val enterpriseInfo = EnterpriseInfo(
-                    configuration.userId,
+                    configuration.accountId,
                     enterprise.name,
                     enterprise.enterpriseType)
 

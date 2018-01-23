@@ -1,7 +1,7 @@
 package com.dwaplatform.android.enterprise.address.ui
 
 import com.dwaplatform.android.api.NetHelper
-import com.dwaplatform.android.enterprise.api.EnterpriseProfileAPI
+import com.dwaplatform.android.enterprise.api.EnterpriseAPI
 import com.dwaplatform.android.enterprise.db.enterprise.EnterprisePersistanceDB
 import com.dwaplatform.android.enterprise.models.EnterpriseAddress
 import com.dwaplatform.android.models.DataAccount
@@ -9,13 +9,13 @@ import com.mukesh.countrypicker.Country
 import javax.inject.Inject
 
 class EnterpriseAddressPresenter @Inject constructor(val view: EnterpriseAddressContract.View,
-                                                     val api: EnterpriseProfileAPI,
+                                                     val api: EnterpriseAPI,
                                                      val configuration: DataAccount,
                                                      val enterprisePersistanceDB: EnterprisePersistanceDB) : EnterpriseAddressContract.Presenter {
 
     override fun initializate() {
 
-        val enterprise = enterprisePersistanceDB.enterpriseProfile(configuration.userId)
+        val enterprise = enterprisePersistanceDB.enterpriseProfile(configuration.accountId)
         enterprise?.let {
             view.setAddressText(it.addressOfHeadquarters?: "")
             view.setPostalCodeText(it.postalCodeHeadquarters?: "")
@@ -28,7 +28,7 @@ class EnterpriseAddressPresenter @Inject constructor(val view: EnterpriseAddress
         view.enableAllTexts(false)
 
         api.getEnterprise(configuration.accessToken,
-                configuration.userId){ enterprise, exception ->
+                configuration.accountId){ enterprise, exception ->
 
             if (exception != null){
                 handleErrors(exception)
@@ -40,7 +40,7 @@ class EnterpriseAddressPresenter @Inject constructor(val view: EnterpriseAddress
             }
 
             val address = EnterpriseAddress(
-                    enterprise.userid,
+                    enterprise.accountId,
                     enterprise.addressOfHeadquarters,
                     enterprise.cityOfHeadquarters,
                     enterprise.postalCodeHeadquarters,
@@ -81,7 +81,7 @@ class EnterpriseAddressPresenter @Inject constructor(val view: EnterpriseAddress
         view.showWaiting()
 
         val residential = EnterpriseAddress(
-                configuration.userId,
+                configuration.accountId,
                 view.getAddressText(),
                 view.getCityText(),
                 view.getPostalCodeText(),
@@ -99,12 +99,12 @@ class EnterpriseAddressPresenter @Inject constructor(val view: EnterpriseAddress
                 return@address
             }
 
-            if (optenterprise?.userid == null) {
+            if (optenterprise == null) {
                 return@address
             }
 
             val address = EnterpriseAddress(
-                    optenterprise.userid,
+                    optenterprise.accountId,
                     view.getAddressText(),
                     view.getCityText(),
                     view.getPostalCodeText(),

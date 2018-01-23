@@ -24,7 +24,7 @@ class EnterpriseAddressActivity : AppCompatActivity(), EnterpriseAddressContract
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         EnterpriseAddressUI.instance.createAddressComponent(this as Context, this).inject(this)
-        setContentView(R.layout.activity_profile_address)
+        setContentView(R.layout.activity_enterprise_address)
 
         presenter.initializate()
 
@@ -117,7 +117,7 @@ class EnterpriseAddressActivity : AppCompatActivity(), EnterpriseAddressContract
     }
 
     override fun showCountryPicker(){
-        picker = CountryPicker.newInstance("Seleziona stato di residenza")
+        picker = CountryPicker.newInstance("Seleziona lo stato")
 
         picker?.setListener { name, code, dialCode, flagDrawableResID ->
             presenter.onCountrySelected(name, code)

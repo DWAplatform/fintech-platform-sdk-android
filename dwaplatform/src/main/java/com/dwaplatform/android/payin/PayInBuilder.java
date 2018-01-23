@@ -9,10 +9,6 @@ import com.dwaplatform.android.models.DataAccount;
 import com.dwaplatform.android.payin.api.PayInAPIModule;
 import com.dwaplatform.android.payin.ui.PayInUIModule;
 
-/**
- * Created by tcappellari on 08/12/2017.
- */
-
 public class PayInBuilder {
 
     public PayInAPIComponent createPayInAPIComponent(String hostName, Context context) {

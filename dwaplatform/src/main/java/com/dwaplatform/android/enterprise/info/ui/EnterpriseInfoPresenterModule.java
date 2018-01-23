@@ -1,6 +1,6 @@
 package com.dwaplatform.android.enterprise.info.ui;
 
-import com.dwaplatform.android.enterprise.api.EnterpriseProfileAPI;
+import com.dwaplatform.android.enterprise.api.EnterpriseAPI;
 import com.dwaplatform.android.enterprise.db.enterprise.EnterprisePersistanceDB;
 import com.dwaplatform.android.models.DataAccount;
 
@@ -22,7 +22,7 @@ public class EnterpriseInfoPresenterModule {
 
     @Provides
     @Singleton
-    EnterpriseInfoContract.Presenter providesLightDataPresenter(EnterpriseProfileAPI api, EnterprisePersistanceDB persistanceDB) {
+    EnterpriseInfoContract.Presenter providesLightDataPresenter(EnterpriseAPI api, EnterprisePersistanceDB persistanceDB) {
         return new EnterpriseInfoPresenter(view, api, configuration, persistanceDB);
     }
 }

@@ -1,10 +1,12 @@
 package com.dwaplatform.android.enterprise.db.enterprise;
 
+import com.dwaplatform.android.db.PlatformDB;
 import com.raizlabs.android.dbflow.annotation.Column;
 import com.raizlabs.android.dbflow.annotation.PrimaryKey;
+import com.raizlabs.android.dbflow.annotation.Table;
 import com.raizlabs.android.dbflow.structure.BaseModel;
 
-
+@Table(database = PlatformDB.class)
 public class Enterprise extends BaseModel {
     @PrimaryKey
     @Column

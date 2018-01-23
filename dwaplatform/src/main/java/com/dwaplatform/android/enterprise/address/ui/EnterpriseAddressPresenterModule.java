@@ -1,6 +1,6 @@
 package com.dwaplatform.android.enterprise.address.ui;
 
-import com.dwaplatform.android.enterprise.api.EnterpriseProfileAPI;
+import com.dwaplatform.android.enterprise.api.EnterpriseAPI;
 import com.dwaplatform.android.enterprise.db.enterprise.EnterprisePersistanceDB;
 import com.dwaplatform.android.models.DataAccount;
 
@@ -22,7 +22,7 @@ public class EnterpriseAddressPresenterModule {
 
     @Provides
     @Singleton
-    EnterpriseAddressContract.Presenter providesAddressPresenter(EnterpriseProfileAPI api, EnterprisePersistanceDB persistanceDB) {
+    EnterpriseAddressContract.Presenter providesAddressPresenter(EnterpriseAPI api, EnterprisePersistanceDB persistanceDB) {
         return new EnterpriseAddressPresenter(view, api, dataAccount, persistanceDB);
     }
 }

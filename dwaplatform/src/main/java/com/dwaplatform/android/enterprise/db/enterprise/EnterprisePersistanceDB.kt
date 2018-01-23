@@ -8,10 +8,10 @@ import javax.inject.Inject
 
 class EnterprisePersistanceDB @Inject constructor(val enterpriseDB: EnterpriseDB){
 
-    fun enterpriseProfile(userid: String) : EnterpriseProfile? {
+    fun enterpriseProfile(accountId: String) : EnterpriseProfile? {
         val optEnterprise = enterpriseDB.findEnterprise()
         return optEnterprise?.let{
-            EnterpriseProfile(userid,
+            EnterpriseProfile(accountId,
                     it.name,
                     it.telephone,
                     it.email,
@@ -23,10 +23,10 @@ class EnterprisePersistanceDB @Inject constructor(val enterpriseDB: EnterpriseDB
         }
     }
 
-    fun enterpriseAddress(userid: String): EnterpriseAddress? {
+    fun enterpriseAddress(accountId: String): EnterpriseAddress? {
         val optEnterprise = enterpriseDB.findEnterprise()
         return optEnterprise?.let {
-            EnterpriseAddress(userid,
+            EnterpriseAddress(accountId,
                     it.address,
                     it.city,
                     it.postalCode,
@@ -36,7 +36,7 @@ class EnterprisePersistanceDB @Inject constructor(val enterpriseDB: EnterpriseDB
 
     fun saveAddress(enterpriseAddress: EnterpriseAddress) {
         val enterprise = enterpriseDB.findEnterprise() ?: Enterprise()
-        enterprise.id = enterpriseAddress.userid
+        enterprise.id = enterpriseAddress.accountId
         enterprise.address = enterpriseAddress.address
         enterprise.postalCode = enterpriseAddress.postalCode
         enterprise.city = enterpriseAddress.city
@@ -46,7 +46,7 @@ class EnterprisePersistanceDB @Inject constructor(val enterpriseDB: EnterpriseDB
 
     fun saveInfo(info: EnterpriseInfo) {
         val enterprise = enterpriseDB.findEnterprise() ?: Enterprise()
-        enterprise.id = info.userid
+        enterprise.id = info.accountId
         enterprise.name = info.name
         enterprise.type = info.enterpriseType
         enterpriseDB.saveEnterprise(enterprise)
@@ -54,7 +54,7 @@ class EnterprisePersistanceDB @Inject constructor(val enterpriseDB: EnterpriseDB
 
     fun saveContacts(contacts: EnterpriseContacts) {
         val enterprise = enterpriseDB.findEnterprise() ?: Enterprise()
-        enterprise.id = contacts.userid
+        enterprise.id = contacts.accountId
         enterprise.email = contacts.email
         enterprise.telephone = contacts.telephone
         enterpriseDB.saveEnterprise(enterprise)

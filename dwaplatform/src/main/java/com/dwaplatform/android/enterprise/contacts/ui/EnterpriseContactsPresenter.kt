@@ -2,21 +2,21 @@ package com.dwaplatform.android.enterprise.contacts.ui
 
 import com.dwaplatform.android.api.NetHelper
 import com.dwaplatform.android.email.EmailHelper
-import com.dwaplatform.android.enterprise.api.EnterpriseProfileAPI
+import com.dwaplatform.android.enterprise.api.EnterpriseAPI
 import com.dwaplatform.android.enterprise.db.enterprise.EnterprisePersistanceDB
 import com.dwaplatform.android.enterprise.models.EnterpriseContacts
 import com.dwaplatform.android.models.DataAccount
 import javax.inject.Inject
 
 class EnterpriseContactsPresenter @Inject constructor(val view: EnterpriseContactsContract.View,
-                                                      val api: EnterpriseProfileAPI,
+                                                      val api: EnterpriseAPI,
                                                       val configuration: DataAccount,
                                                       val persistanceDB: EnterprisePersistanceDB): EnterpriseContactsContract.Presenter {
 
     var token:String?=null
 
     override fun initializate() {
-        val userProfile = persistanceDB.enterpriseProfile(configuration.userId)
+        val userProfile = persistanceDB.enterpriseProfile(configuration.accountId)
         userProfile?.let {
             view.setEmailText(it.email?: "")
             view.setTelephoneText(it.telephone?: "")
@@ -27,7 +27,7 @@ class EnterpriseContactsPresenter @Inject constructor(val view: EnterpriseContac
         view.enableAllTexts(false)
 
         api.getEnterprise(configuration.accessToken,
-                configuration.userId){ enterprise, exception ->
+                configuration.accountId){ enterprise, exception ->
 
             if (exception != null){
                 handlerErrors(exception)
@@ -42,7 +42,7 @@ class EnterpriseContactsPresenter @Inject constructor(val view: EnterpriseContac
 
             enterprise.email?.let {
                 val enterprisecontacts = EnterpriseContacts(
-                        configuration.userId,
+                        configuration.accountId,
                         enterprise.email,
                         enterprise.telephone
                 )
@@ -70,7 +70,7 @@ class EnterpriseContactsPresenter @Inject constructor(val view: EnterpriseContac
 
             view.hideKeyboard()
 
-            val contacts = EnterpriseContacts(configuration.userId, view.getEmailText(), view.getTelephoneText())
+            val contacts = EnterpriseContacts(configuration.accountId, view.getEmailText(), view.getTelephoneText())
             api.contacts(configuration.accessToken,
                     contacts) { enterpriseReply, exception ->
 
@@ -86,7 +86,7 @@ class EnterpriseContactsPresenter @Inject constructor(val view: EnterpriseContac
                 }
 
                 val enterpriseContacts = EnterpriseContacts(
-                        configuration.userId,
+                        configuration.accountId,
                         view.getEmailText(),
                         view.getTelephoneText())
 

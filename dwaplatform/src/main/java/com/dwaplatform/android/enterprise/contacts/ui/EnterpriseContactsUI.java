@@ -33,7 +33,7 @@ public class EnterpriseContactsUI {
 
     public void start(Context context) {
         instance = this;
-        Intent intent = new Intent(context, ContactsActivity.class);
+        Intent intent = new Intent(context, EnterpriseContactsActivity.class);
         context.startActivity(intent);
     }
 }

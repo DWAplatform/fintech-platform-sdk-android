@@ -1,6 +1,6 @@
 package com.dwaplatform.android.enterprise.models
 
-data class EnterpriseProfile (val userid: String,
+data class EnterpriseProfile (val accountId: String,
                               val name: String?=null,
                               val telephone: String?=null,
                               val email: String?=null,

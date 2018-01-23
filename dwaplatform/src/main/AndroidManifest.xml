@@ -38,5 +38,11 @@
         <activity android:name=".profile.jobinfo.ui.JobInfoActivity"/>
 
         <activity android:name=".profile.idcards.ui.IdentityCardsActivity" />
+
+        <activity android:name=".enterprise.info.ui.EnterpriseInfoActivity"/>
+
+        <activity android:name=".enterprise.contacts.ui.EnterpriseContactsActivity" />
+
+        <activity android:name=".enterprise.address.ui.EnterpriseAddressActivity" />
     </application>
 </manifest>

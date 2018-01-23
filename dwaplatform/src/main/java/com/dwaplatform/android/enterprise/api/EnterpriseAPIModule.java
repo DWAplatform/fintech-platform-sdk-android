@@ -20,7 +20,7 @@ public class EnterpriseAPIModule {
 
     @Provides
     @Singleton
-    EnterpriseProfileAPI providesEnterpriseAPI(IRequestQueue queue, IRequestProvider requestProvider, Log log, NetHelper netHelper){
-        return new EnterpriseProfileAPI(hostName, queue, requestProvider, log, netHelper);
+    EnterpriseAPI providesEnterpriseAPI(IRequestQueue queue, IRequestProvider requestProvider, Log log, NetHelper netHelper){
+        return new EnterpriseAPI(hostName, queue, requestProvider, log, netHelper);
     }
 }

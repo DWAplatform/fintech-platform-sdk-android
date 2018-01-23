@@ -36,7 +36,7 @@ public class EnterpriseAddressUI {
 
     public void start(Context context) {
         instance = this;
-        Intent intent = new Intent( context, AddressActivity.class);
+        Intent intent = new Intent( context, EnterpriseAddressActivity.class);
         context.startActivity(intent);
     }
 }

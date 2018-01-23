@@ -107,6 +107,25 @@ class MainActivity : AppCompatActivity() {
             val builder = DWAplatform.buildFinancialData().createFinancialBankInfo(hostName, DataAccount(userId, accountId, token), true)
             builder.financialDataUI.start(this)
         }
+
+        enterpriseinfo.setOnClickListener {
+            val builder = DWAplatform.buildEnterpriseData().buildEnterpriseInfoUIComponent(hostName, DataAccount(userId, accountId, token))
+            builder.enterpriseInfoUI.start(this)
+        }
+
+        enterprisecontacts.setOnClickListener {
+            val builder = DWAplatform.buildEnterpriseData().buildEnterpriseContactsUIComponent(hostName, DataAccount(userId, accountId, token))
+            builder.enterpriseContactsUI.start(this)
+        }
+
+        enterpriseaddress.setOnClickListener {
+            val builder = DWAplatform.buildEnterpriseData().buildEnterpriseAddressUIComponent(hostName, DataAccount(userId, accountId, token))
+            builder.enterpriseAddressUI.start(this)
+        }
+
+        enterprisedocs.setOnClickListener {
+
+        }
     }
 
     override fun onResume() {
