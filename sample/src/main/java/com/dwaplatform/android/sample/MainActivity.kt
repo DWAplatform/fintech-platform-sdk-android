@@ -124,7 +124,8 @@ class MainActivity : AppCompatActivity() {
         }
 
         enterprisedocs.setOnClickListener {
-
+            val builder = DWAplatform.buildEnterpriseData().buildEnterpriseDocumentsUIComponent(hostName, DataAccount(userId, accountId, token))
+            builder.enterpriseDocumentsUI.start(this)
         }
     }
 

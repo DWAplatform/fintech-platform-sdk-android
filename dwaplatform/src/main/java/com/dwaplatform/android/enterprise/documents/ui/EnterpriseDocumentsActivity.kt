@@ -12,7 +12,6 @@ import com.dwaplatform.android.R
 import com.dwaplatform.android.alert.AlertHelpers
 import kotlinx.android.synthetic.main.activity_enterprise_documents.*
 import javax.inject.Inject
-import kotlin.math.PI
 
 class EnterpriseDocumentsActivity: AppCompatActivity(), EnterpriseDocumentsContract.View {
 
@@ -24,6 +23,8 @@ class EnterpriseDocumentsActivity: AppCompatActivity(), EnterpriseDocumentsContr
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_enterprise_documents)
+
+        EnterpriseDocumentsUI.instance.createEnterpriseDocumentsViewComponent(this, this).inject(this)
 
         backwardButton.setOnClickListener { presenter.onAbort() }
 
@@ -41,10 +42,6 @@ class EnterpriseDocumentsActivity: AppCompatActivity(), EnterpriseDocumentsContr
 
     override fun setAbortText() {
         backwardButton.text = resources.getString(R.string.abort)
-    }
-
-    override fun enableButtons(isEnable: Boolean) {
-
     }
 
     override fun onBackPressed() {
@@ -70,7 +67,8 @@ class EnterpriseDocumentsActivity: AppCompatActivity(), EnterpriseDocumentsContr
     }
 
     override fun setNumberPages(number: Int) {
-
+        fileIcon.visibility = View.GONE
+        numberPages.text = number.toString()
     }
 
     override fun goToCamera() {

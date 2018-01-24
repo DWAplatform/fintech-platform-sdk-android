@@ -6,7 +6,6 @@ interface EnterpriseDocumentsContract {
     interface View {
         fun setAbortText()
         fun setNumberPages(number: Int)
-        fun enableButtons(isEnable: Boolean)
         fun checkCameraPermission()
         fun goToCamera()
         fun showTokenExpiredWarning()
@@ -23,7 +22,6 @@ interface EnterpriseDocumentsContract {
         fun onConfirm()
         fun onInsertPages()
         fun refreshConfirmButton()
-        fun onCameraClick()
         fun onPictureTaken(optData: Intent?, index: Int)
     }
 }

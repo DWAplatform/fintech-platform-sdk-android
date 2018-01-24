@@ -7,6 +7,9 @@ import com.dwaplatform.android.enterprise.address.ui.EnterpriseAddressUIModule;
 import com.dwaplatform.android.enterprise.contacts.DaggerEnterpriseContactsUIComponent;
 import com.dwaplatform.android.enterprise.contacts.EnterpriseContactsUIComponent;
 import com.dwaplatform.android.enterprise.contacts.ui.EnterpriseContactsUIModule;
+import com.dwaplatform.android.enterprise.documents.DaggerEnterpriseDocumentsUIComponent;
+import com.dwaplatform.android.enterprise.documents.EnterpriseDocumentsUIComponent;
+import com.dwaplatform.android.enterprise.documents.ui.EnterpriseDocumentsUIModule;
 import com.dwaplatform.android.enterprise.info.DaggerEnterpriseInfoUIComponent;
 import com.dwaplatform.android.enterprise.info.EnterpriseInfoUIComponent;
 import com.dwaplatform.android.enterprise.info.ui.EnterpriseInfoUIModule;
@@ -29,6 +32,12 @@ public class EnterpriseBuilder {
     public EnterpriseAddressUIComponent buildEnterpriseAddressUIComponent(String hostName, DataAccount configuration) {
         return DaggerEnterpriseAddressUIComponent.builder()
                 .enterpriseAddressUIModule(new EnterpriseAddressUIModule(hostName, configuration))
+                .build();
+    }
+
+    public EnterpriseDocumentsUIComponent buildEnterpriseDocumentsUIComponent(String hostName, DataAccount configuration) {
+        return DaggerEnterpriseDocumentsUIComponent.builder()
+                .enterpriseDocumentsUIModule(new EnterpriseDocumentsUIModule(configuration, hostName))
                 .build();
     }
 }

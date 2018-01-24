@@ -44,5 +44,7 @@
         <activity android:name=".enterprise.contacts.ui.EnterpriseContactsActivity" />
 
         <activity android:name=".enterprise.address.ui.EnterpriseAddressActivity" />
+
+        <activity android:name=".enterprise.documents.ui.EnterpriseDocumentsActivity" />
     </application>
 </manifest>

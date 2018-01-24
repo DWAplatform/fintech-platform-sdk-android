@@ -103,10 +103,6 @@ class EnterpriseDocumentsPresenter constructor(val view: EnterpriseDocumentsCont
     }
 
     override fun onInsertPages() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun onCameraClick() {
         view.goToCamera()
     }
 

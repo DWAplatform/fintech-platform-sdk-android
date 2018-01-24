@@ -21,27 +21,39 @@ public class EnterpriseDocuments extends BaseModel {
     @Column
     public String doctype;
 
-    @ForeignKey(stubbedRelationship = true)
-    public DocumentPages documentPages;
-
     public List<DocumentPages> pages;
 
     @OneToMany(methods = {OneToMany.Method.ALL}, variableName = "pages")
     public List<DocumentPages> getPages() {
-        SQLite.select()
-                .from(DocumentPages.class)
-                .where(DocumentPages_Table.enterpriseDocuments_id.eq(id))
-                .async()
-                .queryListResultCallback(new QueryTransaction.QueryResultListCallback<DocumentPages>() {
-                    @Override
-                    public void onListQueryResult(QueryTransaction transaction, @NonNull List<DocumentPages> tResult) {
-                        pages = tResult;
-                    }
-                })
-                .execute();
+        if(pages == null) {
+            pages = SQLite.select()
+                    .from(DocumentPages.class)
+                    .where(DocumentPages_Table.enterpriseDocuments_id.eq(id))
+                    .queryList();
+//                    .async()
+//                    .queryListResultCallback(new QueryTransaction.QueryResultListCallback<DocumentPages>() {
+//                        @Override
+//                        public void onListQueryResult(QueryTransaction transaction, @NonNull List<DocumentPages> tResult) {
+//                            pages = tResult;
+//                        }
+//                    })
+//                    .execute();
+        }
+
         return pages;
     }
 
+    @Override
+    public boolean save() {
+        boolean res = super.save();
+        if (pages != null) {
+            for (DocumentPages s : pages) {
+                s.setDocuments(this);
+                s.save();
+            }
+        }
+        return res;
+    }
 
     public String getId() {
         return id;
