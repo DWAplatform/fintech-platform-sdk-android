@@ -2,18 +2,20 @@ package com.dwaplatform.android.enterprise.db.documents;
 
 import com.dwaplatform.android.db.PlatformDB;
 import com.raizlabs.android.dbflow.annotation.Column;
+import com.raizlabs.android.dbflow.annotation.ForeignKey;
 import com.raizlabs.android.dbflow.annotation.PrimaryKey;
 import com.raizlabs.android.dbflow.annotation.Table;
 import com.raizlabs.android.dbflow.structure.BaseModel;
 
 @Table(database = PlatformDB.class)
 public class DocumentPages extends BaseModel {
+
     @PrimaryKey (autoincrement = true)
     public int id;
     @Column
     public String page;
-    @Column
-    public String enterpriseDocuments_id;
+    @ForeignKey(stubbedRelationship = true)
+    public EnterpriseDocuments enterpriseDocuments;
 
     public int getId() {
         return id;
@@ -31,11 +33,11 @@ public class DocumentPages extends BaseModel {
         this.page = page;
     }
 
-    public String getEnterpriseDocuments_id() {
-        return enterpriseDocuments_id;
+    public EnterpriseDocuments getDocuments() {
+        return enterpriseDocuments;
     }
 
-    public void setEnterpriseDocuments_id(String enterpriseDocuments_id) {
-        this.enterpriseDocuments_id = enterpriseDocuments_id;
+    public void setDocuments(EnterpriseDocuments documents) {
+        this.enterpriseDocuments = documents;
     }
 }

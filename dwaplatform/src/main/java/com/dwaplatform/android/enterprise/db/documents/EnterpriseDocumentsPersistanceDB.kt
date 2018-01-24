@@ -9,8 +9,10 @@ class EnterpriseDocumentsPersistanceDB @Inject constructor(val documentsDB: Ente
         val docs = documentsDB.findDocuments(accountId)
         return docs?.let {
             val docPages = arrayListOf<EnterpriseDocumentPages?>()
-            for (i in 0 until it.pages.size) {
-                docPages.add(EnterpriseDocumentPages(it.id, it.pages[i].page))
+            if(it.pages.size >0 ) {
+                for (i in 0 until it.pages.size) {
+                    docPages.add(EnterpriseDocumentPages(it.id, it.pages[i].page))
+                }
             }
             EnterpriseDocs(it.id, it.doctype, docPages)
         }
@@ -27,7 +29,7 @@ class EnterpriseDocumentsPersistanceDB @Inject constructor(val documentsDB: Ente
             for (i in 0 until it.size){
 
                 val singlePage = DocumentPages()
-                singlePage.enterpriseDocuments_id = it[i]?.documentId
+//                singlePage.enterpriseDocuments_id = it[i]?.documentId
                 singlePage.page = it[i]?.page
                 singlePage.save()
                 //docs.pages.add(i, singlePage)

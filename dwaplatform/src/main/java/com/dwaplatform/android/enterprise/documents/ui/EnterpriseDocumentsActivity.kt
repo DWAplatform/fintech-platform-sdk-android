@@ -66,6 +66,10 @@ class EnterpriseDocumentsActivity: AppCompatActivity(), EnterpriseDocumentsContr
         })
     }
 
+    override fun showGenericError() {
+        alertHelper.internalError(this).show()
+    }
+
     override fun setNumberPages(number: Int) {
         fileIcon.visibility = View.GONE
         numberPages.text = number.toString()

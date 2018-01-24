@@ -9,6 +9,7 @@ interface EnterpriseDocumentsContract {
         fun checkCameraPermission()
         fun goToCamera()
         fun showTokenExpiredWarning()
+        fun showGenericError()
         fun enableConfirmButton(isEnable: Boolean)
         fun showWaiting()
         fun hideWaiting()

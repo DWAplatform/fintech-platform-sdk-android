@@ -135,7 +135,7 @@ class EnterpriseDocumentsPresenter constructor(val view: EnterpriseDocumentsCont
             is NetHelper.TokenError ->
                 view.showTokenExpiredWarning()
             else ->
-                return
+                view.showGenericError()
         }
     }
 }
