@@ -23,18 +23,20 @@ class EnterpriseDocumentsPersistanceDB @Inject constructor(val documentsDB: Ente
 
         docs.doctype = documents.doctype
         docs.id = documents.id
-
+        val listPages = arrayListOf<DocumentPages>()
         documents.pages?.let {
 
             for (i in 0 until it.size){
 
                 val singlePage = DocumentPages()
-//                singlePage.enterpriseDocuments_id = it[i]?.documentId
                 singlePage.page = it[i]?.page
+                // dbflow con la ForeignKey lega automaticamente le due tabelle
+                // singlePage.enterpriseDocuments.id = it[i]?.documentId
                 singlePage.save()
-                //docs.pages.add(i, singlePage)
+                listPages.add(singlePage)
             }
         }
+        docs.pages = listPages
 
         return documentsDB.saveDocuments(docs)
     }

@@ -5,7 +5,6 @@ import android.graphics.Bitmap
 import com.dwaplatform.android.api.NetHelper
 import com.dwaplatform.android.enterprise.api.EnterpriseAPI
 import com.dwaplatform.android.enterprise.db.documents.EnterpriseDocumentsPersistanceDB
-import com.dwaplatform.android.enterprise.db.enterprise.EnterprisePersistanceDB
 import com.dwaplatform.android.enterprise.models.EnterpriseDocs
 import com.dwaplatform.android.enterprise.models.EnterpriseDocumentPages
 import com.dwaplatform.android.images.ImageHelper
@@ -86,7 +85,7 @@ class EnterpriseDocumentsPresenter constructor(val view: EnterpriseDocumentsCont
 
     override fun refreshConfirmButton() {
         view.setAbortText()
-        if(photosBase64.filterNotNull().size == 2){
+        if(photosBase64.filterNotNull().size >= 2){
             view.enableConfirmButton(true)
         } else {
             view.enableConfirmButton(false)
