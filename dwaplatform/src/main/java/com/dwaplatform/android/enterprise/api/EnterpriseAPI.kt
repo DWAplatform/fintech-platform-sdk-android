@@ -5,11 +5,9 @@ import com.dwaplatform.android.api.IRequest
 import com.dwaplatform.android.api.IRequestProvider
 import com.dwaplatform.android.api.IRequestQueue
 import com.dwaplatform.android.api.NetHelper
-import com.dwaplatform.android.enterprise.models.EnterpriseAddress
-import com.dwaplatform.android.enterprise.models.EnterpriseContacts
-import com.dwaplatform.android.enterprise.models.EnterpriseInfo
-import com.dwaplatform.android.enterprise.models.EnterpriseProfile
+import com.dwaplatform.android.enterprise.models.*
 import com.dwaplatform.android.log.Log
+import org.json.JSONArray
 import org.json.JSONObject
 import java.net.URLEncoder
 import java.util.*
@@ -99,7 +97,7 @@ class EnterpriseAPI @Inject constructor(internal val hostName: String,
                     hparams,
                     { response ->
 
-                        val userprofile = EnterpriseProfile( userid=
+                        val userprofile = EnterpriseProfile( accountId =
                                 response.getString("userid"))
 
                         completion(userprofile, null)
@@ -130,7 +128,7 @@ class EnterpriseAPI @Inject constructor(internal val hostName: String,
              completion: (EnterpriseProfile?, Exception?) -> Unit) {
 
         enterprise(token = token,
-                userid = info.userid,
+                userid = info.accountId,
                 name = info.name,
                 enterpriseType = info.enterpriseType,
                 completion = completion)
@@ -142,7 +140,7 @@ class EnterpriseAPI @Inject constructor(internal val hostName: String,
                  completion: (EnterpriseProfile?, Exception?) -> Unit) {
 
         enterprise(token = token,
-                userid = contacts.userid,
+                userid = contacts.accountId,
                 email = contacts.email,
                 telephone = contacts.telephone,
                 completion = completion)
@@ -153,11 +151,105 @@ class EnterpriseAPI @Inject constructor(internal val hostName: String,
                 completion: (EnterpriseProfile?, Exception?) -> Unit) {
 
         enterprise(token = token,
-                userid = address.userid,
+                userid = address.accountId,
                 address = address.address,
                 zipcode = address.postalCode,
                 city = address.city,
                 countryHeadquarters = address.country,
                 completion = completion)
+    }
+
+    fun getDocuments(token: String, userid: String, completion: (ArrayList<EnterpriseDocs?>?, Exception?) -> Unit): IRequest<*>? {
+        val url = netHelper.getURL("/rest/1.0/users/$userid/documents")
+
+        var request: IRequest<*>?
+        try {
+
+            val r = requestProvider.jsonArrayRequest(Request.Method.GET, url,
+                    null, netHelper.authorizationToken(token),
+                    { response: JSONArray ->
+                        val documents = ArrayList<EnterpriseDocs?>()
+
+                        for(i in 0 until response.length()){
+
+                            val jo = response.getJSONObject(i)
+                            val pages = jo.getJSONArray("pages")
+                            val docpages = arrayListOf<EnterpriseDocumentPages?>()
+
+                            for (j in 0 until pages.length()) {
+                                docpages.add(EnterpriseDocumentPages(jo.getString("id"), pages.getString(j)))
+                            }
+
+                            val enterpriseDocs = EnterpriseDocs(userid, jo.getString("doctype"), docpages)
+                            documents.add(enterpriseDocs)
+                        }
+
+                        completion(documents, null)
+                    })
+            { error ->
+                val status = if (error.networkResponse != null) error.networkResponse.statusCode
+                else -1
+                when (status) {
+                    401 ->
+                        completion(null, netHelper.TokenError(error))
+                    else ->
+                        completion(null, netHelper.GenericCommunicationError(error))
+                }
+            }
+            r.setIRetryPolicy(netHelper.defaultpolicy)
+            queue.add(r)
+            request = r
+        } catch (e: Exception) {
+            log.error(TAG, "getDocuments", e)
+            request = null
+        }
+
+        return request
+    }
+
+    fun documents(token: String,
+                  accountId: String,
+                  doctype: String,
+                  documents: ArrayList<String?>,
+                  idempotency: String,
+                  completion: (Boolean, Exception?) -> Unit) : IRequest<*>? {
+        val url = netHelper.getURL("/rest/1.0/users/$accountId/documents")
+        var request : IRequest<*>?
+        try {
+            val ja = JSONArray()
+            for(i in 0 until documents.size){
+                ja.put(documents[i])
+            }
+
+            val jsonObject = JSONObject()
+            jsonObject.put("doctype", doctype)
+            jsonObject.put("pages", ja)
+
+            val r = requestProvider.jsonObjectRequest(Request.Method.POST, url, jsonObject, netHelper.authorizationToken(token), { response ->
+                completion(true, null)
+            }) { error ->
+                val status = if (error.networkResponse != null)
+                    error.networkResponse.statusCode else -1
+                when (status) {
+                    409 -> {
+                        completion(false, netHelper.IdempotencyError(error))
+                    }
+
+                    401 -> {
+                        completion(false, netHelper.TokenError(error))
+                    }
+                    else -> completion(false, netHelper.GenericCommunicationError(error))
+                }
+            }
+
+            r.setIRetryPolicy(netHelper.defaultpolicy)
+            queue.add(r)
+            request = r
+        } catch (e: Exception){
+            log.error(TAG, "documents", e)
+            request = null
+        }
+
+        return request
     }
 }
