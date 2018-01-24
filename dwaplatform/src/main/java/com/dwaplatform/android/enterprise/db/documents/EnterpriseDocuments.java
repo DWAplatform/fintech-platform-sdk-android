@@ -45,14 +45,26 @@ public class EnterpriseDocuments extends BaseModel {
 
     @Override
     public boolean save() {
-        boolean res = super.save();
+        boolean isSaved = super.save();
         if (pages != null) {
             for (DocumentPages s : pages) {
                 s.setDocuments(this);
                 s.save();
             }
         }
-        return res;
+        return isSaved;
+    }
+
+    @Override
+    public boolean delete() {
+        boolean isDeleted = super.delete();
+        if (pages != null) {
+            for (DocumentPages s : pages) {
+                s.setDocuments(this);
+                s.delete();
+            }
+        }
+        return isDeleted;
     }
 
     public String getId() {

@@ -174,10 +174,10 @@ class EnterpriseAPI @Inject constructor(internal val hostName: String,
 
                             val jo = response.getJSONObject(i)
                             val pages = jo.getJSONArray("pages")
-                            val docpages = arrayListOf<EnterpriseDocumentPages?>()
+                            val docpages = arrayListOf<String?>()
 
                             for (j in 0 until pages.length()) {
-                                docpages.add(EnterpriseDocumentPages(jo.getString("id"), pages.getString(j)))
+                                docpages.add(pages.getString(j))
                             }
 
                             val enterpriseDocs = EnterpriseDocs(userid, jo.getString("doctype"), docpages)

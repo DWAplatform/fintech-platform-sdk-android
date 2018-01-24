@@ -6,11 +6,9 @@ import com.dwaplatform.android.api.NetHelper
 import com.dwaplatform.android.enterprise.api.EnterpriseAPI
 import com.dwaplatform.android.enterprise.db.documents.EnterpriseDocumentsPersistanceDB
 import com.dwaplatform.android.enterprise.models.EnterpriseDocs
-import com.dwaplatform.android.enterprise.models.EnterpriseDocumentPages
 import com.dwaplatform.android.images.ImageHelper
 import com.dwaplatform.android.models.DataAccount
 import java.util.*
-import javax.inject.Inject
 import kotlin.collections.ArrayList
 
 class EnterpriseDocumentsPresenter constructor(val view: EnterpriseDocumentsContract.View,
@@ -29,7 +27,7 @@ class EnterpriseDocumentsPresenter constructor(val view: EnterpriseDocumentsCont
         dbDocuments.getDocuments(configuration.accountId)?.let {
             it.pages?.let { pages ->
                 for (i in 0 until pages.size) {
-                    photosBase64.add(pages[i]?.page)
+                    photosBase64.add(pages[i])
                 }
                 view.setNumberPages(photosBase64.size)
             }
@@ -71,9 +69,9 @@ class EnterpriseDocumentsPresenter constructor(val view: EnterpriseDocumentsCont
             }
 
 
-            val pages = ArrayList<EnterpriseDocumentPages?>()
+            val pages = ArrayList<String?>()
             for (i in 0 until photosBase64.size) {
-                photosBase64[i]?.let { pages.add(EnterpriseDocumentPages(configuration.accountId, it)) }
+                photosBase64[i]?.let { pages.add(it) }
             }
 
             val documents = EnterpriseDocs(configuration.accountId,"IDENTITY_PROOF", pages)

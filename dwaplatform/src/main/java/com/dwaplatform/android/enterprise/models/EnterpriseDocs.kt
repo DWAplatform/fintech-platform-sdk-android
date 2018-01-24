@@ -4,4 +4,4 @@ import com.dwaplatform.android.enterprise.db.documents.DocumentPages
 
 data class EnterpriseDocs(val id: String,
                           val doctype: String?= "IDENTITY_PROOF",
-                          val pages: ArrayList<EnterpriseDocumentPages?>?= null)
+                          val pages: ArrayList<String?>?= null)
