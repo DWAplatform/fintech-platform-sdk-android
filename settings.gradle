@@ -1,1 +1,1 @@
-include ':sample', ':dwaplatform'
+include ':sample', ':fintechplatform'
