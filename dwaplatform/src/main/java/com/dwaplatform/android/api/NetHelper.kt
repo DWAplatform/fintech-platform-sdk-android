@@ -1,6 +1,7 @@
 package com.dwaplatform.android.api
 
 import com.android.volley.DefaultRetryPolicy
+import com.dwaplatform.android.enterprise.models.EnterpriseProfile
 import com.dwaplatform.android.profile.models.UserProfile
 import org.json.JSONObject
 import java.io.UnsupportedEncodingException
@@ -80,5 +81,19 @@ class NetHelper constructor(val hostName: String) {
 
         return UserReplyParserResult(userprofile, null)
 
+    }
+
+    fun searchEnterpriseReplyParser(response: JSONObject) : EnterpriseProfile {
+        return EnterpriseProfile(
+                response.getString("userid"),
+                response.optString("name"),
+                response.optString("telephone"),
+                response.optString("email"),
+                response.optString("enterpriseType"),
+                response.optString("countryHeadquarters"),
+                response.optString("cityOfHeadquarters"),
+                response.optString("addressOfHeadquarters"),
+                response.optString("postalCodeHeadquarters")
+        )
     }
 }

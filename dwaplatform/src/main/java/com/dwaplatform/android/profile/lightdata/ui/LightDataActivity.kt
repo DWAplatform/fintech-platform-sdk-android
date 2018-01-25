@@ -74,8 +74,6 @@ class LightDataActivity : AppCompatActivity(), LightDataContract.View {
         }
 
         abortButton.setOnClickListener { presenter.onAbortClick() }
-
-       // WindowBarColor.update(window, resources)
     }
 
     override fun onBackPressed() {

@@ -109,7 +109,7 @@ class IdentityCardsPresenter @Inject constructor(val view: IdentityCardsContract
 
     fun askDocuments() {
 
-        api.getDocuments(token!!, configuration.userId) {
+        api.getDocuments(configuration.accessToken, configuration.userId) {
             userDocs: ArrayList<UserDocuments?>?, opterror: Exception? ->
 
             if (opterror != null) {

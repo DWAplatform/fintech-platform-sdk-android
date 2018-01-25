@@ -20,9 +20,22 @@
         android:id="@+id/auth"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="136dp"
+        android:layout_marginStart="220dp"
         android:layout_marginTop="16dp"
         android:text="auth token"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/clean"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="60dp"
+        android:layout_marginTop="16dp"
+        android:text="clean keys"
+        app:layout_constraintEnd_toStartOf="@+id/auth"
+        app:layout_constraintHorizontal_bias="0.197"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -101,19 +114,80 @@
         android:id="@+id/iban"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="72dp"
         android:layout_marginTop="32dp"
         android:text="iban"
+        app:layout_constraintStart_toEndOf="@id/financial"
+        app:layout_constraintTop_toBottomOf="@+id/idcards" />
+
+    <Button
+        android:id="@+id/financial"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="12dp"
+        android:text="financial"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/idcards" />
+
+    <Button
+        android:id="@+id/bankfinancial"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="bankfinancial"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/financial" />
 
     <Button
         android:id="@+id/card"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="32dp"
         android:text="card"
         app:layout_constraintStart_toEndOf="@+id/iban"
         app:layout_constraintTop_toBottomOf="@+id/idcards" />
+
+    <Button
+        android:id="@+id/enterpriseinfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="info"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/bankfinancial" />
+
+    <Button
+        android:id="@+id/enterprisecontacts"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="contacts"
+        app:layout_constraintStart_toEndOf="@+id/enterpriseinfo"
+        app:layout_constraintTop_toBottomOf="@+id/bankfinancial" />
+
+    <Button
+        android:id="@+id/enterpriseaddress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="address"
+        app:layout_constraintStart_toEndOf="@+id/enterprisecontacts"
+        app:layout_constraintTop_toBottomOf="@+id/bankfinancial" />
+
+    <Button
+        android:id="@+id/enterprisedocs"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="8dp"
+        android:text="docs"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/enterpriseaddress"
+        app:layout_constraintTop_toBottomOf="@+id/bankfinancial" />
+
 </android.support.constraint.ConstraintLayout>

@@ -11,7 +11,6 @@ import com.dwaplatform.android.models.DataAccount;
 /**
  * Created by ingrid on 14/12/17.
  */
-
 public class PaymentCardBuilder {
 
     public PaymentCardAPIComponent createPaymentCardAPI(Context context, String hostname, boolean sandbox) {

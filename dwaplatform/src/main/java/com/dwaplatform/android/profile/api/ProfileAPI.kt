@@ -24,13 +24,13 @@ class ProfileAPI @Inject constructor(
         val netHelper: NetHelper) {
 
     private val TAG = "ProfileAPI"
-
     /*
+    // pertinenza della registrazione utente
     fun searchUser(telephone: String,
                    phonetoken: String,
                    completion: (UserProfile?, Exception?) -> Unit): IRequest<*>? {
         val encodedTelephone = URLEncoder.encode(telephone, "UTF-8")
-        val url = getURL("/rest/v1/telephonenumbers/$encodedTelephone/user")
+        val url = netHelper.getURL("/rest/v1/telephonenumbers/$encodedTelephone/user")
 
         var request: IRequest<*>?
         try {
@@ -40,7 +40,7 @@ class ProfileAPI @Inject constructor(
             // Request a string response from the provided URL.
             val r = requestProvider.jsonObjectRequest(Request.Method.GET, url, null, hparams,
                     { response ->
-                        val (userprofile, error) = searchUserReplyParser(response)
+                        val (userprofile, error) = netHelper.searchUserReplyParser(response)
                         completion(userprofile, error)
                     })
             {error ->
@@ -51,7 +51,7 @@ class ProfileAPI @Inject constructor(
                 }
 
                 completion(null, error) }
-            r.setIRetryPolicy(defaultpolicy)
+            r.setIRetryPolicy(netHelper.defaultpolicy)
             queue.add(r)
             request = r
         } catch (e: Exception) {
@@ -173,7 +173,7 @@ class ProfileAPI @Inject constructor(
             queue.add(r)
             request = r
         } catch (e: Exception) {
-            log.error(TAG, "phoneCodeVerify", e)
+            log.error(TAG, "profile", e)
             request = null
         }
 

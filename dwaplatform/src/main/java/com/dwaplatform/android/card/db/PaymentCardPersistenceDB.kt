@@ -38,4 +38,11 @@ class PaymentCardPersistenceDB constructor(val paymentCardDB: PaymentCardDB): Pa
     fun deletePaymentCard() {
         paymentCardDB.deletePaymentCard()
     }
+
+    fun load(): PaymentCardItem? {
+        val optcc = paymentCardDB.findPaymentCard()
+        return optcc?.let { cc ->
+            PaymentCardItem(cc.id, cc.numberAlias, cc.expiration, "EUR", null,  cc.state, "token", null)
+        }
+    }
 }

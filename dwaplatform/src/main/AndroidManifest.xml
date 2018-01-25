@@ -19,6 +19,10 @@
         <activity android:name=".payout.ui.PayOutActivity" />
 
         <activity android:name=".iban.ui.IBANActivity" />
+
+        <activity android:name=".account.payinpayoutfinancialdata.ui.PayInPayOutFinancialDataActivity" />
+
+        <activity android:name=".account.financialdata.ui.FinancialDataActivity" />
         <activity
             android:name=".transactions.ui.TransactionsActivity"
             android:theme="@style/noAnimTheme" />
@@ -34,5 +38,13 @@
         <activity android:name=".profile.jobinfo.ui.JobInfoActivity"/>
 
         <activity android:name=".profile.idcards.ui.IdentityCardsActivity" />
+
+        <activity android:name=".enterprise.info.ui.EnterpriseInfoActivity"/>
+
+        <activity android:name=".enterprise.contacts.ui.EnterpriseContactsActivity" />
+
+        <activity android:name=".enterprise.address.ui.EnterpriseAddressActivity" />
+
+        <activity android:name=".enterprise.documents.ui.EnterpriseDocumentsActivity" />
     </application>
 </manifest>

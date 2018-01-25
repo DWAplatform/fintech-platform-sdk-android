@@ -3,6 +3,7 @@ package com.dwaplatform.android
 import android.content.Context
 import com.android.volley.toolbox.Volley
 import com.dwaplatform.android.account.balance.BalanceBuilder
+import com.dwaplatform.android.account.payinpayoutfinancialdata.PayInPayOutFinancialDataBuilder
 import com.dwaplatform.android.api.volley.VolleyRequestProvider
 import com.dwaplatform.android.api.volley.VolleyRequestQueueProvider
 import com.dwaplatform.android.card.PaymentCardBuilder
@@ -12,6 +13,7 @@ import com.dwaplatform.android.card.helpers.JSONHelper
 import com.dwaplatform.android.card.helpers.PaymentCardHelper
 import com.dwaplatform.android.card.helpers.SanityCheck
 import com.dwaplatform.android.db.PlatformDB
+import com.dwaplatform.android.enterprise.EnterpriseBuilder
 import com.dwaplatform.android.iban.IBANBuilder
 import com.dwaplatform.android.log.Log
 import com.dwaplatform.android.payin.PayInBuilder
@@ -120,6 +122,15 @@ class DWAplatform {
         fun buildProfile(): ProfileBuilder {
             return ProfileBuilder()
         }
+
+        fun buildEnterpriseData(): EnterpriseBuilder {
+            return EnterpriseBuilder()
+        }
+
+        fun buildFinancialData(): PayInPayOutFinancialDataBuilder {
+            return PayInPayOutFinancialDataBuilder()
+        }
+
 
     }
 

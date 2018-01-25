@@ -4,6 +4,7 @@ package com.dwaplatform.android.iban.ui;
 import com.dwaplatform.android.iban.api.IbanAPI;
 import com.dwaplatform.android.iban.db.IbanPersistanceDB;
 import com.dwaplatform.android.models.DataAccount;
+import com.dwaplatform.android.profile.api.ProfileAPI;
 import com.dwaplatform.android.profile.db.user.UsersPersistanceDB;
 
 import javax.inject.Singleton;
@@ -25,8 +26,9 @@ public class IBANPresenterModule {
     @Singleton
     @Provides
     IBANContract.Presenter providesIBanPresenter(IbanAPI api,
+                                                 ProfileAPI profileAPI,
                                                  IbanPersistanceDB ibanPersistanceDB,
                                                  UsersPersistanceDB usersPersistanceDB){
-        return new IBANPresenter(view, api, configuration, ibanPersistanceDB, usersPersistanceDB);
+        return new IBANPresenter(view, api, profileAPI, configuration, ibanPersistanceDB, usersPersistanceDB);
     }
 }

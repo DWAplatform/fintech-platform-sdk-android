@@ -31,8 +31,6 @@ class IBANActivity: FragmentActivity(), IBANContract.View{
         setContentView(R.layout.activity_iban)
 
         // TODO refresh user residence data.
-        presenter.refreshConfirmButton()
-
         presenter.initIBAN()
 
         numberText.addTextChangedListener(object : TextWatcher {
@@ -157,6 +155,13 @@ class IBANActivity: FragmentActivity(), IBANContract.View{
 
     override fun getNumberText(): String {
         return numberText.text.toString()
+    }
+
+    override fun enableAllTexts(isEnable: Boolean) {
+        addressText.isEnabled = isEnable
+        zipcodeText.isEnabled = isEnable
+        cityText.isEnabled = isEnable
+        countryofresidenceText.isEnabled = isEnable
     }
 
     override fun showCountryPicker(){
