@@ -31,7 +31,7 @@ class IBANActivity: FragmentActivity(), IBANContract.View{
         setContentView(R.layout.activity_iban)
 
         // TODO refresh user residence data.
-        presenter.initIBAN()
+        presenter.init()
 
         numberText.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(p0: Editable?) {}

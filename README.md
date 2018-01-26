@@ -1,6 +1,6 @@
-DWAplatform Android SDK
+Fintechplatform Android SDK
 =================================================
-DWAplatform is an Android client library to work with DWAplatform.
+Fintech platform is an Android client library.
 
 Installation
 -------------------------------------------------
@@ -9,7 +9,7 @@ Installation
 
 No need to clone the repository or download any files -- just add this line to your app's `build.gradle` inside the `dependencies` section:
 
-    compile 'com.dwaplatform:dwaplatform:1.0.0'
+    implementation 'com.dwaplatform:dwaplatform:1.0.0'
 
 
 License

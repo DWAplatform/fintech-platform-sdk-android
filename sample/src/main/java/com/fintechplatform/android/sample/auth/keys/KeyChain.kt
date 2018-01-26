@@ -7,7 +7,7 @@ import android.content.Context
  */
 class KeyChain constructor(val context: Context){
     operator fun set(key: String, value: String) {
-        val sharedPref = context.getSharedPreferences("com.dwaplatform.android.KeyChain",
+        val sharedPref = context.getSharedPreferences("com.fintechplatform.android.KeyChain",
                 Context.MODE_PRIVATE)
 
         val editor = sharedPref.edit()
@@ -16,7 +16,7 @@ class KeyChain constructor(val context: Context){
     }
 
     operator fun get(key: String): String {
-        val sharedPref = context.getSharedPreferences("com.dwaplatform.android.KeyChain",
+        val sharedPref = context.getSharedPreferences("com.fintechplatform.android.KeyChain",
                 Context.MODE_PRIVATE)
         return sharedPref.getString(key, "")
     }

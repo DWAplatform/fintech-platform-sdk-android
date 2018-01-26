@@ -2,24 +2,49 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
+/*
 ext {
-    bintrayRepo = 'dwaplatform-sdk-android'
-    bintrayName = 'dwaplatform'
+    bintrayRepo = 'WebViewOverlay'
+    bintrayName = 'WebViewOverlay'
 
-    publishedGroupId = 'com.dwaplatform'
-    libraryName = 'dwaplatform'
-    artifact = 'dwaplatform'
+    publishedGroupId = 'org.ptyagicodecamp'
+    libraryName = 'WebViewOverlay'
+    artifact = 'WebViewOverlay'
 
-    libraryDescription = 'DWAplatform SDK Android'
+    libraryDescription = 'A widget to load WebView as an Overlay.'
 
-    siteUrl = 'https://github.com/DWAplatform/dwaplatform-sdk-android'
-    gitUrl = 'https://github.com/DWAplatform/dwaplatform-sdk-android.git'
+    siteUrl = 'https://github.com/ptyagicodecamp/webview-overlay'
+    gitUrl = 'https://github.com/ptyagicodecamp/webview-overlay.git'
+
+    libraryVersion = '1.0.0'
+
+    developerId = 'developerId'
+    developerName = 'Developer Name'
+    developerEmail = 'developer@email.com'
+
+    licenseName = 'The Apache Software License, Version 2.0'
+    licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+    allLicenses = ["Apache-2.0"]
+}
+ */
+ext {
+    bintrayRepo = 'fintechplatform-sdk-android'
+    bintrayName = 'fintechplatform'
+
+    publishedGroupId = 'com.fintechplatform'
+    libraryName = 'fintechplatform'
+    artifact = 'fintechplatform'
+
+    libraryDescription = 'SDK Android for fintech platform'
+
+    siteUrl = 'https://github.com/XXXXXXXXXXXXXX/fintechplatform-sdk-android'
+    gitUrl = 'https://github.com/XXXXXXXXXXXXXX/dwaplatform-sdk-android.git'
 
     libraryVersion = '1.0.0'
 
     developerId = ''
     developerName = 'DWAplatform'
-    developerEmail = 'tiziano.cappellari@dwafintech.com'
+    developerEmail = 'tcappellari@nabertech.com'
 
     licenseName = 'MIT'
     licenseUrl = 'https://raw.githubusercontent.com/DWAplatform/dwaplatform-sdk-android/master/LICENSE'
@@ -42,7 +67,7 @@ android {
         android.compileOptions.targetCompatibility 1.8
         javaCompileOptions {
             annotationProcessorOptions {
-                arguments = [ targetModuleName : 'dwaplatform' ]
+                arguments = [ targetModuleName : 'fintechplatform' ]
             }
         }
 

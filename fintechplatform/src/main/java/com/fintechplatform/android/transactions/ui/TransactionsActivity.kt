@@ -55,7 +55,6 @@ class TransactionsActivity : FragmentActivity(), TransactionsContract.View {
         super.onResume()
 
         val filter = IntentFilter()
-        //filter.addAction(DwapayFirebaseMessagingService.BROADCAST_PAYMENT)
         registerReceiver(notificationReceiver, filter)
 
         presenter.refreshTransactions()

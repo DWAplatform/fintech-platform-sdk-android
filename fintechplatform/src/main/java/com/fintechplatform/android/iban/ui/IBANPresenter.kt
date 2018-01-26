@@ -19,8 +19,38 @@ class IBANPresenter @Inject constructor(val view: IBANContract.View,
                                         val usersPersistanceDB: UsersPersistanceDB): IBANContract.Presenter {
 
     private var countryofresidenceCode: String? = null
-    private var ibanPersistance: Boolean = false
-    private var residentialPersistance: Boolean = false
+
+    private var ibanServerCalled: Boolean = false
+    private var residentialServerCalled: Boolean = false
+
+    override fun init() {
+        loadAllFromDB()
+        refreshAllFromServer()
+        view.setBackwardText()
+    }
+
+    fun loadAllFromDB() {
+        loadResidentialFromDB()
+        loadIBANFromDB()
+    }
+
+    fun loadResidentialFromDB() {
+        usersPersistanceDB.residential(configuration.userId)?.let {
+            view.setAddressText(it.address ?: "")
+            view.setZipcodeText(it.ZIPcode ?: "")
+            view.setCityText(it.city ?: "")
+            view.setCountryofresidenceText(it.countryofresidence ?: "")
+            countryofresidenceCode = it.countryofresidence
+        }
+        refreshConfirmButton()
+    }
+
+    fun loadIBANFromDB() {
+        ibanPersistanceDB.load()?.let {
+            view.setNumberText(it.iban?:"")
+        }
+        refreshConfirmButton()
+    }
 
     override fun refreshConfirmButton() {
         view.setAbortText()
@@ -31,24 +61,6 @@ class IBANPresenter @Inject constructor(val view: IBANContract.View,
                 view.getCountryofresidenceTextLength() > 0
 
         view.confirmButtonEnable(isEnabled)
-    }
-
-    override fun initIBAN() {
-
-        usersPersistanceDB.residential(configuration.userId)?.let {
-            view.setIBANText(calcIBANValue() ?: "")
-            view.setAddressText(it.address ?: "")
-            view.setZipcodeText(it.ZIPcode ?: "")
-            view.setCityText(it.city ?: "")
-            view.setCountryofresidenceText(it.countryofresidence ?: "")
-            countryofresidenceCode = it.countryofresidence
-            residentialPersistance = true
-        }?: initResidential()
-
-        ibanPersistanceDB.load()?.let {
-            view.setNumberText(it.iban?:"")
-            ibanPersistance = true
-        }?: initBankAccount()
     }
 
     override fun onCountryOfResidenceClick() {
@@ -141,10 +153,20 @@ class IBANPresenter @Inject constructor(val view: IBANContract.View,
         return optiban?.iban
     }
 
-    fun initBankAccount() {
-        ibanPersistanceDB.delete()
+
+    fun refreshAllFromServer() {
+
+        refreshFromServerBankAccount()
+        refreshFromServerResidential()
+    }
+
+    fun refreshFromServerBankAccount() {
+        ibanServerCalled = false
+        view.enableAllTexts(false)
 
         api.getbankAccounts(configuration.accessToken, configuration.userId) { optbankaccounts, opterror ->
+
+            ibanServerCalled = true
 
             if (opterror != null) {
                 handleErrors(opterror)
@@ -154,20 +176,27 @@ class IBANPresenter @Inject constructor(val view: IBANContract.View,
                 return@getbankAccounts
             }
             val bankaccounts = optbankaccounts
+            ibanPersistanceDB.delete()
             bankaccounts.forEach { ba ->
                 val iban = BankAccount(ba.bankaccountid, ba.iban, ba.activestate)
                 ibanPersistanceDB.save(iban)
             }
-            ibanPersistance = true
-            refreshData()
+
+            loadIBANFromDB()
+
+            finishServerCalls()
+
         }
     }
 
-    private fun initResidential() {
+    private fun refreshFromServerResidential() {
+        residentialServerCalled = false
         view.enableAllTexts(false)
 
         apiProfile.searchUser(configuration.accessToken,
                 configuration.userId){ profile, exception ->
+
+            residentialServerCalled = true
 
             if (exception != null){
                 handleErrors(exception)
@@ -187,15 +216,17 @@ class IBANPresenter @Inject constructor(val view: IBANContract.View,
 
             usersPersistanceDB.saveResidential(res)
 
-            view.enableAllTexts(true)
 
-            residentialPersistance = true
-            refreshData()
+            loadResidentialFromDB()
 
-            refreshConfirmButton()
-            view.setBackwardText()
+            finishServerCalls()
+
+            //refreshConfirmButton()
+            //view.setBackwardText()
         }
     }
+
+
 
     private fun handleErrors(opterror: Exception) {
         when (opterror) {
@@ -206,10 +237,12 @@ class IBANPresenter @Inject constructor(val view: IBANContract.View,
         }
     }
 
-    private fun refreshData() {
-        if(!ibanPersistance || !residentialPersistance)
+    private fun finishServerCalls() {
+        if(!ibanServerCalled || !residentialServerCalled) {
             return
-        initIBAN()
+        }
+        view.enableAllTexts(true)
+        view.setBackwardText()
     }
 
 }

@@ -11,12 +11,9 @@ import kotlinx.android.synthetic.main.activity_main.*
 class MainActivity : AppCompatActivity() {
 
 
-//    val hostName = "http://10.0.0.7:9000"
-//    val userId = "22863c52-ca29-11e7-94c6-b35ff6d69059"
-//    val accountId = "22b50b86-ca29-11e7-90f2-dbaf50363c38"
     val hostName = "https://api.sandbox.dwaplatform.com"
-    val userId = "60e279ec-918b-11e7-8d55-dbaaa24cc5c2"
-    val accountId = "722c4d74-ba56-11e7-8487-a7b42609a5c1"
+    val userId = "6d53abf6-01b6-11e8-bf67-1beac29e3d21"
+    val accountId = "6e2d548c-01b6-11e8-bf68-47f8630c0ceb"
 
     var token = String()
 

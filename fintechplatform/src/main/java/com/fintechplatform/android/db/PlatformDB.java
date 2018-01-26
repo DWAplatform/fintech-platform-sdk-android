@@ -2,7 +2,7 @@ package com.fintechplatform.android.db;
 
 import com.raizlabs.android.dbflow.annotation.Database;
 import com.raizlabs.android.dbflow.config.FlowManager;
-import com.raizlabs.android.dbflow.config.dwaplatformGeneratedDatabaseHolder;
+import com.raizlabs.android.dbflow.config.fintechplatformGeneratedDatabaseHolder;
 
 /**
  * Created by ingrid on 07/12/17.
@@ -15,9 +15,9 @@ public class PlatformDB {
 
     public static final int VERSION = 1;
 
-    public static final String Module = "dwaplatform";
+    public static final String Module = "fintechplatform";
 
     public static void init() {
-        FlowManager.initModule(dwaplatformGeneratedDatabaseHolder.class);
+        FlowManager.initModule(fintechplatformGeneratedDatabaseHolder.class);
     }
 }

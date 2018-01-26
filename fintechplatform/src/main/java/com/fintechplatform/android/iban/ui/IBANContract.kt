@@ -40,7 +40,7 @@ interface IBANContract {
 
     interface Presenter{
         fun refreshConfirmButton()
-        fun initIBAN()
+        fun init()
 
         fun onCountryOfResidenceClick()
         fun onCountrySelected(name: String, code: String)
