@@ -19,9 +19,9 @@
     <color name="backgroundcolor">#cecece</color>
 
     <color name="headerbackgroundcolor">#5cc33f</color>
-    <color name="dwapaycolor">#5cc33f</color>
-    <color name="dwapaysandboxcolor">#f4ba16</color>
-    <color name="dwapaydeveloper">#c5cae9</color>
+    <color name="themecolor">#5cc33f</color>
+    <color name="sandboxcolor">#f4ba16</color>
+    <color name="developercolor">#c5cae9</color>
     <color name="successcolor">#5cc33f</color>
 
     <color name="backgroundcolorWhite">#FFFFFF</color>

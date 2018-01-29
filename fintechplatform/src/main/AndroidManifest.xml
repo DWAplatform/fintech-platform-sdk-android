@@ -5,8 +5,6 @@
 
 
     <application>
-        <!--android:theme="@style/Dwaplatformtheme" -->
-
         <activity
             android:name=".payin.PayInActivity"
             android:windowSoftInputMode="stateVisible" />

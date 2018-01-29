@@ -33,6 +33,7 @@ class MainActivity : AppCompatActivity() {
 
         clean.setOnClickListener {
             KeyChain(this)["accessToken"] = ""
+            this.onResume()
         }
 
         auth.setOnClickListener {

@@ -27,17 +27,23 @@ class IdentityCardsPresenter @Inject constructor(val view: IdentityCardsContract
     override fun initializate() {
         view.checkCameraPermission()
 
-        dbDocumentsHelper.getDocuments()?.let {
+        loadFromDB()
+        reloadFromServer()
+
+        idempotencyIDcard = UUID.randomUUID().toString()
+    }
+
+    private fun loadFromDB(): Boolean {
+        return dbDocumentsHelper.getDocuments()?.let {
 
             it.pages?.let { docs ->
                 photosBase64 = docs
                 photosBase64[0]?.let { view.setFrontImage(imageHelper.bitmapImageView(it)) }
                 photosBase64[1]?.let { view.setBackImage(imageHelper.bitmapImageView(it)) }
-            }
+                return true
+            }?: return false
 
-        }?: askDocuments()
-
-        idempotencyIDcard = UUID.randomUUID().toString()
+        }?: false
     }
 
     override fun onRefresh() {
@@ -107,7 +113,7 @@ class IdentityCardsPresenter @Inject constructor(val view: IdentityCardsContract
         this.index = index
     }
 
-    fun askDocuments() {
+    fun reloadFromServer() {
 
         api.getDocuments(configuration.accessToken, configuration.userId) {
             userDocs: ArrayList<UserDocuments?>?, opterror: Exception? ->
@@ -127,7 +133,7 @@ class IdentityCardsPresenter @Inject constructor(val view: IdentityCardsContract
                 }
             }
 
-            initializate()
+            loadFromDB()
         }
     }
 

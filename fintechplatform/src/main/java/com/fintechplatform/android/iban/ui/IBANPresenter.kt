@@ -220,9 +220,6 @@ class IBANPresenter @Inject constructor(val view: IBANContract.View,
             loadResidentialFromDB()
 
             finishServerCalls()
-
-            //refreshConfirmButton()
-            //view.setBackwardText()
         }
     }
 
@@ -241,6 +238,7 @@ class IBANPresenter @Inject constructor(val view: IBANContract.View,
         if(!ibanServerCalled || !residentialServerCalled) {
             return
         }
+        refreshConfirmButton()
         view.enableAllTexts(true)
         view.setBackwardText()
     }

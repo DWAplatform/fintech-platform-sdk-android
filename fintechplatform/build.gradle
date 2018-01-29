@@ -1,35 +1,12 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'com.jfrog.bintray'
 
-/*
 ext {
-    bintrayRepo = 'WebViewOverlay'
-    bintrayName = 'WebViewOverlay'
-
-    publishedGroupId = 'org.ptyagicodecamp'
-    libraryName = 'WebViewOverlay'
-    artifact = 'WebViewOverlay'
-
-    libraryDescription = 'A widget to load WebView as an Overlay.'
-
-    siteUrl = 'https://github.com/ptyagicodecamp/webview-overlay'
-    gitUrl = 'https://github.com/ptyagicodecamp/webview-overlay.git'
-
-    libraryVersion = '1.0.0'
-
-    developerId = 'developerId'
-    developerName = 'Developer Name'
-    developerEmail = 'developer@email.com'
-
-    licenseName = 'The Apache Software License, Version 2.0'
-    licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-    allLicenses = ["Apache-2.0"]
-}
- */
-ext {
-    bintrayRepo = 'fintechplatform-sdk-android'
+    bintrayRepo = 'fintech-android-sdk'
     bintrayName = 'fintechplatform'
+    bintray.pkg.userOrg = 'nabertech'
 
     publishedGroupId = 'com.fintechplatform'
     libraryName = 'fintechplatform'
@@ -37,17 +14,17 @@ ext {
 
     libraryDescription = 'SDK Android for fintech platform'
 
-    siteUrl = 'https://github.com/XXXXXXXXXXXXXX/fintechplatform-sdk-android'
-    gitUrl = 'https://github.com/XXXXXXXXXXXXXXdwaplatform-sdk-android.git'
+    siteUrl = 'https://github.com/nabertech/fintech-android-sdk'
+    gitUrl = 'https://github.com/nabertech/fintech-android-sdk.git'
 
-    libraryVersion = '1.0.0'
+    libraryVersion = '1.0.1'
 
-    developerId = ''
-    developerName = 'FintechPlatform'
+    developerId = 'developerId'
+    developerName = 'nabertech'
     developerEmail = 'tcappellari@nabertech.com'
 
     licenseName = 'MIT'
-    licenseUrl = 'https://raw.githubusercontent.com/FintechPlatform/dwaplatform-sdk-android/master/LICENSE'
+    licenseUrl = 'https://raw.githubusercontent.com/nabertech/fintech-android-sdk/master/LICENSE'
     allLicenses = ["MIT"]
 }
 
@@ -71,6 +48,10 @@ android {
             }
         }
 
+    }
+
+    lintOptions {
+        abortOnError false
     }
 
     buildTypes {
@@ -101,7 +82,8 @@ dependencies {
     })
 
     implementation 'com.android.volley:volley:1.0.0'
-    compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
 
     implementation 'com.github.mukeshsolanki:country-picker-android:1.1.9'
@@ -110,11 +92,11 @@ dependencies {
 
 dependencies {
     // Optional -- Mockito framework
-    testCompile 'org.mockito:mockito-core:2.8.47'
-    testCompile "com.nhaarman:mockito-kotlin:1.5.0"
+    testImplementation 'org.mockito:mockito-core:2.8.47'
+    testImplementation "com.nhaarman:mockito-kotlin:1.5.0"
 
-    androidTestCompile 'org.mockito:mockito-core:2.8.47'
-    androidTestCompile 'org.mockito:mockito-android:2.8.47'
+    androidTestImplementation 'org.mockito:mockito-core:2.8.47'
+    androidTestImplementation 'org.mockito:mockito-android:2.8.47'
 
     androidTestImplementation 'org.mockito:mockito-core:2.8.47'
     androidTestImplementation "com.nhaarman:mockito-kotlin:1.5.0"

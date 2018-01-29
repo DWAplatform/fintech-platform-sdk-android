@@ -24,17 +24,22 @@ class EnterpriseDocumentsPresenter constructor(val view: EnterpriseDocumentsCont
     override fun initializate() {
         view.checkCameraPermission()
 
-        dbDocuments.getDocuments(configuration.accountId)?.let {
+        if(!loadFromDB()) {
+            reloadFromServer()
+        }
+        idempotencyIDcard = UUID.randomUUID().toString()
+    }
+
+    private fun loadFromDB(): Boolean {
+        return dbDocuments.getDocuments(configuration.accountId)?.let {
             it.pages?.let { pages ->
                 for (i in 0 until pages.size) {
                     photosBase64.add(pages[i])
                 }
                 view.setNumberPages(photosBase64.size)
-            }
-
-        }?: askDocuments()
-
-        idempotencyIDcard = UUID.randomUUID().toString()
+                return true
+            }?: return false
+        }?: false
     }
 
     override fun onRefresh() {
@@ -103,7 +108,7 @@ class EnterpriseDocumentsPresenter constructor(val view: EnterpriseDocumentsCont
         view.goToCamera()
     }
 
-    fun askDocuments() {
+    fun reloadFromServer() {
 
         api.getDocuments(configuration.accessToken, configuration.userId) {
             etpsDocs: ArrayList<EnterpriseDocs?>?, opterror: Exception? ->
@@ -122,8 +127,7 @@ class EnterpriseDocumentsPresenter constructor(val view: EnterpriseDocumentsCont
                     dbDocuments.saveDocuments(it)
                 }
             }
-
-            initializate()
+            loadFromDB()
         }
     }
 

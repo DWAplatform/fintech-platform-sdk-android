@@ -13,9 +13,6 @@ import org.json.JSONException
 import org.json.JSONObject
 import java.util.*
 
-/**
- * Created by ingrid on 21/12/17.
- */
 class PaymentCardAPI constructor(internal val hostName: String,
                                  internal val queue: IRequestQueue,
                                  internal val requestProvider: IRequestProvider,
@@ -51,7 +48,7 @@ class PaymentCardAPI constructor(internal val hostName: String,
                          exp: String, cvxValue: String,
                          completion: (PaymentCardItem?, Exception?) -> Unit): IRequest<*>? {
 
-        log.debug("DWAPAY", "createCreditCard")
+        log.debug("FintechPlatform", "createCreditCard")
 
         val cardnumber: String
         val expiration: String
@@ -79,7 +76,7 @@ class PaymentCardAPI constructor(internal val hostName: String,
                 token, numberalias, expiration,
                 object : CardRegistrationCallback {
                     override fun onSuccess(cardRegistration: CardRegistration) {
-                        log.debug("DWAPAY", "on success createCreditCard")
+                        log.debug("FintechPlatform", "on success createCreditCard")
 
                         getCardRegistrationData(userId,
                                 accountId,
@@ -104,7 +101,7 @@ class PaymentCardAPI constructor(internal val hostName: String,
                                              accountId: String, token: String, numberalias: String, expiration: String,
                                              callback: CardRegistrationCallback): IRequest<*>? {
 
-        log.debug("DWAPAY", "createCreditCardRegistration")
+        log.debug("FintechPlatform", "createCreditCardRegistration")
         val url = netHelper.getURL("/rest/v1/" + userId + "/fin/creditcards")
 
         var request: IRequest<*>?
@@ -116,7 +113,7 @@ class PaymentCardAPI constructor(internal val hostName: String,
             request = requestProvider.jsonObjectRequest(Request.Method.POST, url, jo,
                     netHelper.authorizationToken(token),
                     { response ->
-                        log.debug("DWAPAY", "on response createCreditCardRegistration")
+                        log.debug("FintechPlatform", "on response createCreditCardRegistration")
                         try {
                             //creditcardid
                             val creditcardid = response.getString("id")
@@ -169,7 +166,7 @@ class PaymentCardAPI constructor(internal val hostName: String,
                                         completion: (PaymentCardItem?, Exception?) -> Unit)
             : IRequest<*> {
 
-        log.debug("DWAPAY", "getCardRegistrationData")
+        log.debug("FintechPlatform", "getCardRegistrationData")
         val url = cardRegistration.url
 
         val params = HashMap<String, String>()
@@ -184,7 +181,7 @@ class PaymentCardAPI constructor(internal val hostName: String,
 
         val request = requestProvider.stringRequest(Request.Method.POST, url, params, header,
                 { response ->
-                    log.debug("DWAPAY", "on response getCardRegistrationData")
+                    log.debug("FintechPlatform", "on response getCardRegistrationData")
                     sendCardResponseString(userId, accountId, token, response, cardRegistration, completion)
                 }) { error ->
             val status = if (error.networkResponse != null) error.networkResponse.statusCode
@@ -209,7 +206,7 @@ class PaymentCardAPI constructor(internal val hostName: String,
                                        cardRegistration: CardRegistration,
                                        completion: (PaymentCardItem?, Exception?) -> Unit)
             : IRequest<*>? {
-        log.debug("DWAPAY", "sendCardResponseString")
+        log.debug("FintechPlatform", "sendCardResponseString")
         val url = netHelper.getURL("/rest/v1/" + userId + "/fin/creditcards/" +
                 cardRegistration.cardRegistrationId)
 
@@ -221,7 +218,7 @@ class PaymentCardAPI constructor(internal val hostName: String,
             request = requestProvider.jsonObjectRequest(Request.Method.PUT, url, jo,
                     netHelper.authorizationToken(token),
                     { response ->
-                        log.debug("DWAPAY", "on response sendCardResponseString")
+                        log.debug("FintechPlatform", "on response sendCardResponseString")
                         try {
                             //creditcardid
                             val creditcardid = response.getString("creditcardid")
