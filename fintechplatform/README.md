@@ -1,6 +1,6 @@
-DWAplatform Android SDK
+Fintech platform Android SDK
 =================================================
-DWAplatform is an Android client library to work with DWAplatform.
+Fintech platform is an Android client library.
 
 Installation
 -------------------------------------------------

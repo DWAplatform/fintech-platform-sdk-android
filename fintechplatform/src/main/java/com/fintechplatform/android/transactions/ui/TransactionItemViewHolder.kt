@@ -51,19 +51,19 @@ class TransactionItemViewHolder
     override fun setPositiveAmount(amount: String) {
         itemView.listitem_amount.text = amount
         itemView.listitem_amount.setTextColor(
-                ContextCompat.getColor(itemView.context, R.color.dwalogoMoneyGreen))
+                ContextCompat.getColor(itemView.context, R.color.moneyGreen))
     }
 
     override fun setNegativeAmount(amount: String) {
         itemView.listitem_amount.text = amount
         itemView.listitem_amount.setTextColor(
-                ContextCompat.getColor(itemView.context, R.color.dwalogoMoneyRed))
+                ContextCompat.getColor(itemView.context, R.color.moneyRed))
     }
 
     override fun setErrorAmount(amount: String) {
         itemView.listitem_amount.text = amount
         itemView.listitem_amount.setTextColor(
-                ContextCompat.getColor(itemView.context, R.color.dwaGrayLight))
+                ContextCompat.getColor(itemView.context, R.color.grayLight))
     }
 
     override fun showError() {

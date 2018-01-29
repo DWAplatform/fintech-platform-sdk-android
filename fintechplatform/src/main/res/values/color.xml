@@ -5,10 +5,10 @@
     <color name="colorAccent">#FF4081</color>
     <color name="colorBagroungGray">#D0D0D0</color>
 
-    <color name="dwalogoMoneyGreen">#1E831C</color>
+    <color name="moneyGreen">#1E831C</color>
     <color name="registration_regular">#7ace63</color>
-    <color name="dwalogoMoneyRed">#FF0000</color>
-    <color name="dwaGrayLight">#D0CECE</color>
+    <color name="moneyRed">#FF0000</color>
+    <color name="grayLight">#D0CECE</color>
     <color name="lowSandbox">#edd857</color>
     <color name="middleSandbox">#ffcd36</color>
 

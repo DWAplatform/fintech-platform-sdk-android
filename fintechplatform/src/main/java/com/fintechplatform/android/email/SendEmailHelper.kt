@@ -10,7 +10,7 @@ open class SendEmailHelper @Inject constructor(val sendemail: SendEmailIntentHel
 
     data class EmailMessage(val subject: String, val body: String)
 
-    val emailsupport = "dwapay@dwafintech.com"
+    val emailsupport = "tcappellari@nabertech.com"
 
     open fun sendEmail(context: Context, emailmsg: EmailMessage): Boolean {
         val htmlbody = Html.fromHtml(emailmsg.body).toString()
@@ -31,7 +31,7 @@ open class SendEmailHelper @Inject constructor(val sendemail: SendEmailIntentHel
 
     fun transactionHelp(transaction: TransactionItem): EmailMessage {
         val subject = "Segnalazione problema transazione"
-        val body = "<p>Buongiorno DWApay,</p>" +
+        val body = "<p>Buongiorno Fintech platform,</p>" +
                 "<p>Vorrei avere informazioni relative " +
                 "alla transazione ${transaction.id} del ${transaction.twhen}</p>" +
                 "<p>...</p>" +
@@ -45,8 +45,8 @@ open class SendEmailHelper @Inject constructor(val sendemail: SendEmailIntentHel
 
     fun genericHelp(): EmailMessage {
         val subject = "Richiesta Informazioni"
-        val body = "<p>Buongiorno DWApay,</p>" +
-                "<p>Vorrei alcune informazioni riguardanti la vostra app DWApay</p>" +
+        val body = "<p>Buongiorno Fintech Platform,</p>" +
+                "<p>Vorrei alcune informazioni riguardanti la vostra app</p>" +
                 "<p>...</p>" +
                 "<p>Cordiali saluti</p>"
         return EmailMessage(subject, body)

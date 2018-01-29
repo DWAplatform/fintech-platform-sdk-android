@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">DWApay</string>
+    <string name="app_name">Fintech Platform</string>
 
     <!-- Deprecated -->
     <string name="deprecated_continua">Continua</string>
@@ -49,7 +49,7 @@
 
     <string name="welcome_startbutton">Accedi</string>
     <string name="welcome_loginbutton">or click here to sign in</string>
-    <string name="welcome_footer">DWA FinTech LTD - Londra</string>
+    <string name="welcome_footer">FinTech LTD - Londra</string>
     <string name="title_activity_main2">Main2Activity</string>
 
     <string name="payin">Ricarica conto</string>
@@ -70,7 +70,7 @@
     <string name="wait_payout">Attendere, prelievo in corso</string>
     <string name="wait_transfer">Attendere, trasferimento corso</string>
 
-    <string name="welcome_second_title">Benvenuto in DWAPay</string>
+    <string name="welcome_second_title">Benvenuto in Fintech Platform</string>
 
     <string name="place_holder_full">Lorem ipsum dolor sit amet, consectetur adipisci elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur. Quis aute iure reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint obcaecat cupiditat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</string>
 
@@ -89,7 +89,7 @@
     <string name="send_money_title">Invia denaro</string>
     <string name="send_money_message_hint">Inserisci un messaggio</string>
 
-    <string name="signin">Accesso a DWAPay</string>
+    <string name="signin">Accesso alla piattaforma fintech</string>
 
     <string name="mycards">Dati finanziari</string>
 
@@ -101,8 +101,8 @@
     <string name="fabpayout">Prelievo</string>
     <string name="fabpay">Paga</string>
 
-    <string name="scanqr">DWApay</string>
-    <string name="dwapay">DWApay</string>
+    <string name="scanqr"></string>
+    <string name="dwapay"></string>
 
     <string name="exit">Stai per uscire dall\'app</string>
     <string name="areyousure">Sei sicuro?</string>
@@ -110,7 +110,7 @@
     <string name="yes">Si</string>
     <string name="no">No</string>
 
-    <string name="payment_notification_title">DWAPay Payment</string>
+    <string name="payment_notification_title">Payment</string>
 
     <string name="abort">Annulla</string>
 
@@ -144,8 +144,6 @@
 
     <string name="smswait_resend">reinvia SMS</string>
     <string name="smswait_resend_toast">Invio sms in corso</string>
-    <string name="smswait_contact">Hai bisogno di aiuto? <![CDATA[<a href="http://www.dwapay.com/">CONTATTACI</a>]]></string>
-
     <string name="signup_telephone_title">Numero Telefonico</string>
     <string name="signup_telephone_prefix">Pref</string>
     <string name="signup_telephone">Numero di telefono</string>
@@ -157,8 +155,6 @@
     <string name="signup_invitationCodeText">Codice invito</string>
 
     <string name="signup_email_title">Email</string>
-
-    <string name="signup_privacyandcontract_title">Iscriviti a DWApay</string>
 
     <string name="signup_light_data">Dati Anagrafici</string>
     <string name="signup_light_data_name">Nome</string>
@@ -179,43 +175,6 @@
     <string name="navheader_abort">Annulla</string>
 
     <string name="transfer_message">Messaggio</string>
-
-
-    <string name="signup_welcome">Iscriviti a DWApay</string>
-    <string name="signup_welcome_text">In 4 semplici passi ti guideremo alla creazione del tuo account DWApay. </string>
-    <string name="signup_continue">avanti</string>
-
-    <string name="signup_privacy">Accettazione PRIVACY</string>
-    <string name="signup_privacy_title">PUNTI ESSENZIALI\nINFORMATIVA PRIVACY</string>>
-    <string name="signup_privacy_text"><![CDATA[
-    <b>1.</b>   I tuoi dati sono utilizzati solo dai soggetti necessari ad erogare il servizio, non sono condivisi con terzi estranei<br>
-        In particolare il tuo numero di telefono non sarà usato per messaggi marketing.<br>
-    <b>2.</b>   ...<br>
-    <b>3.</b>   ...]]></string>
-
-    <string name="signup_privacy_footer">Accetta l\'<![CDATA[<a href="http://www.dwapay.com/">informativa completa</a>]]></string>
-    <string name="signup_privacy_accept">Accetta le <![CDATA[<a href="https://www.dwaplatform.com/privacy.html">norme sulla privacy</a>]]></string>
-
-    <string name="signup_contract">Accettazione CONTRATTO</string>
-    <string name="signup_contract_title">PUNTI ESSENZIALI TERMINI E\nCONDIZIONI DI UTILIZZO</string>
-    >
-
-    <string name="signup_contract_text"><![CDATA[
-        <b>1.</b>   Termini e condizioni di utilizzo servizi di pagamento DWApay<br>
-        <b>2.</b>   Durata ...<br>
-        <b>3.</b>   Diritto di recesso ...<br>
-        <b>4.</b>   Regole per l\'uso di moneta elettronica erogata da <font color="red"><b>Mangopay</b></b> ...]]></string>
-    <string name="signup_contract_footer"><![CDATA[<a href="http://www.dwapay.com/">DWApay termini e condizioni</a>]]></string>
-    <string name="signup_contract_accept">Accetta le <![CDATA[<a href="https://www.dwaplatform.com/conditions.html">condizioni di utilizzo</a>]]></string>
-
-    <string name="signup_documents">Iscriviti a DWApay</string>
-    <string name="signup_documents_text"><![CDATA[In base alle norme europee sulla
-        sicurezza finanziaria ti chiediamo
-        la foto dei seguenti documenti:<br><br>
-        <b>1. Carta identità  valida</b><br><br>
-        <b>2. Tessera sanitaria per codice  fiscale.</b><br><br><br>
-        Seguirà la richiesta dei tuoi  dati
-        anagrafici e di residenza.]]></string>
 
     <string name="signup_identitycard">Carta identità</string>
     <string name="signup_identitycard_front">FRONTE - Carta identità</string>

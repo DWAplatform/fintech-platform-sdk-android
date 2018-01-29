@@ -38,16 +38,16 @@ ext {
     libraryDescription = 'SDK Android for fintech platform'
 
     siteUrl = 'https://github.com/XXXXXXXXXXXXXX/fintechplatform-sdk-android'
-    gitUrl = 'https://github.com/XXXXXXXXXXXXXX/dwaplatform-sdk-android.git'
+    gitUrl = 'https://github.com/XXXXXXXXXXXXXXdwaplatform-sdk-android.git'
 
     libraryVersion = '1.0.0'
 
     developerId = ''
-    developerName = 'DWAplatform'
+    developerName = 'FintechPlatform'
     developerEmail = 'tcappellari@nabertech.com'
 
     licenseName = 'MIT'
-    licenseUrl = 'https://raw.githubusercontent.com/DWAplatform/dwaplatform-sdk-android/master/LICENSE'
+    licenseUrl = 'https://raw.githubusercontent.com/FintechPlatform/dwaplatform-sdk-android/master/LICENSE'
     allLicenses = ["MIT"]
 }
 
@@ -100,7 +100,7 @@ dependencies {
         exclude module: 'recyclerview-v7'
     })
 
-    compile 'com.android.volley:volley:1.0.0'
+    implementation 'com.android.volley:volley:1.0.0'
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
 

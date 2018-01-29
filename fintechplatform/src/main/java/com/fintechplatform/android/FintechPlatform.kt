@@ -25,16 +25,16 @@ import com.raizlabs.android.dbflow.config.FlowManager
 
 
 /**
- * DWAplatform Main Class.
- * Obtain all DWAplatform objects using this class.
+ * FintechPlatform Main Class.
+ * Obtain all FintechPlatform objects using this class.
  * Notice: before use any factory method you have to call initialize.
  *
  * Usage Example:
  *
-    val config = DWAplatform.Configuration("DWAPLATFORM_SANDBOX_HOSTNAME", true)
-    DWAplatform.initialize(config)
+    val config = FintechPlatform.Configuration("DWAPLATFORM_SANDBOX_HOSTNAME", true)
+    FintechPlatform.initialize(config)
 
-    val cardAPI = DWAplatform.getCardAPI(context)
+    val cardAPI = FintechPlatform.getCardAPI(context)
 
     //get token from POST call:
     // rest/v1/:clientId/users/:userId/accounts/:accountId/cards
@@ -54,14 +54,14 @@ import com.raizlabs.android.dbflow.config.FlowManager
     }
  *
  */
-class DWAplatform {
+class FintechPlatform {
 
     companion object {
         @Volatile private var cardAPIInstance: ClientCardAPI? = null
         //@Volatile public var payinInstance: PayIn? = null
 
         /**
-         * Initialize DWAplatform
+         * Initialize FintechPlatform
          */
         fun initialize(context: Context) {
             FlowManager.init(context)

@@ -26,7 +26,7 @@ Report bugs or suggest features using
 Sample usage in Kotlin
 -------------------------------------------------
 ```kotlin
-    import com.fintechplatform.android.DWAplatform
+    import com.fintechplatform.android.FintechPlatform
     import com.fintechplatform.android.card.PaymentCardAPI
     import com.fintechplatform.android.card.models.PaymentCard
 

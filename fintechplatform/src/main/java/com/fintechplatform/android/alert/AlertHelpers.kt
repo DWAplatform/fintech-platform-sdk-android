@@ -90,7 +90,7 @@ open class AlertHelpers {
 
     fun qrCodeError(context: Context, handlerOk: (DialogInterface, Int) -> Unit){
         val builder = android.support.v7.app.AlertDialog.Builder(context)
-                .setTitle("Verificare che il qrcode sia stato emesso da DWApay")
+                .setTitle("Verificare che il qrcode sia stato emesso da Fintech Platform")
                 // FIXME commented due to sdk refactor
                 // .setIcon(R.drawable.ic_warning_black_24dp)
                 .setPositiveButton("OK",

@@ -16,7 +16,7 @@ import java.nio.charset.Charset
 import java.util.*
 
 /**
- * DWAplatform rest API communication class.
+ * FintechPlatform rest API communication class.
  * Please do not use directly, use ClientCardAPI facade instead.
  */
 open class ClientCardRestAPI constructor(

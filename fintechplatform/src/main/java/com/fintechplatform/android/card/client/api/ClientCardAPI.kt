@@ -8,8 +8,8 @@ import java.lang.Exception
 import javax.inject.Inject
 
 /**
- * Main class for API communication with DWAplatform to handle Cards.
- * Please use DWAplatform to get PaymentCard API instance; do not create directly
+ * Main class for API communication with FintechPlatform to handle Cards.
+ * Please use FintechPlatform to get PaymentCard API instance; do not create directly
  *
  */
 open class ClientCardAPI @Inject constructor(
@@ -18,7 +18,7 @@ open class ClientCardAPI @Inject constructor(
         internal val paymentCardHelper: PaymentCardHelper) {
 
     /**
-     * Represent the error send as reply from DWAplatform API.
+     * Represent the error send as reply from FintechPlatform API.
      *
      * @property json error as json array, can be null in case of json parsing error
      * @property throwable error returned from the underlying HTTP library
@@ -26,7 +26,7 @@ open class ClientCardAPI @Inject constructor(
     data class APIReplyError(val json: JSONArray?, val throwable: Throwable) : Exception(throwable)
 
     /**
-     * Represent the error during DWAplatform API response parse.
+     * Represent the error during FintechPlatform API response parse.
      *
      * @property throwable error returned from parser
      */
@@ -37,7 +37,7 @@ open class ClientCardAPI @Inject constructor(
     /**
      *  Register a PaymentCard. Use this method to register a user card and PLEASE DO NOT save card information on your own client or server side.
      *
-     *  @property token token returned from DWAplatform to the create card request.
+     *  @property token token returned from FintechPlatform to the create card request.
      *  @property cardNumber 16 digits user card number, without spaces or dashes
      *  @property expiration card expiration date in MMYY format
      *  @property cxv  3 digit cxv card number
