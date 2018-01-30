@@ -303,5 +303,6 @@
     <string name="profile_header">Profilo</string>
     <string name="no_updates">Non è possibile aggiornare le informazioni</string>
     <string name="choose_salary">Seleziona la tua retribuzione</string>
+    <string name="title_activity_accountlist">AccountListActivity</string>
 
 </resources>

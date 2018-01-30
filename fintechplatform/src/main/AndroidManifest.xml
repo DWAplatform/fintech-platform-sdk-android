@@ -43,5 +43,7 @@
         <activity android:name=".enterprise.address.ui.EnterpriseAddressActivity" />
 
         <activity android:name=".enterprise.documents.ui.EnterpriseDocumentsActivity" />
+
+        <activity android:name=".account.list.ui.AccountlistActivity" />
     </application>
 </manifest>
