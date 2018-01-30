@@ -23,37 +23,6 @@ import com.fintechplatform.android.secure3d.Secure3DBuilder
 import com.fintechplatform.android.transactions.TransactionsBuilder
 import com.raizlabs.android.dbflow.config.FlowManager
 
-
-/**
- * FintechPlatform Main Class.
- * Obtain all FintechPlatform objects using this class.
- * Notice: before use any factory method you have to call initialize.
- *
- * Usage Example:
- *
-    val config = FintechPlatform.Configuration("DWAPLATFORM_SANDBOX_HOSTNAME", true)
-    FintechPlatform.initialize(config)
-
-    val cardAPI = FintechPlatform.getCardAPI(context)
-
-    //get token from POST call:
-    // rest/v1/:clientId/users/:userId/accounts/:accountId/cards
-    val token = "XXXXXXXXYYYYZZZZKKKKWWWWWWWWWWWWTTTTTTTFFFFFFF...."
-    val cardNumber = "1234567812345678"
-    val expiration = "1122"
-    val cxv = "123"
-
-    cardAPI.registerCard(token, cardNumber, expiration, cxv) { card, e ->
-        if (e != null) {
-            Log.e("Sample", e.message)
-            return@registerCard
-        }
-        card?.let {
-            Log.d("Sample", "card id: $card.id")
-        }
-    }
- *
- */
 class FintechPlatform {
 
     companion object {
