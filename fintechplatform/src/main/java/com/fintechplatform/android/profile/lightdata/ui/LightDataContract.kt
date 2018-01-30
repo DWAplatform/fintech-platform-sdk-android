@@ -1,8 +1,5 @@
 package com.fintechplatform.android.profile.lightdata.ui
 
-/**
- * Created by ingrid on 09/01/18.
- */
 interface LightDataContract {
     interface View {
         fun setNameText(name: String)

@@ -1,8 +1,5 @@
 package com.fintechplatform.android.money
 
-/**
- * Created by ingrid on 06/12/17.
- */
 open class FeeHelper {
 
     open fun calcPayInFee(amount: Long): Long {

@@ -1,8 +1,5 @@
 package com.fintechplatform.android.iban.ui
 
-/**
- * Created by ingrid on 13/09/17.
- */
 interface IBANContract {
     interface View{
         fun confirmButtonEnable(isEnable: Boolean)

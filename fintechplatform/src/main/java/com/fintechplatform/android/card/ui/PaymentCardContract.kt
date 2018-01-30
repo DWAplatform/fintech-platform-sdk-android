@@ -1,8 +1,5 @@
 package com.fintechplatform.android.card.ui
 
-/**
- * Created by ingrid on 13/12/17.
- */
 interface PaymentCardContract {
     interface View {
         fun getNumberTextLength(): Int

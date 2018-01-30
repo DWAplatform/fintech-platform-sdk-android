@@ -7,9 +7,6 @@ import android.os.Bundle
 import android.support.v4.app.DialogFragment
 import com.fintechplatform.android.R
 
-/**
- * Created by ingrid on 09/01/18.
- */
 class IncomePickerDialog: DialogFragment() {
 
     interface OnPickSalaryIncome {

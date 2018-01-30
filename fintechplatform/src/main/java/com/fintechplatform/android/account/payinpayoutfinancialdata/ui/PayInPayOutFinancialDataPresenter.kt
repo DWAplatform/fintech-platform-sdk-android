@@ -9,9 +9,6 @@ import com.fintechplatform.android.iban.models.BankAccount
 import com.fintechplatform.android.models.DataAccount
 import javax.inject.Inject
 
-/**
- * Created by ingrid on 18/01/18.
- */
 class PayInPayOutFinancialDataPresenter @Inject constructor(val view: PayInPayOutFinancialDataContract.View,
                                                             val apiCard: PaymentCardAPI,
                                                             val apiBankAccount: IbanAPI,

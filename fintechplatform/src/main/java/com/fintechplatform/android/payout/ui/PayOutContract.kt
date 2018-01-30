@@ -1,8 +1,5 @@
 package com.fintechplatform.android.payout.ui
 
-/**
- * Created by ingrid on 11/09/17.
- */
 interface PayOutContract {
     interface View{
         fun getAmount():String

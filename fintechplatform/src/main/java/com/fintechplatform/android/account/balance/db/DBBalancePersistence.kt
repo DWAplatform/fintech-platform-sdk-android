@@ -4,9 +4,6 @@ import com.fintechplatform.android.account.balance.helpers.BalancePersistence
 import com.fintechplatform.android.account.balance.models.BalanceItem
 import com.fintechplatform.android.money.Money
 
-/**
- * Created by ingrid on 07/12/17.
- */
 class DBBalancePersistence constructor(val dbBalance: DBBalance): BalancePersistence {
 
     override fun getBalanceItem(accountId: String): BalanceItem? {

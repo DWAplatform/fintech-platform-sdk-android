@@ -8,10 +8,6 @@ import com.fintechplatform.android.api.NetModule;
 import com.fintechplatform.android.card.api.PaymentCardAPIModule;
 import com.fintechplatform.android.models.DataAccount;
 
-/**
- * Created by ingrid on 13/12/17.
- */
-
 public class PaymentCardUI {
 
     private String hostname;

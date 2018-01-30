@@ -8,10 +8,6 @@ import com.fintechplatform.android.api.NetModule;
 import com.fintechplatform.android.models.DataAccount;
 import com.fintechplatform.android.profile.api.ProfileAPIModule;
 
-/**
- * Created by ingrid on 09/01/18.
- */
-
 public class JobInfoUI {
 
     private String hostName;

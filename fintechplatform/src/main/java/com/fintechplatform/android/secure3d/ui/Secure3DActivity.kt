@@ -10,9 +10,6 @@ import com.fintechplatform.android.R
 import kotlinx.android.synthetic.main.activity_secure3_d.*
 import javax.inject.Inject
 
-/**
- * Created by ingrid on 12/12/17.
- */
 class Secure3DActivity: AppCompatActivity(), Secure3DContract.View {
 
     @Inject lateinit var presenter: Secure3DContract.Presenter

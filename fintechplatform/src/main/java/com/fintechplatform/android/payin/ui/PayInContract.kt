@@ -1,8 +1,5 @@
 package com.fintechplatform.android.payin
 
-/**
- * Created by ingrid on 07/09/17.
- */
 interface PayInContract {
 
     interface View {

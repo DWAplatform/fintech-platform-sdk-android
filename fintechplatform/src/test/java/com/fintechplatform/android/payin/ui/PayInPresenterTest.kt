@@ -20,10 +20,6 @@ import org.junit.Before
 import org.junit.Test
 import org.mockito.*
 
-/**
- * Created by ingrid on 12/12/17.
- */
-
 class PayInPresenterTest {
 
     lateinit var presenter: PayInPresenter

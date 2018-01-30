@@ -1,8 +1,5 @@
 package com.fintechplatform.android.secure3d.ui
 
-/**
- * Created by ingrid on 12/12/17.
- */
 interface Secure3DContract {
 
     interface View {

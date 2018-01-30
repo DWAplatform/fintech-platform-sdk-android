@@ -11,9 +11,6 @@ import javax.inject.Singleton;
 
 import dagger.Component;
 
-/**
- * Created by ingrid on 14/12/17.
- */
 @Singleton
 @Component (modules = { PaymentCardPresenterModule.class,
         AlertHelpersModule.class,

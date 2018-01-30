@@ -13,9 +13,6 @@ import javax.inject.Singleton;
 import dagger.Module;
 import dagger.Provides;
 
-/**
- * Created by ingrid on 11/09/17.
- */
 @Module
 public class PayOutPresenterModule {
     private final PayOutContract.View view;

@@ -10,9 +10,6 @@ import javax.inject.Singleton;
 import dagger.Module;
 import dagger.Provides;
 
-/**
- * Created by ingrid on 21/12/17.
- */
 @Module
 public class PaymentCardAPIModule {
 

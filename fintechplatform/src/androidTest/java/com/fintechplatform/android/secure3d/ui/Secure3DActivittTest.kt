@@ -16,9 +16,6 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mockito
 
-/**
- * Created by ingrid on 13/12/17.
- */
 @RunWith(AndroidJUnit4::class)
 class Secure3DActivityTest{
     @Rule

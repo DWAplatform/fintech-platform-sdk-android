@@ -3,10 +3,6 @@ package com.fintechplatform.android.card.db
 import com.fintechplatform.android.card.helpers.PaymentCardPersistence
 import com.fintechplatform.android.card.models.PaymentCardItem
 
-/**
- * Created by ingrid on 14/12/17.
- */
-
 class PaymentCardPersistenceDB constructor(val paymentCardDB: PaymentCardDB): PaymentCardPersistence {
 
     override fun paymentCardId() : String? {

@@ -3,9 +3,6 @@ package com.fintechplatform.android.profile.idcards.ui
 import android.content.Intent
 import android.graphics.Bitmap
 
-/**
- * Created by ingrid on 10/01/18.
- */
 interface IdentityCardsContract {
     interface View {
         fun setAbortText()

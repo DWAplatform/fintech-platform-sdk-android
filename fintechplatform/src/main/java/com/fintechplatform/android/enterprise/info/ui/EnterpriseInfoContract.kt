@@ -1,8 +1,5 @@
 package com.fintechplatform.android.enterprise.info.ui
 
-/**
- * Created by ingrid on 09/01/18.
- */
 interface EnterpriseInfoContract {
     interface View {
         fun setNameText(name: String)

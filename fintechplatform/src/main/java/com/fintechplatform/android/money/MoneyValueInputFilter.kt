@@ -3,10 +3,6 @@ package com.fintechplatform.android.money
 import android.text.Spanned
 import android.text.method.DigitsKeyListener
 
-/**
- * Created by ingrid on 06/12/17.
- */
-
 class MoneyValueInputFilter : DigitsKeyListener(false, true) {
 
     override fun filter(source: CharSequence,

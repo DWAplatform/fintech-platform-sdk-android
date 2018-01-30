@@ -100,10 +100,6 @@ class FintechPlatform {
             return Secure3DBuilder()
         }
 
-//        fun buildAuth(): AuthBuilder {
-//            return AuthBuilder()
-//        }
-
         fun buildPayOut(): PayOutBuilder {
             return PayOutBuilder()
         }
@@ -111,6 +107,7 @@ class FintechPlatform {
         fun buildPaymentCardBuilder(): PaymentCardBuilder {
             return PaymentCardBuilder()
         }
+
         fun buildIBAN(): IBANBuilder {
             return IBANBuilder()
         }

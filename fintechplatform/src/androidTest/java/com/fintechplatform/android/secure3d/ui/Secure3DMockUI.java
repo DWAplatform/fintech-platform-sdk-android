@@ -2,9 +2,6 @@ package com.fintechplatform.android.secure3d.ui;
 
 import dagger.Module;
 
-/**
- * Created by ingrid on 13/12/17.
- */
 @Module
 public class Secure3DMockUI extends Secure3DUI {
 

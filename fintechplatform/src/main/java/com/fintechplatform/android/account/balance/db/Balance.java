@@ -6,10 +6,6 @@ import com.raizlabs.android.dbflow.annotation.PrimaryKey;
 import com.raizlabs.android.dbflow.annotation.Table;
 import com.raizlabs.android.dbflow.structure.BaseModel;
 
-/**
- * Created by ingrid on 07/12/17.
- */
-
 @Table(database = PlatformDB.class)
 public class Balance extends BaseModel {
     @PrimaryKey

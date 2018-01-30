@@ -8,9 +8,6 @@ import com.fintechplatform.android.card.api.PaymentCardAPIModule;
 import com.fintechplatform.android.card.ui.PaymentCardUIModule;
 import com.fintechplatform.android.models.DataAccount;
 
-/**
- * Created by ingrid on 14/12/17.
- */
 public class PaymentCardBuilder {
 
     public PaymentCardAPIComponent createPaymentCardAPI(Context context, String hostname, boolean sandbox) {

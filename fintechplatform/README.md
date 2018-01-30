@@ -1,73 +1,69 @@
-Fintech platform Android SDK
+Fintechplatform Android SDK
 =================================================
 Fintech platform is an Android client library.
 
 Installation
 -------------------------------------------------
-SDK has been written in Kotlin.
 
-The SDK is published as a Maven artifact on Maven Central Repository (http://search.maven.org/) and can be used with Gradle or Maven.
+### Android Studio (or Gradle)
 
-```
-repositories {
-    mavenCentral()
-}
+No need to clone the repository or download any files -- just add this line to your app's `build.gradle` inside the `dependencies` section:
 
-dependencies {
-    compile 'com.dwaplatform:dwaplatform-sdk-android:1.0.0'
-}
-```
+    implementation 'com.fintechplatform:fintechplatform:1.1.0'
+    
 
-```
-<dependency>
-  <groupId>com.dwaplatform</groupId>
-  <artifactId>dwaplatform-sdk-android</artifactId>
-  <version>1.0.0</version>
-</dependency>
-```
 
 License
 -------------------------------------------------
-MangopaySDK is distributed under MIT license, see LICENSE file.
+Fintech Platform SDK is distributed under MIT license, see LICENSE file.
 
 
 Contacts
 -------------------------------------------------
 Report bugs or suggest features using
-[issue tracker at GitHub](https://github.com/DWAplatform/dwaplatform-sdk-android).
+[issue tracker at GitHub](https://github.com/nabertech/fintech-android-sdk/issues).
 
 
-Sample usage in Java
+Sample usage in Kotlin
 -------------------------------------------------
+```kotlin
+
+    // Simply initialize Fintech Platform giving Context params
+    
+    
+    FintechPlatform.initialize(this)
+    
+    
+
+    // Get UI component you want.
+    // Components needs to have your own configuration as params (hostname, userid, accountid and token access to the platform)
+    
+                val dataAccount = DataAccount(userId, accountId, accessToken)
+                
+                FintechPlatform.buildPayIn()
+                        .createPayInUIComponent(hostName, true, dataAccount)
+                        .payInUI.start(this)
+    
+                FintechPlatform.buildPayOut()
+                        .createPayOutUI(hostName, dataAccount)
+                        .payOutUI.start(this)
+                        
+    // If you don't need any UI components and you want to use your own graphics we also provide API Components instances, in this example  
+    
+                val api = FintechPlatform.buildPayIn()
+                        .createPayInAPIComponent(Configurations.hostName, this)
+                        .payInAPI
+                        
 ```
-    import com.platform.android.card.DWAplatform;
-	import com.platform.android.card.CardAPI;
-	import com.platform.android.card.models.Card;
+Building and Running the sample app project
+-------------------------------------------------
 
+You can run the [Sample Fintech SDK](https://github.com/nabertech/fintech-android-sdk) application.
 
-    //....
+You don't need to register you personal data, we've already provided a test account using sandbox server APIs, in order to give you the opportunity to see some of the platform features:
 
-    // Configure DWAplatform
-    DWAplatform.Configuration config = new DWAplatform.Configuration("api.sandbox.dwaplatform.com", true);
-    DWAplatform.Companion.initialize(config);
-
-    // Get card API
-    final CardAPI paymentCardAPI = DWAplatform.Companion.getPaymentCardAPI(this);
-
-    // Register card
-	// get token from POST call: .../rest/v1/:clientId/users/:userId/accounts/:accountId/cards
-    final String token = "XXXXXXXX-YYYY-ZZZZ-KKKK-WWWWWWWWWWWW";
-    final String cardNumber = "1234567812345678";
-    final String expiration = "1122";
-    final String cxv = "123";
-	paymentCardAPI.registerCard(token, cardNumber, expiration, cxv, new Function2<Card, Exception, Unit>() {
-                    @Override
-                    public Unit invoke(Card card, Exception e) {
-                    	// now you can access to card object to request cashin, etc.
-                    	println(card.getId());
-                    }
-				});
-
-
-
-```
+1. make test payments through the app using a fake payment card
+2. register a new payment card
+3. register a bank account through IBAN address
+4. cashout from the Fintech mobile account to your bank account using IBAN you gave during the registration
+5. see all the transactions

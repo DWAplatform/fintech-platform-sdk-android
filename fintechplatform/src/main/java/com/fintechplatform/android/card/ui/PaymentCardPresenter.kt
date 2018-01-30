@@ -6,9 +6,6 @@ import com.fintechplatform.android.card.db.PaymentCardPersistenceDB
 import com.fintechplatform.android.models.DataAccount
 import javax.inject.Inject
 
-/**
- * Created by ingrid on 13/12/17.
- */
 class PaymentCardPresenter @Inject constructor(var view: PaymentCardContract.View,
                                                var api: PaymentCardAPI,
                                                var dataAccountHelper: DataAccount,

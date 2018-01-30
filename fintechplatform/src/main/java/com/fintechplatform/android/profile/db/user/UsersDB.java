@@ -2,10 +2,6 @@ package com.fintechplatform.android.profile.db.user;
 
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 
-/**
- * Created by ingrid on 11/01/18.
- */
-
 public class UsersDB {
 
     public Users findUser(String userId){

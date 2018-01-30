@@ -4,10 +4,6 @@ import com.raizlabs.android.dbflow.annotation.Database;
 import com.raizlabs.android.dbflow.config.FlowManager;
 import com.raizlabs.android.dbflow.config.fintechplatformGeneratedDatabaseHolder;
 
-/**
- * Created by ingrid on 07/12/17.
- */
-
 @Database(name = PlatformDB.NAME, version = PlatformDB.VERSION)
 public class PlatformDB {
 

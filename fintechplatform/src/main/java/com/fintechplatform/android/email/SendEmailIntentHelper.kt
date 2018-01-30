@@ -2,9 +2,6 @@ package com.fintechplatform.android.email
 
 import android.content.Intent
 
-/**
- * Created by ingrid on 18/12/17.
- */
 open class SendEmailIntentHelper {
 
     fun sendEmailIntent(recipient: Array<String>, subject: String, message: String, intenttitle: String): Intent {

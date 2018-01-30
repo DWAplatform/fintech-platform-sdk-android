@@ -8,9 +8,6 @@ import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
 
-/**
- * Created by ingrid on 08/01/18.
- */
 class TransactionHelper @Inject constructor(val moneyHelper: MoneyHelper) {
 
     fun transactionItem(t: TransactionResponse,

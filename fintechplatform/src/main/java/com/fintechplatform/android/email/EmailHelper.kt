@@ -3,9 +3,6 @@ package com.fintechplatform.android.email
 import java.util.regex.Matcher
 import java.util.regex.Pattern
 
-/**
- * Created by ingrid on 09/01/18.
- */
 class EmailHelper {
     private val pattern: Pattern
     private var matcher: Matcher? = null

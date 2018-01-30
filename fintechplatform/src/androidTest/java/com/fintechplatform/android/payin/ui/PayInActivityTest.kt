@@ -23,17 +23,6 @@ import org.junit.Rule
 import org.junit.Test
 import org.mockito.Mockito
 
-/**
- * Created by ingrid on 12/12/17.
- */
-
-
-
-
-/**
- * Created by ingrid on 08/09/17.
- */
-
 class PayInActivityTest {
 
     @Rule @JvmField val main = ActivityTestRule(PayInActivity::class.java, false, false)

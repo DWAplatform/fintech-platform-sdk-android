@@ -16,10 +16,6 @@ import com.fintechplatform.android.models.DataAccount;
 import com.fintechplatform.android.payin.ui.PaymentCardUIModule;
 import com.fintechplatform.android.payout.ui.IbanUIModule;
 
-/**
- * Created by ingrid on 20/01/18.
- */
-
 public class FinancialDataUI {
 
     public static FinancialDataUI instance;

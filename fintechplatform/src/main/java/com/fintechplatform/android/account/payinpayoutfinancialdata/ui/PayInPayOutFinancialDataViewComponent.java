@@ -14,9 +14,6 @@ import javax.inject.Singleton;
 
 import dagger.Component;
 
-/**
- * Created by ingrid on 18/01/18.
- */
 @Singleton
 @Component (modules = {
         PayInPayOutFinancialDataPresenterModule.class,

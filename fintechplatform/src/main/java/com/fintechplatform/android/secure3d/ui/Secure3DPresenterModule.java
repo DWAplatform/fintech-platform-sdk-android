@@ -5,9 +5,6 @@ import javax.inject.Singleton;
 import dagger.Module;
 import dagger.Provides;
 
-/**
- * Created by ingrid on 12/12/17.
- */
 @Module
 public class Secure3DPresenterModule {
 

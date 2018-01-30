@@ -12,9 +12,6 @@ import java.net.URLEncoder
 import java.util.*
 import javax.inject.Inject
 
-/**
- * Created by ingrid on 07/12/17.
- */
 open class BalanceAPI @Inject constructor(
         internal val hostName: String,
         internal val queue: IRequestQueue,
