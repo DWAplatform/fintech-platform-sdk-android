@@ -127,6 +127,55 @@ class AuthenticationAPI constructor(internal val hostName: String,
         return request
     }
 
+
+    fun userToken(userid: String, tenantId: String, pin: String, completion: (CheckPin?, Exception?) -> Unit): IRequest<*>? {
+
+        val url = getURL("/rest/v1/mobile/tenants/$tenantId/users/$userid/tokens")
+
+        var request: IRequest<*>?
+        try {
+            val jo = JSONObject()
+            jo.put("pin", pin)
+
+            request = requestProvider.jsonObjectRequest(Request.Method.POST, url, jo, { response ->
+                try {
+                    //val id = response.getString("userId")
+                    val token = response.getString("token")
+
+                    completion(CheckPin(userid, token, CheckPinState.SUCCESS), null)
+                } catch (e: JSONException) {
+                    completion(null, e)
+                }
+            }) { error ->
+
+                val status = if (error.networkResponse != null)
+                    error.networkResponse.statusCode else -1
+                when (status) {
+                    403 -> {
+                        completion(CheckPin(userid, "", CheckPinState.CODE_ERROR),
+                                null)
+                    }
+                    401 -> {
+                        completion(CheckPin(userid, "", CheckPinState.LIMIT_REACHED),
+                                null)
+                    }
+                    else -> completion(null, GenericCommunicationError(error))
+                }
+
+
+            }
+
+            request.setIRetryPolicy(defaultpolicy)
+            queue.add(request)
+
+        } catch (e: Exception) {
+            log.error(TAG, "token error", e)
+            request = null
+        }
+
+        return request
+    }
+
     @Throws(UnsupportedEncodingException::class)
     private fun getUrlDataString(url: String, params: HashMap<String, Any>): String {
 

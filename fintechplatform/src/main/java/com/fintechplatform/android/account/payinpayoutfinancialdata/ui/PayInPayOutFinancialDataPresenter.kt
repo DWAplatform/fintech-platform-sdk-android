@@ -70,7 +70,7 @@ class PayInPayOutFinancialDataPresenter @Inject constructor(val view: PayInPayOu
     }
 
     override fun loadPaymentCard() {
-        apiCard.getPaymentCards(configuration.accessToken, configuration.userId){ optcards, opterror ->
+        apiCard.getPaymentCards(configuration.accessToken, configuration.userId, configuration.accountId, configuration.tenantId){ optcards, opterror ->
 
             if (opterror != null) {
                 handleErrors(opterror)

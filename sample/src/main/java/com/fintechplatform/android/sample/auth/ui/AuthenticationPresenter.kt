@@ -12,6 +12,7 @@ class AuthenticationPresenter constructor(val view: AuthenticationContract.View,
                                           val log: Log,
                                           val api: AuthenticationAPI,
                                           val userid: String,
+                                          val tenantId: String,
                                           val keyChain: KeyChain
 ): AuthenticationContract.Presenter {
     override fun onEditingChanged() {
@@ -21,18 +22,18 @@ class AuthenticationPresenter constructor(val view: AuthenticationContract.View,
 
         view.showWaiting()
 
-        api.checkpin(userid, pin) { optCheckPin, opterror ->
+        api.userToken(userid, tenantId, pin) { optCheckPin, opterror ->
 
             view.hideWaiting()
 
             if (opterror != null) {
                 view.showInternalError()
-                return@checkpin
+                return@userToken
             }
 
             if (optCheckPin == null) {
                 view.showInternalError()
-                return@checkpin
+                return@userToken
             }
             val checkPin = optCheckPin
 

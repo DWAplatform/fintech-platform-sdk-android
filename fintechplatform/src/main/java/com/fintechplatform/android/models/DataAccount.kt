@@ -5,4 +5,5 @@ package com.fintechplatform.android.models
  */
 open class DataAccount(val userId: String,
                        val accountId: String,
+                       val tenantId: String,
                        val accessToken: String)

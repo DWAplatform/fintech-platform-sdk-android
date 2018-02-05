@@ -12,5 +12,5 @@ data class PaymentCardItem(val id: String?,
                        val default: Boolean?,
                        val status: String?,
                        val token: String?,
-                       val create: Date?)
+                       val create: String?)
 

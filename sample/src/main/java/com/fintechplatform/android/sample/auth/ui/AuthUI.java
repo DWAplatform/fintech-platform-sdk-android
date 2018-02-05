@@ -17,18 +17,20 @@ public class AuthUI {
     protected static AuthUI instance;
     private String userid;
     private String hostname;
+    private String tenantid;
 
     public AuthUI(){ }
 
-    AuthUI(String hostname, String userid){
+    AuthUI(String hostname, String userid, String tenantid){
         this.hostname = hostname;
         this.userid = userid;
+        this.tenantid = tenantid;
     }
 
     protected AuthViewComponent buildAuthViewComponent(AuthenticationContract.View view, Context context){
         return DaggerAuthViewComponent.builder()
                 .netModule(new NetModule(Volley.newRequestQueue(context), hostname))
-                .authenticationPresenterModule(new AuthenticationPresenterModule(view, userid))
+                .authenticationPresenterModule(new AuthenticationPresenterModule(view, userid, tenantid))
                 .authenticationAPIModule(new AuthenticationAPIModule(hostname))
                 .keyChainModule(new KeyChainModule(context))
                 .build();

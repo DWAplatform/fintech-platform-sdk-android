@@ -12,15 +12,17 @@ import dagger.Provides;
 public class AuthUIModule {
     private String userid;
     private String hostname;
+    private String tenantid;
 
-    public AuthUIModule(String userid, String hostname) {
+    public AuthUIModule(String userid, String hostname, String tenantid) {
         this.userid = userid;
         this.hostname = hostname;
+        this.tenantid = tenantid;
     }
 
     @Provides
     @Singleton
     AuthUI providesAuthUI(){
-        return new AuthUI(hostname, userid);
+        return new AuthUI(hostname, userid, tenantid);
     }
 }

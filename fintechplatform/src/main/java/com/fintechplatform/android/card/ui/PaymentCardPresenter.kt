@@ -23,7 +23,7 @@ class PaymentCardPresenter @Inject constructor(var view: PaymentCardContract.Vie
 
     override fun initPaymentCard(){
         paymentCardpersistanceDB.deletePaymentCard()
-        api.getPaymentCards(dataAccountHelper.accessToken, dataAccountHelper.userId){ optcards, opterror ->
+        api.getPaymentCards(dataAccountHelper.accessToken, dataAccountHelper.userId, dataAccountHelper.accountId, dataAccountHelper.tenantId){ optcards, opterror ->
 
             if (opterror != null) {
                 handleErrors(opterror)
@@ -45,12 +45,14 @@ class PaymentCardPresenter @Inject constructor(var view: PaymentCardContract.Vie
 
         view.showCommunicationWait()
 
+        // FIXME fix currency
         api.createCreditCard(dataAccountHelper.userId,
                 dataAccountHelper.accountId,
+                dataAccountHelper.tenantId,
                 dataAccountHelper.accessToken,
                 view.getNumberText(),
                 view.getDAteText(),
-                view.getCCvText()) { optcard, opterror ->
+                view.getCCvText(), "EUR") { optcard, opterror ->
 
             view.hideCommunicationWait()
 

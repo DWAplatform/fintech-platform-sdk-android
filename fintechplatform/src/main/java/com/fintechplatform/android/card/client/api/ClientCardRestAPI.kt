@@ -212,7 +212,7 @@ open class ClientCardRestAPI constructor(
                                 response.optBoolean("default"),
                                 response.optString("status"),
                                 response.optString("token"),
-                                crateDate)
+                                response.optString("create"))
 
                         completionHandler(card, null)
                     } catch (e: JSONException) {
