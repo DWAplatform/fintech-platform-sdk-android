@@ -64,7 +64,7 @@ open class PaymentCardAPI @Inject constructor(
                 restAPI.getCardSafe(PaymentCardRestAPI.CardToRegister(cardNumber, expiration, cvxValue), userId, accountId, tenantId, token) { optCardSafe, optErrorCS ->
                     optErrorCS?.let { completionHandler(null, it); return@getCardSafe}
                     optCardSafe?.let { cardToRegister ->
-                        restAPI.postCardRegistrationData(userId, accountId, tenantId, token, cardNumber, expiration, cvxValue, cr) { paymentCardItem, exception ->
+                        restAPI.postCardRegistrationData(userId, accountId, tenantId, token, cardToRegister.cardNumber, cardToRegister.expiration, cardToRegister.cvx, cr) { paymentCardItem, exception ->
                             exception?.let { completionHandler(null, it); return@postCardRegistrationData }
                             paymentCardItem?.let { completionHandler(it, null) }
                         }

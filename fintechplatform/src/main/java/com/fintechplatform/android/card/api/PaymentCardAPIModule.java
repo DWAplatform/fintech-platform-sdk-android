@@ -3,6 +3,7 @@ package com.fintechplatform.android.card.api;
 import com.fintechplatform.android.api.IRequestProvider;
 import com.fintechplatform.android.api.IRequestQueue;
 import com.fintechplatform.android.api.NetHelper;
+import com.fintechplatform.android.card.helpers.JSONHelper;
 import com.fintechplatform.android.card.helpers.PaymentCardHelper;
 import com.fintechplatform.android.log.Log;
 
@@ -24,13 +25,19 @@ public class PaymentCardAPIModule {
 
     @Provides
     @Singleton
-    PaymentCardRestAPI providesPaymentCardRestAPI(IRequestQueue queue, IRequestProvider provider, Log log, NetHelper netHelper) {
-        return new PaymentCardRestAPI(hostname, queue, provider, log, sandbox, netHelper);
+    PaymentCardRestAPI providesPaymentCardRestAPI(IRequestQueue queue, IRequestProvider provider, Log log, JSONHelper jsonHelper, NetHelper netHelper) {
+        return new PaymentCardRestAPI(hostname, queue, provider, log, jsonHelper, sandbox, netHelper);
     }
 
     @Provides
     @Singleton
     PaymentCardAPI providesPaymentCardAPI(PaymentCardRestAPI restAPI, Log log, PaymentCardHelper helper) {
         return new PaymentCardAPI(restAPI, log, helper);
+    }
+
+    @Singleton
+    @Provides
+    JSONHelper providesJsonHelper() {
+        return new JSONHelper();
     }
 }

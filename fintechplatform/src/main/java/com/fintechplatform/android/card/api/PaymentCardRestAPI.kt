@@ -5,6 +5,7 @@ import com.fintechplatform.android.api.IRequest
 import com.fintechplatform.android.api.IRequestProvider
 import com.fintechplatform.android.api.IRequestQueue
 import com.fintechplatform.android.api.NetHelper
+import com.fintechplatform.android.card.helpers.JSONHelper
 import com.fintechplatform.android.card.models.PaymentCardItem
 import com.fintechplatform.android.log.Log
 import org.json.JSONArray
@@ -16,6 +17,7 @@ class PaymentCardRestAPI constructor(internal val hostName: String,
                                      internal val queue: IRequestQueue,
                                      internal val requestProvider: IRequestProvider,
                                      internal val log: Log,
+                                     internal val jsonHelper: JSONHelper,
                                      internal val sandbox: Boolean,
                                      val netHelper: NetHelper) {
     private val TAG = "PaymentCardRestAPI"
@@ -30,6 +32,14 @@ class PaymentCardRestAPI constructor(internal val hostName: String,
                                 val preregistrationData: String,
                                 val accessKey: String,
                                 val registration: String? = null)
+
+    /**
+     * Represent the error send as reply from FintechPlatform API.
+     *
+     * @property json error as json array, can be null in case of json parsing error
+     * @property throwable error returned from the underlying HTTP library
+     */
+    data class APIReplyError(val json: JSONArray?, val throwable: Throwable) : java.lang.Exception(throwable)
 
     /**
      * Create a new registration card request, to obtain data useful to send to the card tokenizer service
@@ -90,7 +100,7 @@ class PaymentCardRestAPI constructor(internal val hostName: String,
                     401 ->
                         callback(null, netHelper.TokenError(error))
                     else ->
-                    callback(null, netHelper.GenericCommunicationError(error))
+                    callback(null, netHelper.createRequestError(error))
                 }
             }
 
@@ -147,7 +157,7 @@ class PaymentCardRestAPI constructor(internal val hostName: String,
                 401 ->
                     completion(null, netHelper.TokenError(error))
                 else ->
-                    completion(null, netHelper.GenericCommunicationError(error))
+                    completion(null, netHelper.createRequestError(error))
             }
         }
 
@@ -215,7 +225,7 @@ class PaymentCardRestAPI constructor(internal val hostName: String,
                     401 ->
                         completion(null, netHelper.TokenError(error))
                     else ->
-                        completion(null, netHelper.GenericCommunicationError(error))
+                        completion(null, netHelper.createRequestError(error))
                 }
             }
 
