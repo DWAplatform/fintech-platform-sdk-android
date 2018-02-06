@@ -124,13 +124,13 @@ class PaymentCardRestAPI constructor(internal val hostName: String,
      * @param completionHandler callback containing registration key
      */
     fun postCardRegistrationData(userId: String,
-                                        accountId: String,
-                                        tenantId: String,
-                                        token: String,
-                                        cardnumber: String,
-                                        expiration: String, cvx: String,
-                                        cardRegistration: CardRegistration,
-                                        completion: (PaymentCardItem?, Exception?) -> Unit)
+                                accountId: String,
+                                tenantId: String,
+                                token: String,
+                                cardnumber: String,
+                                expiration: String, cvx: String,
+                                cardRegistration: CardRegistration,
+                                completion: (PaymentCardItem?, Exception?) -> Unit)
             : IRequest<*> {
 
         log.debug("FintechPlatform", "getCardRegistrationData")
@@ -274,7 +274,9 @@ class PaymentCardRestAPI constructor(internal val hostName: String,
                         } catch (e: JSONException) {
                             completionHandler(null, PaymentCardAPI.ParseReplyParamsException(e))
                         }
-                    }) { error -> completionHandler(null, netHelper.createRequestError(error)) }
+                    }) { error ->
+                completionHandler(null, netHelper.createRequestError(error))
+            }
 
             request.setIRetryPolicy(netHelper.defaultpolicy)
             queue.add(request)

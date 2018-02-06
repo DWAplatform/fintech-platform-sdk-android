@@ -26,7 +26,7 @@ class PaymentCardActivity: AppCompatActivity(), PaymentCardContract.View {
         PaymentCardUI.createPaymentCardComponent(this, this).inject(this)
         setContentView(R.layout.activity_paymentcard)
 
-        presenter.refreshConfirmButton()
+        presenter.initPaymentCard()
 
         numberText.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(p0: Editable?) {}
@@ -59,8 +59,6 @@ class PaymentCardActivity: AppCompatActivity(), PaymentCardContract.View {
         backwardButton.setOnClickListener {
             presenter.onAbortClick()
         }
-
-//        WindowBarColor.update(window, resources)
     }
 
     override fun onResume() {

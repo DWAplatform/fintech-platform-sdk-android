@@ -65,6 +65,7 @@ class PayInPresenter @Inject constructor(val configuration: DataAccount,
         api.payIn(configuration.accessToken,
                 configuration.userId,
                 configuration.accountId,
+                configuration.tenantId,
                 paycard,
                 money,
                 idempPayin) { optpayinreply, opterror ->

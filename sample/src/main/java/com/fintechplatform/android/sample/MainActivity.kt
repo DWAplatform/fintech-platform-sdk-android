@@ -27,7 +27,7 @@ class MainActivity : AppCompatActivity() {
         payin.setOnClickListener {
             val builder = FintechPlatform.buildPayIn()
             val payInComponent = builder.createPayInUIComponent(
-                    hostName,true, DataAccount(userId, accountId, "", token))
+                    hostName,true, DataAccount(userId, accountId, tenantId, token))
 
             payInComponent.payInUI.start(this@MainActivity)
         }

@@ -23,26 +23,37 @@ open class PayInAPI @Inject constructor(
     open fun payIn(token: String,
                    userId: String,
                    accountId: String,
-                   creditcardId: String,
+                   tenantId: String,
+                   cardId: String,
                    amount: Money,
                    idempotency: String,
                    completion: (PayInReply?, Exception?) -> Unit): IRequest<*>? {
-        val url = netHelper.getURL("/rest/1.0/fin/payin")
+        val url = netHelper.getURL("/rest/v1/fintech/tenants/$tenantId/personal/$userId/accounts/$accountId/linkedCards/$cardId/cashIns")
 
         var request: IRequest<*>?
         try {
             val jsonObject = JSONObject()
-            jsonObject.put("userid", userId)
-            jsonObject.put("creditcardid", creditcardId)
-            jsonObject.put("amount", amount.value)
+
+            val joAmount = JSONObject()
+            joAmount.put("amount", amount.value )
+            joAmount.put("currency", amount.currency)
+
+            // FIXME fix fee model
+            val joFee = JSONObject()
+            joFee.put("amount", 0L)
+            joFee.put("currency", "EUR")
+
+            jsonObject.put("fee", joFee)
+            jsonObject.put("amount", joAmount)
             jsonObject.put("idempotency", idempotency)
 
             // Request a string response from the provided URL.
             val r = requestProvider.jsonObjectRequest(Request.Method.POST, url, jsonObject,
                     netHelper.authorizationToken(token), { response ->
-                val transactionid = response.getString("transactionid")
-                val securecodeneeded = response.getBoolean("securecodeneeded")
-                val redirecturl = response.optString("redirecturl")
+
+                val transactionid = response.getString("transactionId")
+                val securecodeneeded = response.getBoolean("secure3D")
+                val redirecturl = response.optString("redirectURL")
 
                 completion(PayInReply(transactionid, securecodeneeded, redirecturl), null)
             }) { error ->
