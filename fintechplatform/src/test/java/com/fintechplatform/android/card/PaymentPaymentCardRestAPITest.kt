@@ -19,7 +19,7 @@ import org.mockito.MockitoAnnotations
 import java.lang.Exception
 import java.util.*
 
-class PaymentPaymentCardAPITest {
+class PaymentPaymentCardRestAPITest {
 
     @Mock lateinit var log: Log
     @Mock lateinit var paymentCardHelper: PaymentCardHelper

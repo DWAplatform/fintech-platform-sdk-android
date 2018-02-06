@@ -16,14 +16,14 @@ class PaymentCardPresenter @Inject constructor(var view: PaymentCardContract.Vie
         val isEnabled = view.getNumberTextLength() >= 16
                 && view.getDateTextLength() >= 4
                 && view.getCCvTextLength() >= 3
-                && !dataAccountHelper.accessToken.isNullOrEmpty()
+                && !dataAccountHelper.accessToken.isEmpty()
 
         view.confirmButtonEnable(isEnabled)
     }
 
     override fun initPaymentCard(){
         paymentCardpersistanceDB.deletePaymentCard()
-        api.getPaymentCards(dataAccountHelper.accessToken, dataAccountHelper.userId, dataAccountHelper.accountId, dataAccountHelper.tenantId){ optcards, opterror ->
+        api.restAPI.getPaymentCards(dataAccountHelper.accessToken, dataAccountHelper.userId, dataAccountHelper.accountId, dataAccountHelper.tenantId){ optcards, opterror ->
 
             if (opterror != null) {
                 handleErrors(opterror)
@@ -46,10 +46,10 @@ class PaymentCardPresenter @Inject constructor(var view: PaymentCardContract.Vie
         view.showCommunicationWait()
 
         // FIXME fix currency
-        api.createCreditCard(dataAccountHelper.userId,
+        api.registerCard(dataAccountHelper.accessToken,
+                dataAccountHelper.userId,
                 dataAccountHelper.accountId,
                 dataAccountHelper.tenantId,
-                dataAccountHelper.accessToken,
                 view.getNumberText(),
                 view.getDAteText(),
                 view.getCCvText(), "EUR") { optcard, opterror ->
@@ -60,12 +60,12 @@ class PaymentCardPresenter @Inject constructor(var view: PaymentCardContract.Vie
 
             if (opterror != null) {
                 handleErrors(opterror)
-                return@createCreditCard
+                return@registerCard
             }
 
             if (optcard == null) {
                 view.showCommunicationInternalError()
-                return@createCreditCard
+                return@registerCard
             }
 
             paymentCardpersistanceDB.replace(optcard)

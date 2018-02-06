@@ -1,7 +1,7 @@
 package com.fintechplatform.android.account.payinpayoutfinancialdata.ui
 
 import com.fintechplatform.android.api.NetHelper
-import com.fintechplatform.android.card.api.PaymentCardAPI
+import com.fintechplatform.android.card.api.PaymentCardRestAPI
 import com.fintechplatform.android.card.db.PaymentCardPersistenceDB
 import com.fintechplatform.android.iban.api.IbanAPI
 import com.fintechplatform.android.iban.db.IbanPersistanceDB
@@ -10,7 +10,7 @@ import com.fintechplatform.android.models.DataAccount
 import javax.inject.Inject
 
 class PayInPayOutFinancialDataPresenter @Inject constructor(val view: PayInPayOutFinancialDataContract.View,
-                                                            val apiCard: PaymentCardAPI,
+                                                            val apiCardRest: PaymentCardRestAPI,
                                                             val apiBankAccount: IbanAPI,
                                                             val configuration: DataAccount,
                                                             val ibanDB: IbanPersistanceDB,
@@ -70,7 +70,7 @@ class PayInPayOutFinancialDataPresenter @Inject constructor(val view: PayInPayOu
     }
 
     override fun loadPaymentCard() {
-        apiCard.getPaymentCards(configuration.accessToken, configuration.userId, configuration.accountId, configuration.tenantId){ optcards, opterror ->
+        apiCardRest.getPaymentCards(configuration.accessToken, configuration.userId, configuration.accountId, configuration.tenantId){ optcards, opterror ->
 
             if (opterror != null) {
                 handleErrors(opterror)

@@ -1,6 +1,6 @@
 package com.fintechplatform.android.account.payinpayoutfinancialdata.ui;
 
-import com.fintechplatform.android.card.api.PaymentCardAPI;
+import com.fintechplatform.android.card.api.PaymentCardRestAPI;
 import com.fintechplatform.android.card.db.PaymentCardPersistenceDB;
 import com.fintechplatform.android.iban.api.IbanAPI;
 import com.fintechplatform.android.iban.db.IbanPersistanceDB;
@@ -23,7 +23,7 @@ public class PayInPayOutFinancialDataPresenterModule {
 
     @Provides
     @Singleton
-    PayInPayOutFinancialDataContract.Presenter providesFinancialDataPresenter(PaymentCardAPI cardAPI, IbanAPI ibanAPI, PaymentCardPersistenceDB paymentCardPersistenceDB, IbanPersistanceDB ibanPersistanceDB){
+    PayInPayOutFinancialDataContract.Presenter providesFinancialDataPresenter(PaymentCardRestAPI cardAPI, IbanAPI ibanAPI, PaymentCardPersistenceDB paymentCardPersistenceDB, IbanPersistanceDB ibanPersistanceDB){
         return new PayInPayOutFinancialDataPresenter(view, cardAPI, ibanAPI, configuration, ibanPersistanceDB, paymentCardPersistenceDB);
     }
 }

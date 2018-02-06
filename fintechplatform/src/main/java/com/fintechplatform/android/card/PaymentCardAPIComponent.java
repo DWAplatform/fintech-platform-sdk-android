@@ -1,8 +1,8 @@
 package com.fintechplatform.android.card;
 
 import com.fintechplatform.android.api.NetModule;
-import com.fintechplatform.android.card.api.PaymentCardAPI;
 import com.fintechplatform.android.card.api.PaymentCardAPIModule;
+import com.fintechplatform.android.card.api.PaymentCardRestAPI;
 import com.fintechplatform.android.log.LogModule;
 
 import javax.inject.Singleton;
@@ -16,5 +16,5 @@ import dagger.Component;
                         LogModule.class
 })
 public interface PaymentCardAPIComponent {
-    PaymentCardAPI getPaymentCardAPI();
+    PaymentCardRestAPI getPaymentCardAPI();
 }

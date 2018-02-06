@@ -75,7 +75,7 @@ class AuthenticationAPI constructor(internal val hostName: String,
         return request
     }
 
-    fun checkpin(userid: String, pin: String,
+    fun checkpin(userId: String, pin: String,
                  completion: (CheckPin?, Exception?) -> Unit)
             : IRequest<*>? {
 
@@ -84,7 +84,7 @@ class AuthenticationAPI constructor(internal val hostName: String,
         var request: IRequest<*>?
         try {
             val params = HashMap<String, Any>()
-            params.put("userid", userid)
+            params.put("userid", userId)
             params.put("pin", pin)
 
             val rurl = getUrlDataString(url, params)
@@ -106,11 +106,11 @@ class AuthenticationAPI constructor(internal val hostName: String,
                     error.networkResponse.statusCode else -1
                 when (status) {
                     403 -> {
-                        completion(CheckPin(userid, "", CheckPinState.CODE_ERROR),
+                        completion(CheckPin(userId, "", CheckPinState.CODE_ERROR),
                                 null)
                     }
                     401 -> {
-                        completion(CheckPin(userid, "", CheckPinState.LIMIT_REACHED),
+                        completion(CheckPin(userId, "", CheckPinState.LIMIT_REACHED),
                                 null)
                     }
                     else -> completion(null, GenericCommunicationError(error))

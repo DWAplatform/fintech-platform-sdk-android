@@ -1,11 +1,16 @@
 package com.fintechplatform.android.api
 
 import com.android.volley.DefaultRetryPolicy
+import com.android.volley.NetworkResponse
+import com.android.volley.VolleyError
 import com.fintechplatform.android.enterprise.models.EnterpriseProfile
 import com.fintechplatform.android.profile.models.UserProfile
+import org.json.JSONArray
+import org.json.JSONException
 import org.json.JSONObject
 import java.io.UnsupportedEncodingException
 import java.net.URLEncoder
+import java.nio.charset.Charset
 import java.util.*
 
 class NetHelper constructor(val hostName: String) {
@@ -17,7 +22,13 @@ class NetHelper constructor(val hostName: String) {
     inner class TokenError(throwable: Throwable) : Exception(throwable)
 
     inner class ReplyParamsUnexpected(throwable: Throwable) : Exception(throwable)
-
+    /**
+     * Represent the error send as reply from FintechPlatform API.
+     *
+     * @property json error as json array, can be null in case of json parsing error
+     * @property throwable error returned from the underlying HTTP library
+     */
+    data class APIReplyError(val json: JSONArray?, val throwable: Throwable) : java.lang.Exception(throwable)
 
     val PROTOCOL_CHARSET = "utf-8"
 
@@ -36,6 +47,18 @@ class NetHelper constructor(val hostName: String) {
         val header = HashMap<String, String>()
         header.put("Authorization", "Bearer $token")
         return header
+    }
+
+    fun createRequestError(volleyError: VolleyError): APIReplyError {
+
+        try {
+            val response: NetworkResponse = volleyError.networkResponse
+            val jsonString = String(response.data, Charset.forName(PROTOCOL_CHARSET))
+
+            return APIReplyError(JSONArray(jsonString), volleyError)
+        } catch(e: JSONException) {
+            return APIReplyError(null, volleyError)
+        }
     }
 
     @Throws(UnsupportedEncodingException::class)
