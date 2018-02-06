@@ -14,18 +14,17 @@ class TransactionPersistanceDB @Inject constructor(val db: TransactionDB, val th
         t.setAmount(transaction.amount)
         t.setOrder(transaction.order)
         t.setStatus(transaction.status)
-        t.setResultcode(transaction.resultcode)
         t.setId(transaction.id)
         t.setMessage(transaction.message)
 
         return db.saveTransaction(t)
     }
 
-    fun saveAll(transactionsFull: List<TransactionResponse>, userid: String) {
+    fun saveAll(transactionsFull: List<TransactionResponse>) {
         db.deleteTransactions()
 
         transactionsFull.forEach { t ->
-            val optthitem = thelper.transactionItem(t, userid)
+            val optthitem = thelper.transactionItem(t)
             optthitem?.let { thitem ->
                 save(thitem)
             }
@@ -35,7 +34,7 @@ class TransactionPersistanceDB @Inject constructor(val db: TransactionDB, val th
     fun loadAll(): List<TransactionItem> {
         val ts = db.getTransactions()
         return ts.map { t ->
-            TransactionItem(t.id, t.what, t.who, t.message, t.amount, t.twhen, t.order, t.status, t.resultcode)
+            TransactionItem(t.id, t.what, t.who, t.message, t.amount, t.twhen, t.order, t.status)
         }
     }
 

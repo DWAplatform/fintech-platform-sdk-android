@@ -22,7 +22,6 @@ class TransactionDetailPresenter constructor(var view: TransactionDetailContract
         view.setTransactionAmount(transaction?.amount)
         view.setTransactionTwhen(transaction?.twhen)
         view.setTransactionStateDescription(transactionDetailHelper.stateDescription(transaction?.status))
-        view.setTransactionResultDescription(transactionDetailHelper.resultCodeDescription(transaction?.resultcode))
 
     }
 

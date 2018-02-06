@@ -22,16 +22,18 @@ class TransactionsAPI @Inject constructor(
     private val TAG = "TransactionsAPI"
 
     fun transactions(token: String,
-                     userid: String, limit: Int?,
+                     userId: String,
+                     accountId: String,
+                     tenantId: String,
+                     limit: Int?,
                      offset: Int?,
                      completion: (List<TransactionResponse>?, Exception?) -> Unit): IRequest<*>? {
 
-        val url = netHelper.getURL("/rest/1.0/fin/user/transactions")
+        val url = netHelper.getURL("/rest/v1/fintech/tenants/$tenantId/personal/$userId/accounts/$accountId/transactions")
 
         var request: IRequest<*>?
         try {
             val params = HashMap<String, Any>()
-            params.put("userid", userid)
             params.put("limit", limit ?: 0)
             params.put("offset", offset ?: 10)
             val rurl = netHelper.getUrlDataString(url, params)
@@ -74,34 +76,29 @@ class TransactionsAPI @Inject constructor(
     @Throws(JSONException::class)
     private fun transactionsResponse(response: JSONArray): List<TransactionResponse> {
         val transactions = ArrayList<TransactionResponse>()
-        for (i in 0..response.length() - 1) {
+        for (i in 0 until response.length()) {
             val jo = response.getJSONObject(i)
+            val joCredited = jo.optJSONObject("credited")
+            val joDebited = jo.optJSONObject("debited")
+            val joAmount = jo.getJSONObject("amount")
+
+            // TODO handle fee transactions
+            val joFee = jo.getJSONObject("fee")
 
             val tf = TransactionResponse(
-                    jo.getString("id"),
-                    jo.optString("transactionids"),
-                    jo.getString("status"),
-                    jo.getString("operationtype"),
-                    jo.getLong("creationdate"),
-                    jo.optString("resultcode"),
-                    jo.optString("crediteduserid"),
-                    jo.optString("debiteduserid"),
-                    jo.optString("brokerid"),
-                    jo.optInt("creditedfunds"),
-                    jo.optInt("debitedfunds"),
-                    jo.optInt("dwafunds"),
-                    jo.optString("crediteduserfullname"),
-                    jo.optString("debiteduserfullname"),
-                    jo.optString("usermessage"),
-                    jo.optInt("brokerfunds"),
-                    jo.optString("brokerlegaluserid"),
-                    jo.optString("clientname"))
+                    jo.optString("transactionId"),
+                    jo.optString("status"),
+                    jo.getString("transactionType"),
+                    jo.getString("created"),
+                    null,
+                    null,
+                    joAmount.optLong("amount"),
+                    joAmount.optLong("amount"),
+                    joCredited?.optString("fullName"),
+                    joDebited?.optString("fullName"),
+                    jo.optString("message"))
 
-            if (tf.operationtype == "Payout" && tf.status == "CREATED") {
-                transactions.add(tf.copy(status = "SUCCEEDED", resultcode = "000000"))
-            } else {
-                transactions.add(tf)
-            }
+            transactions.add(tf)
 
         }
         return transactions

@@ -19,7 +19,7 @@ open class TransactionsPresenter @Inject constructor(val view: TransactionsContr
     var token:String?=null
 
     override fun refreshTransactions() {
-        api.transactions(configuration.accessToken, configuration.userId, 50, 0)
+        api.transactions(configuration.accessToken, configuration.userId, configuration.accountId, configuration.tenantId, 50, 0)
         { opttransactionsFull, opterror ->
 
             if (opterror != null) {
@@ -28,7 +28,7 @@ open class TransactionsPresenter @Inject constructor(val view: TransactionsContr
             }
 
             opttransactionsFull?.let { transactionsFull ->
-                dbTransactionsPHelper.saveAll(transactionsFull, configuration.userId)
+                dbTransactionsPHelper.saveAll(transactionsFull)
                 currentTransactions()
             }
         }
