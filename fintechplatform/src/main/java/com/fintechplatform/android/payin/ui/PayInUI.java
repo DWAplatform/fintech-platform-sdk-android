@@ -39,7 +39,7 @@ public class PayInUI {
                 .payInAPIModule(new PayInAPIModule(instance.hostName))
                 .netModule(new NetModule(Volley.newRequestQueue(context), instance.hostName))
                 .balanceAPIModule(new BalanceAPIModule(instance.hostName))
-                .secure3DUIModule(new Secure3DUIModule(secure3DUI))
+                .secure3DUIHelperModule(new Secure3DUIHelperModule(secure3DUI))
                 .paymentCardUIModule(new PaymentCardUIModule(paymentCardUI))
                 .build();
     }

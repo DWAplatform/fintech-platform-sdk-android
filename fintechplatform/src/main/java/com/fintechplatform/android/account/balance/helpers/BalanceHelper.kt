@@ -5,9 +5,6 @@ import com.fintechplatform.android.account.balance.models.BalanceItem
 import com.fintechplatform.android.money.Money
 import javax.inject.Inject
 
-/**
- * Created by tcappellari on 08/12/2017.
- */
 open class BalanceHelper @Inject constructor(val persistence: BalancePersistence,
                                              val api: BalanceAPI) {
 

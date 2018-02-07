@@ -8,10 +8,10 @@ import dagger.Module;
 import dagger.Provides;
 
 @Module
-public class Secure3DUIModule {
+public class Secure3DUIHelperModule {
     private Secure3DUI secure3DUI;
 
-    public Secure3DUIModule(Secure3DUI secure3DUI) {
+    public Secure3DUIHelperModule(Secure3DUI secure3DUI) {
         this.secure3DUI = secure3DUI;
     }
 

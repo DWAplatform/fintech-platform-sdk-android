@@ -31,7 +31,7 @@ import dagger.Component;
         PaymentCardPersistanceModule.class,
         FeeHelperModule.class,
         NetModule.class,
-        Secure3DUIModule.class,
+        Secure3DUIHelperModule.class,
         PaymentCardUIModule.class
 })
 public interface PayInViewComponent {
