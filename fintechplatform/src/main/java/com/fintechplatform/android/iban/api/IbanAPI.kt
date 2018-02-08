@@ -23,23 +23,24 @@ class IbanAPI @Inject constructor(internal val hostName: String,
 
     fun createIBAN(token: String,
                    userid: String,
+                   accountId: String,
+                   tenantId: String,
                    iban: String,
                    completion: (BankAccount?, Exception?) -> Unit): IRequest<*>? {
-        val url = netHelper.getURL("/rest/1.0/fin/iban/create")
+        val url = netHelper.getURL("/rest/v1/fintech/tenants/$tenantId/personal/$userid/accounts/$accountId/linkedBanks")
 
         var request: IRequest<*>?
         try {
             val jsonObject = JSONObject()
-            jsonObject.put("userid", userid)
+            //jsonObject.put("bic", "")
             jsonObject.put("iban", iban)
 
-            // Request a string response from the provided URL.
             val r = requestProvider.jsonObjectRequest(Request.Method.POST, url, jsonObject,
                     netHelper.authorizationToken(token), { response ->
 
-                val ibanid = response.getString("ibanid")
+                val ibanid = response.getString("bankId")
                 val iban = response.getString("iban")
-                val activestate = response.getString("activestate")
+                val activestate = response.optString("status")
 
                 completion(BankAccount(ibanid, iban, activestate), null)
             }) { error ->
@@ -66,9 +67,11 @@ class IbanAPI @Inject constructor(internal val hostName: String,
 
     fun getbankAccounts(token: String,
                         userid: String,
+                        accountId: String,
+                        tenantId: String,
                         completion: (List<BankAccount>?, Exception?) -> Unit): IRequest<*>? {
 
-        val baseurl = netHelper.getURL("/rest/1.0/fin/iban/list")
+        val baseurl = netHelper.getURL("/rest/v1/account/tenants/$tenantId/personal/$userid/accounts/$accountId/linkedBanks")
 
         var request: IRequest<*>?
         try {
@@ -85,9 +88,9 @@ class IbanAPI @Inject constructor(internal val hostName: String,
                             val reply = response.getJSONObject(i)
 
                             BankAccount(
-                                    reply.optString("ibanid"),
+                                    reply.optString("bankId"),
                                     reply.optString("iban"),
-                                    reply.optString("activestate"))
+                                    reply.optString("status"))
                         }
 
                         completion(bas, null)

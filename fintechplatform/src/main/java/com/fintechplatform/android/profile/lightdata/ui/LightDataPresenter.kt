@@ -112,7 +112,7 @@ class LightDataPresenter @Inject constructor(val view: LightDataContract.View,
         view.enableAllTexts(false)
 
         api.searchUser(configuration.accessToken,
-                 configuration.userId){ profile, exception ->
+                 configuration.userId, configuration.tenantId){ profile, exception ->
 
             if (exception != null){
                 handleErrors(exception)

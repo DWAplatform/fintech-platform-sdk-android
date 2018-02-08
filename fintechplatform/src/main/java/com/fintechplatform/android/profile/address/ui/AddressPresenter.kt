@@ -28,7 +28,7 @@ class AddressPresenter @Inject constructor(val view: AddressContract.View,
         view.enableAllTexts(false)
 
         api.searchUser(configuration.accessToken,
-                configuration.userId){ profile, exception ->
+                configuration.userId, configuration.tenantId){ profile, exception ->
 
             if (exception != null){
                 handleErrors(exception)
@@ -41,6 +41,7 @@ class AddressPresenter @Inject constructor(val view: AddressContract.View,
 
             val res = UserResidential(
                     profile.userid,
+                    configuration.tenantId,
                     profile.address,
                     profile.ZIPcode,
                     profile.city,
@@ -82,6 +83,7 @@ class AddressPresenter @Inject constructor(val view: AddressContract.View,
 
         val residential = UserResidential(
                 configuration.userId,
+                configuration.tenantId,
                 view.getAddressText(),
                 view.getPostalCodeText(),
                 view.getCityText(),
@@ -105,6 +107,7 @@ class AddressPresenter @Inject constructor(val view: AddressContract.View,
 
             val res = UserResidential(
                     optuserprofilereply.userid,
+                    configuration.tenantId,
                     view.getAddressText(),
                     view.getPostalCodeText(),
                     view.getCityText(),

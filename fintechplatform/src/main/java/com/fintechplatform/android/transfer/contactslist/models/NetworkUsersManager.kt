@@ -1,4 +1,4 @@
-package com.fintechplatform.android.transfer.models
+package com.fintechplatform.android.transfer.contactslist.models
 
 
 class NetworkUsersManager {

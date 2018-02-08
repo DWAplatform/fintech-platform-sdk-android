@@ -39,7 +39,7 @@ class UsersPersistanceDB @Inject constructor(val dbUsers: UsersDB) {
     fun residential(userId: String): UserResidential? {
         val optuserobj = dbUsers.findUser(userId)
         return optuserobj?.let { userobj ->
-            UserResidential(userId, userobj.address,
+            UserResidential(userId, "", userobj.address,
                     userobj.ZIPcode, userobj.city, userobj.countryofresidence)
             }
     }

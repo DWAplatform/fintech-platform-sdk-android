@@ -9,7 +9,7 @@ import com.fintechplatform.android.money.FeeHelper
 import com.fintechplatform.android.money.Money
 import com.fintechplatform.android.money.MoneyHelper
 import com.fintechplatform.android.transfer.api.TransferAPI
-import com.fintechplatform.android.transfer.models.NetworkUserModel
+import com.fintechplatform.android.transfer.contactslist.models.NetworkUserModel
 import java.util.*
 
 class TransferPresenter constructor(var view: TransferContract.View,

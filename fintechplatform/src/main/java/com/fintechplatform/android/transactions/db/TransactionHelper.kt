@@ -37,7 +37,7 @@ class TransactionHelper @Inject constructor(val moneyHelper: MoneyHelper) {
                         t.status)
 
             }
-            "LINKED_BANK_ACCOUNT_CASH_OUT" -> {
+            "LINKED_BANK_CASH_OUT" -> {
                 val debitedfunds = t.debitedfunds ?: return null
                 val mhString = moneyHelper.toString(Money(-debitedfunds))
 

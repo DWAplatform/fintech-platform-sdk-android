@@ -193,6 +193,7 @@ class IBANActivity: FragmentActivity(), IBANContract.View{
 
     override fun showCommunicationInternalError() {
         alertHelpers.internalError(this).show()
+
     }
 
     override fun hideSoftkeyboard() {

@@ -25,7 +25,7 @@ class JobInfoPresenter @Inject constructor(val view: JobInfoContract.View,
     override fun onRefresh() {
         view.enableAllTexts(false)
 
-        api.searchUser(configuration.accessToken, configuration.userId ) { profile, exception ->
+        api.searchUser(configuration.accessToken, configuration.userId, configuration.tenantId) { profile, exception ->
 
             if (exception != null) {
                 return@searchUser

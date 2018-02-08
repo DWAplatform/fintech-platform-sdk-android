@@ -6,7 +6,7 @@ import com.fintechplatform.android.api.IRequestProvider
 import com.fintechplatform.android.api.IRequestQueue
 import com.fintechplatform.android.api.NetHelper
 import com.fintechplatform.android.log.Log
-import com.fintechplatform.android.transfer.models.NetworkUserModel
+import com.fintechplatform.android.transfer.contactslist.models.NetworkUserModel
 import org.json.JSONObject
 
 

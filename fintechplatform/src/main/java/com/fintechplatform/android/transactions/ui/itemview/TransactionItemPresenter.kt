@@ -15,7 +15,7 @@ class TransactionItemPresenter @Inject constructor(val view: TransactionItemCont
         view.setTextWhat(item.what)
         view.setTextWho(item.who)
 
-        if (item.status != "SUCCEEDED") {
+        if (item.status != "SUCCEEDED" && item.status != "CREATED") {
             view.setErrorAmount(item.amount)
             view.showError()
         } else {

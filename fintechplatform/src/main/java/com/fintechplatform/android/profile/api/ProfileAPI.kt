@@ -10,7 +10,6 @@ import com.fintechplatform.android.log.Log
 import com.fintechplatform.android.profile.models.*
 import org.json.JSONArray
 import org.json.JSONObject
-import java.net.URLEncoder
 import java.util.*
 import javax.inject.Inject
 
@@ -63,29 +62,21 @@ class ProfileAPI @Inject constructor(
 
     */
 
-    fun searchUser(token: String, userid: String, completion: (UserProfile?, Exception?) -> Unit): IRequest<*>? {
-        val encodedUserId = URLEncoder.encode(userid, "UTF-8")
-        val url = netHelper.getURL("/rest/v1/users/$encodedUserId/profile")
+    fun searchUser(token: String, userid: String, tenantId: String?, completion: (UserProfile?, Exception?) -> Unit): IRequest<*>? {
+
+        val url = netHelper.getURL("/rest/v1/fintech/tenants/$tenantId/users/$userid")
 
         var request: IRequest<*>?
         try {
-            // Request a string response from the provided URL.
+
             val r = requestProvider.jsonObjectRequest(Request.Method.GET, url,
                     null, netHelper.authorizationToken(token),
                     { response ->
                         val (userprofile, error) = netHelper.searchUserReplyParser(response)
                         completion(userprofile, error)
                     })
-            { error ->
-                val status = if (error.networkResponse != null) error.networkResponse.statusCode
-                else -1
-                when (status) {
-                    401 ->
-                        completion(null, netHelper.TokenError(error))
-                    else ->
-                        completion(null, netHelper.GenericCommunicationError(error))
-                }
-            }
+            {error ->
+                completion(null, error) }
             r.setIRetryPolicy(netHelper.defaultpolicy)
             queue.add(r)
             request = r
@@ -98,45 +89,47 @@ class ProfileAPI @Inject constructor(
     }
 
 
-    private fun profile(token: String,
-                 userid: String? = null,
-                 name: String? = null,
-                 surname: String? = null,
-                 nationality: String? = null,
-                 countryofresidence: String? = null,
-                 birthday: String? = null,
-                 address: String? = null,
-                 zipcode: String? = null,
-                 city: String? = null,
-                 photo: String? = null,
-                 telnum: String? = null,
-                 email: String? = null,
-                 phonetoken: String? = null,
-                 jobinfo: String? = null,
-                 income: String? = null,
-                 completion: (UserProfileReply?, Exception?) -> Unit): IRequest<*>? {
+    private fun editProfile(token: String,
+                            userid: String? = null,
+                            tenantId: String?=null,
+                            name: String? = null,
+                            surname: String? = null,
+                            nationality: String? = null,
+                            countryofresidence: String? = null,
+                            birthday: String? = null,
+                            address: String? = null,
+                            zipcode: String? = null,
+                            city: String? = null,
+                            photo: String? = null,
+                            telnum: String? = null,
+                            email: String? = null,
+                            phonetoken: String? = null,
+                            jobinfo: String? = null,
+                            income: String? = null,
+                            pin: String?=null,
+                            completion: (UserProfileReply?, Exception?) -> Unit): IRequest<*>? {
 
 
-        val url = netHelper.getURL("/rest/1.0/user/profile")
+        val url = netHelper.getURL("/rest/v1/fintech/tenants/$tenantId/users/$userid")
 
         var request: IRequest<*>?
         try {
             val jsonObject = JSONObject()
-
-            userid?.let { jsonObject.put("userid", userid) }
-            name?.let { jsonObject.put("name", name) }
-            surname?.let { jsonObject.put("surname", surname) }
-            nationality?.let { jsonObject.put("nationality", nationality) }
-            countryofresidence?.let { jsonObject.put("countryofresidence", countryofresidence) }
-            birthday?.let { jsonObject.put("birthday", birthday) }
-            address?.let { jsonObject.put("address", address) }
-            zipcode?.let { jsonObject.put("ZIPcode", zipcode) }
-            city?.let { jsonObject.put("city", city) }
-            email?.let { jsonObject.put("email", email) }
-            photo?.let { jsonObject.put("photo", photo) }
-            telnum?.let { jsonObject.put("telephone", telnum) }
-            jobinfo?.let { jsonObject.put("jobinfo", jobinfo) }
-            income?.let { jsonObject.put("income", income) }
+            if (pin != null) jsonObject.put("pin", pin)
+            if (userid != null) jsonObject.put("userid", userid)
+            if (name != null) jsonObject.put("name", name)
+            if (surname != null) jsonObject.put("surname", surname)
+            if (nationality != null) jsonObject.put("nationality", nationality)
+            if (countryofresidence != null) jsonObject.put("countryOfResidence", countryofresidence)
+            if (birthday != null) jsonObject.put("birthday", birthday)
+            if (address != null) jsonObject.put("addressOfResidence", address)
+            if (zipcode != null) jsonObject.put("postalCode", zipcode)
+            if (city != null) jsonObject.put("cityOfResidence", city)
+            if (email != null) jsonObject.put("email", email)
+            if (photo != null) jsonObject.put("photo", photo)
+            if (telnum != null) jsonObject.put("telephone", telnum)
+            if (jobinfo != null) jsonObject.put("occupation", jobinfo)
+            if (income != null) jsonObject.put("incomeRange", income)
 
             val hparams: Map<String, String>
             if (userid != null) {
@@ -147,38 +140,29 @@ class ProfileAPI @Inject constructor(
                 hparams = h
             }
 
-            // Request a string response from the provided URL.
-            val r = requestProvider.jsonObjectRequest(Request.Method.POST, url, jsonObject,
+            val r = requestProvider.jsonObjectRequest(Request.Method.PUT, url, jsonObject,
                     hparams,
                     { response ->
 
                         val userprofile = UserProfileReply(
-                                response.getString("userid"),
-                                response.optString("tokenuser"))
+                                response.getString("userId"),null)
 
                         completion(userprofile, null)
                     })
-            { error ->
-                val status = if (error.networkResponse != null) error.networkResponse.statusCode
-                else -1
-                when (status) {
-                    401 ->
-                        completion(null, netHelper.TokenError(error))
-                    else ->
-                        completion(null, netHelper.GenericCommunicationError(error))
-                }
-            }
+            {error ->
+                completion(null, error) }
             r.setIRetryPolicy(netHelper.defaultpolicy)
             queue.add(r)
             request = r
         } catch (e: Exception) {
-            log.error(TAG, "profile", e)
+            log.error(TAG, "profileAPI", e)
             request = null
         }
 
         return request
     }
 
+    // TODO documents
     fun getDocuments(token: String, userid: String, completion: (ArrayList<UserDocuments?>?, Exception?) -> Unit): IRequest<*>? {
         val url = netHelper.getURL("/rest/1.0/users/$userid/documents")
 
@@ -281,7 +265,7 @@ class ProfileAPI @Inject constructor(
                   lightData: UserLightData,
                   completion: (UserProfileReply?, Exception?) -> Unit) {
 
-        profile(token = token,
+        editProfile(token = token,
                 userid = lightData.userid,
                 name = lightData.name,
                 surname = lightData.surname,
@@ -295,7 +279,7 @@ class ProfileAPI @Inject constructor(
                  contacts: UserContacts,
                  completion: (UserProfileReply?, Exception?) -> Unit) {
 
-        profile(token = token,
+        editProfile(token = token,
                 userid = contacts.userid,
                 email = contacts.email,
                 completion = completion)
@@ -305,8 +289,9 @@ class ProfileAPI @Inject constructor(
                     residential: UserResidential,
                     completion: (UserProfileReply?, Exception?) -> Unit) {
 
-        profile(token = token,
+        editProfile(token = token,
                 userid = residential.userid,
+                tenantId = residential.tenantid,
                 address = residential.address,
                 zipcode = residential.ZIPcode,
                 city = residential.city,
@@ -318,7 +303,7 @@ class ProfileAPI @Inject constructor(
                 jobInfo: UserJobInfo,
                 completion: (UserProfileReply?, Exception?) -> Unit) {
 
-        profile(token = token,
+        editProfile(token = token,
                 userid = jobInfo.userid,
                 jobinfo = jobInfo.jobinfo,
                 income = jobInfo.income,

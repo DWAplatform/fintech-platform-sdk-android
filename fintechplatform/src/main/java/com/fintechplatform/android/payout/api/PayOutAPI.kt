@@ -30,11 +30,16 @@ class PayOutAPI @Inject constructor(internal val hostName: String,
         var request: IRequest<*>?
         try {
             val jsonObject = JSONObject()
-
-            jsonObject.put("amount", amount)
+            val joAmount = JSONObject()
+            joAmount.put("amount", amount)
+            joAmount.put("currency", "EUR")
+            jsonObject.put("amount", joAmount)
 
             // FIXME cashout doesnt needs fee
-            jsonObject.put("fee", 0L)
+            val joFee = JSONObject()
+            joFee.put("amount", 0L)
+            joFee.put("currency", "EUR")
+            jsonObject.put("fee", joFee)
             //jsonObject.put("idempotency", idempotency)
 
             val r = requestProvider.jsonObjectRequest(Request.Method.POST, url, jsonObject,

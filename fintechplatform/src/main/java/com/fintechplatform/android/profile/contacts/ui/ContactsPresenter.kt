@@ -28,7 +28,7 @@ class ContactsPresenter @Inject constructor(val view: ContactsContract.View,
         view.enableAllTexts(false)
 
         api.searchUser(configuration.accessToken,
-                configuration.userId){ profile, exception ->
+                configuration.userId, configuration.tenantId){ profile, exception ->
 
             if (exception != null){
                 handlerErrors(exception)

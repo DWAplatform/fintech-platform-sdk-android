@@ -51,7 +51,7 @@ class PayInPayOutFinancialDataPresenter @Inject constructor(val view: PayInPayOu
     override fun loadBankAccount() {
         ibanDB.delete()
 
-        apiBankAccount.getbankAccounts(configuration.accessToken, configuration.userId) { optbankaccounts, opterror ->
+        apiBankAccount.getbankAccounts(configuration.accessToken, configuration.userId, configuration.accountId, configuration.tenantId) { optbankaccounts, opterror ->
 
             if (opterror != null) {
                 return@getbankAccounts

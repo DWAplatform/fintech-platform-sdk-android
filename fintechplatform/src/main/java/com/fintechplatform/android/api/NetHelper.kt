@@ -80,21 +80,21 @@ class NetHelper constructor(val hostName: String) {
     fun searchUserReplyParser(response: JSONObject) : UserReplyParserResult {
 
         val userprofile = UserProfile(
-                response.getString("userid"),
+                response.getString("userId"),
                 response.optString("name"),
                 response.optString("surname"),
                 response.optString("nationality"),
                 response.optString("birthday"),
-                response.optString("address"),
-                response.optString("ZIPcode"),
-                response.optString("city"),
+                response.optString("addressOfResidence"),
+                response.optString("postalCode"),
+                response.optString("cityOfResidence"),
                 response.optString("telephone"),
                 response.optString("email"),
                 response.optString("photo"),
-                response.optString("countryofresidence"),
-                response.optString("jobinfo"),
-                response.optString("income"),
-                response.optString("tokenuser"))
+                response.optString("countryOfResidence"),
+                response.optString("occupation"),
+                response.optString("incomeRnage"),
+                null)
 
         return UserReplyParserResult(userprofile, null)
 

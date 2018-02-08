@@ -83,7 +83,7 @@ class IBANPresenter @Inject constructor(val view: IBANContract.View,
         view.confirmButtonEnable(false)
         view.showCommunicationWait()
 
-        val residential = UserResidential(configuration.userId, view.getAddressText(),  view.getZipcodeText(), view.getCityText(), countryofresidenceCode)
+        val residential = UserResidential(configuration.userId, configuration.tenantId, view.getAddressText(),  view.getZipcodeText(), view.getCityText(), countryofresidenceCode)
         apiProfile.residential(
                 configuration.accessToken,
                 residential) { optuserprofilereply, opterror ->
@@ -103,6 +103,7 @@ class IBANPresenter @Inject constructor(val view: IBANContract.View,
 
             val res = UserResidential(
                     optuserprofilereply.userid,
+                    configuration.tenantId,
                     view.getAddressText(),
                     view.getZipcodeText(),
                     view.getCityText(),
@@ -120,6 +121,8 @@ class IBANPresenter @Inject constructor(val view: IBANContract.View,
 
         api.createIBAN(configuration.accessToken,
                 configuration.userId,
+                configuration.accountId,
+                configuration.tenantId,
                 view.getNumberText()) { optbankaccount, opterror ->
 
             view.hideCommunicationWait()
@@ -135,7 +138,6 @@ class IBANPresenter @Inject constructor(val view: IBANContract.View,
                 return@createIBAN
             }
             ibanPersistanceDB.replace(optbankaccount)
-
             onAbortClick()
         }
     }
@@ -155,7 +157,6 @@ class IBANPresenter @Inject constructor(val view: IBANContract.View,
 
 
     fun refreshAllFromServer() {
-
         refreshFromServerBankAccount()
         refreshFromServerResidential()
     }
@@ -164,7 +165,7 @@ class IBANPresenter @Inject constructor(val view: IBANContract.View,
         ibanServerCalled = false
         view.enableAllTexts(false)
 
-        api.getbankAccounts(configuration.accessToken, configuration.userId) { optbankaccounts, opterror ->
+        api.getbankAccounts(configuration.accessToken, configuration.userId, configuration.accountId, configuration.tenantId) { optbankaccounts, opterror ->
 
             ibanServerCalled = true
 
@@ -194,7 +195,7 @@ class IBANPresenter @Inject constructor(val view: IBANContract.View,
         view.enableAllTexts(false)
 
         apiProfile.searchUser(configuration.accessToken,
-                configuration.userId){ profile, exception ->
+                configuration.userId, configuration.tenantId){ profile, exception ->
 
             residentialServerCalled = true
 
@@ -209,6 +210,7 @@ class IBANPresenter @Inject constructor(val view: IBANContract.View,
 
             val res = UserResidential(
                     profile.userid,
+                    configuration.tenantId,
                     profile.address,
                     profile.ZIPcode,
                     profile.city,
