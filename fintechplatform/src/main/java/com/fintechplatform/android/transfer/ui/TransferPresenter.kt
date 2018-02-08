@@ -145,7 +145,7 @@ class TransferPresenter constructor(var view: TransferContract.View,
     }
 
     fun reloadBalance() {
-        apiBalance.balance(config.accessToken, config.userId, config.accountId) { optbalance, opterror ->
+        apiBalance.balance(config.accessToken, config.userId, config.accountId, config.tenantId) { optbalance, opterror ->
             if (opterror != null) {
                 handleErrors(opterror)
                 return@balance
@@ -155,7 +155,7 @@ class TransferPresenter constructor(var view: TransferContract.View,
                 return@balance
             }
             val balance = optbalance
-            balancePersistence.saveBalance(BalanceItem(config.accountId, Money(balance)))
+            balancePersistence.saveBalance(BalanceItem(config.accountId, balance))
 
             refreshBalance()
         }

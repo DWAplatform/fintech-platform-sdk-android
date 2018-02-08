@@ -123,7 +123,7 @@ class PayOutPresenter @Inject constructor(val configuration: DataAccount,
 
     private fun reloadBalance() {
 
-        balanceHelper.api.balance(configuration.accessToken, configuration.userId, configuration.accountId) { optbalance, opterror ->
+        balanceHelper.api.balance(configuration.accessToken, configuration.userId, configuration.accountId, configuration.tenantId) { optbalance, opterror ->
             if (opterror != null) {
                 handleErrors(opterror)
                 return@balance
@@ -133,7 +133,7 @@ class PayOutPresenter @Inject constructor(val configuration: DataAccount,
                 return@balance
             }
             val balance = optbalance
-            balanceHelper.persistence.saveBalance(BalanceItem(configuration.accountId, Money(balance)))
+            balanceHelper.persistence.saveBalance(BalanceItem(configuration.accountId, balance))
 
             refreshBalance()
         }
