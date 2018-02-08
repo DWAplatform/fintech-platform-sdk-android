@@ -1,0 +1,186 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/background"
+    tools:context="com.dwafintech.dwapay.signup.SignupActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:id="@+id/header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/headerbackgroundcolor">
+
+            <Button
+                android:id="@+id/backwardButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/navheader_back"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:textSize="18dp"
+                android:layout_marginLeft="5dp"
+                android:visibility="invisible"
+                android:textAllCaps="false"
+                android:textColor="@android:color/white" />
+
+            <Button
+                android:id="@+id/forwardButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/navheader_confirm"
+                android:layout_alignBaseline="@id/backwardButton"
+                android:layout_marginRight="5dp"
+                android:layout_marginEnd="5dp"
+                android:enabled="false"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                style="@style/headerButtonStyle"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/backwardButton"
+                android:layout_marginBottom="25dp">
+
+                <TextView
+                    android:id="@+id/navheader_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:text="Coordinate bancarie"
+                    android:textSize="22dp"
+                    android:textColor="@android:color/white"
+                    android:textAlignment="center"/>
+
+                <ProgressBar
+                    android:id="@+id/activityIndicator"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:indeterminateOnly="true"
+                    android:keepScreenOn="true"
+                    android:layout_marginLeft="20dp"
+                    android:layout_toRightOf="@id/navheader_title"
+                    android:indeterminateTint="@color/white"
+                    android:visibility="gone" />
+
+            </RelativeLayout>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/header">
+
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="10dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/white">
+
+                    <android.support.design.widget.TextInputLayout
+                        android:id="@+id/nameTextLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/white"
+                        app:hintEnabled="true"
+                        android:layout_marginTop="2dp">
+                        <android.support.design.widget.TextInputEditText
+                            android:id="@+id/nameText"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textColor="@android:color/black"
+                            android:hint="@string/signup_light_data_name"
+                            android:padding="5dp"
+                            android:inputType="textCapWords"
+                            android:singleLine="true"
+                            android:textSize="20dp"
+                            android:layout_marginLeft="10dp"/>
+                    </android.support.design.widget.TextInputLayout>
+
+                    <android.support.design.widget.TextInputLayout
+                        android:id="@+id/surnameTextLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/white"
+                        android:layout_below="@id/nameTextLayout"
+                        app:hintEnabled="true"
+                        android:layout_marginTop="2dp">
+                        <android.support.design.widget.TextInputEditText
+                            android:id="@+id/surnameText"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textColor="@android:color/black"
+                            android:hint="@string/signup_light_data_surname"
+                            android:padding="5dp"
+                            android:inputType="textCapWords"
+                            android:singleLine="true"
+                            android:layout_marginLeft="10dp"
+                            android:textSize="20dp" />
+                    </android.support.design.widget.TextInputLayout>
+
+                    <android.support.design.widget.TextInputLayout
+                        android:id="@+id/ibanTextLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/white"
+                        android:layout_below="@id/surnameTextLayout"
+                        app:hintEnabled="true"
+                        android:layout_marginTop="2dp">
+                        <android.support.design.widget.TextInputEditText
+                            android:id="@+id/ibanText"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textColor="@android:color/black"
+                            android:hint="Iban"
+                            android:padding="5dp"
+                            android:inputType="date"
+                            android:singleLine="true"
+                            android:layout_marginLeft="10dp"
+                            android:focusable="false"
+                            android:textSize="20dp" />
+                    </android.support.design.widget.TextInputLayout>
+
+                    <android.support.design.widget.TextInputLayout
+                        android:id="@+id/bicTextLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/white"
+                        android:layout_below="@id/ibanTextLayout"
+                        app:hintEnabled="true"
+                        android:layout_marginTop="2dp">
+                        <android.support.design.widget.TextInputEditText
+                            android:id="@+id/bicText"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textColor="@android:color/black"
+                            android:hint="BIC"
+                            android:padding="5dp"
+                            android:inputType="textCapWords"
+                            android:singleLine="true"
+                            android:focusable="false"
+                            android:layout_marginLeft="10dp"
+                            android:textSize="20dp" />
+                    </android.support.design.widget.TextInputLayout>
+
+                </RelativeLayout>
+
+            </ScrollView>
+
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+</FrameLayout>

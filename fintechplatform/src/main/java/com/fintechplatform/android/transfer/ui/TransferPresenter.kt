@@ -9,8 +9,7 @@ import com.fintechplatform.android.money.FeeHelper
 import com.fintechplatform.android.money.Money
 import com.fintechplatform.android.money.MoneyHelper
 import com.fintechplatform.android.transfer.api.TransferAPI
-import com.fintechplatform.android.transfer.contactslist.db.NetworkUsersPersistance
-import com.fintechplatform.android.transfer.contactslist.models.NetworkUserModel
+import com.fintechplatform.android.transfer.models.NetworkUserModel
 import java.util.*
 
 class TransferPresenter constructor(var view: TransferContract.View,
@@ -18,7 +17,7 @@ class TransferPresenter constructor(var view: TransferContract.View,
                                     var apiBalance: BalanceAPI,
                                     val config: DataAccount,
                                     var balancePersistence: BalancePersistence,
-                                    var dbNetworkUsersHelper: NetworkUsersPersistance,
+                                    //var dbNetworkUsersHelper: NetworkUsersPersistance,
                                     var moneyHelper: MoneyHelper,
                                     var feeHelper: FeeHelper): TransferContract.Presenter {
 
@@ -27,7 +26,7 @@ class TransferPresenter constructor(var view: TransferContract.View,
 
     override fun initialize(p2pUserId: String){
         idempotencyTransfer = UUID.randomUUID().toString()
-        networkUserModel = dbNetworkUsersHelper.findP2P(p2pUserId)
+      //  networkUserModel = dbNetworkUsersHelper.findP2P(p2pUserId)
 
         refreshConfirmButton()
         refreshData()
@@ -82,9 +81,10 @@ class TransferPresenter constructor(var view: TransferContract.View,
     override fun refresh() {
         view.showKeyboardAmount()
 
-        networkUserModel?.let { p2pu ->
-            view.setPersonFullName(dbNetworkUsersHelper.getFullName(p2pu))
-        }
+        //TODO sistema db
+//        networkUserModel?.let { p2pu ->
+//            view.setPersonFullName(dbNetworkUsersHelper.getFullName(p2pu))
+//        }
 
         reloadBalance()
     }

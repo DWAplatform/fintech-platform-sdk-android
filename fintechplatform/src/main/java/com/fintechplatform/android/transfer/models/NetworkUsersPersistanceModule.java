@@ -1,7 +1,10 @@
-package com.fintechplatform.android.transfer.contactslist.models;
+package com.fintechplatform.android.transfer.models;
 
+
+import javax.inject.Singleton;
 
 import dagger.Module;
+import dagger.Provides;
 
 @Module
 public class NetworkUsersPersistanceModule {
@@ -16,10 +19,10 @@ public class NetworkUsersPersistanceModule {
 //    NetworkUsersDB providesP2Pdb() {
 //        return new NetworkUsersDB();
 //    }
-//
-//    @Singleton
-//    @Provides
-//    NetworkUsersManager providesP2PManager() {
-//        return new NetworkUsersManager();
-//    }
+
+    @Singleton
+    @Provides
+    NetworkUsersManager providesP2PManager() {
+        return new NetworkUsersManager();
+    }
 }

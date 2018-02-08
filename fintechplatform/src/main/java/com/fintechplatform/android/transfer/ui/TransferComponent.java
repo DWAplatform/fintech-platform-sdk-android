@@ -9,7 +9,6 @@ import com.fintechplatform.android.log.LogModule;
 import com.fintechplatform.android.money.FeeHelperModule;
 import com.fintechplatform.android.money.MoneyHelperModule;
 import com.fintechplatform.android.transfer.api.TransferAPIModule;
-import com.fintechplatform.android.transfer.contactslist.models.NetworkUsersPersistanceModule;
 
 import javax.inject.Singleton;
 
@@ -20,7 +19,7 @@ import dagger.Component;
         TransferAPIModule.class,
         BalanceAPIModule.class,
         AlertHelpersModule.class,
-        NetworkUsersPersistanceModule.class,
+        //NetworkUsersPersistanceModule.class,
         BalanceHelperModule.class,
         MoneyHelperModule.class,
         FeeHelperModule.class,

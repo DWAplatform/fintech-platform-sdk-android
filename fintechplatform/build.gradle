@@ -44,7 +44,7 @@ android {
         android.compileOptions.targetCompatibility 1.8
         javaCompileOptions {
             annotationProcessorOptions {
-                arguments = [ targetModuleName : 'fintechplatform' ]
+                arguments = [targetModuleName: 'fintechplatform']
             }
         }
 
@@ -138,3 +138,6 @@ tasks.withType(Javadoc).all {
 
 apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/installv1.gradle'
 apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/bintrayv1.gradle'
+dependencies {
+    implementation 'com.android.support.constraint:constraint-layout:+'
+}
