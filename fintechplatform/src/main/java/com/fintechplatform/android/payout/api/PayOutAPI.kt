@@ -18,22 +18,25 @@ class PayOutAPI @Inject constructor(internal val hostName: String,
     private val TAG = "PayOutAPI"
 
     fun payOut(token: String,
-               userid: String,
-               bankAccountid: String,
+               userId: String,
+               accountId: String,
+               tenantId: String,
+               linkedBankId: String,
                amount: Long,
                idempotency: String,
                completion: (Exception?) -> Unit): IRequest<*>? {
-        val url = netHelper.getURL("/rest/1.0/fin/payout")
+        val url = netHelper.getURL("/rest/v1/fintech/tenants/$tenantId/personal/$userId/accounts/$accountId/linkedBanks/$linkedBankId/cashOuts")
 
         var request: IRequest<*>?
         try {
             val jsonObject = JSONObject()
-            jsonObject.put("userid", userid)
-            jsonObject.put("ibanid", bankAccountid)
-            jsonObject.put("amount", amount)
-            jsonObject.put("idempotency", idempotency)
 
-            // Request a string response from the provided URL.
+            jsonObject.put("amount", amount)
+
+            // FIXME cashout doesnt needs fee
+            jsonObject.put("fee", 0L)
+            //jsonObject.put("idempotency", idempotency)
+
             val r = requestProvider.jsonObjectRequest(Request.Method.POST, url, jsonObject,
                     netHelper.authorizationToken(token), { response ->
                 completion(null)

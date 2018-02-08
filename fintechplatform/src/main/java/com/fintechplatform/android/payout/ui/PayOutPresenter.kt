@@ -56,6 +56,8 @@ class PayOutPresenter @Inject constructor(val configuration: DataAccount,
 
         api.payOut(configuration.accessToken,
                 configuration.userId,
+                configuration.accountId,
+                configuration.tenantId,
                 bankAccountId,
                 money.value,
                 idemp) { opterror ->
