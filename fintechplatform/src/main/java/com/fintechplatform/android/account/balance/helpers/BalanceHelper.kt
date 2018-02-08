@@ -9,9 +9,9 @@ open class BalanceHelper @Inject constructor(val persistence: BalancePersistence
                                              val api: BalanceAPI) {
 
 
-    fun getAndUpdateCachedBalance(token: String, userId: String, accountId: String, callback: (Money?, Exception?) -> Unit): Money {
+    fun getAndUpdateCachedBalance(token: String, userId: String, accountId: String, tenantId: String, callback: (Money?, Exception?) -> Unit): Money {
 
-        api.balance(token, userId, accountId) {  optbalance, opterror ->
+        api.balance(token, userId, accountId, tenantId) {  optbalance, opterror ->
             if (opterror != null) {
                 callback(null, opterror)
                 return@balance
@@ -23,9 +23,8 @@ open class BalanceHelper @Inject constructor(val persistence: BalancePersistence
             }
 
             val bal = optbalance
-            val money = Money(bal)
-            persistence.saveBalance(BalanceItem(accountId, money))
-            callback(money, null)
+            persistence.saveBalance(BalanceItem(accountId, bal))
+            callback(bal, null)
         }
 
         return persistence.getBalanceItem(accountId)?.money ?: Money(0)

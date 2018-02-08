@@ -1,93 +1,48 @@
 package com.fintechplatform.android.account.balance.api
 
-import com.android.volley.DefaultRetryPolicy
 import com.android.volley.Request
 import com.fintechplatform.android.api.IRequest
 import com.fintechplatform.android.api.IRequestProvider
 import com.fintechplatform.android.api.IRequestQueue
+import com.fintechplatform.android.api.NetHelper
 import com.fintechplatform.android.log.Log
+import com.fintechplatform.android.money.Money
 import org.json.JSONException
-import java.io.UnsupportedEncodingException
-import java.net.URLEncoder
-import java.util.*
 import javax.inject.Inject
 
-open class BalanceAPI @Inject constructor(
-        internal val hostName: String,
-        internal val queue: IRequestQueue,
-        internal val requestProvider: IRequestProvider,
-       // internal val jsonHelper: JSONHelper,
-        internal val log: Log) {
+open class BalanceAPI @Inject constructor(internal val hostName: String,
+                                        internal val queue: IRequestQueue,
+                                        internal val requestProvider: IRequestProvider,
+                                        internal val netHelper: NetHelper,
+                                        internal val log: Log) {
 
-    private val PROTOCOL_CHARSET = "utf-8"
     private final val TAG = "BalanceAPI"
 
-    private fun getURL(path: String): String {
-        if(hostName.startsWith("http://") || hostName.startsWith("https://")){
-            return "$hostName$path"
-        } else {
-            return "https://$hostName$path"
-        }
-    }
+    open fun balance(token: String, userId: String, accountId: String, tenantId: String, completion: (Money?, Exception?) -> Unit): IRequest<*>? {
 
-    private val defaultpolicy = DefaultRetryPolicy(
-            30000, 0, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT)
-
-    private fun authorizationToken(token: String): Map<String, String> {
-        val header = HashMap<String, String>()
-        header.put("Authorization", "Bearer $token")
-        return header
-    }
-
-
-    @Throws(UnsupportedEncodingException::class)
-    private fun getUrlDataString(url: String, params: HashMap<String, Any>): String {
-
-        val result = StringBuilder()
-        var first = true
-        result.append(url)
-        for ((key, value) in params) {
-            if (first) {
-                result.append("?")
-                first = false
-            } else
-                result.append("&")
-
-            result.append(URLEncoder.encode(key, "UTF-8"))
-            result.append("=")
-            result.append(URLEncoder.encode(value.toString(), "UTF-8"))
-        }
-
-        return result.toString()
-    }
-
-    inner class ReplyParamsUnexpected(throwable: Throwable) : Exception(throwable)
-
-    open fun balance(token: String, userid: String, accountId: String, completion: (Long?, Exception?) -> Unit): IRequest<*>? {
-
-        val url = getURL("/rest/1.0/fin/user/balance")
+        val url = netHelper.getURL("/rest/v1/fintech/tenants/$tenantId/personal/$userId/accounts/$accountId/balance")
 
         var request: IRequest<*>?
         try {
-            val params = HashMap<String, Any>()
-            params.put("userid", userid)
 
-            val rurl = getUrlDataString(url, params)
-
-            val r = requestProvider.jsonObjectRequest(Request.Method.GET, rurl,
-                    null, authorizationToken(token), { response ->
+            val r = requestProvider.jsonObjectRequest(Request.Method.GET, url,
+                    null, netHelper.authorizationToken(token), { response ->
                 try {
-                    //creditcardid
-                    val balance = response.optLong("balance")
-                    completion(balance, null)
+                    val balance = response.getJSONObject("balance")
+                    val moneyBalance = Money(balance.getLong("amount"), balance.getString("currency"))
+
+                    val availableBalance = response.getJSONObject("availableBalance")
+                    val moneyAvailable = Money(availableBalance.getLong("amount"), availableBalance.getString("currency"))
+
+                    completion(moneyBalance, null)
                 } catch (e: JSONException) {
-                    completion(null, ReplyParamsUnexpected(e))
+                    completion(null, netHelper.ReplyParamsUnexpected(e))
                 }
             }
             ) { error ->
                 completion(null, error)
             }
-            r.setIRetryPolicy(defaultpolicy)
+            r.setIRetryPolicy(netHelper.defaultpolicy)
             queue.add(r)
             request = r
         } catch (e: Exception) {
