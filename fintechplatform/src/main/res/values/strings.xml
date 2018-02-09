@@ -253,9 +253,6 @@
     <string name="main_restriction_msg">Limiti operatività</string>
     <string name="main_selfie_photo">Scegli una foto</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-
     <string name="balance_limit_alert_title">Limiti operatività</string>
     <string name="balance_limit_alert_message">Completa il tuo profilo utente per non aver vincoli di operatività.</string>
 

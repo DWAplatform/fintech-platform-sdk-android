@@ -6,6 +6,7 @@ import com.fintechplatform.android.FintechPlatform
 import com.fintechplatform.android.models.DataAccount
 import com.fintechplatform.android.sample.auth.AuthBuilder
 import com.fintechplatform.android.sample.auth.keys.KeyChain
+import com.fintechplatform.android.sample.contactslist.NetworkListBuilder
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -114,6 +115,11 @@ class MainActivity : AppCompatActivity() {
         enterprisedocs.setOnClickListener {
             val builder = FintechPlatform.buildEnterpriseData().buildEnterpriseDocumentsUIComponent(hostName, DataAccount(userId, accountId, tenantId, token))
             builder.enterpriseDocumentsUI.start(this)
+        }
+
+        peers.setOnClickListener {
+            NetworkListBuilder().buildNetworkComponent(hostName, DataAccount(userId, accountId, tenantId, token))
+                    .networkListUI.start(this)
         }
     }
 

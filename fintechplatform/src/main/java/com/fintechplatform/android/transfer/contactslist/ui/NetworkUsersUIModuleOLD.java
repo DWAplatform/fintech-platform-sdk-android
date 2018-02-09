@@ -9,12 +9,12 @@ import dagger.Module;
 import dagger.Provides;
 
 @Module
-public class NetworkUsersUIModule {
+public class NetworkUsersUIModuleOLD {
 
     private DataAccount dataAccount;
     private String hostName;
 
-    public NetworkUsersUIModule(DataAccount dataAccount, String hostName) {
+    public NetworkUsersUIModuleOLD(DataAccount dataAccount, String hostName) {
         this.dataAccount = dataAccount;
         this.hostName = hostName;
     }

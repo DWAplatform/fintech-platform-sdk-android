@@ -66,7 +66,7 @@ class TransferAPI constructor(internal val hostName: String,
 
     }
 
-
+    // TODO da spostare su sample
     fun p2pPeersFiltered(token: String,
                          userid: String,
                          telnumbers: List<String>,

@@ -12,7 +12,7 @@ public class TransferBuilder {
 //    public NetworkListUIComponent createNetworkListUIComponet(String hostName, DataAccount configuration) {
 //        return DaggerNetworkListUIComponent.builder()
 //                .transferUIModule(new TransferUIModule(configuration, hostName))
-//                .networkUsersUIModule(new NetworkUsersUIModule(configuration, hostName))
+//                .networkUsersUIModule(new NetworkUsersUIModuleOLD(configuration, hostName))
 //                .build();
 //    }
 

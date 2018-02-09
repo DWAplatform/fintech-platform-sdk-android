@@ -21,6 +21,7 @@ import com.fintechplatform.android.payout.PayOutBuilder
 import com.fintechplatform.android.profile.ProfileBuilder
 import com.fintechplatform.android.secure3d.Secure3DBuilder
 import com.fintechplatform.android.transactions.TransactionsBuilder
+import com.fintechplatform.android.transfer.TransferBuilder
 import com.raizlabs.android.dbflow.config.FlowManager
 
 class FintechPlatform {
@@ -97,6 +98,9 @@ class FintechPlatform {
             return PayInPayOutFinancialDataBuilder()
         }
 
+        fun makeTransfer(): TransferBuilder {
+            return TransferBuilder()
+        }
 
     }
 

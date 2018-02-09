@@ -36,9 +36,6 @@ class Secure3DActivity: AppCompatActivity(), Secure3DContract.View {
             }
         }
 
-        // FIXME commented due to sdk refactor
-        //WindowBarColor.update(window, resources)
-
         presenter.initialize(secureCodeUrl)
 
     }

@@ -22,6 +22,8 @@
         </activity>
 
         <activity android:name=".auth.ui.AuthenticationActivity" />
+
+        <activity android:name=".contactslist.ui.NetworkUsersListActivity" />
     </application>
 
 </manifest>
