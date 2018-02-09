@@ -1,6 +1,6 @@
 package com.fintechplatform.android.sample.contactslist.ui.networkuseritem
 
-import com.fintechplatform.android.sample.contactslist.models.NetworkUserModel
+import com.fintechplatform.android.sample.contactslist.models.NetworkAccounts
 
 
 interface NetworkUserItemContract {
@@ -12,6 +12,6 @@ interface NetworkUserItemContract {
     }
 
     interface Presenter {
-        fun initializate(p2puser: NetworkUserModel)
+        fun initializate(p2puser: NetworkAccounts)
     }
 }

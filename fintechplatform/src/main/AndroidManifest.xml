@@ -28,7 +28,8 @@
         <activity android:name=".enterprise.address.ui.EnterpriseAddressActivity" />
         <activity android:name=".enterprise.documents.ui.EnterpriseDocumentsActivity" />
         <activity android:name=".account.list.ui.AccountlistActivity" />
-        <activity android:name=".newibancontact.ui.NewIbanContactActivity"></activity>
+        <activity android:name=".newibancontact.ui.NewIbanContactActivity" />
+        <activity android:name=".transfer.ui.TransferActivity" />
     </application>
 
 </manifest>

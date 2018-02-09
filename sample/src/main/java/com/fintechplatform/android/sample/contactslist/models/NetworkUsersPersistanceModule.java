@@ -25,7 +25,7 @@ public class NetworkUsersPersistanceModule {
 
     @Singleton
     @Provides
-    NetworkUsersManager providesP2PManager() {
-        return new NetworkUsersManager();
+    NetworkAccountsManager providesP2PManager() {
+        return new NetworkAccountsManager();
     }
 }

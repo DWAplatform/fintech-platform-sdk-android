@@ -12,15 +12,19 @@ public class NetworkUsers extends BaseModel {
     @PrimaryKey
     public String userid;
     @Column
+    public String accountid;
+    @Column
+    public String tenantid;
+    @Column
     public String name;
     @Column
     public String surname;
     @Column
-    public String telephone;
-    @Column
     public String photo;
     @Column
-    public String type;
+    public String aspName;
+    @Column
+    public String accountType;
 
     public String getUserid() {
         return userid;
@@ -46,13 +50,6 @@ public class NetworkUsers extends BaseModel {
         this.surname = surname;
     }
 
-    public String getTelephone() {
-        return telephone;
-    }
-
-    public void setTelephone(String telephone) {
-        this.telephone = telephone;
-    }
 
     public String getPhoto() {
         return photo;
@@ -62,11 +59,35 @@ public class NetworkUsers extends BaseModel {
         this.photo = photo;
     }
 
-    public String getType() {
-        return type;
+    public String getAccountid() {
+        return accountid;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setAccountid(String accountid) {
+        this.accountid = accountid;
+    }
+
+    public String getTenantid() {
+        return tenantid;
+    }
+
+    public void setTenantid(String tenantid) {
+        this.tenantid = tenantid;
+    }
+
+    public String getAspName() {
+        return aspName;
+    }
+
+    public void setAspName(String aspName) {
+        this.aspName = aspName;
+    }
+
+    public String getAccountType() {
+        return accountType;
+    }
+
+    public void setAccountType(String accountType) {
+        this.accountType = accountType;
     }
 }

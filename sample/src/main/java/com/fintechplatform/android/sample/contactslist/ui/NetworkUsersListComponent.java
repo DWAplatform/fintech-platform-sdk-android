@@ -4,6 +4,7 @@ import com.fintechplatform.android.alert.AlertHelpersModule;
 import com.fintechplatform.android.api.NetModule;
 import com.fintechplatform.android.images.ImageHelperModule;
 import com.fintechplatform.android.log.LogModule;
+import com.fintechplatform.android.sample.contactslist.api.PeersApiModule;
 import com.fintechplatform.android.sample.contactslist.models.NetworkUsersPersistanceModule;
 
 import javax.inject.Singleton;
@@ -15,6 +16,7 @@ import dagger.Component;
         NetworkUsersListPresenterModule.class,
         NetModule.class,
         LogModule.class,
+        PeersApiModule.class,
         ImageHelperModule.class,
         NetworkUsersPersistanceModule.class,
         AlertHelpersModule.class

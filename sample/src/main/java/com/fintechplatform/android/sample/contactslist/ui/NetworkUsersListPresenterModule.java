@@ -1,6 +1,7 @@
 package com.fintechplatform.android.sample.contactslist.ui;
 
 import com.fintechplatform.android.models.DataAccount;
+import com.fintechplatform.android.sample.contactslist.api.PeersAPI;
 import com.fintechplatform.android.sample.contactslist.db.NetworkUsersPersistance;
 
 import javax.inject.Singleton;
@@ -21,7 +22,7 @@ public class NetworkUsersListPresenterModule {
 
     @Provides
     @Singleton
-    NetworkUsersListContract.Presenter providesContactsPresenter(NetworkUsersPersistance networkUsersPersistance) {
-        return new NetworkUsersPresenter(view, dataAccount, networkUsersPersistance);
+    NetworkUsersListContract.Presenter providesContactsPresenter(PeersAPI api, NetworkUsersPersistance networkUsersPersistance) {
+        return new NetworkUsersPresenter(view, api, dataAccount, networkUsersPersistance);
     }
 }

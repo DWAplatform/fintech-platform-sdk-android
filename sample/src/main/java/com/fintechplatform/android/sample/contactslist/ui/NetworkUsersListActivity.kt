@@ -12,8 +12,8 @@ import com.fintechplatform.android.R
 import com.fintechplatform.android.alert.AlertHelpers
 import com.fintechplatform.android.models.DataAccount
 import com.fintechplatform.android.sample.auth.keys.KeyChain
-import com.fintechplatform.android.sample.contactslist.models.NetworkUserModel
-import com.fintechplatform.android.sample.contactslist.models.NetworkUsersManager
+import com.fintechplatform.android.sample.contactslist.models.NetworkAccounts
+import com.fintechplatform.android.sample.contactslist.models.NetworkAccountsManager
 import kotlinx.android.synthetic.main.activity_networklist.*
 import javax.inject.Inject
 
@@ -25,7 +25,7 @@ class NetworkUsersListActivity : AppCompatActivity(), NetworkUsersListContract.V
 
     @Inject lateinit var alertHelpers: AlertHelpers
     @Inject lateinit var presenter: NetworkUsersListContract.Presenter
-    @Inject lateinit var manager: NetworkUsersManager
+    @Inject lateinit var manager: NetworkAccountsManager
    // @Inject lateinit var transferUI: TransferUI
 
 
@@ -43,7 +43,8 @@ class NetworkUsersListActivity : AppCompatActivity(), NetworkUsersListContract.V
         listView.adapter = NetworkUsersAdapter(this, manager) { p2puser ->
 
             val bundle = Bundle()
-            bundle.putString("p2pid", p2puser.userid)
+            bundle.putString("p2pid", p2puser.ownerId)
+            bundle.putString("p2paccountId", p2puser.accountId)
 
             FintechPlatform.makeTransfer()
                     .createTrasnferUIComponent(hostName, DataAccount(userId, accountId, tenantId, KeyChain(this)["accessToken"]))
@@ -70,8 +71,8 @@ class NetworkUsersListActivity : AppCompatActivity(), NetworkUsersListContract.V
         listView.adapter.notifyDataSetChanged()
     }
 
-    override fun initAdapter(networkUserModels: List<NetworkUserModel>) {
-        manager.initAll(networkUserModels)
+    override fun initAdapter(networkAccounts: List<NetworkAccounts>) {
+        manager.initAll(networkAccounts)
     }
 
     override fun onResume() {
@@ -97,7 +98,17 @@ class NetworkUsersListActivity : AppCompatActivity(), NetworkUsersListContract.V
         presenter.reloadP2P()
     }
 
-//    private fun fetchContacts(): List<String> {
+    override fun showCommunicationInternalError() {
+        alertHelpers.internalError(this).show()
+    }
+
+    override fun showTokenExpiredWarning() {
+        alertHelpers.tokenExpired(this) { _,_ ->
+            finish()
+        }
+    }
+
+    //    private fun fetchContacts(): List<String> {
 //        val alContacts = ArrayList<String>()
 //        val cur = contentResolver.query(
 //                ContactsContract.Data.CONTENT_URI, null,

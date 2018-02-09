@@ -4,22 +4,22 @@ import android.graphics.Color
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import com.fintechplatform.android.images.ImageHelper
-import com.fintechplatform.android.sample.contactslist.models.NetworkUserModel
+import com.fintechplatform.android.sample.contactslist.models.NetworkAccounts
 import com.fintechplatform.android.sample.contactslist.ui.NetworkUsersListUI
 import kotlinx.android.synthetic.main.p2p_item.view.*
 import javax.inject.Inject
 
 
-class NetworkUserViewHolder(view: View, val p2puserClick: (NetworkUserModel) -> Unit) : RecyclerView.ViewHolder(view), NetworkUserItemContract.View {
+class NetworkUserViewHolder(view: View, val p2puserClick: (NetworkAccounts) -> Unit) : RecyclerView.ViewHolder(view), NetworkUserItemContract.View {
 
     @Inject lateinit var imageHelper: ImageHelper
     @Inject lateinit var presenter: NetworkUserItemContract.Presenter
 
     init {
-        NetworkUsersListUI.instace.buildUserViewHolderComponent(this)
+        NetworkUsersListUI.instace.buildUserViewHolderComponent(this).inject(this)
     }
 
-    fun bindForecast(p2puser: NetworkUserModel) {
+    fun bindForecast(p2puser: NetworkAccounts) {
         presenter.initializate(p2puser)
         itemView.setOnClickListener { p2puserClick(p2puser) }
     }
