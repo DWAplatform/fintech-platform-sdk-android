@@ -48,6 +48,9 @@ class TransferPresenter constructor(var view: TransferContract.View,
                 val money = Money.valueOf(view.getAmountText())
 
                 apiTransfer.p2p(config.accessToken,
+                        config.userId,
+                        config.accountId,
+                        config.tenantId,
                         p2pu.userid,
                         p2pu.accountId,
                         p2pu.tenantId,

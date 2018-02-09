@@ -18,6 +18,9 @@ class TransferAPI constructor(internal val hostName: String,
     val TAG = "TransferAPI"
 
     fun p2p(token: String,
+            fromuser: String,
+            fromAccountId: String,
+            fromTenantId: String,
             touserid: String,
             toAccountId: String,
             toTenantId: String,
@@ -25,7 +28,7 @@ class TransferAPI constructor(internal val hostName: String,
             amount: Long,
             completion: (Exception?) -> Unit): IRequest<*>? {
 
-        val url = netHelper.getURL("/rest/v1/fintech/tenants/$toTenantId/personal/$touserid/accounts/$toAccountId/transfers")
+        val url = netHelper.getURL("/rest/v1/fintech/tenants/$fromTenantId/personal/$fromuser/accounts/$fromAccountId/transfers")
 
         var request: IRequest<*>?
         try {
