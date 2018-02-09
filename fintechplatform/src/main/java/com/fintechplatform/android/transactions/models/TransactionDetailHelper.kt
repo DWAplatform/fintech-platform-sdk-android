@@ -8,6 +8,8 @@ class TransactionDetailHelper {
             "FAILED" to "Transazione annullata")
 
     // FIXME: load from server in configuration phase.
+    // TODO vedi codice su Mangopay.scala account.impl.asp.mangopay.application iniziano per asp_xxxx
+
     val resultCodeMap = mapOf(
             // Operation failed
             "001001" to "Credito insufficiente",

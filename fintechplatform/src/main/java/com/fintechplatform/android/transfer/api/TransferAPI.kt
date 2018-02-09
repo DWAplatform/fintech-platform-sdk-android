@@ -55,6 +55,14 @@ class TransferAPI constructor(internal val hostName: String,
 
             val r = requestProvider.jsonObjectRequest(Request.Method.POST, url, jo,
                     netHelper.authorizationToken(token), {
+
+                val error = it.optJSONObject("error")
+                error?.let {
+                    // TODO handle error code.
+                    completion(netHelper.GenericCommunicationError(Exception(it.getString("message"))))
+                    return@jsonObjectRequest
+                }
+
                 completion(null)
             }) { error ->
                 val status = if (error.networkResponse != null) error.networkResponse.statusCode

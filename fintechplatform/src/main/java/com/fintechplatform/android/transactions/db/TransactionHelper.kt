@@ -51,7 +51,7 @@ class TransactionHelper @Inject constructor(val moneyHelper: MoneyHelper) {
                         timeInMilliseconds,
                         t.status)
             }
-            "P2P_SEND" -> {
+            "TRANSFER_SEND" -> {
                 val t_debitedfunds = t.debitedfunds ?: return null
                 val t_creditedfullname = t.crediteduserfullname ?: return null
 
@@ -67,7 +67,7 @@ class TransactionHelper @Inject constructor(val moneyHelper: MoneyHelper) {
                             t.status)
             }
 
-            "P2P_RECEIVE" -> {
+            "TRANSFER_RECEIVE" -> {
                 val t_creditedfunds = t.creditedfunds ?: return null
                 val t_debitedfullname = t.debiteduserfullname ?: return null
 

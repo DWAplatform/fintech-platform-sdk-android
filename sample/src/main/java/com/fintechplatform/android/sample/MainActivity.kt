@@ -11,10 +11,13 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
-    val hostName = "http://192.168.1.73:9000"
-    val userId = "4b7d62d8-d272-449b-bd1b-7601ffdcd81d"
-    val accountId = "a9b56cc5-fa99-4930-b4d1-331670b9f587"
-    val tenantId = "f7569f0e-aaa7-11e7-b71f-ff13485d8836"
+    companion object {
+        val hostName = "http://192.168.1.66:9000"
+        val userId = "7ae16659-97fa-4bc2-9276-f12cfbf3229f"
+        val accountId = "987fd06d-7aed-45a1-aa28-de4b769fa4f8"
+        val tenantId = "f7569f0e-aaa7-11e7-b71f-ff13485d8836"
+    }
+
 
     var token = String()
 

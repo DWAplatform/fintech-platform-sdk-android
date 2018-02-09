@@ -82,6 +82,7 @@ class TransactionsAPI @Inject constructor(
             val joDebited = jo.optJSONObject("debited")
             val joAmount = jo.getJSONObject("amount")
 
+
             // TODO handle fee transactions
             val joFee = jo.getJSONObject("fee")
 

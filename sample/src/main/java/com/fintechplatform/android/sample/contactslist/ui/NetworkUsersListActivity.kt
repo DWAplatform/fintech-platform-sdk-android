@@ -11,6 +11,7 @@ import com.fintechplatform.android.FintechPlatform
 import com.fintechplatform.android.R
 import com.fintechplatform.android.alert.AlertHelpers
 import com.fintechplatform.android.models.DataAccount
+import com.fintechplatform.android.sample.MainActivity
 import com.fintechplatform.android.sample.auth.keys.KeyChain
 import com.fintechplatform.android.sample.contactslist.models.NetworkAccounts
 import com.fintechplatform.android.sample.contactslist.models.NetworkAccountsManager
@@ -33,10 +34,7 @@ class NetworkUsersListActivity : AppCompatActivity(), NetworkUsersListContract.V
         super.onCreate(savedInstanceState)
         NetworkUsersListUI.instace.buildNetworkListComponent(this, this).inject(this)
         setContentView(R.layout.activity_networklist)
-        val hostName = "http://192.168.1.73:9000"
-        val userId = "ae86e2bc-db10-4c1e-8a1d-a1f335213477"
-        val accountId = "55951c78-7a39-4811-a56c-d60a40a55883"
-        val tenantId = "f7569f0e-aaa7-11e7-b71f-ff13485d8836"
+
         swipeLayout.setOnRefreshListener { handleRefresh() }
 
         listView.layoutManager = LinearLayoutManager(this)
@@ -48,7 +46,7 @@ class NetworkUsersListActivity : AppCompatActivity(), NetworkUsersListContract.V
             bundle.putString("p2pTenantId", p2puser.tenantId)
 
             FintechPlatform.makeTransfer()
-                    .createTrasnferUIComponent(hostName, DataAccount(userId, accountId, tenantId, KeyChain(this)["accessToken"]))
+                    .createTrasnferUIComponent(MainActivity.hostName, DataAccount(MainActivity.userId, MainActivity.accountId, MainActivity.tenantId, KeyChain(this)["accessToken"]))
                     .transferUI.start(this, bundle)
         }
     }
