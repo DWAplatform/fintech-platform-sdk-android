@@ -44,7 +44,8 @@ class NetworkUsersListActivity : AppCompatActivity(), NetworkUsersListContract.V
 
             val bundle = Bundle()
             bundle.putString("p2pid", p2puser.ownerId)
-            bundle.putString("p2paccountId", p2puser.accountId)
+            bundle.putString("p2pAccountId", p2puser.accountId)
+            bundle.putString("p2pTenantId", p2puser.tenantId)
 
             FintechPlatform.makeTransfer()
                     .createTrasnferUIComponent(hostName, DataAccount(userId, accountId, tenantId, KeyChain(this)["accessToken"]))

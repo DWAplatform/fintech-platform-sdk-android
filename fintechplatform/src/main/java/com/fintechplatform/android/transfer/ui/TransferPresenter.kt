@@ -9,7 +9,7 @@ import com.fintechplatform.android.money.FeeHelper
 import com.fintechplatform.android.money.Money
 import com.fintechplatform.android.money.MoneyHelper
 import com.fintechplatform.android.transfer.api.TransferAPI
-import com.fintechplatform.android.transfer.contactslist.models.NetworkUserModel
+import com.fintechplatform.android.transfer.models.PeersModel
 import java.util.*
 
 class TransferPresenter constructor(var view: TransferContract.View,
@@ -17,16 +17,18 @@ class TransferPresenter constructor(var view: TransferContract.View,
                                     var apiBalance: BalanceAPI,
                                     val config: DataAccount,
                                     var balancePersistence: BalancePersistence,
-                                    //var dbNetworkUsersHelper: NetworkUsersPersistance,
                                     var moneyHelper: MoneyHelper,
                                     var feeHelper: FeeHelper): TransferContract.Presenter {
 
     var idempotencyTransfer: String? = null
-    var networkUserModel: NetworkUserModel? = null
+    lateinit var networkUserModel: PeersModel
 
-    override fun initialize(p2pUserId: String){
+    override fun initialize(p2pUserId: String, p2pAccountId: String, p2pTenantId: String){
         idempotencyTransfer = UUID.randomUUID().toString()
-      //  networkUserModel = dbNetworkUsersHelper.findP2P(p2pUserId)
+
+        // TODO take info about user network from server restCall(Method.GET,  "/rest/v1/mobile/tenants/:tenantId/users/:userId", findUserFromId _),
+        //networkUserModel = dbNetworkUsersHelper.findP2P(p2pUserId)
+        networkUserModel = PeersModel(p2pUserId, p2pAccountId, p2pTenantId)
 
         refreshConfirmButton()
         refreshData()
@@ -45,11 +47,12 @@ class TransferPresenter constructor(var view: TransferContract.View,
                 view.showCommunicationWait()
                 val money = Money.valueOf(view.getAmountText())
 
-                apiTransfer.p2p(config.accessToken, config.userId,
+                apiTransfer.p2p(config.accessToken,
                         p2pu.userid,
+                        p2pu.accountId,
+                        p2pu.tenantId,
                         view.getMessageText(),
-                        money.value,
-                        idemp) { opterror ->
+                        money.value) { opterror ->
 
                     view.hideCommunicationWait()
                     refreshConfirmButton()
@@ -81,7 +84,6 @@ class TransferPresenter constructor(var view: TransferContract.View,
     override fun refresh() {
         view.showKeyboardAmount()
 
-        //TODO sistema db
 //        networkUserModel?.let { p2pu ->
 //            view.setPersonFullName(dbNetworkUsersHelper.getFullName(p2pu))
 //        }

@@ -15,7 +15,7 @@ import com.fintechplatform.android.R
 import com.fintechplatform.android.alert.AlertHelpers
 import com.fintechplatform.android.images.ImageHelper
 import com.fintechplatform.android.money.MoneyValueInputFilter
-import kotlinx.android.synthetic.main.activity_transfer.*
+import kotlinx.android.synthetic.main.activity_transfer_p2p.*
 import javax.inject.Inject
 
 /**
@@ -28,11 +28,16 @@ class TransferActivity: FragmentActivity(), TransferContract.View {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_transfer)
+
+        TransferUI.instance.buildTransferComponent(this, this).inject(this)
+
+        setContentView(R.layout.activity_transfer_p2p)
 
         val p2pUserID = intent.extras.getString("p2pid") ?: ""
+        val p2pAccountId = intent.extras.getString("p2pAccountId") ?: ""
+        val p2pTenantId = intent.extras.getString("p2pTenantId") ?: ""
 
-        presenter.initialize(p2pUserID)
+        presenter.initialize(p2pUserID, p2pAccountId, p2pTenantId)
 
         amountText.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(p0: Editable?) {}
@@ -109,7 +114,7 @@ class TransferActivity: FragmentActivity(), TransferContract.View {
     }
 
     override fun showSuccessDialog() {
-        alertHelpers.successGeneric(this, "Transazione avvenuta con successo!") { _, _ ->
+        alertHelpers.successGeneric(this, "Transazione avvenuta con successo!") { _,_ ->
             goToMain()
         }
     }
@@ -141,5 +146,6 @@ class TransferActivity: FragmentActivity(), TransferContract.View {
 //        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
 //        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
 //        startActivity(intent)
+        finish()
     }
 }

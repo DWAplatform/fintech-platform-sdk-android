@@ -28,7 +28,6 @@ public class TransferPresenterModule {
     TransferContract.Presenter providesTrasferPresenter(TransferAPI apiTransfer,
                                                         BalanceAPI apiBalance,
                                                         BalancePersistence balancePersistence,
-                                                        //NetworkUsersPersistance contanctsPersistance,
                                                         MoneyHelper moneyHelper,
                                                         FeeHelper feeHelper){
         return new TransferPresenter(view, apiTransfer, apiBalance, dataAccount, balancePersistence, moneyHelper, feeHelper);
