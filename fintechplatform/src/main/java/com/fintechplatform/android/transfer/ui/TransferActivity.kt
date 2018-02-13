@@ -33,9 +33,9 @@ class TransferActivity: FragmentActivity(), TransferContract.View {
 
         setContentView(R.layout.activity_transfer_p2p)
 
-        val p2pUserID = intent.extras.getString("p2pid") ?: ""
-        val p2pAccountId = intent.extras.getString("p2pAccountId") ?: ""
-        val p2pTenantId = intent.extras.getString("p2pTenantId") ?: ""
+        val p2pUserID = intent.extras.getString("peerId") ?: ""
+        val p2pAccountId = intent.extras.getString("peerAccountId") ?: ""
+        val p2pTenantId = intent.extras.getString("peerTenantId") ?: ""
 
         presenter.initialize(p2pUserID, p2pAccountId, p2pTenantId)
 

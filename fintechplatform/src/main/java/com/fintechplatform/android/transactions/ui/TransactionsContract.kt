@@ -12,6 +12,7 @@ interface TransactionsContract {
         fun showTransactions(trs: List<TransactionItem>)
         fun showTransactionDetail(transaction: TransactionItem)
         fun showTokenExpired()
+        fun showErrors(message: String?)
     }
 
     interface Presenter {

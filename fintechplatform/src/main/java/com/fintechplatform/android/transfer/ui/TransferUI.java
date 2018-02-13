@@ -10,6 +10,8 @@ import com.fintechplatform.android.api.NetModule;
 import com.fintechplatform.android.models.DataAccount;
 import com.fintechplatform.android.transfer.api.TransferAPIModule;
 
+import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
+
 public class TransferUI {
 
     private DataAccount dataAccount;
@@ -38,6 +40,7 @@ public class TransferUI {
         instance = this;
         Intent intent = new Intent(context, TransferActivity.class);
         intent.putExtras(networkUserIdArgs);
+        intent.setFlags(FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent);
     }
 }

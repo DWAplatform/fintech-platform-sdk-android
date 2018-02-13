@@ -11,6 +11,8 @@ class TransactionHelper @Inject constructor(val moneyHelper: MoneyHelper) {
 
     fun transactionItem(t: TransactionResponse): TransactionItem? {
         val serverDateFormat = SimpleDateFormat("yyyy-MM-dd")
+        // FIXME wait better format from server
+        // TODO handle t.error
 //        val formatter = SimpleDateFormat("dd-MM-yyyy HH:mm:ss")
 //        val twhen = formatter.format(serverDateFormat.parse(t.creationdate))
 

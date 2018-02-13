@@ -47,6 +47,8 @@ open class TransactionsPresenter @Inject constructor(val view: TransactionsContr
         when (opterror) {
             is NetHelper.TokenError ->
                 view.showTokenExpired()
+            is NetHelper.GenericCommunicationError ->
+                    view.showErrors(opterror.message)
             else -> return
         }
     }

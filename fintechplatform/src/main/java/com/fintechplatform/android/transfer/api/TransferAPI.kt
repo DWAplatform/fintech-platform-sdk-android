@@ -58,7 +58,6 @@ class TransferAPI constructor(internal val hostName: String,
 
                 val error = it.optJSONObject("error")
                 error?.let {
-                    // TODO handle error code.
                     completion(netHelper.GenericCommunicationError(Exception(it.getString("message"))))
                     return@jsonObjectRequest
                 }

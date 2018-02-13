@@ -274,7 +274,6 @@ class PayInActivityTest {
 
     @Test
     fun testGoToCreditCard() {
-        //fixme how to verify launchActivity
         // Given
         main.launchActivity(Intent())
 //        val activityMonitor = ActivityMonitor(CreditCardActivity::class.simpleName, null, false)
@@ -290,7 +289,6 @@ class PayInActivityTest {
 
     @Test
     fun testGoToSecure3D() {
-        //fixme how to verify launchActivity
         // Given
         main.launchActivity(Intent())
         val activityMonitor = ActivityMonitor(Secure3DActivity::class.simpleName, null, false)
@@ -309,7 +307,6 @@ class PayInActivityTest {
 
     @Test
     fun testShowkeyboardAmount() {
-        //fixme how to verify if softkeyboard is displayed
         // Given
         main.launchActivity(Intent())
         val keyboard = main.activity.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager

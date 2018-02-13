@@ -79,6 +79,10 @@ class TransactionsActivity : FragmentActivity(), TransactionsContract.View {
         })
     }
 
+    override fun showErrors(message: String?) {
+        alerthelper.genericError(this, "transazione non caricata", message?: "qualcosa è andato storto")
+    }
+
     override fun showTransactions(trs: List<TransactionItem>) {
         swipeLayout.isRefreshing = false
         manager.initAll(trs)

@@ -40,17 +40,15 @@ class PayInPayOutFinancialDataPresenter @Inject constructor(val view: PayInPayOu
         ibanDB.load()?.let {
             view.setBankAccountText(it.iban?:"")
             isBankAccountLoaded = true
-        }?: loadBankAccount()
+        }
 
         cardDB.load()?.let { cc ->
             view.setPaymentCardNumber("${cc.alias} ${cc.expiration}")
             isPaymentCardLoaded = true
-        }?: loadPaymentCard()
+        }
     }
 
     override fun loadBankAccount() {
-        ibanDB.delete()
-
         apiBankAccount.getbankAccounts(configuration.accessToken, configuration.userId, configuration.accountId, configuration.tenantId) { optbankaccounts, opterror ->
 
             if (opterror != null) {
@@ -62,7 +60,7 @@ class PayInPayOutFinancialDataPresenter @Inject constructor(val view: PayInPayOu
             val bankaccounts = optbankaccounts
             bankaccounts.forEach { ba ->
                 val iban = BankAccount(ba.bankaccountid, ba.iban, ba.activestate)
-                ibanDB.save(iban)
+                ibanDB.replace(iban)
             }
             isBankAccountLoaded = true
             refreshData()

@@ -30,7 +30,6 @@ class IBANActivity: FragmentActivity(), IBANContract.View{
         IbanUI.createIBANViewComponent(this, this).inject(this)
         setContentView(R.layout.activity_iban)
 
-        // TODO refresh user residence data.
         presenter.init()
 
         numberText.addTextChangedListener(object : TextWatcher {

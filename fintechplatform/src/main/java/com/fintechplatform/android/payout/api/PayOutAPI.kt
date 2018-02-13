@@ -35,7 +35,7 @@ class PayOutAPI @Inject constructor(internal val hostName: String,
             joAmount.put("currency", "EUR")
             jsonObject.put("amount", joAmount)
 
-            // FIXME cashout doesnt needs fee
+            // FIXME fee model
             val joFee = JSONObject()
             joFee.put("amount", 0L)
             joFee.put("currency", "EUR")

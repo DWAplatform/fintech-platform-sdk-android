@@ -42,8 +42,7 @@ class TransactionsAPI @Inject constructor(
                     rurl, null, netHelper.authorizationToken(token),
                     { response ->
                         try {
-                            val l = transactionsResponse(response)
-                            completion(l, null)
+                            transactionsResponse(response, completion)
                         } catch (e: JSONException) {
                             completion(null, netHelper.ReplyParamsUnexpected(e))
                         }
@@ -74,14 +73,19 @@ class TransactionsAPI @Inject constructor(
     }
 
     @Throws(JSONException::class)
-    private fun transactionsResponse(response: JSONArray): List<TransactionResponse> {
+    private fun transactionsResponse(response: JSONArray, completion: (List<TransactionResponse>?, Exception?) -> Unit){
         val transactions = ArrayList<TransactionResponse>()
         for (i in 0 until response.length()) {
             val jo = response.getJSONObject(i)
             val joCredited = jo.optJSONObject("credited")
             val joDebited = jo.optJSONObject("debited")
             val joAmount = jo.getJSONObject("amount")
+            val joError = jo.optJSONObject("error")
 
+            joError?.let {
+                it.getString("code")
+                completion(null, netHelper.GenericCommunicationError(Exception(it.getString("message"))))
+            }
 
             // TODO handle fee transactions
             val joFee = jo.getJSONObject("fee")
@@ -91,8 +95,8 @@ class TransactionsAPI @Inject constructor(
                     jo.optString("status"),
                     jo.getString("transactionType"),
                     jo.getString("created"),
-                    null,
-                    null,
+                    joCredited?.optString("ownerId"),
+                    joDebited?.optString("ownerId"),
                     joAmount.optLong("amount"),
                     joAmount.optLong("amount"),
                     joCredited?.optString("fullName"),
@@ -102,6 +106,7 @@ class TransactionsAPI @Inject constructor(
             transactions.add(tf)
 
         }
-        return transactions
+
+        completion(transactions, null)
     }
 }

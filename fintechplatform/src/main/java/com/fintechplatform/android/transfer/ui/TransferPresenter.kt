@@ -87,6 +87,7 @@ class TransferPresenter constructor(var view: TransferContract.View,
     override fun refresh() {
         view.showKeyboardAmount()
 
+        // FIXME chiamata al server per peer full name
 //        networkUserModel?.let { p2pu ->
 //            view.setPersonFullName(dbNetworkUsersHelper.getFullName(p2pu))
 //        }
