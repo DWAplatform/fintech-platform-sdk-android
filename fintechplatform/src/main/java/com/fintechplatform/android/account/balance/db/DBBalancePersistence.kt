@@ -28,6 +28,4 @@ class DBBalancePersistence constructor(val dbBalance: DBBalance): BalancePersist
 
     }
 
-
-
 }
