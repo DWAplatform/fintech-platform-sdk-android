@@ -26,7 +26,7 @@ class TransactionHelper @Inject constructor(val moneyHelper: MoneyHelper) {
         // TODO handle t.error
 
         val twhen = convertDate(t.creationdate)
-        val timeInMilliseconds = serverDateFormat.parse(twhen).time
+        val timeInMilliseconds = serverDateFormat.parse(t.creationdate).time
         val operationtype = t.operationtype
 
         val transactionitem: TransactionItem?
