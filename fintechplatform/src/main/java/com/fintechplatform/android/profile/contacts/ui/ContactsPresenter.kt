@@ -44,6 +44,7 @@ class ContactsPresenter @Inject constructor(val view: ContactsContract.View,
             profile.email?.let {
                 val usercontacts = UserContacts(
                         configuration.userId,
+                        configuration.tenantId,
                         profile.email,
                         profile.telephone
                 )
@@ -88,6 +89,7 @@ class ContactsPresenter @Inject constructor(val view: ContactsContract.View,
 
                 val userProfile = UserContacts(
                         configuration.userId,
+                        configuration.tenantId,
                         view.getEmailText(),
                         view.getTelephoneText())
 

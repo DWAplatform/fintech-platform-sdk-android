@@ -39,6 +39,7 @@ class JobInfoPresenter @Inject constructor(val view: JobInfoContract.View,
 
             val userjobinfo = UserJobInfo(
                     configuration.userId,
+                    configuration.tenantId,
                     profile.jobinfo,
                     profile.income
             )
@@ -78,8 +79,8 @@ class JobInfoPresenter @Inject constructor(val view: JobInfoContract.View,
                 return@jobInfo
             }
 
-
-            val profile = UserJobInfo(
+            val profile = UserJobInfo(configuration.userId,
+                    configuration.tenantId,
                     view.getJobInfoText(),
                     getKeySalaryValue(view.getIncomeText())
             )

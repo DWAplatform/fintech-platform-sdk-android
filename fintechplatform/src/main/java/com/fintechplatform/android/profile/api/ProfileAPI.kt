@@ -267,6 +267,7 @@ class ProfileAPI @Inject constructor(
 
         editProfile(token = token,
                 userid = lightData.userid,
+                tenantId = lightData.tenantId,
                 name = lightData.name,
                 surname = lightData.surname,
                 nationality = lightData.nationality,
@@ -281,6 +282,7 @@ class ProfileAPI @Inject constructor(
 
         editProfile(token = token,
                 userid = contacts.userid,
+                tenantId = contacts.tenantId,
                 email = contacts.email,
                 completion = completion)
     }
@@ -305,6 +307,7 @@ class ProfileAPI @Inject constructor(
 
         editProfile(token = token,
                 userid = jobInfo.userid,
+                tenantId = jobInfo.tenantId,
                 jobinfo = jobInfo.jobinfo,
                 income = jobInfo.income,
                 completion = completion)

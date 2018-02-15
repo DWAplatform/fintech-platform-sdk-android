@@ -37,6 +37,7 @@ class LightDataPresenter @Inject constructor(val view: LightDataContract.View,
 
         val lightdata = UserLightData(
                 configuration.userId,
+                configuration.tenantId,
                 view.getNameText(),
                 view.getSurnameText(),
                 birthdayDate,
@@ -127,6 +128,7 @@ class LightDataPresenter @Inject constructor(val view: LightDataContract.View,
 
             val userlightdata = UserLightData(
                     configuration.userId,
+                    configuration.tenantId,
                     profile.name,
                     profile.surname,
                     profile.dateOfBirth,

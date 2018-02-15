@@ -9,14 +9,23 @@ import javax.inject.Inject
 
 class TransactionHelper @Inject constructor(val moneyHelper: MoneyHelper) {
 
+    private fun convertDate(date: String?): String {
+        val sdf = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss")
+        if (date.isNullOrBlank()) {
+            return ""
+        } else {
+            val d = sdf.parse(date)
+            val formatter = SimpleDateFormat("dd-MM-yyyy HH:mm:ss")
+            return formatter.format(d)
+        }
+    }
+
     fun transactionItem(t: TransactionResponse): TransactionItem? {
         val serverDateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss")
         // FIXME wait better format from server
         // TODO handle t.error
-//        val formatter = SimpleDateFormat("dd-MM-yyyy HH:mm:ss")
-//        val twhen = formatter.format(serverDateFormat.parse(t.creationdate))
 
-        val twhen = t.creationdate
+        val twhen = convertDate(t.creationdate)
         val timeInMilliseconds = serverDateFormat.parse(twhen).time
         val operationtype = t.operationtype
 
