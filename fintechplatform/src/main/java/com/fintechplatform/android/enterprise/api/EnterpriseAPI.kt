@@ -63,6 +63,7 @@ class EnterpriseAPI @Inject constructor(internal val hostName: String,
                    city: String? = null,
                    address: String? = null,
                    zipcode: String? = null,
+                   idempotency: String,
                    completion: (EnterpriseProfile?, Exception?) -> Unit): IRequest<*>? {
 
 
@@ -83,18 +84,17 @@ class EnterpriseAPI @Inject constructor(internal val hostName: String,
             city?.let { jsonObject.put("cityOfHeadquarters", city) }
             email?.let { jsonObject.put("email", email) }
 
-            val hparams: Map<String, String>
-            if (userid != null) {
-                hparams = netHelper.authorizationToken(token)
-            } else {
-                val h = HashMap<String, String>()
-                h.put("Authorization", "Bearer " + token)
-                hparams = h
-            }
+//            val hparams: Map<String, String>
+//            if (userid != null) {
+//                hparams = netHelper.authorizationToken(token)
+//            } else {
+//                val h = HashMap<String, String>()
+//                h.put("Authorization", "Bearer " + token)
+//                hparams = h
+//            }
 
-            // Request a string response from the provided URL.
             val r = requestProvider.jsonObjectRequest(Request.Method.POST, url, jsonObject,
-                    hparams,
+                    netHelper.getHeaderBuilder().authorizationToken(token).idempotency(idempotency).getHeaderMap(),
                     { response ->
 
                         val userprofile = EnterpriseProfile( accountId =
@@ -125,29 +125,34 @@ class EnterpriseAPI @Inject constructor(internal val hostName: String,
 
     fun info(token: String,
              info: EnterpriseInfo,
+             idempotency: String,
              completion: (EnterpriseProfile?, Exception?) -> Unit) {
 
         enterprise(token = token,
                 userid = info.accountId,
                 name = info.name,
                 enterpriseType = info.enterpriseType,
+                idempotency = idempotency,
                 completion = completion)
 
     }
 
     fun contacts(token: String,
                  contacts: EnterpriseContacts,
+                 idempotency: String,
                  completion: (EnterpriseProfile?, Exception?) -> Unit) {
 
         enterprise(token = token,
                 userid = contacts.accountId,
                 email = contacts.email,
                 telephone = contacts.telephone,
+                idempotency = idempotency,
                 completion = completion)
     }
 
     fun address(token: String,
                 address: EnterpriseAddress,
+                idempotency: String,
                 completion: (EnterpriseProfile?, Exception?) -> Unit) {
 
         enterprise(token = token,
@@ -156,6 +161,7 @@ class EnterpriseAPI @Inject constructor(internal val hostName: String,
                 zipcode = address.postalCode,
                 city = address.city,
                 countryHeadquarters = address.country,
+                idempotency = idempotency,
                 completion = completion)
     }
 
@@ -225,7 +231,7 @@ class EnterpriseAPI @Inject constructor(internal val hostName: String,
             jsonObject.put("doctype", doctype)
             jsonObject.put("pages", ja)
 
-            val r = requestProvider.jsonObjectRequest(Request.Method.POST, url, jsonObject, netHelper.authorizationToken(token), { response ->
+            val r = requestProvider.jsonObjectRequest(Request.Method.POST, url, jsonObject, netHelper.getHeaderBuilder().authorizationToken(token).idempotency(idempotency).getHeaderMap(), { response ->
                 completion(true, null)
             }) { error ->
                 val status = if (error.networkResponse != null)

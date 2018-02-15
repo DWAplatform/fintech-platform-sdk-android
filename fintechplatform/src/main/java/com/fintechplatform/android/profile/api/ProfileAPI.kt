@@ -107,6 +107,7 @@ class ProfileAPI @Inject constructor(
                             jobinfo: String? = null,
                             income: String? = null,
                             pin: String?=null,
+                            idempotency: String,
                             completion: (UserProfileReply?, Exception?) -> Unit): IRequest<*>? {
 
 
@@ -131,17 +132,10 @@ class ProfileAPI @Inject constructor(
             if (jobinfo != null) jsonObject.put("occupation", jobinfo)
             if (income != null) jsonObject.put("incomeRange", income)
 
-            val hparams: Map<String, String>
-            if (userid != null) {
-                hparams = netHelper.authorizationToken(token)
-            } else {
-                val h = HashMap<String, String>()
-                h.put("Authorization", "Bearer " + phonetoken)
-                hparams = h
-            }
+
 
             val r = requestProvider.jsonObjectRequest(Request.Method.PUT, url, jsonObject,
-                    hparams,
+                    netHelper.getHeaderBuilder().authorizationToken(token).idempotency(idempotency).getHeaderMap(),
                     { response ->
 
                         val userprofile = UserProfileReply(
@@ -215,7 +209,7 @@ class ProfileAPI @Inject constructor(
                   userid: String,
                   doctype: String,
                   documents: Array<String?>,
-                  idempotency: String?,
+                  idempotency: String,
                   completion: (Boolean?, Exception?) -> Unit): IRequest<*>? {
 
         val url = netHelper.getURL("/rest/1.0/users/$userid/documents")
@@ -231,9 +225,8 @@ class ProfileAPI @Inject constructor(
             val jsonObject = JSONObject()
             jsonObject.put("doctype", doctype)
             jsonObject.put("pages", ja)
-            jsonObject.putOpt("idempotency", idempotency)
 
-            val r = requestProvider.jsonObjectRequest(Request.Method.POST, url, jsonObject, netHelper.authorizationToken(token), { response ->
+            val r = requestProvider.jsonObjectRequest(Request.Method.POST, url, jsonObject, netHelper.getHeaderBuilder().authorizationToken(token).idempotency(idempotency).getHeaderMap(), { response ->
                 completion(true, null)
             }) { error ->
                 val status = if (error.networkResponse != null)
@@ -263,6 +256,7 @@ class ProfileAPI @Inject constructor(
 
     fun lightdata(token: String,
                   lightData: UserLightData,
+                  idempotency: String,
                   completion: (UserProfileReply?, Exception?) -> Unit) {
 
         editProfile(token = token,
@@ -272,23 +266,27 @@ class ProfileAPI @Inject constructor(
                 surname = lightData.surname,
                 nationality = lightData.nationality,
                 birthday = lightData.birthday,
+                idempotency = idempotency,
                 completion = completion)
 
     }
 
     fun contacts(token: String,
                  contacts: UserContacts,
+                 idempotency: String,
                  completion: (UserProfileReply?, Exception?) -> Unit) {
 
         editProfile(token = token,
                 userid = contacts.userid,
                 tenantId = contacts.tenantId,
                 email = contacts.email,
+                idempotency = idempotency,
                 completion = completion)
     }
 
     fun residential(token: String,
                     residential: UserResidential,
+                    idempotency: String,
                     completion: (UserProfileReply?, Exception?) -> Unit) {
 
         editProfile(token = token,
@@ -298,11 +296,13 @@ class ProfileAPI @Inject constructor(
                 zipcode = residential.ZIPcode,
                 city = residential.city,
                 countryofresidence = residential.countryofresidence,
+                idempotency = idempotency,
                 completion = completion)
     }
 
     fun jobInfo(token: String,
                 jobInfo: UserJobInfo,
+                idempotency: String,
                 completion: (UserProfileReply?, Exception?) -> Unit) {
 
         editProfile(token = token,
@@ -310,6 +310,7 @@ class ProfileAPI @Inject constructor(
                 tenantId = jobInfo.tenantId,
                 jobinfo = jobInfo.jobinfo,
                 income = jobInfo.income,
+                idempotency = idempotency,
                 completion = completion)
     }
 

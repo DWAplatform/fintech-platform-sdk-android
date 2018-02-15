@@ -70,7 +70,7 @@ class PayOutPresenter @Inject constructor(val configuration: DataAccount,
                 return@payOut
             }
 
-            view.goBack()
+           // view.goBack()
         }
     }
 

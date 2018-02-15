@@ -26,6 +26,7 @@ class IbanAPI @Inject constructor(internal val hostName: String,
                    accountId: String,
                    tenantId: String,
                    iban: String,
+                   idempotency: String,
                    completion: (BankAccount?, Exception?) -> Unit): IRequest<*>? {
         val url = netHelper.getURL("/rest/v1/fintech/tenants/$tenantId/personal/$userid/accounts/$accountId/linkedBanks")
 
@@ -36,7 +37,7 @@ class IbanAPI @Inject constructor(internal val hostName: String,
             jsonObject.put("iban", iban)
 
             val r = requestProvider.jsonObjectRequest(Request.Method.POST, url, jsonObject,
-                    netHelper.authorizationToken(token), { response ->
+                    netHelper.getHeaderBuilder().authorizationToken(token).idempotency(idempotency).getHeaderMap(), { response ->
 
                 val ibanid = response.getString("bankId")
                 val iban = response.getString("iban")

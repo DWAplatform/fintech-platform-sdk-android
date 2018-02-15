@@ -26,6 +26,7 @@ class TransferAPI constructor(internal val hostName: String,
             toTenantId: String,
             message: String,
             amount: Long,
+            idempotency: String,
             completion: (Exception?) -> Unit): IRequest<*>? {
 
         val url = netHelper.getURL("/rest/v1/fintech/tenants/$fromTenantId/personal/$fromuser/accounts/$fromAccountId/transfers")
@@ -54,7 +55,7 @@ class TransferAPI constructor(internal val hostName: String,
             jo.putOpt("message", message)
 
             val r = requestProvider.jsonObjectRequest(Request.Method.POST, url, jo,
-                    netHelper.authorizationToken(token), {
+                    netHelper.getHeaderBuilder().authorizationToken(token).idempotency(idempotency).getHeaderMap(), {
 
                 val error = it.optJSONObject("error")
                 error?.let {
