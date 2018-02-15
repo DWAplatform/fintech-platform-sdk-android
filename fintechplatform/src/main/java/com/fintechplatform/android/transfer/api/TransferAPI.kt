@@ -59,15 +59,14 @@ class TransferAPI constructor(internal val hostName: String,
                 val error = it.optJSONObject("error")
                 error?.let {
                     completion(netHelper.GenericCommunicationError(Exception(it.getString("message"))))
+                    log.debug(TAG, it.getString("message"))
                     return@jsonObjectRequest
                 }
-
                 completion(null)
             }) { error ->
                 val status = if (error.networkResponse != null) error.networkResponse.statusCode
                 else -1
                 when (status) {
-
                     409 -> completion(netHelper.GenericCommunicationError(error))
                     401 -> completion(netHelper.TokenError(error))
                     else -> completion(netHelper.GenericCommunicationError(error))

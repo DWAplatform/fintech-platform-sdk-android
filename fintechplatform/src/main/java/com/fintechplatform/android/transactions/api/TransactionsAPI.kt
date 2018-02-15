@@ -104,7 +104,7 @@ class TransactionsAPI @Inject constructor(
                     jo.optString("message"))
 
             transactions.add(tf)
-
+            log.debug(TAG, jo.optString("transactionId"))
         }
 
         completion(transactions, null)

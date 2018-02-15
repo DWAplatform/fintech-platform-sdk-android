@@ -1,6 +1,7 @@
 package com.fintechplatform.android.transactions.db;
 
 import com.fintechplatform.android.money.MoneyHelper;
+import com.fintechplatform.android.transactions.models.TransactionDetailHelper;
 
 import javax.inject.Singleton;
 
@@ -26,5 +27,11 @@ public class TransactionPersistanceDBModule {
     @Singleton
     TransactionHelper providesTransactionHelper(MoneyHelper moneyHelper) {
         return new TransactionHelper(moneyHelper);
+    }
+
+    @Provides
+    @Singleton
+    TransactionDetailHelper providesTransactionDetailHelper() {
+        return new TransactionDetailHelper();
     }
 }

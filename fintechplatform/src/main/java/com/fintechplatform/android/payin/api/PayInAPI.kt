@@ -45,11 +45,11 @@ open class PayInAPI @Inject constructor(
 
             jsonObject.put("fee", joFee)
             jsonObject.put("amount", joAmount)
-            jsonObject.put("idempotency", idempotency)
+            //jsonObject.put("idempotency", idempotency)
 
             // Request a string response from the provided URL.
             val r = requestProvider.jsonObjectRequest(Request.Method.POST, url, jsonObject,
-                    netHelper.authorizationToken(token), { response ->
+                    netHelper.getHeaderBuilder().authorizationToken(token).idempotency(idempotency).getHeaderMap(), { response ->
 
                 val transactionid = response.getString("transactionId")
                 val securecodeneeded = response.getBoolean("secure3D")
@@ -57,7 +57,6 @@ open class PayInAPI @Inject constructor(
 
                 completion(PayInReply(transactionid, securecodeneeded, redirecturl), null)
             }) { error ->
-
 
                 val status = if (error.networkResponse != null) error.networkResponse.statusCode
                 else -1

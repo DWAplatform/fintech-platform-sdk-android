@@ -14,7 +14,27 @@ import java.net.URLEncoder
 import java.nio.charset.Charset
 import java.util.*
 
+
+
+
 class NetHelper constructor(val hostName: String) {
+
+    inner class HeaderBuilder {
+        private var header = HashMap<String, String>()
+
+        fun authorizationToken(token: String): HeaderBuilder {
+            header.put("Authorization", "Bearer $token")
+            return this
+        }
+
+        fun idempotency(idempotencyKey: String): HeaderBuilder {
+            header.put("Idempotency-Key", idempotencyKey)
+            return this
+        }
+
+        fun getHeaderMap(): HashMap<String, String> { return header }
+
+    }
 
     inner class GenericCommunicationError(throwable: Throwable) : Exception(throwable)
 
@@ -34,13 +54,13 @@ class NetHelper constructor(val hostName: String) {
         }
     }
 
+    fun getHeaderBuilder(): HeaderBuilder = HeaderBuilder()
+
     val defaultpolicy = DefaultRetryPolicy(
             30000, 0, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT)
 
     fun authorizationToken(token: String): Map<String, String> {
-        val header = HashMap<String, String>()
-        header.put("Authorization", "Bearer $token")
-        return header
+        return getHeaderBuilder().authorizationToken(token).getHeaderMap()
     }
 
     fun createRequestError(volleyError: VolleyError): PaymentCardRestAPI.APIReplyError {
