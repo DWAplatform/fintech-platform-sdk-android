@@ -63,10 +63,7 @@ class EnterpriseAPI @Inject constructor(internal val hostName: String,
                    city: String? = null,
                    address: String? = null,
                    zipcode: String? = null,
-                   idempotency: String,
                    completion: (EnterpriseProfile?, Exception?) -> Unit): IRequest<*>? {
-
-
 
         val url = netHelper.getURL("/rest/1.0/user/profile")
 
@@ -84,17 +81,8 @@ class EnterpriseAPI @Inject constructor(internal val hostName: String,
             city?.let { jsonObject.put("cityOfHeadquarters", city) }
             email?.let { jsonObject.put("email", email) }
 
-//            val hparams: Map<String, String>
-//            if (userid != null) {
-//                hparams = netHelper.authorizationToken(token)
-//            } else {
-//                val h = HashMap<String, String>()
-//                h.put("Authorization", "Bearer " + token)
-//                hparams = h
-//            }
-
             val r = requestProvider.jsonObjectRequest(Request.Method.POST, url, jsonObject,
-                    netHelper.getHeaderBuilder().authorizationToken(token).idempotency(idempotency).getHeaderMap(),
+                    netHelper.authorizationToken(token),
                     { response ->
 
                         val userprofile = EnterpriseProfile( accountId =
@@ -125,34 +113,29 @@ class EnterpriseAPI @Inject constructor(internal val hostName: String,
 
     fun info(token: String,
              info: EnterpriseInfo,
-             idempotency: String,
              completion: (EnterpriseProfile?, Exception?) -> Unit) {
 
         enterprise(token = token,
                 userid = info.accountId,
                 name = info.name,
                 enterpriseType = info.enterpriseType,
-                idempotency = idempotency,
                 completion = completion)
 
     }
 
     fun contacts(token: String,
                  contacts: EnterpriseContacts,
-                 idempotency: String,
                  completion: (EnterpriseProfile?, Exception?) -> Unit) {
 
         enterprise(token = token,
                 userid = contacts.accountId,
                 email = contacts.email,
                 telephone = contacts.telephone,
-                idempotency = idempotency,
                 completion = completion)
     }
 
     fun address(token: String,
                 address: EnterpriseAddress,
-                idempotency: String,
                 completion: (EnterpriseProfile?, Exception?) -> Unit) {
 
         enterprise(token = token,
@@ -161,7 +144,6 @@ class EnterpriseAPI @Inject constructor(internal val hostName: String,
                 zipcode = address.postalCode,
                 city = address.city,
                 countryHeadquarters = address.country,
-                idempotency = idempotency,
                 completion = completion)
     }
 

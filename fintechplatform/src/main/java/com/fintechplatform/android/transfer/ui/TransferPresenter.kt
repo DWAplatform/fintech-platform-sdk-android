@@ -41,6 +41,7 @@ class TransferPresenter constructor(var view: TransferContract.View,
 
     override fun onConfirm() {
         val idemp = this.idempotencyTransfer
+
         idemp?.let {
             networkUserModel?.let { p2pu ->
                 view.enableForwardButton(false)
@@ -55,7 +56,8 @@ class TransferPresenter constructor(var view: TransferContract.View,
                         p2pu.accountId,
                         p2pu.tenantId,
                         view.getMessageText(),
-                        money.value) { opterror ->
+                        money.value,
+                        it) { opterror ->
 
                     view.hideCommunicationWait()
                     refreshConfirmButton()

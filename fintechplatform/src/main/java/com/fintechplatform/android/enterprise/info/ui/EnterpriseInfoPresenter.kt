@@ -27,13 +27,13 @@ class EnterpriseInfoPresenter @Inject constructor(val view: EnterpriseInfoContra
         view.showWaiting()
         view.hideKeyboard()
 
-        val info = EnterpriseInfo(
+        val info = EnterpriseInfo(configuration.userId,
                 configuration.accountId,
+                configuration.tenantId,
                 view.getNameText(),
                 view.getEnterpriseType())
 
-        api.info(
-                configuration.accessToken,
+        api.info(configuration.accessToken,
                 info){ enterpriseReply, exception ->
 
             if (exception != null){
@@ -94,8 +94,9 @@ class EnterpriseInfoPresenter @Inject constructor(val view: EnterpriseInfoContra
 
             view.enableAllTexts(true)
 
-            val enterpriseInfo = EnterpriseInfo(
+            val enterpriseInfo = EnterpriseInfo(configuration.userId,
                     configuration.accountId,
+                    configuration.tenantId,
                     enterprise.name,
                     enterprise.enterpriseType)
 

@@ -9,6 +9,7 @@ import com.fintechplatform.android.models.DataAccount
 import com.fintechplatform.android.profile.api.ProfileAPI
 import com.fintechplatform.android.profile.db.user.UsersPersistanceDB
 import com.mukesh.countrypicker.Country
+import java.util.*
 import javax.inject.Inject
 
 class IBANPresenter @Inject constructor(val view: IBANContract.View,
@@ -22,8 +23,10 @@ class IBANPresenter @Inject constructor(val view: IBANContract.View,
 
     private var ibanServerCalled: Boolean = false
     private var residentialServerCalled: Boolean = false
+    private var idempotencyCashOut: String? = null
 
     override fun init() {
+        idempotencyCashOut = UUID.randomUUID().toString()
         loadAllFromDB()
         refreshAllFromServer()
         view.setBackwardText()
@@ -83,7 +86,9 @@ class IBANPresenter @Inject constructor(val view: IBANContract.View,
         view.confirmButtonEnable(false)
         view.showCommunicationWait()
 
-        val residential = UserResidential(configuration.userId, configuration.tenantId, view.getAddressText(),  view.getZipcodeText(), view.getCityText(), countryofresidenceCode)
+        val residential = UserResidential(configuration.userId,
+                configuration.tenantId, view.getAddressText(),  view.getZipcodeText(), view.getCityText(), countryofresidenceCode)
+
         apiProfile.residential(
                 configuration.accessToken,
                 residential) { optuserprofilereply, opterror ->
@@ -119,11 +124,14 @@ class IBANPresenter @Inject constructor(val view: IBANContract.View,
         view.confirmButtonEnable(false)
         view.showCommunicationWait()
 
+        val idempotencyCashOut = this.idempotencyCashOut ?: return
+
         api.createIBAN(configuration.accessToken,
                 configuration.userId,
                 configuration.accountId,
                 configuration.tenantId,
-                view.getNumberText()) { optbankaccount, opterror ->
+                view.getNumberText(),
+                idempotencyCashOut) { optbankaccount, opterror ->
 
             view.hideCommunicationWait()
             refreshConfirmButton()

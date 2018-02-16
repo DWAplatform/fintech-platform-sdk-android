@@ -77,6 +77,7 @@ class PaymentCardRestAPI constructor(internal val hostName: String,
 
                             val tokenServiceProvider = response.getString("tspPayload")
 
+
                             val mapper = JSONObject(tokenServiceProvider)
                             val crurl = mapper.getString("url")
                             val preregistrationData =

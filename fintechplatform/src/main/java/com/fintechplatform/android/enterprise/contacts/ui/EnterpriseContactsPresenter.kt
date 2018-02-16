@@ -42,7 +42,9 @@ class EnterpriseContactsPresenter @Inject constructor(val view: EnterpriseContac
 
             enterprise.email?.let {
                 val enterprisecontacts = EnterpriseContacts(
+                        configuration.userId,
                         configuration.accountId,
+                        configuration.tenantId,
                         enterprise.email,
                         enterprise.telephone
                 )
@@ -86,7 +88,9 @@ class EnterpriseContactsPresenter @Inject constructor(val view: EnterpriseContac
                 }
 
                 val enterpriseContacts = EnterpriseContacts(
+                        configuration.userId,
                         configuration.accountId,
+                        configuration.tenantId,
                         view.getEmailText(),
                         view.getTelephoneText())
 
