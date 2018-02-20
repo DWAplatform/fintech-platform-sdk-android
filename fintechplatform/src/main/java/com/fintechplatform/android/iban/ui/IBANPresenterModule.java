@@ -1,6 +1,8 @@
 package com.fintechplatform.android.iban.ui;
 
 
+import com.fintechplatform.android.enterprise.api.EnterpriseAPI;
+import com.fintechplatform.android.enterprise.db.enterprise.EnterprisePersistanceDB;
 import com.fintechplatform.android.iban.api.IbanAPI;
 import com.fintechplatform.android.iban.db.IbanPersistanceDB;
 import com.fintechplatform.android.models.DataAccount;
@@ -27,8 +29,10 @@ public class IBANPresenterModule {
     @Provides
     IBANContract.Presenter providesIBanPresenter(IbanAPI api,
                                                  ProfileAPI profileAPI,
+                                                 EnterpriseAPI enterpriseAPI,
                                                  IbanPersistanceDB ibanPersistanceDB,
-                                                 UsersPersistanceDB usersPersistanceDB){
-        return new IBANPresenter(view, api, profileAPI, configuration, ibanPersistanceDB, usersPersistanceDB);
+                                                 UsersPersistanceDB usersPersistanceDB,
+                                                 EnterprisePersistanceDB enterprisePersistanceDB){
+        return new IBANPresenter(view, api, profileAPI, enterpriseAPI, configuration, ibanPersistanceDB, usersPersistanceDB, enterprisePersistanceDB);
     }
 }

@@ -10,7 +10,7 @@ public class UsersDB {
                 .where(Users_Table.id.is(userId))
                 .querySingle();
 
-        // return (select from Users::class where (Users_Table.id `is` userId)).querySingle()
+        // return (select from Users::class where (Users_Table.id `is` ownerId)).querySingle()
     }
 
     public void deleteUser() {

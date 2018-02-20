@@ -20,12 +20,13 @@ class PayOutAPI @Inject constructor(internal val hostName: String,
     fun payOut(token: String,
                userId: String,
                accountId: String,
+               accountType: String,
                tenantId: String,
                linkedBankId: String,
                amount: Long,
                idempotency: String,
                completion: (Exception?) -> Unit): IRequest<*>? {
-        val url = netHelper.getURL("/rest/v1/fintech/tenants/$tenantId/personal/$userId/accounts/$accountId/linkedBanks/$linkedBankId/cashOuts")
+        val url = netHelper.getURL("/rest/v1/fintech/tenants/$tenantId/${netHelper.getPathFromAccountType(accountType)}/$userId/accounts/$accountId/linkedBanks/$linkedBankId/cashOuts")
 
         var request: IRequest<*>?
         try {

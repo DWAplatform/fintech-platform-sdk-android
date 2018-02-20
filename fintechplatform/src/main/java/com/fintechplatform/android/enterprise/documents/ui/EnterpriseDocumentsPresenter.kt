@@ -57,7 +57,7 @@ class EnterpriseDocumentsPresenter constructor(val view: EnterpriseDocumentsCont
 
         api.documents(
                 configuration.accessToken,
-                configuration.userId,
+                configuration.ownerId,
                 "IDENTITY_PROOF",
                 photosBase64,
                 idempDocs) { optDocs, opterror ->
@@ -110,7 +110,7 @@ class EnterpriseDocumentsPresenter constructor(val view: EnterpriseDocumentsCont
 
     fun reloadFromServer() {
 
-        api.getDocuments(configuration.accessToken, configuration.userId) {
+        api.getDocuments(configuration.accessToken, configuration.ownerId) {
             etpsDocs: ArrayList<EnterpriseDocs?>?, opterror: Exception? ->
 
             if (opterror != null) {

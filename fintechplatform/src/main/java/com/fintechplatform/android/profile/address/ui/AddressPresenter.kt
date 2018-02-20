@@ -15,7 +15,7 @@ class AddressPresenter @Inject constructor(val view: AddressContract.View,
 
     override fun initializate() {
 
-        val userProfile = usersPersistanceDB.residential(configuration.userId)
+        val userProfile = usersPersistanceDB.residential(configuration.ownerId)
         userProfile?.let {
             view.setAddressText(it.address?: "")
             view.setPostalCodeText(it.ZIPcode?: "")
@@ -28,7 +28,7 @@ class AddressPresenter @Inject constructor(val view: AddressContract.View,
         view.enableAllTexts(false)
 
         api.searchUser(configuration.accessToken,
-                configuration.userId, configuration.tenantId){ profile, exception ->
+                configuration.ownerId, configuration.tenantId){ profile, exception ->
 
             if (exception != null){
                 handleErrors(exception)
@@ -82,7 +82,7 @@ class AddressPresenter @Inject constructor(val view: AddressContract.View,
         view.showWaiting()
 
         val residential = UserResidential(
-                configuration.userId,
+                configuration.ownerId,
                 configuration.tenantId,
                 view.getAddressText(),
                 view.getPostalCodeText(),

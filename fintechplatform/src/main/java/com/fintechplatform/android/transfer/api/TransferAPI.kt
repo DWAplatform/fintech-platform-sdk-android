@@ -20,16 +20,18 @@ class TransferAPI constructor(internal val hostName: String,
     fun p2p(token: String,
             fromuser: String,
             fromAccountId: String,
+            fromAccountType: String,
             fromTenantId: String,
             touserid: String,
             toAccountId: String,
+            toAccountType: String,
             toTenantId: String,
             message: String,
             amount: Long,
             idempotency: String,
             completion: (Exception?) -> Unit): IRequest<*>? {
 
-        val url = netHelper.getURL("/rest/v1/fintech/tenants/$fromTenantId/personal/$fromuser/accounts/$fromAccountId/transfers")
+        val url = netHelper.getURL("/rest/v1/fintech/tenants/$fromTenantId/${netHelper.getPathFromAccountType(fromAccountType)}/$fromuser/accounts/$fromAccountId/transfers")
 
         var request: IRequest<*>?
         try {
@@ -38,6 +40,7 @@ class TransferAPI constructor(internal val hostName: String,
             joCredited.put("ownerId", touserid)
             joCredited.put("accountId", toAccountId)
             joCredited.put("tenantId", toTenantId)
+            joCredited.put("accountType", toAccountType)
 
             val joAmount = JSONObject()
             joAmount.put("amount", amount)

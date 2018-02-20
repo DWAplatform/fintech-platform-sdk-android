@@ -1,6 +1,7 @@
 package com.fintechplatform.android.enterprise.models
 
-data class EnterpriseProfile (val accountId: String,
+data class EnterpriseProfile (val enterpriseId: String,
+                              val legalRapresentativeId: String?=null,
                               val name: String?=null,
                               val telephone: String?=null,
                               val email: String?=null,
@@ -9,8 +10,3 @@ data class EnterpriseProfile (val accountId: String,
                               val cityOfHeadquarters: String?=null,
                               val addressOfHeadquarters: String?=null,
                               val postalCodeHeadquarters: String?=null)
-enum class Type {
-    BUSINESS,
-    ORGANIZATION,
-    SOLETRADER
-}

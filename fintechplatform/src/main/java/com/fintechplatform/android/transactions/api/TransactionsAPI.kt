@@ -24,12 +24,13 @@ class TransactionsAPI @Inject constructor(
     fun transactions(token: String,
                      userId: String,
                      accountId: String,
+                     accountType: String,
                      tenantId: String,
                      limit: Int?,
                      offset: Int?,
                      completion: (List<TransactionResponse>?, Exception?) -> Unit): IRequest<*>? {
 
-        val url = netHelper.getURL("/rest/v1/fintech/tenants/$tenantId/personal/$userId/accounts/$accountId/transactions")
+        val url = netHelper.getURL("/rest/v1/fintech/tenants/$tenantId/${netHelper.getPathFromAccountType(accountType)}/$userId/accounts/$accountId/transactions")
 
         var request: IRequest<*>?
         try {

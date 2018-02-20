@@ -23,12 +23,13 @@ open class PayInAPI @Inject constructor(
     open fun payIn(token: String,
                    userId: String,
                    accountId: String,
+                   accountType: String,
                    tenantId: String,
                    cardId: String,
                    amount: Money,
                    idempotency: String,
                    completion: (PayInReply?, Exception?) -> Unit): IRequest<*>? {
-        val url = netHelper.getURL("/rest/v1/fintech/tenants/$tenantId/personal/$userId/accounts/$accountId/linkedCards/$cardId/cashIns")
+        val url = netHelper.getURL("/rest/v1/fintech/tenants/$tenantId/${netHelper.getPathFromAccountType(accountType)}/$userId/accounts/$accountId/linkedCards/$cardId/cashIns")
 
         var request: IRequest<*>?
         try {
@@ -47,7 +48,6 @@ open class PayInAPI @Inject constructor(
             jsonObject.put("amount", joAmount)
             //jsonObject.put("idempotency", idempotency)
 
-            // Request a string response from the provided URL.
             val r = requestProvider.jsonObjectRequest(Request.Method.POST, url, jsonObject,
                     netHelper.getHeaderBuilder().authorizationToken(token).idempotency(idempotency).getHeaderMap(), { response ->
 

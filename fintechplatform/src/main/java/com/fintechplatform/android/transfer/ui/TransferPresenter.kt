@@ -23,12 +23,10 @@ class TransferPresenter constructor(var view: TransferContract.View,
     var idempotencyTransfer: String? = null
     lateinit var networkUserModel: PeersModel
 
-    override fun initialize(p2pUserId: String, p2pAccountId: String, p2pTenantId: String){
+    override fun initialize(p2pUserId: String, p2pAccountId: String, p2pTenantId: String, accountType:String){
         idempotencyTransfer = UUID.randomUUID().toString()
 
-        // TODO take info about user network from server restCall(Method.GET,  "/rest/v1/mobile/tenants/:tenantId/users/:userId", findUserFromId _),
-        //networkUserModel = dbNetworkUsersHelper.findP2P(p2pUserId)
-        networkUserModel = PeersModel(p2pUserId, p2pAccountId, p2pTenantId)
+        networkUserModel = PeersModel(p2pUserId, p2pAccountId, p2pTenantId, accountType)
 
         refreshConfirmButton()
         refreshData()
@@ -49,11 +47,13 @@ class TransferPresenter constructor(var view: TransferContract.View,
                 val money = Money.valueOf(view.getAmountText())
 
                 apiTransfer.p2p(config.accessToken,
-                        config.userId,
+                        config.ownerId,
                         config.accountId,
+                        config.accountType,
                         config.tenantId,
                         p2pu.userid,
                         p2pu.accountId,
+                        p2pu.accountType,
                         p2pu.tenantId,
                         view.getMessageText(),
                         money.value,
@@ -153,7 +153,7 @@ class TransferPresenter constructor(var view: TransferContract.View,
     }
 
     fun reloadBalance() {
-        apiBalance.balance(config.accessToken, config.userId, config.accountId, config.tenantId) { optbalance, opterror ->
+        apiBalance.balance(config.accessToken, config.ownerId, config.accountId, config.accountType, config.tenantId) { optbalance, opterror ->
             if (opterror != null) {
                 handleErrors(opterror)
                 return@balance

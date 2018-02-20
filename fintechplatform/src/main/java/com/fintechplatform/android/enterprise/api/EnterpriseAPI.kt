@@ -20,8 +20,8 @@ class EnterpriseAPI @Inject constructor(internal val hostName: String,
                                         val netHelper: NetHelper) {
     private val TAG = "EnterpriseAPI"
 
-    fun getEnterprise(token: String, userid: String, completion: (EnterpriseProfile?, Exception?) -> Unit): IRequest<*>? {
-        val encodedUserId = URLEncoder.encode(userid, "UTF-8")
+    fun getEnterprise(token: String, id: String, completion: (EnterpriseProfile?, Exception?) -> Unit): IRequest<*>? {
+        val encodedUserId = URLEncoder.encode(id, "UTF-8")
         val url = netHelper.getURL("/rest/v1/users/$encodedUserId/profile")
 
         var request: IRequest<*>?
@@ -38,6 +38,8 @@ class EnterpriseAPI @Inject constructor(internal val hostName: String,
                 when (status) {
                     401 ->
                         completion(null, netHelper.TokenError(error))
+                    404 ->
+                            completion(null, netHelper.EnterpriseNotFound(error))
                     else ->
                         completion(null, netHelper.GenericCommunicationError(error))
                 }
@@ -54,7 +56,8 @@ class EnterpriseAPI @Inject constructor(internal val hostName: String,
     }
 
     fun enterprise(token: String,
-                   userid: String? = null,
+                   enterpriseId: String,
+                   tenantId: String,
                    name: String? = null,
                    telephone: String? = null,
                    email: String? = null,
@@ -65,13 +68,12 @@ class EnterpriseAPI @Inject constructor(internal val hostName: String,
                    zipcode: String? = null,
                    completion: (EnterpriseProfile?, Exception?) -> Unit): IRequest<*>? {
 
-        val url = netHelper.getURL("/rest/1.0/user/profile")
+        val url = netHelper.getURL("/rest/v1/fintech/tenants/$tenantId/enterprises/$enterpriseId")
 
         var request: IRequest<*>?
         try {
             val jsonObject = JSONObject()
 
-            userid?.let { jsonObject.put("userid", userid) }
             name?.let { jsonObject.put("name", name) }
             telephone?.let { jsonObject.put("telephone", telephone) }
             enterpriseType?.let { jsonObject.put("enterpriseType", enterpriseType) }
@@ -81,12 +83,12 @@ class EnterpriseAPI @Inject constructor(internal val hostName: String,
             city?.let { jsonObject.put("cityOfHeadquarters", city) }
             email?.let { jsonObject.put("email", email) }
 
-            val r = requestProvider.jsonObjectRequest(Request.Method.POST, url, jsonObject,
+            val r = requestProvider.jsonObjectRequest(Request.Method.PUT, url, jsonObject,
                     netHelper.authorizationToken(token),
                     { response ->
 
-                        val userprofile = EnterpriseProfile( accountId =
-                                response.getString("userid"))
+                        val userprofile = EnterpriseProfile( enterpriseId =
+                                response.getString("enterpriseId"))
 
                         completion(userprofile, null)
                     })
@@ -96,6 +98,8 @@ class EnterpriseAPI @Inject constructor(internal val hostName: String,
                 when (status) {
                     401 ->
                         completion(null, netHelper.TokenError(error))
+                    404 ->
+                        completion(null, netHelper.EnterpriseNotFound(error))
                     else ->
                         completion(null, netHelper.GenericCommunicationError(error))
                 }
@@ -116,7 +120,8 @@ class EnterpriseAPI @Inject constructor(internal val hostName: String,
              completion: (EnterpriseProfile?, Exception?) -> Unit) {
 
         enterprise(token = token,
-                userid = info.accountId,
+                tenantId = info.tenantId,
+                enterpriseId = info.ownerId,
                 name = info.name,
                 enterpriseType = info.enterpriseType,
                 completion = completion)
@@ -128,7 +133,8 @@ class EnterpriseAPI @Inject constructor(internal val hostName: String,
                  completion: (EnterpriseProfile?, Exception?) -> Unit) {
 
         enterprise(token = token,
-                userid = contacts.accountId,
+                tenantId = contacts.tenantId,
+                enterpriseId = contacts.ownerId,
                 email = contacts.email,
                 telephone = contacts.telephone,
                 completion = completion)
@@ -139,7 +145,8 @@ class EnterpriseAPI @Inject constructor(internal val hostName: String,
                 completion: (EnterpriseProfile?, Exception?) -> Unit) {
 
         enterprise(token = token,
-                userid = address.accountId,
+                tenantId = address.tenantId,
+                enterpriseId = address.ownerId,
                 address = address.address,
                 zipcode = address.postalCode,
                 city = address.city,
@@ -149,7 +156,7 @@ class EnterpriseAPI @Inject constructor(internal val hostName: String,
 
     fun getDocuments(token: String, userid: String, completion: (ArrayList<EnterpriseDocs?>?, Exception?) -> Unit): IRequest<*>? {
         val url = netHelper.getURL("/rest/1.0/users/$userid/documents")
-
+        // TODO DOCUMENTS ENTERPRISE
         var request: IRequest<*>?
         try {
 

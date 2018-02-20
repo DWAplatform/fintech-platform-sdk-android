@@ -130,7 +130,7 @@
                         android:layout_marginTop="20dp"
                         android:textSize="16dp"
                         android:layout_below="@id/ibancontainer"
-                        android:text="Indirizzo residenza"/>
+                        android:text="Indirizzo"/>
 
                     <RelativeLayout
 

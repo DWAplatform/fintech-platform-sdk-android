@@ -64,7 +64,7 @@ class IdentityCardsPresenter @Inject constructor(val view: IdentityCardsContract
 
         api.documents(
                 configuration.accessToken,
-                configuration.userId,
+                configuration.ownerId,
                 "IDENTITY_CARD",
                 photosBase64,
                 idempDocs) { optDocs, opterror ->
@@ -80,7 +80,7 @@ class IdentityCardsPresenter @Inject constructor(val view: IdentityCardsContract
                 return@documents
             }
 
-            val userDocuments = UserDocuments(configuration.userId,"IDENTITY_CARD", photosBase64)
+            val userDocuments = UserDocuments(configuration.ownerId,"IDENTITY_CARD", photosBase64)
             view.enableConfirmButton(false)
             dbDocumentsHelper.replaceDocuments(userDocuments)
             view.goBack()
@@ -115,7 +115,7 @@ class IdentityCardsPresenter @Inject constructor(val view: IdentityCardsContract
 
     fun reloadFromServer() {
 
-        api.getDocuments(configuration.accessToken, configuration.userId) {
+        api.getDocuments(configuration.accessToken, configuration.ownerId) {
             userDocs: ArrayList<UserDocuments?>?, opterror: Exception? ->
 
             if (opterror != null) {

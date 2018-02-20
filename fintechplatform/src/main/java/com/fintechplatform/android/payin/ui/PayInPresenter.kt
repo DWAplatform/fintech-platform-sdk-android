@@ -63,8 +63,9 @@ class PayInPresenter @Inject constructor(val configuration: DataAccount,
         val money = Money.valueOf(view.getAmount())
 
         api.payIn(configuration.accessToken,
-                configuration.userId,
+                configuration.ownerId,
                 configuration.accountId,
+                configuration.accountType,
                 configuration.tenantId,
                 paycard,
                 money,
@@ -117,7 +118,11 @@ class PayInPresenter @Inject constructor(val configuration: DataAccount,
     }
 
     private fun reloadBalance() {
-        balanceHelper.api.balance(configuration.accessToken, configuration.userId, configuration.accountId, configuration.tenantId) { optbalance, opterror ->
+        balanceHelper.api.balance(configuration.accessToken,
+                configuration.ownerId,
+                configuration.accountId,
+                configuration.accountType,
+                configuration.tenantId) { optbalance, opterror ->
             if (opterror != null) {
                 return@balance
             }

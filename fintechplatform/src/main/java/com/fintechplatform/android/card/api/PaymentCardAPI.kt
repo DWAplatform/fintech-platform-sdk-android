@@ -46,6 +46,7 @@ open class PaymentCardAPI @Inject constructor(
     open fun registerCard(token: String,
                           userId: String,
                           accountId: String,
+                          accountType: String,
                           tenantId: String,
                           cardNumber: String,
                           expiration: String,
@@ -58,13 +59,13 @@ open class PaymentCardAPI @Inject constructor(
 
         paymentCardHelper.checkCardFormat(cardNumber, expiration, cvxValue)
 
-        restAPI.createCreditCardRegistration(userId, accountId, tenantId, token, paymentCardHelper.generateAlias(cardNumber), expiration, currency){ optCardReg, optError ->
+        restAPI.createCreditCardRegistration(userId, accountId, accountType, tenantId, token, paymentCardHelper.generateAlias(cardNumber), expiration, currency){ optCardReg, optError ->
             optError?.let { error -> completionHandler(null, error); return@createCreditCardRegistration }
             optCardReg?.let { cr->
-                restAPI.getCardSafe(PaymentCardRestAPI.CardToRegister(cardNumber, expiration, cvxValue), userId, accountId, tenantId, token) { optCardSafe, optErrorCS ->
+                restAPI.getCardSafe(PaymentCardRestAPI.CardToRegister(cardNumber, expiration, cvxValue), userId, accountId, accountType, tenantId, token) { optCardSafe, optErrorCS ->
                     optErrorCS?.let { completionHandler(null, it); return@getCardSafe}
                     optCardSafe?.let { cardToRegister ->
-                        restAPI.postCardRegistrationData(userId, accountId, tenantId, token, cardToRegister.cardNumber, cardToRegister.expiration, cardToRegister.cvx, cr) { paymentCardItem, exception ->
+                        restAPI.postCardRegistrationData(userId, accountId, accountType, tenantId, token, cardToRegister.cardNumber, cardToRegister.expiration, cardToRegister.cvx, cr) { paymentCardItem, exception ->
                             exception?.let { completionHandler(null, it); return@postCardRegistrationData }
                             paymentCardItem?.let { completionHandler(it, null) }
                         }

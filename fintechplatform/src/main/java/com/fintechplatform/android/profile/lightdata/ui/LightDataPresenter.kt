@@ -21,7 +21,7 @@ class LightDataPresenter @Inject constructor(val view: LightDataContract.View,
 
     override fun initialize() {
 
-        val userProfile = usersPersistanceDB.userProfile(configuration.userId)
+        val userProfile = usersPersistanceDB.userProfile(configuration.ownerId)
         userProfile?.let {
             view.setNameText(userProfile.name?: "")
             view.setSurnameTect(userProfile.surname?: "")
@@ -36,7 +36,7 @@ class LightDataPresenter @Inject constructor(val view: LightDataContract.View,
         view.hideKeyboard()
 
         val lightdata = UserLightData(
-                configuration.userId,
+                configuration.ownerId,
                 configuration.tenantId,
                 view.getNameText(),
                 view.getSurnameText(),
@@ -61,7 +61,7 @@ class LightDataPresenter @Inject constructor(val view: LightDataContract.View,
             view.hideWaiting()
 
             val userLightDataProfile = UserLightData(
-                    configuration.userId,
+                    configuration.ownerId,
                     view.getNameText(),
                     view.getSurnameText(),
                     birthdayDate,
@@ -113,7 +113,7 @@ class LightDataPresenter @Inject constructor(val view: LightDataContract.View,
         view.enableAllTexts(false)
 
         api.searchUser(configuration.accessToken,
-                 configuration.userId, configuration.tenantId){ profile, exception ->
+                 configuration.ownerId, configuration.tenantId){ profile, exception ->
 
             if (exception != null){
                 handleErrors(exception)
@@ -127,7 +127,7 @@ class LightDataPresenter @Inject constructor(val view: LightDataContract.View,
             view.enableAllTexts(true)
 
             val userlightdata = UserLightData(
-                    configuration.userId,
+                    configuration.ownerId,
                     configuration.tenantId,
                     profile.name,
                     profile.surname,

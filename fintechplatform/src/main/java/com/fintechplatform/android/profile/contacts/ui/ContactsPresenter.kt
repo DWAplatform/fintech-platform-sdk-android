@@ -17,7 +17,7 @@ class ContactsPresenter @Inject constructor(val view: ContactsContract.View,
     var token:String?=null
 
     override fun initializate() {
-        val userProfile = usersPersistanceDB.userProfile(configuration.userId)
+        val userProfile = usersPersistanceDB.userProfile(configuration.ownerId)
         userProfile?.let {
             view.setEmailText(it.email?: "")
             view.setTelephoneText(it.telephone?: "")
@@ -28,7 +28,7 @@ class ContactsPresenter @Inject constructor(val view: ContactsContract.View,
         view.enableAllTexts(false)
 
         api.searchUser(configuration.accessToken,
-                configuration.userId, configuration.tenantId){ profile, exception ->
+                configuration.ownerId, configuration.tenantId){ profile, exception ->
 
             if (exception != null){
                 handlerErrors(exception)
@@ -43,7 +43,7 @@ class ContactsPresenter @Inject constructor(val view: ContactsContract.View,
 
             profile.email?.let {
                 val usercontacts = UserContacts(
-                        configuration.userId,
+                        configuration.ownerId,
                         configuration.tenantId,
                         profile.email,
                         profile.telephone
@@ -72,7 +72,7 @@ class ContactsPresenter @Inject constructor(val view: ContactsContract.View,
 
             view.hideKeyboard()
 
-            val contacts = UserContacts(configuration.userId, view.getEmailText(), view.getTelephoneText())
+            val contacts = UserContacts(configuration.ownerId, configuration.tenantId, view.getEmailText(), view.getTelephoneText())
             api.contacts(configuration.accessToken,
                     contacts) { profileReply: UserProfileReply?, exception: Exception? ->
 
@@ -88,7 +88,7 @@ class ContactsPresenter @Inject constructor(val view: ContactsContract.View,
                 }
 
                 val userProfile = UserContacts(
-                        configuration.userId,
+                        configuration.ownerId,
                         configuration.tenantId,
                         view.getEmailText(),
                         view.getTelephoneText())

@@ -50,15 +50,16 @@ class PaymentCardRestAPI constructor(internal val hostName: String,
      * @param completionHandler callback containing card registration object
      */
     fun createCreditCardRegistration(userId: String,
-                                             accountId: String,
-                                             tenantId: String, token: String,
-                                             numberalias: String,
-                                             expiration: String,
-                                             currency: String,
-                                             callback: (CardRegistration?, Exception?) -> Unit): IRequest<*>? {
+                                     accountId: String,
+                                     accountType: String,
+                                     tenantId: String, token: String,
+                                     numberalias: String,
+                                     expiration: String,
+                                     currency: String,
+                                     callback: (CardRegistration?, Exception?) -> Unit): IRequest<*>? {
 
         log.debug("FintechPlatform", "createCreditCardRegistration")
-        val url = netHelper.getURL("/rest/v1/fintech/tenants/$tenantId/users/$userId/accounts/$accountId/linkedCards")
+        val url = netHelper.getURL("/rest/v1/fintech/tenants/$tenantId/${netHelper.getPathFromAccountType(accountType)}/$userId/accounts/$accountId/linkedCards")
 
         var request: IRequest<*>?
         try {
@@ -93,15 +94,20 @@ class PaymentCardRestAPI constructor(internal val hostName: String,
                             callback(c, null)
                         } catch (e: JSONException) {
                             callback(null, netHelper.ReplyParamsUnexpected(e))
+                            log.error(TAG, "transactions error", e)
                         }
                     }) { error ->
                 val status = if (error.networkResponse != null) error.networkResponse.statusCode
                 else -1
                 when (status) {
-                    401 ->
+                    401 -> {
                         callback(null, netHelper.TokenError(error))
-                    else ->
-                    callback(null, netHelper.createRequestError(error))
+                        log.error(TAG, "transactions error", error.fillInStackTrace())
+                    }
+                    else -> {
+                        callback(null, netHelper.createRequestError(error))
+                        log.error(TAG, "transactions error", error.fillInStackTrace())
+                    }
                 }
             }
 
@@ -126,6 +132,7 @@ class PaymentCardRestAPI constructor(internal val hostName: String,
      */
     fun postCardRegistrationData(userId: String,
                                 accountId: String,
+                                 accountType: String,
                                 tenantId: String,
                                 token: String,
                                 cardnumber: String,
@@ -150,15 +157,19 @@ class PaymentCardRestAPI constructor(internal val hostName: String,
         val request = requestProvider.stringRequest(Request.Method.POST, url, params, header,
                 { response ->
                     log.debug("FintechPlatform", "on response getCardRegistrationData")
-                    sendCardResponseString(userId, accountId, tenantId, token, response, cardRegistration, completion)
+                    sendCardResponseString(userId, accountId, accountType, tenantId, token, response, cardRegistration, completion)
                 }) { error ->
             val status = if (error.networkResponse != null) error.networkResponse.statusCode
             else -1
             when (status) {
-                401 ->
+                401 -> {
                     completion(null, netHelper.TokenError(error))
-                else ->
+                    log.error(TAG, "transactions error", error.fillInStackTrace())
+                }
+                else -> {
                     completion(null, netHelper.createRequestError(error))
+                    log.error(TAG, "transactions error", error.fillInStackTrace())
+                }
             }
         }
 
@@ -176,6 +187,7 @@ class PaymentCardRestAPI constructor(internal val hostName: String,
      */
     fun sendCardResponseString(userId: String,
                                        accountId: String,
+                               accountType: String,
                                        tenantId: String,
                                        token: String,
                                        regresponse: String,
@@ -183,7 +195,7 @@ class PaymentCardRestAPI constructor(internal val hostName: String,
                                        completion: (PaymentCardItem?, Exception?) -> Unit)
             : IRequest<*>? {
         log.debug("FintechPlatform", "sendCardResponseString")
-        val url = netHelper.getURL("/rest/v1/account/tenants/$tenantId/personal/$userId/accounts/$accountId/linkedCards/${cardRegistration.cardRegistrationId}")
+        val url = netHelper.getURL("/rest/v1/fintech/tenants/$tenantId/${netHelper.getPathFromAccountType(accountType)}/$userId/accounts/$accountId/linkedCards/${cardRegistration.cardRegistrationId}")
 
         var request: IRequest<*>?
         try {
@@ -223,10 +235,14 @@ class PaymentCardRestAPI constructor(internal val hostName: String,
                 val status = if (error.networkResponse != null) error.networkResponse.statusCode
                 else -1
                 when (status) {
-                    401 ->
+                    401 -> {
                         completion(null, netHelper.TokenError(error))
-                    else ->
+                        log.error(TAG, "transactions error", error.fillInStackTrace())
+                    }
+                    else -> {
                         completion(null, netHelper.createRequestError(error))
+                        log.error(TAG, "transactions error", error.fillInStackTrace())
+                    }
                 }
             }
 
@@ -252,6 +268,7 @@ class PaymentCardRestAPI constructor(internal val hostName: String,
     open fun getCardSafe(cardFrom: CardToRegister,
                          userId: String,
                          accountId: String,
+                         accountType: String,
                          tenantId: String,
                          token: String,
                          completionHandler: (CardToRegister?, Exception?) -> Unit) {
@@ -260,7 +277,7 @@ class PaymentCardRestAPI constructor(internal val hostName: String,
             completionHandler(CardToRegister(cardFrom.cardNumber, cardFrom.expiration, cardFrom.cvx), null)
         } else {
 
-            val url = netHelper.getURL("/rest/v1/fintech/tenants/$tenantId/users/$userId/accounts/$accountId/linkedCardsTestCards")
+            val url = netHelper.getURL("/rest/v1/fintech/tenants/$tenantId/${netHelper.getPathFromAccountType(accountType)}/$userId/accounts/$accountId/linkedCardsTestCards")
 
             val request = requestProvider.jsonArrayRequest(Request.Method.GET, url, null,
                     netHelper.authorizationToken(token),
@@ -285,12 +302,13 @@ class PaymentCardRestAPI constructor(internal val hostName: String,
     }
 
     fun getPaymentCards(token:String,
-                       userId: String,
+                        userId: String,
                         accountId: String,
+                        accountType: String,
                         tenantId: String,
-                       completion: (List<PaymentCardItem>?, Exception?) -> Unit): IRequest<*>? {
+                        completion: (List<PaymentCardItem>?, Exception?) -> Unit): IRequest<*>? {
 
-        val baseurl = netHelper.getURL("/rest/v1/fintech/tenants/$tenantId/users/$userId/accounts/$accountId/linkedCards")
+        val baseurl = netHelper.getURL("/rest/v1/fintech/tenants/$tenantId/${netHelper.getPathFromAccountType(accountType)}/$userId/accounts/$accountId/linkedCards")
 
         var request: IRequest<*>?
         try {
@@ -299,7 +317,6 @@ class PaymentCardRestAPI constructor(internal val hostName: String,
             val url = netHelper.getUrlDataString(baseurl, params)
 
 
-            // Request a string response from the provided URL.
             val r = requestProvider.jsonArrayRequest(Request.Method.GET, url,
                     null, netHelper.authorizationToken(token),
                     { response: JSONArray ->
@@ -324,10 +341,14 @@ class PaymentCardRestAPI constructor(internal val hostName: String,
                 val status = if (error.networkResponse != null) error.networkResponse.statusCode
                 else -1
                 when (status) {
-                    401 ->
+                    401 -> {
                         completion(null, netHelper.TokenError(error))
-                    else ->
-                        completion(null, netHelper.GenericCommunicationError(error))
+                        log.error(TAG, "transactions error", error.fillInStackTrace())
+                    }
+                    else -> {
+                        completion(null, netHelper.createRequestError(error))
+                        log.error(TAG, "transactions error", error.fillInStackTrace())
+                    }
                 }
             }
             r.setIRetryPolicy(netHelper.defaultpolicy)

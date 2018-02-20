@@ -48,8 +48,13 @@ class PayInPayOutFinancialDataPresenter @Inject constructor(val view: PayInPayOu
         }
     }
 
-    override fun loadBankAccount() {
-        apiBankAccount.getbankAccounts(configuration.accessToken, configuration.userId, configuration.accountId, configuration.tenantId) { optbankaccounts, opterror ->
+    override fun onRefresh() {
+        loadBankAccount()
+        loadPaymentCard()
+    }
+
+    private fun loadBankAccount() {
+        apiBankAccount.getbankAccounts(configuration.accessToken, configuration.ownerId, configuration.accountId, configuration.accountType, configuration.tenantId) { optbankaccounts, opterror ->
 
             if (opterror != null) {
                 return@getbankAccounts
@@ -67,8 +72,8 @@ class PayInPayOutFinancialDataPresenter @Inject constructor(val view: PayInPayOu
         }
     }
 
-    override fun loadPaymentCard() {
-        apiCardRest.getPaymentCards(configuration.accessToken, configuration.userId, configuration.accountId, configuration.tenantId){ optcards, opterror ->
+    private fun loadPaymentCard() {
+        apiCardRest.getPaymentCards(configuration.accessToken, configuration.ownerId, configuration.accountId, configuration.accountType, configuration.tenantId){ optcards, opterror ->
 
             if (opterror != null) {
                 handleErrors(opterror)

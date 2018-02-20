@@ -36,8 +36,9 @@ class TransferActivity: FragmentActivity(), TransferContract.View {
         val p2pUserID = intent.extras.getString("peerId") ?: ""
         val p2pAccountId = intent.extras.getString("peerAccountId") ?: ""
         val p2pTenantId = intent.extras.getString("peerTenantId") ?: ""
+        val p2pAccounType = intent.extras.getString("peerAccountType") ?: ""
 
-        presenter.initialize(p2pUserID, p2pAccountId, p2pTenantId)
+        presenter.initialize(p2pUserID, p2pAccountId, p2pTenantId, p2pAccounType)
 
         amountText.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(p0: Editable?) {}

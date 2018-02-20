@@ -38,6 +38,10 @@ class FintechPlatform {
             PlatformDB.init()
         }
 
+        fun deleteEverything(context: Context) {
+            PlatformDB.deleteEverything(context)
+        }
+
         /**
          * Factory method to get ClientCardAPI object
          */

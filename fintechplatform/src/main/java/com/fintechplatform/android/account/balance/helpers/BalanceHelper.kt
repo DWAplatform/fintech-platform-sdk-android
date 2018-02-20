@@ -9,9 +9,9 @@ open class BalanceHelper @Inject constructor(val persistence: BalancePersistence
                                              val api: BalanceAPI) {
 
 
-    fun getAndUpdateCachedBalance(token: String, userId: String, accountId: String, tenantId: String, callback: (Money?, Exception?) -> Unit): Money {
+    fun getAndUpdateCachedBalance(token: String, userId: String, accountId: String, accountType: String, tenantId: String, callback: (Money?, Exception?) -> Unit): Money {
 
-        api.balance(token, userId, accountId, tenantId) {  optbalance, opterror ->
+        api.balance(token, userId, accountId, accountType, tenantId) {  optbalance, opterror ->
             if (opterror != null) {
                 callback(null, opterror)
                 return@balance

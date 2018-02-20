@@ -5,6 +5,7 @@ import android.content.Intent;
 
 import com.android.volley.toolbox.Volley;
 import com.fintechplatform.android.api.NetModule;
+import com.fintechplatform.android.enterprise.api.EnterpriseAPIModule;
 import com.fintechplatform.android.iban.api.IbanAPIModule;
 import com.fintechplatform.android.models.DataAccount;
 import com.fintechplatform.android.profile.api.ProfileAPIModule;
@@ -33,6 +34,7 @@ public class IbanUI {
                 .iBANPresenterModule(new IBANPresenterModule(view, instance.configuration))
                 .ibanAPIModule(new IbanAPIModule(instance.hostname))
                 .profileAPIModule(new ProfileAPIModule(instance.hostname))
+                .enterpriseAPIModule(new EnterpriseAPIModule(instance.hostname))
                 .build();
     }
 

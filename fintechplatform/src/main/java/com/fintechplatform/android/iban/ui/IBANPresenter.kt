@@ -1,6 +1,9 @@
 package com.fintechplatform.android.iban.ui
 
 import com.fintechplatform.android.api.NetHelper
+import com.fintechplatform.android.enterprise.api.EnterpriseAPI
+import com.fintechplatform.android.enterprise.db.enterprise.EnterprisePersistanceDB
+import com.fintechplatform.android.enterprise.models.EnterpriseAddress
 import com.fintechplatform.android.iban.api.IbanAPI
 import com.fintechplatform.android.iban.db.IbanPersistanceDB
 import com.fintechplatform.android.iban.models.BankAccount
@@ -15,9 +18,11 @@ import javax.inject.Inject
 class IBANPresenter @Inject constructor(val view: IBANContract.View,
                                         val api: IbanAPI,
                                         val apiProfile: ProfileAPI,
+                                        val apiEnterprise: EnterpriseAPI,
                                         val configuration: DataAccount,
                                         val ibanPersistanceDB: IbanPersistanceDB,
-                                        val usersPersistanceDB: UsersPersistanceDB): IBANContract.Presenter {
+                                        val usersPersistanceDB: UsersPersistanceDB,
+                                        val enterprisePersistanceDB: EnterprisePersistanceDB): IBANContract.Presenter {
 
     private var countryofresidenceCode: String? = null
 
@@ -38,12 +43,20 @@ class IBANPresenter @Inject constructor(val view: IBANContract.View,
     }
 
     fun loadResidentialFromDB() {
-        usersPersistanceDB.residential(configuration.userId)?.let {
+        usersPersistanceDB.residential(configuration.ownerId)?.let {
             view.setAddressText(it.address ?: "")
             view.setZipcodeText(it.ZIPcode ?: "")
             view.setCityText(it.city ?: "")
             view.setCountryofresidenceText(it.countryofresidence ?: "")
             countryofresidenceCode = it.countryofresidence
+        }
+
+        enterprisePersistanceDB.enterpriseAddress(configuration.ownerId)?.let {
+            view.setAddressText(it.address ?: "")
+            view.setZipcodeText(it.postalCode ?: "")
+            view.setCityText(it.city ?: "")
+            view.setCountryofresidenceText(it.country ?: "")
+            countryofresidenceCode = it.country
         }
         refreshConfirmButton()
     }
@@ -86,38 +99,78 @@ class IBANPresenter @Inject constructor(val view: IBANContract.View,
         view.confirmButtonEnable(false)
         view.showCommunicationWait()
 
-        val residential = UserResidential(configuration.userId,
-                configuration.tenantId, view.getAddressText(),  view.getZipcodeText(), view.getCityText(), countryofresidenceCode)
+        when (configuration.accountType) {
+            "PERSONAL" -> {
+                val residential = UserResidential(configuration.ownerId,
+                        configuration.tenantId, view.getAddressText(),  view.getZipcodeText(), view.getCityText(), countryofresidenceCode)
 
-        apiProfile.residential(
-                configuration.accessToken,
-                residential) { optuserprofilereply, opterror ->
+                apiProfile.residential(
+                        configuration.accessToken,
+                        residential) { optuserprofilereply, opterror ->
 
-            view.confirmButtonEnable(true)
-            view.hideCommunicationWait()
+                    view.confirmButtonEnable(true)
+                    view.hideCommunicationWait()
 
-            if (opterror != null) {
-                handleErrors(opterror)
-                return@residential
+                    if (opterror != null) {
+                        handleErrors(opterror)
+                        return@residential
+                    }
+
+                    if (optuserprofilereply?.userid == null) {
+                        view.showCommunicationInternalError()
+                        return@residential
+                    }
+
+                    val res = UserResidential(
+                            optuserprofilereply.userid,
+                            configuration.tenantId,
+                            view.getAddressText(),
+                            view.getZipcodeText(),
+                            view.getCityText(),
+                            countryofresidenceCode)
+
+                    usersPersistanceDB.saveResidential(res)
+
+                    saveIban()
+                }
             }
 
-            if (optuserprofilereply?.userid == null) {
-                view.showCommunicationInternalError()
-                return@residential
+            "BUSINESS" -> {
+                val address = EnterpriseAddress(configuration.ownerId, configuration.accountId, configuration.tenantId,
+                        view.getAddressText(),
+                        view.getCityText(),
+                        view.getZipcodeText(),
+                        countryofresidenceCode)
+                apiEnterprise.address(configuration.accessToken, address) { enterpriseProfile, exception ->
+                    view.confirmButtonEnable(true)
+                    view.hideCommunicationWait()
+
+                    if (exception != null) {
+                        handleErrors(exception)
+                        return@address
+                    }
+
+                    if (enterpriseProfile == null) {
+                        view.showCommunicationInternalError()
+                        return@address
+                    }
+
+                    val adres = EnterpriseAddress(
+                            enterpriseProfile.enterpriseId,
+                            configuration.accountId,
+                            configuration.tenantId,
+                            view.getAddressText(),
+                            view.getCityText(),
+                            view.getZipcodeText(),
+                            countryofresidenceCode)
+
+                    enterprisePersistanceDB.saveAddress(adres)
+
+                    saveIban()
+                }
             }
-
-            val res = UserResidential(
-                    optuserprofilereply.userid,
-                    configuration.tenantId,
-                    view.getAddressText(),
-                    view.getZipcodeText(),
-                    view.getCityText(),
-                    countryofresidenceCode)
-
-            usersPersistanceDB.saveResidential(res)
-
-            saveIban()
         }
+
     }
 
     fun saveIban() {
@@ -127,8 +180,9 @@ class IBANPresenter @Inject constructor(val view: IBANContract.View,
         val idempotencyCashOut = this.idempotencyCashOut ?: return
 
         api.createIBAN(configuration.accessToken,
-                configuration.userId,
+                configuration.ownerId,
                 configuration.accountId,
+                configuration.accountType,
                 configuration.tenantId,
                 view.getNumberText(),
                 idempotencyCashOut) { optbankaccount, opterror ->
@@ -173,7 +227,7 @@ class IBANPresenter @Inject constructor(val view: IBANContract.View,
         ibanServerCalled = false
         view.enableAllTexts(false)
 
-        api.getbankAccounts(configuration.accessToken, configuration.userId, configuration.accountId, configuration.tenantId) { optbankaccounts, opterror ->
+        api.getbankAccounts(configuration.accessToken, configuration.ownerId, configuration.accountId, configuration.accountType, configuration.tenantId) { optbankaccounts, opterror ->
 
             ibanServerCalled = true
 
@@ -202,34 +256,69 @@ class IBANPresenter @Inject constructor(val view: IBANContract.View,
         residentialServerCalled = false
         view.enableAllTexts(false)
 
-        apiProfile.searchUser(configuration.accessToken,
-                configuration.userId, configuration.tenantId){ profile, exception ->
+        when(configuration.accountType) {
+            "PERSONAL" -> {
+                apiProfile.searchUser(configuration.accessToken,
+                    configuration.ownerId, configuration.tenantId) { profile, exception ->
 
-            residentialServerCalled = true
+                residentialServerCalled = true
 
-            if (exception != null){
-                handleErrors(exception)
-                return@searchUser
+                if (exception != null) {
+                    handleErrors(exception)
+                    return@searchUser
+                }
+
+                if (profile == null) {
+                    return@searchUser
+                }
+
+                val res = UserResidential(
+                        profile.userid,
+                        configuration.tenantId,
+                        profile.address,
+                        profile.ZIPcode,
+                        profile.city,
+                        profile.countryofresidence)
+
+                usersPersistanceDB.saveResidential(res)
+
+
+                loadResidentialFromDB()
+
+                finishServerCalls()
+                }
             }
 
-            if(profile == null){
-                return@searchUser
+            "BUSINESS" -> {
+                apiEnterprise.getEnterprise(configuration.accessToken, configuration.ownerId) { enterpriseProfile, exception ->
+                    residentialServerCalled = true
+
+                    if (exception != null) {
+                        handleErrors(exception)
+                        return@getEnterprise
+                    }
+
+                    if (enterpriseProfile == null) {
+                        return@getEnterprise
+                    }
+
+                    val profile = enterpriseProfile
+                    val address = EnterpriseAddress(
+                            configuration.ownerId,
+                            configuration.accountId,
+                            configuration.tenantId,
+                            profile.addressOfHeadquarters,
+                            profile.cityOfHeadquarters,
+                            profile.postalCodeHeadquarters,
+                            profile.countryHeadquarters
+                    )
+
+                    enterprisePersistanceDB.saveAddress(address)
+                    loadResidentialFromDB()
+
+                    finishServerCalls()
+                }
             }
-
-            val res = UserResidential(
-                    profile.userid,
-                    configuration.tenantId,
-                    profile.address,
-                    profile.ZIPcode,
-                    profile.city,
-                    profile.countryofresidence)
-
-            usersPersistanceDB.saveResidential(res)
-
-
-            loadResidentialFromDB()
-
-            finishServerCalls()
         }
     }
 
@@ -239,6 +328,8 @@ class IBANPresenter @Inject constructor(val view: IBANContract.View,
         when (opterror) {
             is NetHelper.TokenError ->
                 view.showTokenExpiredWarning()
+            is NetHelper.UserNotFound -> return
+            is NetHelper.EnterpriseNotFound -> return
             else ->
                 view.showCommunicationInternalError()
         }

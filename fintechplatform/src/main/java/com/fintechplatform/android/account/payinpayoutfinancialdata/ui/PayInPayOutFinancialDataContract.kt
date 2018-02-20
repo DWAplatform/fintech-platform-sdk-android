@@ -10,8 +10,7 @@ interface PayInPayOutFinancialDataContract {
     }
 
     interface Presenter {
-        fun loadPaymentCard()
-        fun loadBankAccount()
+        fun onRefresh()
         fun initFinancialData()
         fun onBackwardClicked()
         fun calcCardValue(): String?

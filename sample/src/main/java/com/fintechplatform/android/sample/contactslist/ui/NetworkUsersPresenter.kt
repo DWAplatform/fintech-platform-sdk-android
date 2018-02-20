@@ -17,7 +17,7 @@ class NetworkUsersPresenter constructor(val view: NetworkUsersListContract.View,
 
     override fun reloadP2P() {
         // fetchContacts()
-        api.p2pPeersFiltered(config.accessToken, config.userId, config.accountId, config.tenantId) { optp2pusers, opterror ->
+        api.p2pPeersFiltered(config.accessToken, config.ownerId, config.accountId, config.tenantId) { optp2pusers, opterror ->
 
             view.enableRefreshing(false)
             if (opterror != null) {

@@ -27,7 +27,7 @@ class EnterpriseInfoPresenter @Inject constructor(val view: EnterpriseInfoContra
         view.showWaiting()
         view.hideKeyboard()
 
-        val info = EnterpriseInfo(configuration.userId,
+        val info = EnterpriseInfo(configuration.ownerId,
                 configuration.accountId,
                 configuration.tenantId,
                 view.getNameText(),
@@ -94,7 +94,7 @@ class EnterpriseInfoPresenter @Inject constructor(val view: EnterpriseInfoContra
 
             view.enableAllTexts(true)
 
-            val enterpriseInfo = EnterpriseInfo(configuration.userId,
+            val enterpriseInfo = EnterpriseInfo(configuration.ownerId,
                     configuration.accountId,
                     configuration.tenantId,
                     enterprise.name,

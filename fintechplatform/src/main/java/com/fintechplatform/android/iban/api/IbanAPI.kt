@@ -24,11 +24,12 @@ class IbanAPI @Inject constructor(internal val hostName: String,
     fun createIBAN(token: String,
                    userid: String,
                    accountId: String,
+                   accountType: String,
                    tenantId: String,
                    iban: String,
                    idempotency: String,
                    completion: (BankAccount?, Exception?) -> Unit): IRequest<*>? {
-        val url = netHelper.getURL("/rest/v1/fintech/tenants/$tenantId/personal/$userid/accounts/$accountId/linkedBanks")
+        val url = netHelper.getURL("/rest/v1/fintech/tenants/$tenantId/${netHelper.getPathFromAccountType(accountType)}/$userid/accounts/$accountId/linkedBanks")
 
         var request: IRequest<*>?
         try {
@@ -50,8 +51,10 @@ class IbanAPI @Inject constructor(internal val hostName: String,
                 when (status) {
                     401 ->
                         completion(null, netHelper.TokenError(error))
-                    else ->
+                    else -> {
+                        log.error(TAG, "createIBAN", error.fillInStackTrace())
                         completion(null, netHelper.GenericCommunicationError(error))
+                    }
                 }
             }
 
@@ -69,10 +72,11 @@ class IbanAPI @Inject constructor(internal val hostName: String,
     fun getbankAccounts(token: String,
                         userid: String,
                         accountId: String,
+                        accountType: String,
                         tenantId: String,
                         completion: (List<BankAccount>?, Exception?) -> Unit): IRequest<*>? {
 
-        val baseurl = netHelper.getURL("/rest/v1/account/tenants/$tenantId/personal/$userid/accounts/$accountId/linkedBanks")
+        val baseurl = netHelper.getURL("/rest/v1/fintech/tenants/$tenantId/${netHelper.getPathFromAccountType(accountType)}/$userid/accounts/$accountId/linkedBanks")
 
         var request: IRequest<*>?
         try {
@@ -80,7 +84,6 @@ class IbanAPI @Inject constructor(internal val hostName: String,
             params.put("userid", userid)
             val url = netHelper.getUrlDataString(baseurl, params)
 
-            // Request a string response from the provided URL.
             val r = requestProvider.jsonArrayRequest(Request.Method.GET, url,
                     null, netHelper.authorizationToken(token),
                     { response: JSONArray ->

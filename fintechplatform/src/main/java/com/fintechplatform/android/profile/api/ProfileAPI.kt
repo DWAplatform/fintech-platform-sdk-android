@@ -37,7 +37,16 @@ class ProfileAPI @Inject constructor(
                         completion(userprofile, error)
                     })
             {error ->
-                completion(null, error) }
+                val status = if (error.networkResponse != null) error.networkResponse.statusCode
+                else -1
+                when (status) {
+                    401 ->
+                        completion(null, netHelper.TokenError(error))
+                    404 -> completion(null, netHelper.UserNotFound(error))
+                    else ->
+                        completion(null, netHelper.GenericCommunicationError(error))
+                }
+            }
             r.setIRetryPolicy(netHelper.defaultpolicy)
             queue.add(r)
             request = r
@@ -110,7 +119,16 @@ class ProfileAPI @Inject constructor(
                         completion(userprofile, null)
                     })
             {error ->
-                completion(null, error) }
+                val status = if (error.networkResponse != null) error.networkResponse.statusCode
+                else -1
+                when (status) {
+                    401 ->
+                        completion(null, netHelper.TokenError(error))
+                    404 -> completion(null, netHelper.UserNotFound(error))
+                    else ->
+                        completion(null, netHelper.GenericCommunicationError(error))
+                }
+            }
             r.setIRetryPolicy(netHelper.defaultpolicy)
             queue.add(r)
             request = r

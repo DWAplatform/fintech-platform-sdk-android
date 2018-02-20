@@ -18,9 +18,11 @@ open class BalanceAPI @Inject constructor(internal val hostName: String,
 
     private final val TAG = "BalanceAPI"
 
-    open fun balance(token: String, userId: String, accountId: String, tenantId: String, completion: (Money?, Exception?) -> Unit): IRequest<*>? {
+    open fun balance(token: String, userId: String, accountId: String, accountType: String, tenantId: String, completion: (Money?, Exception?) -> Unit): IRequest<*>? {
 
-        val url = netHelper.getURL("/rest/v1/fintech/tenants/$tenantId/personal/$userId/accounts/$accountId/balance")
+
+
+        val url = netHelper.getURL("/rest/v1/fintech/tenants/$tenantId/${netHelper.getPathFromAccountType(accountType)}/$userId/accounts/$accountId/balance")
 
         var request: IRequest<*>?
         try {

@@ -139,7 +139,7 @@ class AuthenticationAPI constructor(internal val hostName: String,
 
             request = requestProvider.jsonObjectRequest(Request.Method.POST, url, jo, { response ->
                 try {
-                    //val id = response.getString("userId")
+                    //val id = response.getString("ownerId")
                     val token = response.getString("token")
 
                     completion(CheckPin(userid, token, CheckPinState.SUCCESS), null)

@@ -44,6 +44,10 @@ class NetHelper constructor(val hostName: String) {
 
     inner class ReplyParamsUnexpected(throwable: Throwable) : Exception(throwable)
 
+    inner class UserNotFound(throwable: Throwable) : Exception(throwable)
+
+    inner class EnterpriseNotFound(throwable: Throwable) : Exception(throwable)
+
     val PROTOCOL_CHARSET = "utf-8"
 
     fun getURL(path: String): String {
@@ -73,6 +77,14 @@ class NetHelper constructor(val hostName: String) {
         } catch(e: JSONException) {
             return PaymentCardRestAPI.APIReplyError(null, volleyError)
         }
+    }
+
+    fun getPathFromAccountType(accountType: String): String {
+        return if (accountType == "PERSONAL"){
+                "users"
+            } else {
+                "enterprises"
+            }
     }
 
     @Throws(UnsupportedEncodingException::class)
@@ -113,7 +125,7 @@ class NetHelper constructor(val hostName: String) {
                 response.optString("photo"),
                 response.optString("countryOfResidence"),
                 response.optString("occupation"),
-                response.optString("incomeRnage"),
+                response.optString("incomeRange"),
                 null)
 
         return UserReplyParserResult(userprofile, null)
@@ -122,7 +134,8 @@ class NetHelper constructor(val hostName: String) {
 
     fun searchEnterpriseReplyParser(response: JSONObject) : EnterpriseProfile {
         return EnterpriseProfile(
-                response.getString("userid"),
+                response.getString("enterpriseId"),
+                response.optString("legalRepresentativeId"),
                 response.optString("name"),
                 response.optString("telephone"),
                 response.optString("email"),

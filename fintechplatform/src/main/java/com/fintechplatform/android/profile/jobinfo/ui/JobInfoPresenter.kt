@@ -25,7 +25,7 @@ class JobInfoPresenter @Inject constructor(val view: JobInfoContract.View,
     override fun onRefresh() {
         view.enableAllTexts(false)
 
-        api.searchUser(configuration.accessToken, configuration.userId, configuration.tenantId) { profile, exception ->
+        api.searchUser(configuration.accessToken, configuration.ownerId, configuration.tenantId) { profile, exception ->
 
             if (exception != null) {
                 return@searchUser
@@ -38,7 +38,7 @@ class JobInfoPresenter @Inject constructor(val view: JobInfoContract.View,
             view.enableAllTexts(true)
 
             val userjobinfo = UserJobInfo(
-                    configuration.userId,
+                    configuration.ownerId,
                     configuration.tenantId,
                     profile.jobinfo,
                     profile.income
@@ -62,7 +62,7 @@ class JobInfoPresenter @Inject constructor(val view: JobInfoContract.View,
         view.hideKeyboard()
         view.showWaiting()
 
-        val jobInfo = UserJobInfo(configuration.userId, view.getJobInfoText(), getKeySalaryValue( view.getIncomeText() ) )
+        val jobInfo = UserJobInfo(configuration.ownerId, configuration.tenantId, view.getJobInfoText(), getKeySalaryValue( view.getIncomeText() ) )
         api.jobInfo(
                 configuration.accessToken,
                 jobInfo
@@ -79,7 +79,7 @@ class JobInfoPresenter @Inject constructor(val view: JobInfoContract.View,
                 return@jobInfo
             }
 
-            val profile = UserJobInfo(configuration.userId,
+            val profile = UserJobInfo(configuration.ownerId,
                     configuration.tenantId,
                     view.getJobInfoText(),
                     getKeySalaryValue(view.getIncomeText())
@@ -113,7 +113,7 @@ class JobInfoPresenter @Inject constructor(val view: JobInfoContract.View,
 
 
     private fun reloadUserData() {
-        val userProfile = usersPersistanceDB.userProfile(configuration.userId)
+        val userProfile = usersPersistanceDB.userProfile(configuration.ownerId)
         userProfile?.let {
             view.setJobInfoText(it.jobinfo ?: "")
             view.setIcomeText(setSalaryValue(it.income ?: ""))

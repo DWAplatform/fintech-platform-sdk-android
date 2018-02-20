@@ -53,6 +53,7 @@ open class PayInPayOutFinancialDataActivity : FragmentActivity() , PayInPayOutFi
 
     override fun onResume() {
         super.onResume()
+        presenter.onRefresh()
         cardValueText.text = presenter.calcCardValue() ?: ""
         ibanText.text = presenter.calcIBANValue() ?: ""
     }

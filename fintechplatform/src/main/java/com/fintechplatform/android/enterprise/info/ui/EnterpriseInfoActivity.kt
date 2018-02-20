@@ -47,6 +47,10 @@ class EnterpriseInfoActivity : AppCompatActivity(), EnterpriseInfoContract.View 
             presenter.onConfirm()
         }
 
+        enterpriseTypeLayout.setOnClickListener {
+
+        }
+
         abortButton.setOnClickListener { presenter.onAbortClick() }
 
     }

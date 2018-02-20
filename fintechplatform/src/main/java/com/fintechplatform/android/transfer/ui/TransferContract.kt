@@ -26,7 +26,7 @@ interface TransferContract {
     }
 
     interface Presenter{
-        fun initialize(p2pUserId: String, p2pAccountId: String, p2pTenantId: String)
+        fun initialize(p2pUserId: String, p2pAccountId: String, p2pTenantId: String, accountType: String)
         fun onEditingChanged()
         fun onConfirm()
         fun onAbortClick()

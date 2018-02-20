@@ -40,7 +40,9 @@ class EnterpriseAddressPresenter @Inject constructor(val view: EnterpriseAddress
             }
 
             val address = EnterpriseAddress(
-                    enterprise.accountId,
+                    configuration.ownerId,
+                    configuration.accountId,
+                    configuration.tenantId,
                     enterprise.addressOfHeadquarters,
                     enterprise.cityOfHeadquarters,
                     enterprise.postalCodeHeadquarters,
@@ -104,7 +106,7 @@ class EnterpriseAddressPresenter @Inject constructor(val view: EnterpriseAddress
             }
 
             val address = EnterpriseAddress(
-                    optenterprise.accountId,
+                    optenterprise.enterpriseId,
                     view.getAddressText(),
                     view.getCityText(),
                     view.getPostalCodeText(),
