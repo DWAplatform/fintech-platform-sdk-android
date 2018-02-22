@@ -8,7 +8,6 @@ import com.android.volley.toolbox.Volley;
 import com.fintechplatform.android.account.balance.api.BalanceAPIModule;
 import com.fintechplatform.android.api.NetModule;
 import com.fintechplatform.android.models.DataAccount;
-import com.fintechplatform.android.sct.api.SctAPIModule;
 
 import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
 
@@ -29,7 +28,6 @@ public class SctUI {
                 .balanceAPIModule(new BalanceAPIModule(instance.hostName))
                 .netModule(new NetModule(Volley.newRequestQueue(context), instance.hostName))
                 .sctPresenterModule(new SctPresenterModule(view, instance.dataAccount))
-                .sctAPIModule(new SctAPIModule(instance.hostName))
                 .build();
     }
 

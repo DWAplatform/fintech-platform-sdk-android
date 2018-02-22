@@ -15,16 +15,9 @@ import dagger.Provides;
  */
 @Module
 public class SctAPIModule {
-    private String hostName;
-
-
-    public SctAPIModule(String hostName) {
-        this.hostName = hostName;
-    }
-
     @Provides
     @Singleton
     SctAPI provideBalanceAPI(IRequestQueue queue, IRequestProvider requestProvider, Log log, NetHelper netHelper) {
-        return new SctAPI(hostName, queue, requestProvider, log, netHelper);
+        return new SctAPI(queue, requestProvider, log, netHelper);
     }
 }

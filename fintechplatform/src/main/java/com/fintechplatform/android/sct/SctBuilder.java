@@ -5,7 +5,6 @@ import android.content.Context;
 import com.android.volley.toolbox.Volley;
 import com.fintechplatform.android.api.NetModule;
 import com.fintechplatform.android.models.DataAccount;
-import com.fintechplatform.android.sct.api.SctAPIModule;
 import com.fintechplatform.android.sct.ui.SctUIModule;
 
 /**
@@ -22,7 +21,6 @@ public class SctBuilder {
     public SctAPIComponent createSctAPIComponent(Context context, String hostName) {
         return DaggerSctAPIComponent.builder()
                 .netModule(new NetModule(Volley.newRequestQueue(context), hostName))
-                .sctAPIModule(new SctAPIModule(hostName))
                 .build();
     }
 

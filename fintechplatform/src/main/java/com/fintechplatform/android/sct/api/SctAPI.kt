@@ -9,8 +9,7 @@ import com.fintechplatform.android.log.Log
 import org.json.JSONObject
 
 
-class SctAPI constructor(private val hostName: String,
-                         private val queue: IRequestQueue,
+class SctAPI constructor(private val queue: IRequestQueue,
                          private val requestProvider: IRequestProvider,
                          private val log: Log,
                          val netHelper: NetHelper) {
@@ -26,7 +25,7 @@ class SctAPI constructor(private val hostName: String,
                    ownerId: String,
                    accountId: String,
                    accountType: String,
-                   reeciverIBAN: String,
+                   reciverIBAN: String,
                    reeciverName: String,
                    amount: Long,
                    message: String?,
@@ -50,7 +49,7 @@ class SctAPI constructor(private val hostName: String,
             joFee.put("currency", "EUR")
 
             val jo = JSONObject()
-            jo.put("receiverIBAN", reeciverIBAN)
+            jo.put("receiverIBAN", reciverIBAN)
             jo.put("reeciverName", reeciverName)
             jo.put("instant", instant)
             jo.put("urgent", urgent)
