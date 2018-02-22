@@ -1,4 +1,4 @@
-package com.fintechplatform.android.account.balance.api;
+package com.fintechplatform.android.sct.api;
 
 import com.fintechplatform.android.api.IRequestProvider;
 import com.fintechplatform.android.api.IRequestQueue;
@@ -11,23 +11,20 @@ import dagger.Module;
 import dagger.Provides;
 
 /**
- * Created by tcappellari on 08/12/2017.
+ * Created by ingrid on 22/02/18.
  */
-
 @Module
-public class BalanceAPIModule {
-
+public class SctAPIModule {
     private String hostName;
 
 
-    public BalanceAPIModule(String hostName) {
+    public SctAPIModule(String hostName) {
         this.hostName = hostName;
     }
 
     @Provides
     @Singleton
-    BalanceAPI provideBalanceAPI(IRequestQueue queue, IRequestProvider requestProvider, NetHelper netHelper, Log log) {
-        return new BalanceAPI(hostName, queue, requestProvider, netHelper, log);
+    SctAPI provideBalanceAPI(IRequestQueue queue, IRequestProvider requestProvider, Log log, NetHelper netHelper) {
+        return new SctAPI(hostName, queue, requestProvider, log, netHelper);
     }
 }
-

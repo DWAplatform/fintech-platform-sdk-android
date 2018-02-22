@@ -46,7 +46,7 @@ class NetworkUsersListActivity : AppCompatActivity(), NetworkUsersListContract.V
             bundle.putString("p2pTenantId", p2puser.tenantId)
 
             FintechPlatform.makeTransfer()
-                    .createTrasnferUIComponent(MainActivity.hostName, DataAccount(MainActivity.userId, MainActivity.accountId, "", MainActivity.tenantId, KeyChain(this)["accessToken"]))
+                    .createTrasnferUIComponent(MainActivity.hostName, DataAccount(MainActivity.ownerId, MainActivity.accountId, "", MainActivity.tenantId, KeyChain(this)["accessToken"]))
                     .transferUI.start(this, bundle)
         }
     }

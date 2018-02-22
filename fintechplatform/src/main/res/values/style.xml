@@ -22,11 +22,20 @@
         <item name="colorControlActivated">@color/headerbackgroundcolor</item>
     </style>
 
-    <style name="CheckBox">
+    <style name="CheckBox" parent="Widget.AppCompat.CompoundButton.CheckBox">
         <item name="colorAccent">@color/themecolor</item>
         <item name="android:textColorSecondary">@color/black_semi_transparent</item>
         <item name="android:textSize">15sp</item>
+        <item name="android:textColor">@color/black_semi_transparent</item>
     </style>
+
+    <style name="CheckBox1" parent="Base.Widget.AppCompat.CompoundButton.CheckBox">
+        <item name="colorAccent">@color/themecolor</item>
+        <item name="android:textColorSecondary">@color/black_semi_transparent</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">@color/black_semi_transparent</item>
+    </style>
+
 
     <style name="noAnimTheme" parent="android:Theme">
         <item name="android:windowAnimationStyle">@null</item>

@@ -200,16 +200,30 @@
 
 
     <CheckBox
-        android:id="@+id/checkBox"
+        android:id="@+id/instant"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@+id/newBalanceLabel"
         android:layout_marginLeft="10dp"
         android:layout_marginStart="10dp"
         android:theme="@style/CheckBox"
+        android:textColor="@color/black_semi_transparent"
+        android:textSize="15sp"
         android:checked="true"
         android:layout_below="@+id/executionDateTextLayout"
         android:text="Bonifico istantaneo" />
+
+    <CheckBox
+        android:id="@+id/urgent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/instant"
+        android:layout_marginLeft="10dp"
+        android:layout_marginStart="10dp"
+        android:theme="@style/CheckBox1"
+        android:text="Bonifico urgente"
+        android:textColor="@color/black_semi_transparent"
+        android:textSize="15sp" />
 
     <TextView
             android:id="@+id/newBalanceAmountLabel"

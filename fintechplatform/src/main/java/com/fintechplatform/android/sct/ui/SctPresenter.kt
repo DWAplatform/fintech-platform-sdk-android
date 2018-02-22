@@ -1,4 +1,4 @@
-package com.fintechplatform.android.transfer.ui
+package com.fintechplatform.android.sct.ui
 
 import com.fintechplatform.android.account.balance.api.BalanceAPI
 import com.fintechplatform.android.account.balance.helpers.BalancePersistence
@@ -8,25 +8,27 @@ import com.fintechplatform.android.models.DataAccount
 import com.fintechplatform.android.money.FeeHelper
 import com.fintechplatform.android.money.Money
 import com.fintechplatform.android.money.MoneyHelper
-import com.fintechplatform.android.transfer.api.TransferAPI
-import com.fintechplatform.android.transfer.models.PeersAccountModel
+import com.fintechplatform.android.sct.api.SctAPI
+import com.fintechplatform.android.sct.model.PeersIBANModel
+import java.text.SimpleDateFormat
 import java.util.*
 
-class TransferPresenter constructor(private var view: TransferContract.View,
-                                    private val apiTransfer: TransferAPI,
-                                    private var apiBalance: BalanceAPI,
-                                    private val config: DataAccount,
-                                    private var balancePersistence: BalancePersistence,
-                                    private var moneyHelper: MoneyHelper,
-                                    private var feeHelper: FeeHelper): TransferContract.Presenter {
+class SctPresenter constructor(private val view: SctContract.View,
+                               private val apiSCT: SctAPI,
+                               private var apiBalance: BalanceAPI,
+                               private val config: DataAccount,
+                               private var balancePersistence: BalancePersistence,
+                               private var moneyHelper: MoneyHelper,
+                               private var feeHelper: FeeHelper): SctContract.Presenter {
 
-    var idempotencyTransfer: String? = null
-    lateinit var peerAccountModel: PeersAccountModel
+    private var executionDate: String? = null
+    private var idempotencySct: String? = null
+    private var peerIBANModel: PeersIBANModel?=null
 
-    override fun initialize(p2pUserId: String, p2pAccountId: String, p2pTenantId: String, accountType:String){
-        idempotencyTransfer = UUID.randomUUID().toString()
+    override fun initializate(name: String, iban: String){
+        idempotencySct = UUID.randomUUID().toString()
 
-        peerAccountModel = PeersAccountModel(p2pUserId, p2pAccountId, p2pTenantId, accountType)
+        peerIBANModel = PeersIBANModel(name, iban)
 
         refreshConfirmButton()
         refreshData()
@@ -38,25 +40,26 @@ class TransferPresenter constructor(private var view: TransferContract.View,
     }
 
     override fun onConfirm() {
-        val idemp = this.idempotencyTransfer
+        val idemp = this.idempotencySct
 
         idemp?.let {
-            peerAccountModel?.let { p2pu ->
+            peerIBANModel?.let { peerIban ->
                 view.enableForwardButton(false)
                 view.showCommunicationWait()
                 val money = Money.valueOf(view.getAmountText())
 
-                apiTransfer.p2p(config.accessToken,
+                apiSCT.sctPayment(config.accessToken,
+                        config.tenantId,
                         config.ownerId,
                         config.accountId,
                         config.accountType,
-                        config.tenantId,
-                        p2pu.userid,
-                        p2pu.accountId,
-                        p2pu.accountType,
-                        p2pu.tenantId,
-                        view.getMessageText(),
+                        peerIban.iban,
+                        peerIban.name,
                         money.value,
+                        view.getMessageText(),
+                        executionDate,
+                        view.isUrgentSCTChecked(),
+                        view.isInstantSCTChecked(),
                         it) { opterror ->
 
                     view.hideCommunicationWait()
@@ -65,13 +68,13 @@ class TransferPresenter constructor(private var view: TransferContract.View,
                     if (opterror != null) {
                         when (opterror) {
                             is NetHelper.IdempotencyError ->
-                                    view.showIdempotencyError()
+                                view.showIdempotencyError()
                             is NetHelper.TokenError ->
-                                    view.showTokenExpiredWarning()
+                                view.showTokenExpiredWarning()
                             else ->
-                                    view.showCommunicationInternalError()
+                                view.showCommunicationInternalError()
                         }
-                        return@p2p
+                        return@sctPayment
                     }
 
                     view.playSound()
@@ -81,7 +84,19 @@ class TransferPresenter constructor(private var view: TransferContract.View,
         }
     }
 
-    override fun onAbortClick() {
+    override fun onPickExecutionDate(year: Int, monthOfYear: Int, dayOfMonth: Int) {
+        val b = Calendar.getInstance()
+        b.set(Calendar.YEAR, year)
+        b.set(Calendar.MONTH, monthOfYear)
+        b.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+        val exeDate = SimpleDateFormat("dd/MM/yyyy", Locale.ITALY).format(b.time)
+        view.setExecutionDateText(exeDate)
+        val converted = SimpleDateFormat("yyyy-MM-dd", Locale.ITALY).format(b.time)
+        executionDate = converted
+        refreshConfirmButton()
+    }
+
+    override fun onAbort() {
         view.hideKeyboard()
         view.goBack()
     }
@@ -90,10 +105,9 @@ class TransferPresenter constructor(private var view: TransferContract.View,
         view.showKeyboardAmount()
 
         // FIXME chiamata al server per peer full name
-//        peerAccountModel?.let { p2pu ->
-//            view.setPersonFullName(dbNetworkUsersHelper.getFullName(p2pu))
-//        }
-
+        peerIBANModel?.let {
+            view.setPersonFullName(it.name)
+        }
         reloadBalance()
     }
 
@@ -102,7 +116,9 @@ class TransferPresenter constructor(private var view: TransferContract.View,
         val newbalance = calcBalance()
 
         newbalance?.let {
-            view.enableForwardButton(amountmoney.value > 0 && newbalance.value >= 0)
+            view.enableForwardButton(amountmoney.value > 0 &&
+                    newbalance.value >= 0 &&
+                    !executionDate.isNullOrEmpty())
         }
     }
 
