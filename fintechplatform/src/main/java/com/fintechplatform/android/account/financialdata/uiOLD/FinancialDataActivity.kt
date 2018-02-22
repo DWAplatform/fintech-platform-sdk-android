@@ -1,4 +1,4 @@
-package com.fintechplatform.android.account.financialdata.ui
+package com.fintechplatform.android.account.financialdata.uiOLD
 
 import android.os.Bundle
 import android.view.View
@@ -15,7 +15,6 @@ class FinancialDataActivity : PayInPayOutFinancialDataActivity() , PayInPayOutFi
     override fun onCreate(savedInstanceState: Bundle?) {
 
         FinancialDataUI.instance.buildFinancialDataViewComponent(this, this).inject(this)
-
         super.onCreate(savedInstanceState)
 
         ibancontainer.isEnabled = false

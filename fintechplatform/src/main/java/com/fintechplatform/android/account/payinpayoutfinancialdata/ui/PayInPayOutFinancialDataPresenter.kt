@@ -19,6 +19,11 @@ class PayInPayOutFinancialDataPresenter @Inject constructor(val view: PayInPayOu
     var isBankAccountLoaded: Boolean = false
     var isPaymentCardLoaded: Boolean = false
 
+    override fun initialize() {
+        view.enableIBAN(true)
+        view.enablePaymentCard(true)
+    }
+
     override fun onBackwardClicked(){
         view.goBack()
     }
@@ -54,13 +59,13 @@ class PayInPayOutFinancialDataPresenter @Inject constructor(val view: PayInPayOu
     }
 
     private fun loadBankAccount() {
-        apiBankAccount.getbankAccounts(configuration.accessToken, configuration.ownerId, configuration.accountId, configuration.accountType, configuration.tenantId) { optbankaccounts, opterror ->
+        apiBankAccount.getLinkedBanks(configuration.accessToken, configuration.ownerId, configuration.accountId, configuration.accountType, configuration.tenantId) { optbankaccounts, opterror ->
 
             if (opterror != null) {
-                return@getbankAccounts
+                return@getLinkedBanks
             }
             if (optbankaccounts == null) {
-                return@getbankAccounts
+                return@getLinkedBanks
             }
             val bankaccounts = optbankaccounts
             bankaccounts.forEach { ba ->

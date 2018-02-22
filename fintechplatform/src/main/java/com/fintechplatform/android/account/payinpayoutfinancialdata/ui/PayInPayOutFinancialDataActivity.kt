@@ -2,6 +2,7 @@ package com.fintechplatform.android.account.payinpayoutfinancialdata.ui
 
 import android.os.Bundle
 import android.support.v4.app.FragmentActivity
+import android.view.View
 import com.fintechplatform.android.R
 import com.fintechplatform.android.alert.AlertHelpers
 import com.fintechplatform.android.card.ui.PaymentCardUI
@@ -44,6 +45,16 @@ open class PayInPayOutFinancialDataActivity : FragmentActivity() , PayInPayOutFi
 
         backwardButton.setOnClickListener { presenter.onBackwardClicked() }
 
+    }
+
+    override fun enableIBAN(isEnable: Boolean) {
+        ibancontainer.isEnabled = isEnable
+        ibanDetailarrow.visibility = View.GONE
+    }
+
+    override fun enablePaymentCard(isEnable: Boolean) {
+        cardcontainer.isEnabled = isEnable
+        cardDetailarrow.visibility = View.GONE
     }
 
     override fun goBack() {

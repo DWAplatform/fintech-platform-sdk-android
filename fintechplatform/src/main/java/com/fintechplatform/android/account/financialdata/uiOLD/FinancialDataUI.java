@@ -1,4 +1,4 @@
-package com.fintechplatform.android.account.financialdata.ui;
+package com.fintechplatform.android.account.financialdata.uiOLD;
 
 import android.content.Context;
 import android.content.Intent;

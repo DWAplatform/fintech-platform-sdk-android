@@ -1,4 +1,4 @@
-package com.fintechplatform.android.account.financialdata.ui;
+package com.fintechplatform.android.account.financialdata.uiOLD;
 
 import com.fintechplatform.android.account.payinpayoutfinancialdata.ui.PayInPayOutFinancialDataPresenterModule;
 import com.fintechplatform.android.alert.AlertHelpersModule;
@@ -26,7 +26,6 @@ import dagger.Component;
         NetModule.class,
         PaymentCardAPIModule.class,
         IbanAPIModule.class,
-        PayInPayOutFinancialDataUIModule.class,
         LogModule.class
 })
 public interface FinancialDataViewComponent {

@@ -1,4 +1,4 @@
-package com.fintechplatform.android.account.financialdata.ui;
+package com.fintechplatform.android.account.financialdata.uiOLD;
 
 import com.fintechplatform.android.account.payinpayoutfinancialdata.ui.PayInPayOutFinancialDataUI;
 

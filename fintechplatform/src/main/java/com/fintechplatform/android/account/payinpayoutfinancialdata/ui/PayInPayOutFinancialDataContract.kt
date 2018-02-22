@@ -2,6 +2,8 @@ package com.fintechplatform.android.account.payinpayoutfinancialdata.ui
 
 interface PayInPayOutFinancialDataContract {
     interface View {
+        fun enableIBAN(isEnable: Boolean)
+        fun enablePaymentCard(isEnable: Boolean)
         fun showTokenExpiredWarning()
         fun showCommunicationInternalError()
         fun setPaymentCardNumber(cardNumber: String)
@@ -10,6 +12,7 @@ interface PayInPayOutFinancialDataContract {
     }
 
     interface Presenter {
+        fun initialize()
         fun onRefresh()
         fun initFinancialData()
         fun onBackwardClicked()

@@ -179,7 +179,7 @@ class IBANPresenter @Inject constructor(val view: IBANContract.View,
 
         val idempotencyCashOut = this.idempotencyCashOut ?: return
 
-        api.createIBAN(configuration.accessToken,
+        api.createLinkedBank(configuration.accessToken,
                 configuration.ownerId,
                 configuration.accountId,
                 configuration.accountType,
@@ -192,12 +192,12 @@ class IBANPresenter @Inject constructor(val view: IBANContract.View,
 
             if (opterror != null) {
                 handleErrors(opterror)
-                return@createIBAN
+                return@createLinkedBank
             }
 
             if (optbankaccount == null) {
                 view.showCommunicationInternalError()
-                return@createIBAN
+                return@createLinkedBank
             }
             ibanPersistanceDB.replace(optbankaccount)
             onAbortClick()
@@ -227,16 +227,16 @@ class IBANPresenter @Inject constructor(val view: IBANContract.View,
         ibanServerCalled = false
         view.enableAllTexts(false)
 
-        api.getbankAccounts(configuration.accessToken, configuration.ownerId, configuration.accountId, configuration.accountType, configuration.tenantId) { optbankaccounts, opterror ->
+        api.getLinkedBanks(configuration.accessToken, configuration.ownerId, configuration.accountId, configuration.accountType, configuration.tenantId) { optbankaccounts, opterror ->
 
             ibanServerCalled = true
 
             if (opterror != null) {
                 handleErrors(opterror)
-                return@getbankAccounts
+                return@getLinkedBanks
             }
             if (optbankaccounts == null) {
-                return@getbankAccounts
+                return@getLinkedBanks
             }
             val bankaccounts = optbankaccounts
             ibanPersistanceDB.delete()

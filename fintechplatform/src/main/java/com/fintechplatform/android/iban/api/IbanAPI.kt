@@ -21,14 +21,14 @@ class IbanAPI @Inject constructor(internal val hostName: String,
 ){
     private val TAG = "IbanAPI"
 
-    fun createIBAN(token: String,
-                   userid: String,
-                   accountId: String,
-                   accountType: String,
-                   tenantId: String,
-                   iban: String,
-                   idempotency: String,
-                   completion: (BankAccount?, Exception?) -> Unit): IRequest<*>? {
+    fun createLinkedBank(token: String,
+                         userid: String,
+                         accountId: String,
+                         accountType: String,
+                         tenantId: String,
+                         iban: String,
+                         idempotency: String,
+                         completion: (BankAccount?, Exception?) -> Unit): IRequest<*>? {
         val url = netHelper.getURL("/rest/v1/fintech/tenants/$tenantId/${netHelper.getPathFromAccountType(accountType)}/$userid/accounts/$accountId/linkedBanks")
 
         var request: IRequest<*>?
@@ -52,7 +52,7 @@ class IbanAPI @Inject constructor(internal val hostName: String,
                     401 ->
                         completion(null, netHelper.TokenError(error))
                     else -> {
-                        log.error(TAG, "createIBAN", error.fillInStackTrace())
+                        log.error(TAG, "createLinkedBank", error.fillInStackTrace())
                         completion(null, netHelper.GenericCommunicationError(error))
                     }
                 }
@@ -62,26 +62,26 @@ class IbanAPI @Inject constructor(internal val hostName: String,
             queue.add(r)
             request = r
         } catch (e: Exception) {
-            log.error(TAG, "createIBAN", e)
+            log.error(TAG, "createLinkedBank", e)
             request = null
         }
 
         return request
     }
 
-    fun getbankAccounts(token: String,
-                        userid: String,
-                        accountId: String,
-                        accountType: String,
-                        tenantId: String,
-                        completion: (List<BankAccount>?, Exception?) -> Unit): IRequest<*>? {
+    fun getLinkedBanks(token: String,
+                       ownerId: String,
+                       accountId: String,
+                       accountType: String,
+                       tenantId: String,
+                       completion: (List<BankAccount>?, Exception?) -> Unit): IRequest<*>? {
 
-        val baseurl = netHelper.getURL("/rest/v1/fintech/tenants/$tenantId/${netHelper.getPathFromAccountType(accountType)}/$userid/accounts/$accountId/linkedBanks")
+        val baseurl = netHelper.getURL("/rest/v1/fintech/tenants/$tenantId/${netHelper.getPathFromAccountType(accountType)}/$ownerId/accounts/$accountId/linkedBanks")
 
         var request: IRequest<*>?
         try {
             val params = HashMap<String, Any>()
-            params.put("userid", userid)
+            params.put("userid", ownerId)
             val url = netHelper.getUrlDataString(baseurl, params)
 
             val r = requestProvider.jsonArrayRequest(Request.Method.GET, url,
@@ -113,7 +113,46 @@ class IbanAPI @Inject constructor(internal val hostName: String,
             queue.add(r)
             request = r
         } catch (e: Exception) {
-            log.error(TAG, "getbankAccounts", e)
+            log.error(TAG, "getLinkedBanks", e)
+            request = null
+        }
+
+        return request
+    }
+
+    fun getIBAN(token: String,
+                ownerId: String,
+                accountId: String,
+                accountType: String,
+                tenantId: String,
+                completion: (String?, Exception?) -> Unit): IRequest<*>? {
+        val baseurl = netHelper.getURL("/rest/v1/account/tenants/$tenantId/${netHelper.getPathFromAccountType(accountType)}/$ownerId/accounts/$accountId/iban")
+
+        var request: IRequest<*>?
+        try {
+            val r = requestProvider.jsonObjectRequest(Request.Method.GET, baseurl,
+                    null, netHelper.authorizationToken(token),
+                    { response ->
+
+                        val iban = response.getString("iban")
+
+                        completion(iban, null)
+                    })
+            {error ->
+                val status = if (error.networkResponse != null) error.networkResponse.statusCode
+                else -1
+                when (status) {
+                    401 ->
+                        completion(null, netHelper.TokenError(error))
+                    else ->
+                        completion(null, netHelper.GenericCommunicationError(error))
+                }
+            }
+            r.setIRetryPolicy(netHelper.defaultpolicy)
+            queue.add(r)
+            request = r
+        } catch (e: Exception) {
+            log.error(TAG, "getIban", e)
             request = null
         }
 
