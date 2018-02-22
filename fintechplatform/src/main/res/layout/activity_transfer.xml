@@ -81,7 +81,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
                     android:text="Nome Cognome"
-                    android:textSize="18sp"
+                    android:textSize="19sp"
                     android:layout_marginTop="14dp"
                     android:textColor="@android:color/white"
                     android:textAlignment="center"/>
@@ -188,7 +188,7 @@
                 android:padding="10dp"
                 android:inputType="date"
                 android:singleLine="true"
-                android:textSize="15sp"
+                android:textSize="16sp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="10dp"
@@ -198,6 +198,11 @@
                 android:focusable="false"/>
         </android.support.design.widget.TextInputLayout>
 
+<RelativeLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:padding="2dp"
+    android:layout_below="@+id/executionDateTextLayout">
 
     <CheckBox
         android:id="@+id/instant"
@@ -210,7 +215,6 @@
         android:textColor="@color/black_semi_transparent"
         android:textSize="15sp"
         android:checked="true"
-        android:layout_below="@+id/executionDateTextLayout"
         android:text="Bonifico istantaneo" />
 
     <CheckBox
@@ -226,52 +230,53 @@
         android:textSize="15sp" />
 
     <TextView
-            android:id="@+id/newBalanceAmountLabel"
-            android:layout_marginTop="10dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="15sp"
-            android:layout_below="@id/executionDateTextLayout"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:text="€"
-            android:textColor="@android:color/black"
-            android:layout_marginRight="20dp" android:layout_marginEnd="20dp"/>
+        android:id="@+id/newBalanceAmountLabel"
+        android:layout_marginTop="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="15sp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:text="€"
+        android:textColor="@android:color/black"
+        android:layout_marginRight="20dp" android:layout_marginEnd="20dp"/>
 
-        <TextView
-            android:id="@+id/newBalanceLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="15sp"
-            android:layout_alignBaseline="@id/newBalanceAmountLabel"
-            android:layout_toLeftOf="@id/newBalanceAmountLabel"
-            android:text="@string/payin_newbalance_label"
-            android:textColor="@android:color/black"
-            android:layout_marginRight="10dp" android:layout_toStartOf="@id/newBalanceAmountLabel" android:layout_marginEnd="10dp"/>
+    <TextView
+        android:id="@+id/newBalanceLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="15sp"
+        android:layout_alignBaseline="@id/newBalanceAmountLabel"
+        android:layout_toLeftOf="@id/newBalanceAmountLabel"
+        android:text="@string/payin_newbalance_label"
+        android:textColor="@android:color/black"
+        android:layout_marginRight="10dp" android:layout_toStartOf="@id/newBalanceAmountLabel" android:layout_marginEnd="10dp"/>
 
-        <TextView
-            android:id="@+id/feeAmountLabel"
-            android:layout_marginTop="5dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="15sp"
-            android:layout_below="@id/newBalanceAmountLabel"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:text="€"
-            android:textColor="@android:color/black"
-            android:layout_marginRight="20dp" android:layout_marginEnd="20dp"/>
+    <TextView
+        android:id="@+id/feeAmountLabel"
+        android:layout_marginTop="5dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="15sp"
+        android:layout_below="@id/newBalanceAmountLabel"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:text="€"
+        android:textColor="@android:color/black"
+        android:layout_marginRight="20dp" android:layout_marginEnd="20dp"/>
 
-        <TextView
-            android:id="@+id/feeLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="15sp"
-            android:layout_alignBaseline="@id/feeAmountLabel"
-            android:layout_toLeftOf="@id/feeAmountLabel"
-            android:text="@string/payin_fee_label"
-            android:layout_alignEnd="@id/newBalanceLabel"
-            android:layout_alignRight="@+id/newBalanceLabel"
-            android:textColor="@android:color/black" android:layout_toStartOf="@id/feeAmountLabel"/>
+    <TextView
+        android:id="@+id/feeLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="15sp"
+        android:layout_alignBaseline="@id/feeAmountLabel"
+        android:layout_toLeftOf="@id/feeAmountLabel"
+        android:text="@string/payin_fee_label"
+        android:layout_alignEnd="@id/newBalanceLabel"
+        android:layout_alignRight="@+id/newBalanceLabel"
+        android:textColor="@android:color/black" android:layout_toStartOf="@id/feeAmountLabel"/>
+</RelativeLayout>
+
 
 </RelativeLayout>

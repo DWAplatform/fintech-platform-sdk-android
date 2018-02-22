@@ -19,6 +19,7 @@ import com.fintechplatform.android.log.Log
 import com.fintechplatform.android.payin.PayInBuilder
 import com.fintechplatform.android.payout.PayOutBuilder
 import com.fintechplatform.android.profile.ProfileBuilder
+import com.fintechplatform.android.sct.SctBuilder
 import com.fintechplatform.android.secure3d.Secure3DBuilder
 import com.fintechplatform.android.transactions.TransactionsBuilder
 import com.fintechplatform.android.transfer.TransferBuilder
@@ -102,8 +103,12 @@ class FintechPlatform {
             return PayInPayOutFinancialDataBuilder()
         }
 
-        fun makeTransfer(): TransferBuilder {
+        fun buildTransfer(): TransferBuilder {
             return TransferBuilder()
+        }
+
+        fun buildSct(): SctBuilder {
+            return SctBuilder()
         }
 
     }

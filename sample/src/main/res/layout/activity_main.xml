@@ -199,4 +199,14 @@
         android:text="lista network"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/enterpriseinfo" />
+
+    <Button
+        android:id="@+id/sct"
+        android:layout_width="91dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="sct"
+        app:layout_constraintStart_toEndOf="@+id/peers"
+        app:layout_constraintTop_toBottomOf="@+id/enterprisecontacts" />
 </android.support.constraint.ConstraintLayout>

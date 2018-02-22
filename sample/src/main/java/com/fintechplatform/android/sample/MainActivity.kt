@@ -124,6 +124,10 @@ class MainActivity : AppCompatActivity() {
             NetworkListBuilder().buildNetworkComponent(hostName, DataAccount(ownerId, accountId, accountType, tenantId, token))
                     .networkListUI.start(this)
         }
+
+        sct.setOnClickListener {
+            return@setOnClickListener
+        }
     }
 
     override fun onResume() {

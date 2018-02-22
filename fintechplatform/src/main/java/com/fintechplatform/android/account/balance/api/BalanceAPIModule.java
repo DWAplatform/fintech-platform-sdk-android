@@ -19,7 +19,6 @@ public class BalanceAPIModule {
 
     private String hostName;
 
-
     public BalanceAPIModule(String hostName) {
         this.hostName = hostName;
     }
@@ -30,4 +29,3 @@ public class BalanceAPIModule {
         return new BalanceAPI(hostName, queue, requestProvider, netHelper, log);
     }
 }
-

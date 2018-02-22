@@ -9,12 +9,6 @@ import com.fintechplatform.android.transfer.api.TransferAPIModule;
 import com.fintechplatform.android.transfer.ui.TransferUIModule;
 
 public class TransferBuilder {
-//    public NetworkListUIComponent createNetworkListUIComponet(String hostName, DataAccount configuration) {
-//        return DaggerNetworkListUIComponent.builder()
-//                .transferUIModule(new TransferUIModule(configuration, hostName))
-//                .networkUsersUIModule(new NetworkUsersUIModuleOLD(configuration, hostName))
-//                .build();
-//    }
 
     public TransferUIComponent createTrasnferUIComponent(String hostName, DataAccount configuration) {
         return DaggerTransferUIComponent.builder()
