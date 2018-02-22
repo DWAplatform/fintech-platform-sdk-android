@@ -6,6 +6,7 @@ import android.content.Intent;
 import com.android.volley.toolbox.Volley;
 import com.fintechplatform.android.account.balance.api.BalanceAPIModule;
 import com.fintechplatform.android.api.NetModule;
+import com.fintechplatform.android.card.api.PaymentCardAPIModule;
 import com.fintechplatform.android.card.ui.PaymentCardUI;
 import com.fintechplatform.android.models.DataAccount;
 import com.fintechplatform.android.payin.PayInActivity;
@@ -16,6 +17,7 @@ import com.fintechplatform.android.secure3d.ui.Secure3DUI;
 public class PayInUI {
 
     String hostName;
+    private boolean sandbox;
     DataAccount configuration;
     Secure3DUI secure3DUI;
     PaymentCardUI paymentCardUI;
@@ -26,11 +28,12 @@ public class PayInUI {
     protected PayInUI() {
     }
 
-    public PayInUI(String hostName, DataAccount configuration, Secure3DUI secure3DUI, PaymentCardUI paymentCardUI) {
+    public PayInUI(String hostName, DataAccount configuration, Secure3DUI secure3DUI, PaymentCardUI paymentCardUI, boolean sandbox) {
         this.hostName = hostName;
         this.configuration = configuration;
         this.secure3DUI = secure3DUI;
         this.paymentCardUI = paymentCardUI;
+        this.sandbox = sandbox;
     }
 
     protected PayInViewComponent buildPayInViewComponent(Context context, PayInContract.View v)  {
@@ -41,6 +44,7 @@ public class PayInUI {
                 .balanceAPIModule(new BalanceAPIModule(instance.hostName))
                 .secure3DUIHelperModule(new Secure3DUIHelperModule(secure3DUI))
                 .paymentCardUIModule(new PaymentCardUIModule(paymentCardUI))
+                .paymentCardAPIModule(new PaymentCardAPIModule(instance.hostName, sandbox))
                 .build();
     }
 

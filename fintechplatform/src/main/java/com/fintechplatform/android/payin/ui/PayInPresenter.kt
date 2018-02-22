@@ -3,6 +3,7 @@ package com.fintechplatform.android.payin
 import com.fintechplatform.android.account.balance.helpers.BalanceHelper
 import com.fintechplatform.android.account.balance.models.BalanceItem
 import com.fintechplatform.android.api.NetHelper
+import com.fintechplatform.android.card.api.PaymentCardRestAPI
 import com.fintechplatform.android.card.db.PaymentCardPersistenceDB
 import com.fintechplatform.android.models.DataAccount
 import com.fintechplatform.android.money.FeeHelper
@@ -15,6 +16,7 @@ import javax.inject.Inject
 class PayInPresenter @Inject constructor(val configuration: DataAccount,
                                          val view: PayInContract.View,
                                          val api: PayInAPI,
+                                         val apiCardRest: PaymentCardRestAPI,
                                          val moneyHelper: MoneyHelper,
                                          val balanceHelper: BalanceHelper,
                                          val feeHelper: FeeHelper,
@@ -39,8 +41,8 @@ class PayInPresenter @Inject constructor(val configuration: DataAccount,
 
     override fun refresh() {
         view.showKeyboardAmount()
-        refreshConfirmButtonName()
         reloadBalance()
+        loadPaymentCard()
     }
 
     override fun onEditingChanged() {
@@ -150,6 +152,7 @@ class PayInPresenter @Inject constructor(val configuration: DataAccount,
     }
 
     private fun refreshData() {
+        refreshConfirmButtonName()
         refreshBalance()
         refreshFee()
     }
@@ -182,5 +185,21 @@ class PayInPresenter @Inject constructor(val configuration: DataAccount,
         view.setFeeAmount(moneyHelper.toString(moneyFee))
     }
 
+    private fun loadPaymentCard() {
+        apiCardRest.getPaymentCards(configuration.accessToken, configuration.ownerId, configuration.accountId, configuration.accountType, configuration.tenantId){ optcards, opterror ->
 
+            if (opterror != null) {
+                handleErrors(opterror)
+                return@getPaymentCards
+            }
+            if (optcards == null) {
+                return@getPaymentCards
+            }
+            val cards = optcards
+            cards.forEach { c ->
+                paymentCardpersistanceDB.savePaymentCard(c)
+            }
+            refreshData()
+        }
+    }
 }

@@ -14,18 +14,21 @@ public class PayInUIModule {
 
     private DataAccount configuration;
     private String hostName;
+    private boolean isSandbox;
 
     public PayInUIModule(String hostName,
-                         DataAccount configuration) {
+                         DataAccount configuration,
+                         boolean isSandbox) {
         this.hostName = hostName;
         this.configuration = configuration;
+        this.isSandbox = isSandbox;
     }
 
 
     @Provides
     @Singleton
     PayInUI providePayInUI(Secure3DUI secure3DUI, PaymentCardUI paymentCardUI) {
-        return new PayInUI(hostName, configuration, secure3DUI, paymentCardUI);
+        return new PayInUI(hostName, configuration, secure3DUI, paymentCardUI, isSandbox);
     }
 
 }

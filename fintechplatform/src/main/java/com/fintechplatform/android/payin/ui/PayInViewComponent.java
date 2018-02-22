@@ -4,6 +4,7 @@ import com.fintechplatform.android.account.balance.api.BalanceAPIModule;
 import com.fintechplatform.android.account.balance.helpers.BalanceHelperModule;
 import com.fintechplatform.android.alert.AlertHelpersModule;
 import com.fintechplatform.android.api.NetModule;
+import com.fintechplatform.android.card.api.PaymentCardAPIModule;
 import com.fintechplatform.android.card.db.PaymentCardPersistanceModule;
 import com.fintechplatform.android.log.LogModule;
 import com.fintechplatform.android.money.FeeHelperModule;
@@ -29,6 +30,7 @@ import dagger.Component;
         BalanceAPIModule.class,
         BalanceHelperModule.class,
         PaymentCardPersistanceModule.class,
+        PaymentCardAPIModule.class,
         FeeHelperModule.class,
         NetModule.class,
         Secure3DUIHelperModule.class,

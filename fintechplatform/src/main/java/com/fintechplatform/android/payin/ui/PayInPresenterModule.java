@@ -1,6 +1,7 @@
 package com.fintechplatform.android.payin.ui;
 
 import com.fintechplatform.android.account.balance.helpers.BalanceHelper;
+import com.fintechplatform.android.card.api.PaymentCardRestAPI;
 import com.fintechplatform.android.card.db.PaymentCardPersistenceDB;
 import com.fintechplatform.android.models.DataAccount;
 import com.fintechplatform.android.money.FeeHelper;
@@ -29,10 +30,11 @@ public class PayInPresenterModule {
     @Provides
     @Singleton
     PayInContract.Presenter providePayInPresenter(PayInAPI api,
+                                                  PaymentCardRestAPI apiCard,
                                                   MoneyHelper moneyHelper,
                                                   BalanceHelper balanceHelper,
                                                   FeeHelper feeHelper,
                                                   PaymentCardPersistenceDB persistenceDB) {
-        return new PayInPresenter(configuration, view, api, moneyHelper, balanceHelper, feeHelper, persistenceDB);
+        return new PayInPresenter(configuration, view, api, apiCard, moneyHelper, balanceHelper, feeHelper, persistenceDB);
     }
 }

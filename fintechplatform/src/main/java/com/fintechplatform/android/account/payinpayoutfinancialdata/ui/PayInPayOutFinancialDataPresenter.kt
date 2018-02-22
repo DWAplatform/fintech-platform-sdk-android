@@ -84,7 +84,7 @@ class PayInPayOutFinancialDataPresenter @Inject constructor(val view: PayInPayOu
             }
             val cards = optcards
             cards.forEach { c ->
-                cardDB.replace(c)
+                cardDB.savePaymentCard(c)
             }
             isPaymentCardLoaded = true
             refreshData()

@@ -21,7 +21,7 @@ public class PayInBuilder {
     public PayInUIComponent createPayInUIComponent(String hostName, boolean sandbox, DataAccount configuration) {
         return DaggerPayInUIComponent.builder()
                 .payInUIModule(new PayInUIModule(hostName,
-                        configuration))
+                        configuration, sandbox))
                 .paymentCardUIModule(new PaymentCardUIModule(hostName, sandbox, configuration))
                 .build();
     }
