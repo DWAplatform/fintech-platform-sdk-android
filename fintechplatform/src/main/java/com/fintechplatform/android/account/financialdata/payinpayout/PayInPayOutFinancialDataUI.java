@@ -1,9 +1,10 @@
-package com.fintechplatform.android.account.payinpayoutfinancialdata.ui;
+package com.fintechplatform.android.account.financialdata.payinpayout;
 
 import android.content.Context;
 import android.content.Intent;
 
 import com.android.volley.toolbox.Volley;
+import com.fintechplatform.android.account.financialdata.payinpayout.ui.DaggerPayInPayOutFinancialDataViewComponent;
 import com.fintechplatform.android.api.NetModule;
 import com.fintechplatform.android.card.api.PaymentCardAPIModule;
 import com.fintechplatform.android.card.ui.PaymentCardUI;
@@ -22,7 +23,6 @@ public class PayInPayOutFinancialDataUI {
     private IbanUI ibanUI;
     private PaymentCardUI paymentCardUI;
 
-    protected PayInPayOutFinancialDataUI() {}
 
     public PayInPayOutFinancialDataUI(DataAccount configuration, String hostName, boolean isSandbox, IbanUI ibanUI, PaymentCardUI paymentCardUI) {
         this.configuration = configuration;
@@ -32,8 +32,9 @@ public class PayInPayOutFinancialDataUI {
         this.isSandbox = isSandbox;
     }
 
-    protected PayInPayOutFinancialDataViewComponent createFinancialDataComponent(Context context, PayInPayOutFinancialDataContract.View view) {
+    protected PayInPayOutFinancialDataViewComponent createFinancialDataComponent(Context context, FinancialDataContract.View view) {
         return DaggerPayInPayOutFinancialDataViewComponent.builder()
+//                .financialDataPresenterModule(new BankFinancialDataPresenterModule(view,instance.configuration))
                 .payInPayOutFinancialDataPresenterModule(new PayInPayOutFinancialDataPresenterModule(view, instance.configuration))
                 .ibanUIModule(new IbanUIModule(ibanUI))
                 .paymentCardUIModule(new PaymentCardUIModule(paymentCardUI))
@@ -43,13 +44,13 @@ public class PayInPayOutFinancialDataUI {
                 .build();
     }
 
-    public PayInPayOutFinancialDataViewComponent buildFinancialDataViewComponent(Context context, PayInPayOutFinancialDataContract.View view) {
+    public PayInPayOutFinancialDataViewComponent buildFinancialDataViewComponent(Context context, FinancialDataContract.View view) {
         return instance.createFinancialDataComponent(context,view);
     }
 
     public void start(Context context) {
         instance = this;
-        Intent intent = new Intent(context, PayInPayOutFinancialDataActivity.class);
+        Intent intent = new Intent(context, FinancialDataActivity.class);
         context.startActivity(intent);
     }
 }

@@ -1,4 +1,4 @@
-package com.fintechplatform.android.account.payinpayoutfinancialdata.ui
+package com.fintechplatform.android.account.financialdata.payinpayout
 
 import com.fintechplatform.android.api.NetHelper
 import com.fintechplatform.android.card.api.PaymentCardRestAPI
@@ -9,12 +9,12 @@ import com.fintechplatform.android.iban.models.BankAccount
 import com.fintechplatform.android.models.DataAccount
 import javax.inject.Inject
 
-class PayInPayOutFinancialDataPresenter @Inject constructor(val view: PayInPayOutFinancialDataContract.View,
+class PayInPayOutFinancialDataPresenter @Inject constructor(val view: FinancialDataContract.View,
                                                             val apiCardRest: PaymentCardRestAPI,
                                                             val apiBankAccount: IbanAPI,
                                                             val configuration: DataAccount,
                                                             val ibanDB: IbanPersistanceDB,
-                                                            val cardDB: PaymentCardPersistenceDB): PayInPayOutFinancialDataContract.Presenter {
+                                                            val cardDB: PaymentCardPersistenceDB): FinancialDataContract.Presenter {
 
     var isBankAccountLoaded: Boolean = false
     var isPaymentCardLoaded: Boolean = false

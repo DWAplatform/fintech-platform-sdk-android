@@ -3,7 +3,7 @@ package com.fintechplatform.android
 import android.content.Context
 import com.android.volley.toolbox.Volley
 import com.fintechplatform.android.account.balance.BalanceBuilder
-import com.fintechplatform.android.account.payinpayoutfinancialdata.PayInPayOutFinancialDataBuilder
+import com.fintechplatform.android.account.financialdata.FinancialDataBuilder
 import com.fintechplatform.android.api.volley.VolleyRequestProvider
 import com.fintechplatform.android.api.volley.VolleyRequestQueueProvider
 import com.fintechplatform.android.card.PaymentCardBuilder
@@ -99,8 +99,8 @@ class FintechPlatform {
             return EnterpriseBuilder()
         }
 
-        fun buildFinancialData(): PayInPayOutFinancialDataBuilder {
-            return PayInPayOutFinancialDataBuilder()
+        fun buildFinancialData(): FinancialDataBuilder {
+            return FinancialDataBuilder()
         }
 
         fun buildTransfer(): TransferBuilder {

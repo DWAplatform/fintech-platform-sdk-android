@@ -1,5 +1,6 @@
-package com.fintechplatform.android.account.payinpayoutfinancialdata.ui;
+package com.fintechplatform.android.account.financialdata.bank;
 
+import com.fintechplatform.android.account.financialdata.payinpayout.FinancialDataActivity;
 import com.fintechplatform.android.alert.AlertHelpersModule;
 import com.fintechplatform.android.api.NetModule;
 import com.fintechplatform.android.card.api.PaymentCardAPIModule;
@@ -15,8 +16,8 @@ import javax.inject.Singleton;
 import dagger.Component;
 
 @Singleton
-@Component (modules = {
-        PayInPayOutFinancialDataPresenterModule.class,
+@Component(modules = {
+        BankFinancialDataPresenterModule.class,
         PaymentCardPersistanceModule.class,
         IbanPersistanceDBModule.class,
         AlertHelpersModule.class,
@@ -25,9 +26,8 @@ import dagger.Component;
         NetModule.class,
         PaymentCardAPIModule.class,
         IbanAPIModule.class,
-        PayInPayOutFinancialDataUIModule.class,
         LogModule.class
 })
-public interface PayInPayOutFinancialDataViewComponent {
-    void inject(PayInPayOutFinancialDataActivity activity);
+public interface BankFinancialDataViewComponent {
+    void inject(FinancialDataActivity activity);
 }

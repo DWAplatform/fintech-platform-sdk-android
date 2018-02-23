@@ -12,8 +12,8 @@
         <activity android:name=".card.ui.PaymentCardActivity" />
         <activity android:name=".payout.ui.PayOutActivity" />
         <activity android:name=".iban.ui.IBANActivity" />
-        <activity android:name=".account.payinpayoutfinancialdata.ui.PayInPayOutFinancialDataActivity" />
-        <activity android:name=".account.financialdata.uiOLD.FinancialDataActivity" />
+        <activity android:name="com.fintechplatform.android.account.financialdata.payinpayout.FinancialDataActivity" />
+        <activity android:name=".account.financialdata.bank.FinancialDataActivity" />
         <activity
             android:name=".transactions.ui.TransactionsActivity"
             android:theme="@style/noAnimTheme" />

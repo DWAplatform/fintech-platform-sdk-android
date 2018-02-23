@@ -1,7 +1,7 @@
-package com.fintechplatform.android.account.payinpayoutfinancialdata;
+package com.fintechplatform.android.account.financialdata;
 
-import com.fintechplatform.android.account.payinpayoutfinancialdata.ui.PayInPayOutFinancialDataUI;
-import com.fintechplatform.android.account.payinpayoutfinancialdata.ui.PayInPayOutFinancialDataUIModule;
+import com.fintechplatform.android.account.financialdata.payinpayout.PayInPayOutFinancialDataUI;
+import com.fintechplatform.android.account.financialdata.payinpayout.PayInPayOutFinancialDataUIModule;
 import com.fintechplatform.android.card.ui.PaymentCardUIModule;
 import com.fintechplatform.android.iban.ui.IbanUIModule;
 

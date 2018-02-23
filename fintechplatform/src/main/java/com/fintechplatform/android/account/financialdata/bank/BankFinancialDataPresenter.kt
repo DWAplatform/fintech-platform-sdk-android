@@ -1,6 +1,6 @@
-package com.fintechplatform.android.account.financialdata.ui
+package com.fintechplatform.android.account.financialdata.bank
 
-import com.fintechplatform.android.account.payinpayoutfinancialdata.ui.PayInPayOutFinancialDataContract
+import com.fintechplatform.android.account.financialdata.payinpayout.FinancialDataContract
 import com.fintechplatform.android.api.NetHelper
 import com.fintechplatform.android.card.api.PaymentCardRestAPI
 import com.fintechplatform.android.card.db.PaymentCardPersistenceDB
@@ -10,12 +10,12 @@ import com.fintechplatform.android.iban.models.BankAccount
 import com.fintechplatform.android.models.DataAccount
 
 
-class FinancialDataPresenter constructor(private val view: PayInPayOutFinancialDataContract.View,
-                                         private val apiCardRest: PaymentCardRestAPI,
-                                         private val apiIBAN: IbanAPI,
-                                         private val configuration: DataAccount,
-                                         private val ibanDB: IbanPersistanceDB,
-                                         private val cardDB: PaymentCardPersistenceDB): PayInPayOutFinancialDataContract.Presenter {
+class BankFinancialDataPresenter constructor(private val view: FinancialDataContract.View,
+                                             private val apiCardRest: PaymentCardRestAPI,
+                                             private val apiIBAN: IbanAPI,
+                                             private val configuration: DataAccount,
+                                             private val ibanDB: IbanPersistanceDB,
+                                             private val cardDB: PaymentCardPersistenceDB): FinancialDataContract.Presenter {
 
     var isBankAccountLoaded: Boolean = false
     var isPaymentCardLoaded: Boolean = false
@@ -26,7 +26,7 @@ class FinancialDataPresenter constructor(private val view: PayInPayOutFinancialD
     }
 
     override fun onRefresh() {
-        loadIbanValue()
+        loadIban()
 //        loadPaymentCard()
     }
 
@@ -58,7 +58,7 @@ class FinancialDataPresenter constructor(private val view: PayInPayOutFinancialD
         return optiban?.iban
     }
 
-    fun loadIbanValue() {
+    fun loadIban() {
         apiIBAN.getIBAN(configuration.accessToken,
                 configuration.ownerId,
                 configuration.accountId,

@@ -16,6 +16,7 @@ class MainActivity : AppCompatActivity() {
         val ownerId = "2db97246-bdeb-4d61-bcb9-a5ba7eecaa2b"
         val accountId = "8283074f-b8df-43c0-ac58-246573d83318"
         val tenantId = "f7569f0e-aaa7-11e7-b71f-ff13485d8836"
+        val userId = "3ced31c7-0a48-4a9f-ac60-cce0d8d90430"
         val accountType = "BUSINESS"
     }
 
@@ -91,12 +92,12 @@ class MainActivity : AppCompatActivity() {
         }
 
         financial.setOnClickListener {
-            val builder = FintechPlatform.buildFinancialData().createFinancialsUI(hostName, DataAccount(ownerId, accountId,accountType,  tenantId, token), true)
+            val builder = FintechPlatform.buildFinancialData().createMangoPayFinancialDataUI(hostName, DataAccount(ownerId, accountId,accountType,  tenantId, token), true)
             builder.financialDataUI.start(this)
         }
 
         bankfinancial.setOnClickListener {
-            val builder = FintechPlatform.buildFinancialData().createFinancialBankInfo(hostName, DataAccount(ownerId, accountId,accountType,  tenantId, token), true)
+            val builder = FintechPlatform.buildFinancialData().createSellaFinancialDataUI(hostName, DataAccount(ownerId, accountId,accountType,  tenantId, token), true)
             builder.financialDataUI.start(this)
         }
 
@@ -136,7 +137,7 @@ class MainActivity : AppCompatActivity() {
         token = KeyChain(this)["accessToken"]
 
         if(token.isEmpty()) {
-            AuthBuilder().createAuthUI(ownerId, hostName, tenantId).authUI.start(this)
+            AuthBuilder().createAuthUI(userId, hostName, tenantId).authUI.start(this)
         }
 
     }

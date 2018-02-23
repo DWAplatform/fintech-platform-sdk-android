@@ -1,4 +1,4 @@
-package com.fintechplatform.android.account.payinpayoutfinancialdata.ui;
+package com.fintechplatform.android.account.financialdata.payinpayout;
 
 import com.fintechplatform.android.card.api.PaymentCardRestAPI;
 import com.fintechplatform.android.card.db.PaymentCardPersistenceDB;
@@ -13,17 +13,18 @@ import dagger.Provides;
 @Module
 public class PayInPayOutFinancialDataPresenterModule {
 
-    private PayInPayOutFinancialDataContract.View view;
+    private FinancialDataContract.View view;
     private DataAccount configuration;
 
-    public PayInPayOutFinancialDataPresenterModule(PayInPayOutFinancialDataContract.View view, DataAccount configuration) {
+    public PayInPayOutFinancialDataPresenterModule(FinancialDataContract.View view, DataAccount configuration) {
         this.view = view;
         this.configuration = configuration;
     }
 
     @Provides
     @Singleton
-    PayInPayOutFinancialDataContract.Presenter providesFinancialDataPresenter(PaymentCardRestAPI cardAPI, IbanAPI ibanAPI, PaymentCardPersistenceDB paymentCardPersistenceDB, IbanPersistanceDB ibanPersistanceDB){
+    FinancialDataContract.Presenter providesPayInPayOutFinancialDataPresenter(PaymentCardRestAPI cardAPI, IbanAPI ibanAPI, PaymentCardPersistenceDB paymentCardPersistenceDB, IbanPersistanceDB ibanPersistanceDB){
         return new PayInPayOutFinancialDataPresenter(view, cardAPI, ibanAPI, configuration, ibanPersistanceDB, paymentCardPersistenceDB);
     }
+
 }

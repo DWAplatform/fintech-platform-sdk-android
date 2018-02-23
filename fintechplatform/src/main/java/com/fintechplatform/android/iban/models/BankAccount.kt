@@ -1,6 +1,6 @@
 package com.fintechplatform.android.iban.models
 
-data class BankAccount(val bankaccountid: String,
+data class BankAccount(val bankaccountid: String?=null,
                        val iban: String?= null,
                        val activestate: String?=null)
 

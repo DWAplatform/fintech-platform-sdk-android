@@ -1,4 +1,4 @@
-package com.fintechplatform.android.account.payinpayoutfinancialdata.ui;
+package com.fintechplatform.android.account.financialdata.payinpayout;
 
 import com.fintechplatform.android.card.ui.PaymentCardUI;
 import com.fintechplatform.android.iban.ui.IbanUI;

@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background"
-    tools:context="com.fintechplatform.android.account.payinpayoutfinancialdata.ui.PayInPayOutFinancialDataActivity">
+    tools:context=".account.financialdata.payinpayout.FinancialDataActivity">
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">

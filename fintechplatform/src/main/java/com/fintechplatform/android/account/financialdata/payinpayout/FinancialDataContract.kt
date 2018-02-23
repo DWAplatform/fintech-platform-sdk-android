@@ -1,6 +1,6 @@
-package com.fintechplatform.android.account.payinpayoutfinancialdata.ui
+package com.fintechplatform.android.account.financialdata.payinpayout
 
-interface PayInPayOutFinancialDataContract {
+interface FinancialDataContract {
     interface View {
         fun enableIBAN(isEnable: Boolean)
         fun enablePaymentCard(isEnable: Boolean)
