@@ -13,7 +13,6 @@ class TransactionItemPresenter @Inject constructor(val view: TransactionItemCont
 
         view.setTextWhen(item.twhen)
         view.setTextWhat(item.what)
-        view.setTextWho(item.who)
 
         if (item.status != "SUCCEEDED" && item.status != "CREATED") {
             view.setErrorAmount(item.amount)
@@ -29,6 +28,18 @@ class TransactionItemPresenter @Inject constructor(val view: TransactionItemCont
         }
 
         if (item.newitem) view.newItemVisible() else view.newItemHide()
+
+        if (item.what.contains("Ricarica")) {
+            view.setIconCashIn()
+        }
+
+        if (item.what.contains("Prelievo")) {
+            view.setIconCashOut()
+        }
+
+        if (item.what.contains("Trasferimento")) {
+            view.setIconP2P()
+        }
     }
 
     override fun userClick(item: TransactionItem, tuserClick: (TransactionItem) -> Unit) {

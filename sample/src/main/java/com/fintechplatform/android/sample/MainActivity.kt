@@ -13,11 +13,11 @@ class MainActivity : AppCompatActivity() {
 
     companion object {
         val hostName = "http://192.168.1.73:9000"
-        val ownerId = "2db97246-bdeb-4d61-bcb9-a5ba7eecaa2b"
-        val accountId = "8283074f-b8df-43c0-ac58-246573d83318"
+        val ownerId = "9439da74-8a02-4234-8c1c-f9f39f41c7eb"
+        val accountId = "ea55c17c-37f1-473b-be38-9f1e73071ff8"
         val tenantId = "f7569f0e-aaa7-11e7-b71f-ff13485d8836"
-        val userId = "3ced31c7-0a48-4a9f-ac60-cce0d8d90430"
-        val accountType = "BUSINESS"
+        val userId = "9439da74-8a02-4234-8c1c-f9f39f41c7eb"
+        val accountType = "PERSONAL"
     }
 
     var token = String()
@@ -93,7 +93,7 @@ class MainActivity : AppCompatActivity() {
 
         financial.setOnClickListener {
             val builder = FintechPlatform.buildFinancialData().createMangoPayFinancialDataUI(hostName, DataAccount(ownerId, accountId,accountType,  tenantId, token), true)
-            builder.financialDataUI.start(this)
+            builder.payInPayOutFinancialDataUI.start(this)
         }
 
         bankfinancial.setOnClickListener {

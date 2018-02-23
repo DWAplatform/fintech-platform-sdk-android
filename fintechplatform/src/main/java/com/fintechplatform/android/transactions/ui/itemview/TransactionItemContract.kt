@@ -10,7 +10,6 @@ interface TransactionItemContract {
     interface View {
         fun setTextWhen(w: String)
         fun setTextWhat(w: String)
-        fun setTextWho(w: String)
         fun newItemVisible()
         fun newItemHide()
         fun setPositiveAmount(amount: String)
@@ -18,6 +17,9 @@ interface TransactionItemContract {
         fun setErrorAmount(amount: String)
         fun showError()
         fun hideError()
+        fun setIconCashIn()
+        fun setIconCashOut()
+        fun setIconP2P()
     }
 
     interface Presenter {

@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.support.v4.app.FragmentActivity
 import android.view.View
 import com.fintechplatform.android.R
-import com.fintechplatform.android.account.financialdata.bank.BankFinancialDataUI
 import com.fintechplatform.android.alert.AlertHelpers
 import com.fintechplatform.android.card.ui.PaymentCardUI
 import com.fintechplatform.android.iban.ui.IbanUI
@@ -22,13 +21,16 @@ open class FinancialDataActivity : FragmentActivity() , FinancialDataContract.Vi
     @Inject lateinit var bankAccountUI: IbanUI
     @Inject lateinit var paymentCardUI: PaymentCardUI
 
+    open fun injectAll() {
+        PayInPayOutFinancialDataUI.instance?.buildFinancialDataViewComponent(this, this)?.inject(this)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         setContentView(R.layout.activity_financialdata)
 
-        PayInPayOutFinancialDataUI.instance?.buildFinancialDataViewComponent(this, this)?.inject(this)
-        BankFinancialDataUI.instance?.buildFinancialDataViewComponent(this, this)?.inject(this)
+        injectAll()
 
         presenter.initialize()
         presenter.initFinancialData()

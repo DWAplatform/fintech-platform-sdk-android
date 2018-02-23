@@ -1,6 +1,5 @@
 package com.fintechplatform.android.account.financialdata.bank;
 
-import com.fintechplatform.android.account.financialdata.payinpayout.FinancialDataActivity;
 import com.fintechplatform.android.alert.AlertHelpersModule;
 import com.fintechplatform.android.api.NetModule;
 import com.fintechplatform.android.card.api.PaymentCardAPIModule;
@@ -29,5 +28,5 @@ import dagger.Component;
         LogModule.class
 })
 public interface BankFinancialDataViewComponent {
-    void inject(FinancialDataActivity activity);
+    void inject(BankFinancialDataActivity activity);
 }

@@ -1,5 +1,8 @@
 package com.fintechplatform.android.transactions.ui
 
+import android.annotation.TargetApi
+import android.graphics.Color
+import android.graphics.drawable.TransitionDrawable
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.RecyclerView
 import android.view.View
@@ -12,8 +15,7 @@ import javax.inject.Inject
 /**
  * Transaction Item View Holder
  */
-class TransactionItemViewHolder
-@Inject constructor(val view: View,
+class TransactionItemViewHolder @Inject constructor(val view: View,
                     val tUserClick: (TransactionItem) -> Unit)
     : RecyclerView.ViewHolder(view), TransactionItemContract.View {
 
@@ -36,16 +38,16 @@ class TransactionItemViewHolder
         itemView.listitem_what.text = w
     }
 
-    override fun setTextWho(w: String) {
-        itemView.listitem_who.text = w
-    }
-
     override fun newItemVisible() {
-        itemView.listitem_newitem.visibility = View.VISIBLE
+        itemView.itemlist_container.setBackgroundColor(ContextCompat.getColor(itemView.context, R.color.half_grey))
+
+        itemView.itemlist_container.setBackgroundResource(R.drawable.translate_background_listitem)
+        val transition = itemView.itemlist_container.background as TransitionDrawable
+        transition.startTransition(5000)
     }
 
     override fun newItemHide() {
-        itemView.listitem_newitem.visibility = View.GONE
+        itemView.itemlist_container.setBackgroundColor(Color.WHITE)
     }
 
     override fun setPositiveAmount(amount: String) {
@@ -68,11 +70,25 @@ class TransactionItemViewHolder
 
     override fun showError() {
         itemView.listitem_error.visibility = View.VISIBLE
+
+        @TargetApi(16)
+        itemView.listitem_icon_image.imageAlpha = 50
     }
 
     override fun hideError() {
         itemView.listitem_error.visibility = View.GONE
     }
 
+    override fun setIconCashIn() {
+        itemView.listitem_icon_image.setImageResource(R.drawable.cashin)
+    }
+
+    override fun setIconCashOut() {
+        itemView.listitem_icon_image.setImageResource(R.drawable.cashout)
+    }
+
+    override fun setIconP2P() {
+        itemView.listitem_icon_image.setImageResource(R.drawable.p2p)
+    }
 
 }
