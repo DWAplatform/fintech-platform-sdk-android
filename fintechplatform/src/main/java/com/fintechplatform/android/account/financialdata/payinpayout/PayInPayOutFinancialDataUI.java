@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.android.volley.toolbox.Volley;
-import com.fintechplatform.android.account.financialdata.payinpayout.ui.DaggerPayInPayOutFinancialDataViewComponent;
 import com.fintechplatform.android.api.NetModule;
 import com.fintechplatform.android.card.api.PaymentCardAPIModule;
 import com.fintechplatform.android.card.ui.PaymentCardUI;
@@ -23,7 +22,6 @@ public class PayInPayOutFinancialDataUI {
     private IbanUI ibanUI;
     private PaymentCardUI paymentCardUI;
 
-
     public PayInPayOutFinancialDataUI(DataAccount configuration, String hostName, boolean isSandbox, IbanUI ibanUI, PaymentCardUI paymentCardUI) {
         this.configuration = configuration;
         this.ibanUI = ibanUI;
@@ -34,7 +32,6 @@ public class PayInPayOutFinancialDataUI {
 
     protected PayInPayOutFinancialDataViewComponent createFinancialDataComponent(Context context, FinancialDataContract.View view) {
         return DaggerPayInPayOutFinancialDataViewComponent.builder()
-//                .financialDataPresenterModule(new BankFinancialDataPresenterModule(view,instance.configuration))
                 .payInPayOutFinancialDataPresenterModule(new PayInPayOutFinancialDataPresenterModule(view, instance.configuration))
                 .ibanUIModule(new IbanUIModule(ibanUI))
                 .paymentCardUIModule(new PaymentCardUIModule(paymentCardUI))

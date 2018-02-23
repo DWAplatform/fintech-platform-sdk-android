@@ -126,7 +126,7 @@ class IbanAPI @Inject constructor(internal val hostName: String,
                 accountType: String,
                 tenantId: String,
                 completion: (String?, Exception?) -> Unit): IRequest<*>? {
-        val baseurl = netHelper.getURL("/rest/v1/account/tenants/$tenantId/${netHelper.getPathFromAccountType(accountType)}/$ownerId/accounts/$accountId/iban")
+        val baseurl = netHelper.getURL("/rest/v1/fintech/tenants/$tenantId/${netHelper.getPathFromAccountType(accountType)}/$ownerId/accounts/$accountId/iban")
 
         var request: IRequest<*>?
         try {

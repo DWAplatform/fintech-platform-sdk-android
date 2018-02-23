@@ -35,10 +35,9 @@ public class BankFinancialDataUI {
 
     protected BankFinancialDataViewComponent createFinancialDataComponent(Context context, FinancialDataContract.View view) {
         return DaggerBankFinancialDataViewComponent.builder()
-                .financialDataPresenterModule(new BankFinancialDataPresenterModule(view,instance.configuration))
+                .bankFinancialDataPresenterModule(new BankFinancialDataPresenterModule(view,instance.configuration))
                 .ibanUIModule(new IbanUIModule(ibanUI))
                 .paymentCardUIModule(new PaymentCardUIModule(paymentCardUI))
-//                .payInPayOutFinancialDataUIModule(new PayInPayOutFinancialDataUIModule(payInPayOutFinancialDataUI))
                 .netModule(new NetModule(Volley.newRequestQueue(context), instance.hostName))
                 .paymentCardAPIModule(new PaymentCardAPIModule(instance.hostName, instance.isSandbox))
                 .ibanAPIModule(new IbanAPIModule(instance.hostName))
