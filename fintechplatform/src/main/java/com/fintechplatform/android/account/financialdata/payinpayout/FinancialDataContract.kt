@@ -4,6 +4,8 @@ interface FinancialDataContract {
     interface View {
         fun enableIBAN(isEnable: Boolean)
         fun enablePaymentCard(isEnable: Boolean)
+        fun showGoToEditArrow()
+        fun hideGoToEditArrow()
         fun showTokenExpiredWarning()
         fun showCommunicationInternalError()
         fun setPaymentCardNumber(cardNumber: String)

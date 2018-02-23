@@ -17,5 +17,5 @@ import dagger.Component;
 
 })
 public interface PayInPayOutFinancialDataUIComponent {
-    PayInPayOutFinancialDataUI getFinancialDataUI();
+    PayInPayOutFinancialDataUI getPayInPayOutFinancialDataUI();
 }

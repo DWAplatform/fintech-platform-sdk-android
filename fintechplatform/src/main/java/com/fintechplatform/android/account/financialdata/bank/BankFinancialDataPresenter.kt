@@ -23,6 +23,7 @@ class BankFinancialDataPresenter constructor(private val view: FinancialDataCont
     override fun initialize() {
         view.enablePaymentCard(false)
         view.enableIBAN(false)
+        view.hideGoToEditArrow()
     }
 
     override fun onRefresh() {

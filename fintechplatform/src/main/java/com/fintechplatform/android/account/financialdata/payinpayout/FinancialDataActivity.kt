@@ -54,12 +54,21 @@ open class FinancialDataActivity : FragmentActivity() , FinancialDataContract.Vi
 
     override fun enableIBAN(isEnable: Boolean) {
         ibancontainer.isEnabled = isEnable
-        ibanDetailarrow.visibility = View.GONE
     }
 
     override fun enablePaymentCard(isEnable: Boolean) {
         cardcontainer.isEnabled = isEnable
+
+    }
+
+    override fun showGoToEditArrow() {
+        cardDetailarrow.visibility = View.VISIBLE
+        ibanDetailarrow.visibility = View.VISIBLE
+    }
+
+    override fun hideGoToEditArrow() {
         cardDetailarrow.visibility = View.GONE
+        ibanDetailarrow.visibility = View.GONE
     }
 
     override fun goBack() {

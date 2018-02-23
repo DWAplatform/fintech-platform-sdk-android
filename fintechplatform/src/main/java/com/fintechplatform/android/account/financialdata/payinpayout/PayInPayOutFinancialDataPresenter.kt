@@ -22,6 +22,7 @@ class PayInPayOutFinancialDataPresenter @Inject constructor(val view: FinancialD
     override fun initialize() {
         view.enableIBAN(true)
         view.enablePaymentCard(true)
+        view.showGoToEditArrow()
     }
 
     override fun onBackwardClicked(){
