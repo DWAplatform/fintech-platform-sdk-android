@@ -16,6 +16,7 @@ class TransactionPersistanceDB @Inject constructor(val db: TransactionDB, val th
         t.setStatus(transaction.status)
         t.setId(transaction.id)
         t.setMessage(transaction.message)
+        t.setError(transaction.error)
 
         return db.saveTransaction(t)
     }
@@ -34,7 +35,7 @@ class TransactionPersistanceDB @Inject constructor(val db: TransactionDB, val th
     fun loadAll(): List<TransactionItem> {
         val ts = db.getTransactions()
         return ts.map { t ->
-            TransactionItem(t.id, t.what, t.who, t.message, t.amount, t.twhen, t.order, t.status)
+            TransactionItem(t.id, t.what, t.who, t.message, t.amount, t.twhen, t.order, t.status, t.error)
         }
     }
 

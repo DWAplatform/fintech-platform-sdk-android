@@ -9,7 +9,6 @@ import com.fintechplatform.android.enterprise.models.*
 import com.fintechplatform.android.log.Log
 import org.json.JSONArray
 import org.json.JSONObject
-import java.net.URLEncoder
 import java.util.*
 import javax.inject.Inject
 
@@ -20,9 +19,9 @@ class EnterpriseAPI @Inject constructor(internal val hostName: String,
                                         val netHelper: NetHelper) {
     private val TAG = "EnterpriseAPI"
 
-    fun getEnterprise(token: String, id: String, completion: (EnterpriseProfile?, Exception?) -> Unit): IRequest<*>? {
-        val encodedUserId = URLEncoder.encode(id, "UTF-8")
-        val url = netHelper.getURL("/rest/v1/users/$encodedUserId/profile")
+    fun getEnterprise(token: String, enterpriseId: String, tenantId: String, completion: (EnterpriseProfile?, Exception?) -> Unit): IRequest<*>? {
+
+        val url = netHelper.getURL("/rest/v1/fintech/tenants/$tenantId/enterprises/$enterpriseId")
 
         var request: IRequest<*>?
         try {
@@ -65,7 +64,8 @@ class EnterpriseAPI @Inject constructor(internal val hostName: String,
                    countryHeadquarters: String? = null,
                    city: String? = null,
                    address: String? = null,
-                   zipcode: String? = null,
+                   postalCode: String? = null,
+                   legalRepresentativeId: String?=null,
                    completion: (EnterpriseProfile?, Exception?) -> Unit): IRequest<*>? {
 
         val url = netHelper.getURL("/rest/v1/fintech/tenants/$tenantId/enterprises/$enterpriseId")
@@ -79,9 +79,10 @@ class EnterpriseAPI @Inject constructor(internal val hostName: String,
             enterpriseType?.let { jsonObject.put("enterpriseType", enterpriseType) }
             countryHeadquarters?.let { jsonObject.put("countryHeadquarters", countryHeadquarters) }
             address?.let { jsonObject.put("addressOfHeadquarters", address) }
-            zipcode?.let { jsonObject.put("postalCodeHeadquarters", zipcode) }
+            postalCode?.let { jsonObject.put("postalCodeHeadquarters", postalCode) }
             city?.let { jsonObject.put("cityOfHeadquarters", city) }
             email?.let { jsonObject.put("email", email) }
+            legalRepresentativeId?.let { jsonObject.put("legalRepresentativeId", legalRepresentativeId) }
 
             val r = requestProvider.jsonObjectRequest(Request.Method.PUT, url, jsonObject,
                     netHelper.authorizationToken(token),
@@ -148,7 +149,7 @@ class EnterpriseAPI @Inject constructor(internal val hostName: String,
                 tenantId = address.tenantId,
                 enterpriseId = address.ownerId,
                 address = address.address,
-                zipcode = address.postalCode,
+                postalCode = address.postalCode,
                 city = address.city,
                 countryHeadquarters = address.country,
                 completion = completion)

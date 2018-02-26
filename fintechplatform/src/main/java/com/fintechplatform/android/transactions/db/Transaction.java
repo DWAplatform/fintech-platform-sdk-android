@@ -26,6 +26,8 @@ public class Transaction extends BaseModel {
     public String resultcode;
     @Column
     public String message;
+    @Column
+    public String error;
 
     public String getId() {
         return id;
@@ -97,5 +99,13 @@ public class Transaction extends BaseModel {
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    public String getError() {
+        return error;
+    }
+
+    public void setError(String error) {
+        this.error = error;
     }
 }

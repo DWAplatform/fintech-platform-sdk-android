@@ -9,6 +9,5 @@ data class TransactionResponse (
                             val debiteduserid: String? = null,
                             val creditedfunds: Long? = null,
                             val debitedfunds: Long? = null,
-                            val crediteduserfullname: String? = null,
-                            val debiteduserfullname: String? = null,
-                            val message: String? = null)
+                            val message: String? = null,
+                            val error: String?=null)

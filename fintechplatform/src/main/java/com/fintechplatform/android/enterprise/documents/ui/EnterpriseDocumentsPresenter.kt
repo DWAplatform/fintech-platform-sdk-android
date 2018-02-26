@@ -31,7 +31,7 @@ class EnterpriseDocumentsPresenter constructor(val view: EnterpriseDocumentsCont
     }
 
     private fun loadFromDB(): Boolean {
-        return dbDocuments.getDocuments(configuration.accountId)?.let {
+        return dbDocuments.getDocuments(configuration.ownerId)?.let {
             it.pages?.let { pages ->
                 for (i in 0 until pages.size) {
                     photosBase64.add(pages[i])

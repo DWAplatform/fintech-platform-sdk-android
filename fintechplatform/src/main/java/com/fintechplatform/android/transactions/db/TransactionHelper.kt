@@ -5,12 +5,13 @@ import com.fintechplatform.android.money.MoneyHelper
 import com.fintechplatform.android.transactions.models.TransactionItem
 import com.fintechplatform.android.transactions.models.TransactionResponse
 import java.text.SimpleDateFormat
+import java.util.*
 import javax.inject.Inject
 
 class TransactionHelper @Inject constructor(val moneyHelper: MoneyHelper) {
 
     private fun convertDate(date: String?): String {
-        val sdf = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss")
+        val sdf = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault())
         if (date.isNullOrBlank()) {
             return ""
         } else {
@@ -22,7 +23,6 @@ class TransactionHelper @Inject constructor(val moneyHelper: MoneyHelper) {
 
     fun transactionItem(t: TransactionResponse): TransactionItem? {
         val serverDateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss")
-        // TODO handle t.error
 
         val twhen = convertDate(t.creationdate)
         val timeInMilliseconds = serverDateFormat.parse(t.creationdate).time
@@ -44,7 +44,8 @@ class TransactionHelper @Inject constructor(val moneyHelper: MoneyHelper) {
                         mhString,
                         twhen,
                         timeInMilliseconds,
-                        t.status)
+                        t.status,
+                        t.error)
 
             }
             "LINKED_BANK_CASH_OUT" -> {
@@ -59,39 +60,54 @@ class TransactionHelper @Inject constructor(val moneyHelper: MoneyHelper) {
                         mhString,
                         twhen,
                         timeInMilliseconds,
-                        t.status)
+                        t.status,
+                        t.error)
             }
             "TRANSFER_SEND" -> {
                 val t_debitedfunds = t.debitedfunds ?: return null
-                val t_creditedfullname = t.crediteduserfullname ?: return null
 
-                    val mhString = moneyHelper.toString(Money(-t_debitedfunds))
-                    transactionitem = TransactionItem(
-                            t.transactionids,
-                            "Trasferimento",
-                            t_creditedfullname,
-                            t.message,
-                            mhString,
-                            twhen,
-                            timeInMilliseconds,
-                            t.status)
+                val mhString = moneyHelper.toString(Money(-t_debitedfunds))
+                transactionitem = TransactionItem(
+                        t.transactionids,
+                        "Trasferimento",
+                        "",
+                        t.message,
+                        mhString,
+                        twhen,
+                        timeInMilliseconds,
+                        t.status,
+                        t.error)
             }
 
             "TRANSFER_RECEIVE" -> {
                 val t_creditedfunds = t.creditedfunds ?: return null
-                val t_debitedfullname = t.debiteduserfullname ?: return null
-
                 val mhString = moneyHelper.toString(Money(t_creditedfunds))
-                    transactionitem = TransactionItem(
-                            t.transactionids,
-                            "Trasferimento",
-                            t_debitedfullname,
-                            t.message,
-                            mhString,
-                            twhen,
-                            timeInMilliseconds,
-                            t.status)
+                transactionitem = TransactionItem(
+                        t.transactionids,
+                        "Trasferimento",
+                        "",
+                        t.message,
+                        mhString,
+                        twhen,
+                        timeInMilliseconds,
+                        t.status,
+                        t.error)
 
+            }
+
+            "SCT" -> {
+                val t_creditedfunds = t.creditedfunds ?: return null
+                val mhString = moneyHelper.toString(Money(t_creditedfunds))
+                transactionitem = TransactionItem(
+                        t.transactionids,
+                        "Trasferimento",
+                        "",
+                        t.message,
+                        mhString,
+                        twhen,
+                        timeInMilliseconds,
+                        t.status,
+                        t.error)
             }
 //            "Purchase_M1" -> {
 //                val t_debiteduserid = t.debiteduserid ?: return null
@@ -129,10 +145,8 @@ class TransactionHelper @Inject constructor(val moneyHelper: MoneyHelper) {
 //                            timeInMilliseconds,
 //                            t.status,
 //                            t.resultcode)
-//                } else {
-//                    transactionitem = null
 //                }
-//            }
+
             else ->
                 transactionitem = null
         }

@@ -15,7 +15,7 @@ class EnterpriseAddressPresenter @Inject constructor(val view: EnterpriseAddress
 
     override fun initializate() {
 
-        val enterprise = enterprisePersistanceDB.enterpriseProfile(configuration.accountId)
+        val enterprise = enterprisePersistanceDB.enterpriseProfile(configuration.ownerId)
         enterprise?.let {
             view.setAddressText(it.addressOfHeadquarters?: "")
             view.setPostalCodeText(it.postalCodeHeadquarters?: "")
@@ -28,7 +28,8 @@ class EnterpriseAddressPresenter @Inject constructor(val view: EnterpriseAddress
         view.enableAllTexts(false)
 
         api.getEnterprise(configuration.accessToken,
-                configuration.accountId){ enterprise, exception ->
+                configuration.ownerId,
+                configuration.tenantId){ enterprise, exception ->
 
             if (exception != null){
                 handleErrors(exception)
@@ -83,7 +84,9 @@ class EnterpriseAddressPresenter @Inject constructor(val view: EnterpriseAddress
         view.showWaiting()
 
         val residential = EnterpriseAddress(
+                configuration.ownerId,
                 configuration.accountId,
+                configuration.tenantId,
                 view.getAddressText(),
                 view.getCityText(),
                 view.getPostalCodeText(),
@@ -107,6 +110,8 @@ class EnterpriseAddressPresenter @Inject constructor(val view: EnterpriseAddress
 
             val address = EnterpriseAddress(
                     optenterprise.enterpriseId,
+                    configuration.accountId,
+                    configuration.tenantId,
                     view.getAddressText(),
                     view.getCityText(),
                     view.getPostalCodeText(),

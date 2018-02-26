@@ -8,10 +8,11 @@ import javax.inject.Inject
 
 class EnterprisePersistanceDB @Inject constructor(val enterpriseDB: EnterpriseDB){
 
-    fun enterpriseProfile(accountId: String) : EnterpriseProfile? {
-        val optEnterprise = enterpriseDB.findEnterprise()
+    fun enterpriseProfile(ownerId: String) : EnterpriseProfile? {
+        val optEnterprise = enterpriseDB.findEnterprise(ownerId)
         return optEnterprise?.let{
-            EnterpriseProfile(accountId,
+            EnterpriseProfile(ownerId,
+                    it.legalRapresentativeId,
                     it.name,
                     it.telephone,
                     it.email,
@@ -23,10 +24,10 @@ class EnterprisePersistanceDB @Inject constructor(val enterpriseDB: EnterpriseDB
         }
     }
 
-    fun enterpriseAddress(accountId: String): EnterpriseAddress? {
-        val optEnterprise = enterpriseDB.findEnterprise()
+    fun enterpriseAddress(ownerId: String): EnterpriseAddress? {
+        val optEnterprise = enterpriseDB.findEnterprise(ownerId)
         return optEnterprise?.let {
-            EnterpriseAddress(accountId,
+            EnterpriseAddress(ownerId,
                     it.address,
                     it.city,
                     it.postalCode,
@@ -35,8 +36,8 @@ class EnterprisePersistanceDB @Inject constructor(val enterpriseDB: EnterpriseDB
     }
 
     fun saveAddress(enterpriseAddress: EnterpriseAddress) {
-        val enterprise = enterpriseDB.findEnterprise() ?: Enterprise()
-        enterprise.id = enterpriseAddress.accountId
+        val enterprise = enterpriseDB.findEnterprise(enterpriseAddress.ownerId) ?: Enterprise()
+        enterprise.id = enterpriseAddress.ownerId
         enterprise.address = enterpriseAddress.address
         enterprise.postalCode = enterpriseAddress.postalCode
         enterprise.city = enterpriseAddress.city
@@ -45,16 +46,16 @@ class EnterprisePersistanceDB @Inject constructor(val enterpriseDB: EnterpriseDB
     }
 
     fun saveInfo(info: EnterpriseInfo) {
-        val enterprise = enterpriseDB.findEnterprise() ?: Enterprise()
-        enterprise.id = info.accountId
+        val enterprise = enterpriseDB.findEnterprise(info.ownerId) ?: Enterprise()
+        enterprise.id = info.ownerId
         enterprise.name = info.name
         enterprise.type = info.enterpriseType
         enterpriseDB.saveEnterprise(enterprise)
     }
 
     fun saveContacts(contacts: EnterpriseContacts) {
-        val enterprise = enterpriseDB.findEnterprise() ?: Enterprise()
-        enterprise.id = contacts.accountId
+        val enterprise = enterpriseDB.findEnterprise(contacts.ownerId) ?: Enterprise()
+        enterprise.id = contacts.ownerId
         enterprise.email = contacts.email
         enterprise.telephone = contacts.telephone
         enterpriseDB.saveEnterprise(enterprise)

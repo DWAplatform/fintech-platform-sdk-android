@@ -33,8 +33,6 @@ class EnterpriseContactsActivity : AppCompatActivity(), EnterpriseContactsContra
             }
         })
 
-        telephoneText.keyListener = null
-
         backwardButton.setOnClickListener { presenter.onAbort() }
 
         confirmButton.setOnClickListener { presenter.onConfirm() }

@@ -15,7 +15,7 @@ class EnterpriseInfoPresenter @Inject constructor(val view: EnterpriseInfoContra
 
     override fun initialize() {
 
-        val enterpriseProfile = enterprisePersistanceDB.enterpriseProfile(configuration.accountId)
+        val enterpriseProfile = enterprisePersistanceDB.enterpriseProfile(configuration.ownerId)
         enterpriseProfile?.let {
             view.setNameText(enterpriseProfile.name?: "")
             view.setEnterpriseType(enterpriseProfile.enterpriseType?: "")
@@ -31,7 +31,7 @@ class EnterpriseInfoPresenter @Inject constructor(val view: EnterpriseInfoContra
                 configuration.accountId,
                 configuration.tenantId,
                 view.getNameText(),
-                view.getEnterpriseType())
+                onPickOrganizationType())
 
         api.info(configuration.accessToken,
                 info){ enterpriseReply, exception ->
@@ -50,7 +50,7 @@ class EnterpriseInfoPresenter @Inject constructor(val view: EnterpriseInfoContra
             view.hideWaiting()
 
             val infoEnterprise = EnterpriseInfo(
-                    configuration.accountId,
+                    configuration.ownerId,
                     view.getNameText(),
                     view.getEnterpriseType())
 
@@ -81,7 +81,8 @@ class EnterpriseInfoPresenter @Inject constructor(val view: EnterpriseInfoContra
         view.enableAllTexts(false)
 
         api.getEnterprise(configuration.accessToken,
-                 configuration.accountId){ enterprise, exception ->
+                configuration.ownerId,
+                configuration.tenantId){ enterprise, exception ->
 
             if (exception != null){
                 handleErrors(exception)
@@ -114,5 +115,15 @@ class EnterpriseInfoPresenter @Inject constructor(val view: EnterpriseInfoContra
             else ->
                 return
         }
+    }
+
+    private fun onPickOrganizationType(): String {
+        when (view.getEnterpriseType()) {
+            "Impresa individuale" -> return "SOLETRADER"
+            "Azienda" -> return "BUSINESS"
+            "Associazione" -> return "ORGANIZATION"
+        }
+
+        return ""
     }
 }

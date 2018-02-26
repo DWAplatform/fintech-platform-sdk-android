@@ -290,7 +290,7 @@ class IBANPresenter @Inject constructor(val view: IBANContract.View,
             }
 
             "BUSINESS" -> {
-                apiEnterprise.getEnterprise(configuration.accessToken, configuration.ownerId) { enterpriseProfile, exception ->
+                apiEnterprise.getEnterprise(configuration.accessToken, configuration.ownerId, configuration.tenantId) { enterpriseProfile, exception ->
                     residentialServerCalled = true
 
                     if (exception != null) {

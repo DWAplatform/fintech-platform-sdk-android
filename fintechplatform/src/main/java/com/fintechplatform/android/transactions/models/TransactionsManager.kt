@@ -24,6 +24,7 @@ open class TransactionsManager {
                                 item.twhen,
                                 item.order,
                                 item.status,
+                                item.error,
                                 true)
                     else item
             this.items.add(newitem)

@@ -131,6 +131,22 @@ class NetHelper constructor(val hostName: String) {
         return UserReplyParserResult(userprofile, null)
 
     }
+    /*
+
+case class Enterprise(tenantId: UUID,
+                      enterpriseId: UUID,
+                      legalRepresentativeId: Option[UUID] = None,
+                      telephone: Option[String] = None,
+                      email: Option[String] = None,
+                      name: Option[String] = None,
+                      enterpriseType: Option[String] = None,
+                      countryHeadquarters: Option[String] = None,
+                      cityOfHeadquarters: Option[String] = None,
+                      addressOfHeadquarters: Option[String] = None,
+                      postalCodeHeadquarters: Option[String] = None,
+                      created: Option[String] = None,
+                      updated: Option[String] = None)
+ */
 
     fun searchEnterpriseReplyParser(response: JSONObject) : EnterpriseProfile {
         return EnterpriseProfile(

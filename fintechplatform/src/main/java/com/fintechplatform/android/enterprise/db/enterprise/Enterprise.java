@@ -27,6 +27,8 @@ public class Enterprise extends BaseModel {
     public String city;
     @Column
     public String country;
+    @Column
+    public String legalRapresentativeId;
 
     public String getId() {
         return id;
@@ -98,5 +100,13 @@ public class Enterprise extends BaseModel {
 
     public void setCountry(String country) {
         this.country = country;
+    }
+
+    public String getLegalRapresentativeId() {
+        return legalRapresentativeId;
+    }
+
+    public void setLegalRapresentativeId(String legalRapresentativeId) {
+        this.legalRapresentativeId = legalRapresentativeId;
     }
 }

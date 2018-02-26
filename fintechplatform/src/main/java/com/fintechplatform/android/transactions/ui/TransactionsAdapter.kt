@@ -25,7 +25,7 @@ class TransactionsAdapter(val context: Context,
     }
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): TransactionItemViewHolder {
-        val view = LayoutInflater.from(parent?.context).inflate(R.layout.transaction_item, parent, false)
+        val view = LayoutInflater.from(parent?.context).inflate(R.layout.transaction_minimalui_item, parent, false)
         val tiviewholder = TransactionItemViewHolder(view, tuserClick)
         return tiviewholder
     }

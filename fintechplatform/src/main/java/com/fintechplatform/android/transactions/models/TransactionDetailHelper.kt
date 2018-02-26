@@ -5,10 +5,8 @@ class TransactionDetailHelper {
     // FIXME: load from server in configuration phase.
     val statusMap = mapOf(
             "SUCCEEDED" to "Transazione completata",
-            "FAILED" to "Transazione annullata")
-
-    // FIXME: load from server in configuration phase.
-    // TODO vedi codice su Mangopay.scala account.impl.asp.mangopay.application iniziano per asp_xxxx
+            "FAILED" to "Transazione annullata",
+            "CREATED" to "Transazione in fase di completamento" )
 
     val resultCodeMap = mapOf(
             // Operation failed

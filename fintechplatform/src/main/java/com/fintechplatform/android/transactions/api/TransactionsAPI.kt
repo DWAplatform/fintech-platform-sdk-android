@@ -83,9 +83,12 @@ class TransactionsAPI @Inject constructor(
             val joAmount = jo.getJSONObject("amount")
             val joError = jo.optJSONObject("error")
 
+            var errorMessage : String? = null
+
             joError?.let {
                 it.getString("code")
-                completion(null, netHelper.GenericCommunicationError(Exception(it.getString("message"))))
+                errorMessage = it.getString("message")
+                completion(null, netHelper.GenericCommunicationError(Exception(errorMessage)))
             }
 
             // TODO handle fee transactions
@@ -100,9 +103,8 @@ class TransactionsAPI @Inject constructor(
                     joDebited?.optString("ownerId"),
                     joAmount.optLong("amount"),
                     joAmount.optLong("amount"),
-                    joCredited?.optString("fullName"),
-                    joDebited?.optString("fullName"),
-                    jo.optString("message"))
+                    jo.optString("message"),
+                    errorMessage)
 
             transactions.add(tf)
             log.debug(TAG, jo.optString("transactionId"))

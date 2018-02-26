@@ -11,6 +11,7 @@ data class TransactionItem(val id: String,
                            val twhen: String,
                            val order: Long,
                            val status: String,
+                           val error : String?,
                            val newitem: Boolean = false) : Parcelable {
 
     constructor(source: Parcel): this(
@@ -21,6 +22,7 @@ data class TransactionItem(val id: String,
             source.readString(),
             source.readString(),
             source.readLong(),
+            source.readString(),
             source.readString(),
             source.readInt() != 0)
 
@@ -33,6 +35,7 @@ data class TransactionItem(val id: String,
         dest?.writeString(twhen)
         dest?.writeLong(order)
         dest?.writeString(status)
+        dest?.writeString(error)
         dest?.writeInt(if (newitem) 1 else 0)
     }
 

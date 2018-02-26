@@ -16,7 +16,7 @@ class EnterpriseContactsPresenter @Inject constructor(val view: EnterpriseContac
     var token:String?=null
 
     override fun initializate() {
-        val userProfile = persistanceDB.enterpriseProfile(configuration.accountId)
+        val userProfile = persistanceDB.enterpriseProfile(configuration.ownerId)
         userProfile?.let {
             view.setEmailText(it.email?: "")
             view.setTelephoneText(it.telephone?: "")
@@ -27,7 +27,8 @@ class EnterpriseContactsPresenter @Inject constructor(val view: EnterpriseContac
         view.enableAllTexts(false)
 
         api.getEnterprise(configuration.accessToken,
-                configuration.accountId){ enterprise, exception ->
+                configuration.ownerId,
+                configuration.tenantId){ enterprise, exception ->
 
             if (exception != null){
                 handlerErrors(exception)
@@ -67,12 +68,11 @@ class EnterpriseContactsPresenter @Inject constructor(val view: EnterpriseContac
         view.showWaiting()
         view.hideKeyboard()
 
-        if (EmailHelper().validate(view.getEmailText()) &&
-                view.getTelephoneText().length >= 12 ) {
+        if (EmailHelper().validate(view.getEmailText())) {
 
             view.hideKeyboard()
 
-            val contacts = EnterpriseContacts(configuration.accountId, view.getEmailText(), view.getTelephoneText())
+            val contacts = EnterpriseContacts(configuration.ownerId, configuration.accountId, configuration.tenantId, view.getEmailText(), view.getTelephoneText())
             api.contacts(configuration.accessToken,
                     contacts) { enterpriseReply, exception ->
 

@@ -9,7 +9,7 @@ import android.view.View
 import com.fintechplatform.android.R
 import com.fintechplatform.android.transactions.models.TransactionItem
 import com.fintechplatform.android.transactions.ui.itemview.TransactionItemContract
-import kotlinx.android.synthetic.main.transaction_item.view.*
+import kotlinx.android.synthetic.main.transaction_minimalui_item.view.*
 import javax.inject.Inject
 
 /**
