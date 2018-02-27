@@ -140,29 +140,35 @@ class ProfileAPI @Inject constructor(
         return request
     }
 
-    // TODO documents
-    fun getDocuments(token: String, userid: String, completion: (ArrayList<UserDocuments?>?, Exception?) -> Unit): IRequest<*>? {
-        val url = netHelper.getURL("/rest/1.0/users/$userid/documents")
+    fun getDocuments(token: String, userId: String, tenantId: String, completion: (List<UserDocuments?>?, Exception?) -> Unit): IRequest<*>? {
+        val url = netHelper.getURL("/rest/v1/fintech/tenants/$tenantId/users/$userId/documents/")
 
         var request: IRequest<*>?
         try {
-
+/*
+case class UserDocument(tenantId: UUID,
+                        userId: UUID,
+                        documentId: UUID,
+                        docType: Option[String] = None,
+                        pages: Option[Seq[String]] = None,
+                        created: Option[String] = None)
+ */
             val r = requestProvider.jsonArrayRequest(Request.Method.GET, url,
                     null, netHelper.authorizationToken(token),
                     { response: JSONArray ->
-                        val documents = ArrayList<UserDocuments?>()
+                        val documents = mutableListOf<UserDocuments?>()
 
                         for(i in 0 until response.length()){
 
                             val jo = response.getJSONObject(i)
-                            val pages = jo.getJSONArray("pages")
-                            val docs = mutableListOf<String?>()
+                            val pages = jo.optJSONArray("pages")
 
+                            val docs = mutableListOf<String?>()
                             for (j in 0 until pages.length()) {
                                 docs.add(pages.getString(j))
                             }
 
-                            val userdoc = UserDocuments(userid, jo.getString("doctype"), docs.toTypedArray())
+                            val userdoc = UserDocuments(jo.getString("documentId"), jo.optString("doctype"), docs)
                             documents.add(userdoc)
                         }
 
@@ -190,13 +196,14 @@ class ProfileAPI @Inject constructor(
     }
 
     fun documents(token: String,
-                  userid: String,
+                  userId: String,
+                  tenantId: String,
                   doctype: String,
                   documents: Array<String?>,
                   idempotency: String,
-                  completion: (Boolean?, Exception?) -> Unit): IRequest<*>? {
+                  completion: (String?, Exception?) -> Unit): IRequest<*>? {
 
-        val url = netHelper.getURL("/rest/1.0/users/$userid/documents")
+        val url = netHelper.getURL("/rest/v1/fintech/tenants/$tenantId/users/$userId/documents")
 
         var request : IRequest<*>?
 
@@ -211,7 +218,7 @@ class ProfileAPI @Inject constructor(
             jsonObject.put("pages", ja)
 
             val r = requestProvider.jsonObjectRequest(Request.Method.POST, url, jsonObject, netHelper.getHeaderBuilder().authorizationToken(token).idempotency(idempotency).getHeaderMap(), { response ->
-                completion(true, null)
+                completion(response.getString("documentId"), null)
             }) { error ->
                 val status = if (error.networkResponse != null)
                     error.networkResponse.statusCode else -1

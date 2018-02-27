@@ -18,7 +18,7 @@ class EnterpriseInfoPresenter @Inject constructor(val view: EnterpriseInfoContra
         val enterpriseProfile = enterprisePersistanceDB.enterpriseProfile(configuration.ownerId)
         enterpriseProfile?.let {
             view.setNameText(enterpriseProfile.name?: "")
-            view.setEnterpriseType(enterpriseProfile.enterpriseType?: "")
+            view.setEnterpriseType(selectOrganizationType(enterpriseProfile.enterpriseType?: ""))
         }
 
     }
@@ -122,6 +122,16 @@ class EnterpriseInfoPresenter @Inject constructor(val view: EnterpriseInfoContra
             "Impresa individuale" -> return "SOLETRADER"
             "Azienda" -> return "BUSINESS"
             "Associazione" -> return "ORGANIZATION"
+        }
+
+        return ""
+    }
+
+    private fun selectOrganizationType(type: String): String {
+        when (type) {
+            "SOLETRADER" -> return "Impresa individuale"
+            "BUSINESS" -> return "Azienda"
+            "ORGANIZATION" -> return "Associazione"
         }
 
         return ""

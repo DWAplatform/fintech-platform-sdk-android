@@ -22,7 +22,8 @@
         <activity android:name=".profile.contacts.ui.ContactsActivity" />
         <activity android:name=".profile.address.ui.AddressActivity" />
         <activity android:name=".profile.jobinfo.ui.JobInfoActivity" />
-        <activity android:name=".profile.idcards.ui.IdentityCardsActivity" />
+        <activity android:name=".profile.idcards.ui.IdentityCardsActivity"
+            android:screenOrientation="portrait"/>
         <activity android:name=".enterprise.info.ui.EnterpriseInfoActivity" />
         <activity android:name=".enterprise.contacts.ui.EnterpriseContactsActivity" />
         <activity android:name=".enterprise.address.ui.EnterpriseAddressActivity" />

@@ -115,7 +115,8 @@ class EnterpriseContactsPresenter @Inject constructor(val view: EnterpriseContac
     }
 
     override fun refreshConfirmButton() {
-        if(view.getEmailText().isNotBlank()){
+        if(view.getEmailText().isNotBlank() &&
+                view.getTelephoneText().isNotBlank()){
             view.setAbortText()
             view.enableConfirmButton(true)
         } else {

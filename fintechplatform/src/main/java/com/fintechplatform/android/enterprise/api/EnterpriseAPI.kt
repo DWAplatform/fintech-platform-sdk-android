@@ -155,9 +155,9 @@ class EnterpriseAPI @Inject constructor(internal val hostName: String,
                 completion = completion)
     }
 
-    fun getDocuments(token: String, userid: String, completion: (ArrayList<EnterpriseDocs?>?, Exception?) -> Unit): IRequest<*>? {
-        val url = netHelper.getURL("/rest/1.0/users/$userid/documents")
-        // TODO DOCUMENTS ENTERPRISE
+    fun getDocuments(token: String, enterpriseId: String, tenantId: String, completion: (ArrayList<EnterpriseDocs?>?, Exception?) -> Unit): IRequest<*>? {
+        val url = netHelper.getURL("/rest/v1/fintech/tenants/$tenantId/enterprises/$enterpriseId/documents")
+
         var request: IRequest<*>?
         try {
 
@@ -176,7 +176,7 @@ class EnterpriseAPI @Inject constructor(internal val hostName: String,
                                 docpages.add(pages.getString(j))
                             }
 
-                            val enterpriseDocs = EnterpriseDocs(userid, jo.getString("doctype"), docpages)
+                            val enterpriseDocs = EnterpriseDocs(jo.getString("documentId"), jo.getString("doctype"), docpages)
                             documents.add(enterpriseDocs)
                         }
 
@@ -204,12 +204,13 @@ class EnterpriseAPI @Inject constructor(internal val hostName: String,
     }
 
     fun documents(token: String,
-                  accountId: String,
+                  enterpriseId: String,
+                  tenantId: String,
                   doctype: String,
                   documents: ArrayList<String?>,
                   idempotency: String,
-                  completion: (Boolean, Exception?) -> Unit) : IRequest<*>? {
-        val url = netHelper.getURL("/rest/1.0/users/$accountId/documents")
+                  completion: (String?, Exception?) -> Unit) : IRequest<*>? {
+        val url = netHelper.getURL("/rest/v1/fintech/tenants/$tenantId/enterprises/$enterpriseId/documents")
         var request : IRequest<*>?
         try {
             val ja = JSONArray()
@@ -222,19 +223,19 @@ class EnterpriseAPI @Inject constructor(internal val hostName: String,
             jsonObject.put("pages", ja)
 
             val r = requestProvider.jsonObjectRequest(Request.Method.POST, url, jsonObject, netHelper.getHeaderBuilder().authorizationToken(token).idempotency(idempotency).getHeaderMap(), { response ->
-                completion(true, null)
+                completion(jsonObject.getString("documentId"), null)
             }) { error ->
                 val status = if (error.networkResponse != null)
                     error.networkResponse.statusCode else -1
                 when (status) {
                     409 -> {
-                        completion(false, netHelper.IdempotencyError(error))
+                        completion(null, netHelper.IdempotencyError(error))
                     }
 
                     401 -> {
-                        completion(false, netHelper.TokenError(error))
+                        completion(null, netHelper.TokenError(error))
                     }
-                    else -> completion(false, netHelper.GenericCommunicationError(error))
+                    else -> completion(null, netHelper.GenericCommunicationError(error))
                 }
             }
 

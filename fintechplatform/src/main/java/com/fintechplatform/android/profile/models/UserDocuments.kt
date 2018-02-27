@@ -1,5 +1,5 @@
 package com.fintechplatform.android.profile.models
 
-data class UserDocuments(val userId: String?=null,
+data class UserDocuments(val docId: String?=null,
                          val doctype: String?= null,
-                         val pages: Array<String?>?= null)
+                         val pages: List<String?>?= null)

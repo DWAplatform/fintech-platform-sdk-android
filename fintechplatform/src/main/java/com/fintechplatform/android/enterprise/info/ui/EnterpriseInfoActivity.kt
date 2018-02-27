@@ -9,13 +9,14 @@ import android.view.View
 import android.view.WindowManager
 import com.fintechplatform.android.R
 import com.fintechplatform.android.alert.AlertHelpers
+import com.fintechplatform.android.enterprise.info.ui.dialog.OrganizationTypeDialog
 import kotlinx.android.synthetic.main.activity_infoenterprise.*
 import javax.inject.Inject
 
 /**
  * Shows enterprise informations
  */
-class EnterpriseInfoActivity : AppCompatActivity(), EnterpriseInfoContract.View {
+class EnterpriseInfoActivity : AppCompatActivity(), EnterpriseInfoContract.View, OrganizationTypeDialog.BusinessTypePicker {
 
     @Inject lateinit var presenter: EnterpriseInfoContract.Presenter
     @Inject lateinit var alertHelper: AlertHelpers
@@ -35,6 +36,7 @@ class EnterpriseInfoActivity : AppCompatActivity(), EnterpriseInfoContract.View 
             }
         })
 
+        //TODO add enterprise type dialog
         enterpriseTypeText.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(p0: Editable?) {}
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
@@ -47,12 +49,18 @@ class EnterpriseInfoActivity : AppCompatActivity(), EnterpriseInfoContract.View 
             presenter.onConfirm()
         }
 
-        enterpriseTypeLayout.setOnClickListener {
-
+        enterpriseTypeText.setOnClickListener {
+            showOrganizatoinTypeDialog()
         }
 
         abortButton.setOnClickListener { presenter.onAbortClick() }
 
+    }
+
+    fun showOrganizatoinTypeDialog() {
+        val dialog = OrganizationTypeDialog.newInstance()
+//        dialog.setTargetFragment(supportFragmentManager, DIALOG_REQUEST_CODE)
+        dialog.show(supportFragmentManager, DIALOG_REQUEST)
     }
 
     override fun onBackPressed() {
@@ -118,5 +126,13 @@ class EnterpriseInfoActivity : AppCompatActivity(), EnterpriseInfoContract.View 
 
     override fun hideKeyboard() {
         window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN)
+    }
+
+    override fun onPickBusinessType(businessyType: String) {
+        setEnterpriseType(businessyType)
+    }
+
+    companion object {
+        val DIALOG_REQUEST = "organization_type"
     }
 }

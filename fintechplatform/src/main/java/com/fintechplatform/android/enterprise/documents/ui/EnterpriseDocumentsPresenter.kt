@@ -58,6 +58,7 @@ class EnterpriseDocumentsPresenter constructor(val view: EnterpriseDocumentsCont
         api.documents(
                 configuration.accessToken,
                 configuration.ownerId,
+                configuration.tenantId,
                 "IDENTITY_PROOF",
                 photosBase64,
                 idempDocs) { optDocs, opterror ->
@@ -79,7 +80,7 @@ class EnterpriseDocumentsPresenter constructor(val view: EnterpriseDocumentsCont
                 photosBase64[i]?.let { pages.add(it) }
             }
 
-            val documents = EnterpriseDocs(configuration.accountId,"IDENTITY_PROOF", pages)
+            val documents = EnterpriseDocs(optDocs,"IDENTITY_PROOF", pages)
             view.enableConfirmButton(false)
             dbDocuments.replaceDocuments(documents)
             view.goBack()
@@ -110,7 +111,7 @@ class EnterpriseDocumentsPresenter constructor(val view: EnterpriseDocumentsCont
 
     fun reloadFromServer() {
 
-        api.getDocuments(configuration.accessToken, configuration.ownerId) {
+        api.getDocuments(configuration.accessToken, configuration.ownerId, configuration.tenantId) {
             etpsDocs: ArrayList<EnterpriseDocs?>?, opterror: Exception? ->
 
             if (opterror != null) {
