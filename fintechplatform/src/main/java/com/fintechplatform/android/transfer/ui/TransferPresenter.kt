@@ -9,7 +9,7 @@ import com.fintechplatform.android.money.FeeHelper
 import com.fintechplatform.android.money.Money
 import com.fintechplatform.android.money.MoneyHelper
 import com.fintechplatform.android.transfer.api.TransferAPI
-import com.fintechplatform.android.transfer.models.PeersAccountModel
+import com.fintechplatform.android.transfer.models.TransferAccountModel
 import java.util.*
 
 class TransferPresenter constructor(private var view: TransferContract.View,
@@ -21,12 +21,12 @@ class TransferPresenter constructor(private var view: TransferContract.View,
                                     private var feeHelper: FeeHelper): TransferContract.Presenter {
 
     var idempotencyTransfer: String? = null
-    lateinit var peerAccountModel: PeersAccountModel
+    lateinit var peerAccountModel: TransferAccountModel
 
     override fun initialize(p2pUserId: String, p2pAccountId: String, p2pTenantId: String, accountType:String){
         idempotencyTransfer = UUID.randomUUID().toString()
 
-        peerAccountModel = PeersAccountModel(p2pUserId, p2pAccountId, p2pTenantId, accountType)
+        peerAccountModel = TransferAccountModel(p2pUserId, p2pAccountId, p2pTenantId, accountType)
 
         refreshConfirmButton()
         refreshData()

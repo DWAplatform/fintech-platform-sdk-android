@@ -22,7 +22,7 @@ class TransactionsAPI @Inject constructor(
     private val TAG = "TransactionsAPI"
 
     fun transactions(token: String,
-                     userId: String,
+                     ownerId: String,
                      accountId: String,
                      accountType: String,
                      tenantId: String,
@@ -30,7 +30,7 @@ class TransactionsAPI @Inject constructor(
                      offset: Int?,
                      completion: (List<TransactionResponse>?, Exception?) -> Unit): IRequest<*>? {
 
-        val url = netHelper.getURL("/rest/v1/fintech/tenants/$tenantId/${netHelper.getPathFromAccountType(accountType)}/$userId/accounts/$accountId/transactions")
+        val url = netHelper.getURL("/rest/v1/fintech/tenants/$tenantId/${netHelper.getPathFromAccountType(accountType)}/$ownerId/accounts/$accountId/transactionsDetailed")
 
         var request: IRequest<*>?
         try {
@@ -94,6 +94,10 @@ class TransactionsAPI @Inject constructor(
             // TODO handle fee transactions
             val joFee = jo.getJSONObject("fee")
 
+            val creditedFullName = joCredited?.run { this.optString("name") + " " + this.optString("surname") }
+
+            val debitedFullName = joDebited?.run{ this.optString("name") + " " + this.optString("surname") }
+
             val tf = TransactionResponse(
                     jo.optString("transactionId"),
                     jo.optString("status"),
@@ -103,6 +107,10 @@ class TransactionsAPI @Inject constructor(
                     joDebited?.optString("ownerId"),
                     joAmount.optLong("amount"),
                     joAmount.optLong("amount"),
+                    creditedFullName,
+                    debitedFullName,
+                    joCredited?.optString("picture"),
+                    joDebited?.optString("picture"),
                     jo.optString("message"),
                     errorMessage)
 

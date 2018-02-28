@@ -24,23 +24,23 @@ class TransactionHelper @Inject constructor(val moneyHelper: MoneyHelper) {
     fun transactionItem(t: TransactionResponse): TransactionItem? {
         val serverDateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss")
 
-        val twhen = convertDate(t.creationdate)
-        val timeInMilliseconds = serverDateFormat.parse(t.creationdate).time
-        val operationtype = t.operationtype
+        val twhen = convertDate(t.creationDate)
+        val timeInMilliseconds = serverDateFormat.parse(t.creationDate).time
+        val operationtype = t.operationType
 
         val transactionitem: TransactionItem?
 
         when(operationtype) {
             "LINKED_CARD_CASH_IN" -> {
 
-                val creditedfunds = t.creditedfunds ?: return null
+                val creditedfunds = t.creditedFunds ?: return null
 
                 val mhString = moneyHelper.toString(Money(creditedfunds))
                 transactionitem = TransactionItem(
-                        t.transactionids,
+                        t.transactionIds,
                         "Ricarica",
                         "Carta di Pagamento",
-                        null,
+                        t.message,
                         mhString,
                         twhen,
                         timeInMilliseconds,
@@ -49,14 +49,14 @@ class TransactionHelper @Inject constructor(val moneyHelper: MoneyHelper) {
 
             }
             "LINKED_BANK_CASH_OUT" -> {
-                val debitedfunds = t.debitedfunds ?: return null
+                val debitedfunds = t.debitedFunds ?: return null
                 val mhString = moneyHelper.toString(Money(-debitedfunds))
 
                 transactionitem = TransactionItem(
-                        t.transactionids,
+                        t.transactionIds,
                         "Prelievo",
                         "Conto Bancario",
-                        null,
+                        t.message,
                         mhString,
                         twhen,
                         timeInMilliseconds,
@@ -64,13 +64,14 @@ class TransactionHelper @Inject constructor(val moneyHelper: MoneyHelper) {
                         t.error)
             }
             "TRANSFER_SEND" -> {
-                val t_debitedfunds = t.debitedfunds ?: return null
+                val t_debitedfunds = t.debitedFunds ?: return null
+                val creditedFullName = t.creditedName?: return null
 
                 val mhString = moneyHelper.toString(Money(-t_debitedfunds))
                 transactionitem = TransactionItem(
-                        t.transactionids,
+                        t.transactionIds,
                         "Trasferimento",
-                        "",
+                        creditedFullName,
                         t.message,
                         mhString,
                         twhen,
@@ -80,12 +81,13 @@ class TransactionHelper @Inject constructor(val moneyHelper: MoneyHelper) {
             }
 
             "TRANSFER_RECEIVE" -> {
-                val t_creditedfunds = t.creditedfunds ?: return null
+                val t_creditedfunds = t.creditedFunds ?: return null
+                val debitedFullName = t.debitedName ?: return null
                 val mhString = moneyHelper.toString(Money(t_creditedfunds))
                 transactionitem = TransactionItem(
-                        t.transactionids,
+                        t.transactionIds,
                         "Trasferimento",
-                        "",
+                        debitedFullName,
                         t.message,
                         mhString,
                         twhen,
@@ -95,13 +97,15 @@ class TransactionHelper @Inject constructor(val moneyHelper: MoneyHelper) {
 
             }
 
-            "SCT" -> {
-                val t_creditedfunds = t.creditedfunds ?: return null
-                val mhString = moneyHelper.toString(Money(t_creditedfunds))
+            "SCT_PAYMENT" -> {
+                val t_debitedfunds = t.debitedFunds ?: return null
+                val creditedFullName = t.creditedName?: return null
+
+                val mhString = moneyHelper.toString(Money(-t_debitedfunds))
                 transactionitem = TransactionItem(
-                        t.transactionids,
-                        "Trasferimento",
-                        "",
+                        t.transactionIds,
+                        "Bonifico",
+                        "Conto Bancario",
                         t.message,
                         mhString,
                         twhen,
@@ -109,6 +113,23 @@ class TransactionHelper @Inject constructor(val moneyHelper: MoneyHelper) {
                         t.status,
                         t.error)
             }
+
+            "BANK_WIRE_CASH_IN" -> {
+                val creditedfunds = t.creditedFunds ?: return null
+
+                val mhString = moneyHelper.toString(Money(creditedfunds))
+                transactionitem = TransactionItem(
+                        t.transactionIds,
+                        "Ricarica",
+                        "Conto Bancario",
+                        t.message,
+                        mhString,
+                        twhen,
+                        timeInMilliseconds,
+                        t.status,
+                        t.error)
+            }
+
 //            "Purchase_M1" -> {
 //                val t_debiteduserid = t.debiteduserid ?: return null
 //                val t_debitedfunds = t.debitedfunds ?: return null
