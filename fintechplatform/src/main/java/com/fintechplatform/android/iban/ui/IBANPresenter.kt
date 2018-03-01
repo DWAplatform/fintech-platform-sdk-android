@@ -43,26 +43,29 @@ class IBANPresenter @Inject constructor(val view: IBANContract.View,
     }
 
     fun loadResidentialFromDB() {
-        usersPersistanceDB.residential(configuration.ownerId)?.let {
-            view.setAddressText(it.address ?: "")
-            view.setZipcodeText(it.ZIPcode ?: "")
-            view.setCityText(it.city ?: "")
-            view.setCountryofresidenceText(it.countryofresidence ?: "")
-            countryofresidenceCode = it.countryofresidence
+        when (configuration.accountType) {
+            "PERSONAL" -> usersPersistanceDB.residential(configuration.ownerId)?.let {
+                view.setAddressText(it.address ?: "")
+                view.setZipcodeText(it.ZIPcode ?: "")
+                view.setCityText(it.city ?: "")
+                view.setCountryofresidenceText(it.countryofresidence ?: "")
+                countryofresidenceCode = it.countryofresidence
+            }
+            "BUSINESS" -> {
+                enterprisePersistanceDB.enterpriseAddress(configuration.ownerId)?.let {
+                    view.setAddressText(it.address ?: "")
+                    view.setZipcodeText(it.postalCode ?: "")
+                    view.setCityText(it.city ?: "")
+                    view.setCountryofresidenceText(it.country ?: "")
+                    countryofresidenceCode = it.country
+                }
+                refreshConfirmButton()
+            }
         }
-
-        enterprisePersistanceDB.enterpriseAddress(configuration.ownerId)?.let {
-            view.setAddressText(it.address ?: "")
-            view.setZipcodeText(it.postalCode ?: "")
-            view.setCityText(it.city ?: "")
-            view.setCountryofresidenceText(it.country ?: "")
-            countryofresidenceCode = it.country
-        }
-        refreshConfirmButton()
     }
 
     fun loadIBANFromDB() {
-        ibanPersistanceDB.load()?.let {
+        ibanPersistanceDB.load(configuration.accountId)?.let {
             view.setNumberText(it.iban?:"")
         }
         refreshConfirmButton()
@@ -101,8 +104,7 @@ class IBANPresenter @Inject constructor(val view: IBANContract.View,
 
         when (configuration.accountType) {
             "PERSONAL" -> {
-                val residential = UserResidential(configuration.ownerId,
-                        configuration.tenantId, view.getAddressText(),  view.getZipcodeText(), view.getCityText(), countryofresidenceCode)
+                val residential = UserResidential(configuration.ownerId, configuration.tenantId, view.getAddressText(),  view.getCityText(), view.getZipcodeText(), countryofresidenceCode)
 
                 apiProfile.residential(
                         configuration.accessToken,
@@ -213,7 +215,7 @@ class IBANPresenter @Inject constructor(val view: IBANContract.View,
     }
 
     fun calcIBANValue(): String? {
-        val optiban = ibanPersistanceDB.load()
+        val optiban = ibanPersistanceDB.load(configuration.accountId)
         return optiban?.iban
     }
 
@@ -239,10 +241,9 @@ class IBANPresenter @Inject constructor(val view: IBANContract.View,
                 return@getLinkedBanks
             }
             val bankaccounts = optbankaccounts
-            ibanPersistanceDB.delete()
             bankaccounts.forEach { ba ->
-                val iban = BankAccount(ba.bankaccountid, ba.iban, ba.activestate)
-                ibanPersistanceDB.save(iban)
+                val iban = BankAccount(ba.bankaccountid, ba.accountId, ba.iban, ba.activestate)
+                ibanPersistanceDB.replace(iban)
             }
 
             loadIBANFromDB()

@@ -225,7 +225,7 @@ class PaymentCardRestAPI constructor(internal val hostName: String,
 
                             val createOpt: String? = response.optString("created")
 
-                            val c = PaymentCardItem(creditcardid, numberalias,
+                            val c = PaymentCardItem(creditcardid, accountId, numberalias,
                                     expirationdate, currency, null, activestate, null, createOpt)
                             completion(c, null)
                         } catch (e: JSONException) {
@@ -326,6 +326,7 @@ class PaymentCardRestAPI constructor(internal val hostName: String,
 
                             PaymentCardItem(
                                     reply.optString("cardId"),
+                                    reply.getString("accountId"),
                                     reply.optString("alias"),
                                     reply.optString("expiration"),
                                     reply.optString("currency"),

@@ -22,14 +22,14 @@ class IbanAPI @Inject constructor(internal val hostName: String,
     private val TAG = "IbanAPI"
 
     fun createLinkedBank(token: String,
-                         userid: String,
+                         ownerId: String,
                          accountId: String,
                          accountType: String,
                          tenantId: String,
                          iban: String,
                          idempotency: String,
                          completion: (BankAccount?, Exception?) -> Unit): IRequest<*>? {
-        val url = netHelper.getURL("/rest/v1/fintech/tenants/$tenantId/${netHelper.getPathFromAccountType(accountType)}/$userid/accounts/$accountId/linkedBanks")
+        val url = netHelper.getURL("/rest/v1/fintech/tenants/$tenantId/${netHelper.getPathFromAccountType(accountType)}/$ownerId/accounts/$accountId/linkedBanks")
 
         var request: IRequest<*>?
         try {
@@ -42,9 +42,10 @@ class IbanAPI @Inject constructor(internal val hostName: String,
 
                 val ibanid = response.getString("bankId")
                 val iban = response.getString("iban")
+                val accountId = response.getString("accountId")
                 val activestate = response.optString("status")
 
-                completion(BankAccount(ibanid, iban, activestate), null)
+                completion(BankAccount(ibanid, accountId, iban, activestate), null)
             }) { error ->
                 val status = if (error.networkResponse != null) error.networkResponse.statusCode
                 else -1
@@ -93,6 +94,7 @@ class IbanAPI @Inject constructor(internal val hostName: String,
 
                             BankAccount(
                                     reply.optString("bankId"),
+                                    reply.getString("accountId"),
                                     reply.optString("iban"),
                                     reply.optString("status"))
                         }

@@ -39,10 +39,10 @@ class FintechPlatform {
             FlowManager.init(context)
             PlatformDB.init()
         }
-
-        fun deleteEverything(context: Context) {
-            PlatformDB.deleteEverything(context)
-        }
+//
+//        fun deleteEverything() {
+//            PlatformDB.deleteEverything()
+//        }
 
         /**
          * Factory method to get ClientCardAPI object

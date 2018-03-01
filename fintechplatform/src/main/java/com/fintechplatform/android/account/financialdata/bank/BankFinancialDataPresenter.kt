@@ -32,12 +32,12 @@ class BankFinancialDataPresenter constructor(private val view: FinancialDataCont
     }
 
     override fun initFinancialData() {
-        ibanDB.load()?.let {
+        ibanDB.load(configuration.accountId)?.let {
             view.setBankAccountText(it.iban?:"")
             isBankAccountLoaded = true
         }
 
-        cardDB.load()?.let { cc ->
+        cardDB.load(configuration.accountId)?.let { cc ->
             view.setPaymentCardNumber("${cc.alias} ${cc.expiration}")
             isPaymentCardLoaded = true
         }
@@ -48,14 +48,14 @@ class BankFinancialDataPresenter constructor(private val view: FinancialDataCont
     }
 
     override fun calcCardValue(): String? {
-        val optcc = cardDB.load()
+        val optcc = cardDB.load(configuration.accountId)
         return optcc?.let { cc ->
             "${cc.alias} ${cc.expiration}"
         }
     }
 
     override fun calcIBANValue(): String? {
-        val optiban = ibanDB.load()
+        val optiban = ibanDB.load(configuration.accountId)
         return optiban?.iban
     }
 
@@ -73,13 +73,13 @@ class BankFinancialDataPresenter constructor(private val view: FinancialDataCont
                 return@getIBAN
             }
             val iban = optiban
-            //todo iban persistance
-                val ibanBA = BankAccount("id", iban, null)
-                ibanDB.replace(ibanBA)
-            }
+            val ibanBA = BankAccount("id",configuration.accountId, iban, null)
+            ibanDB.replace(ibanBA)
+
             isBankAccountLoaded = true
             refreshData()
         }
+    }
 
     private fun handleErrors(opterror: Exception) {
         when (opterror) {

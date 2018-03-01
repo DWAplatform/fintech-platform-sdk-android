@@ -17,6 +17,7 @@ open class TransactionsManager {
                     if (item.order > lastorder)
                         TransactionItem(
                                 item.id,
+                                item.accountId,
                                 item.what,
                                 item.who,
                                 item.message,

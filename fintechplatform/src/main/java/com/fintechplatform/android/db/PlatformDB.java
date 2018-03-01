@@ -1,7 +1,5 @@
 package com.fintechplatform.android.db;
 
-import android.content.Context;
-
 import com.raizlabs.android.dbflow.annotation.Database;
 import com.raizlabs.android.dbflow.config.FlowManager;
 import com.raizlabs.android.dbflow.config.fintechplatformGeneratedDatabaseHolder;
@@ -19,7 +17,7 @@ public class PlatformDB {
         FlowManager.initModule(fintechplatformGeneratedDatabaseHolder.class);
     }
 
-    public static void deleteEverything(Context context) {
-        FlowManager.getDatabase(PlatformDB.class).reset(context);
+    public static void deleteEverything() {
+        FlowManager.getDatabase(PlatformDB.class).reset();
     }
 }

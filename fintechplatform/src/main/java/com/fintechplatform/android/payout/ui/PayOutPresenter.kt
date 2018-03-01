@@ -41,7 +41,7 @@ class PayOutPresenter @Inject constructor(val configuration: DataAccount,
     }
 
     override fun onConfirm() {
-        val bankAccountId = ibanPersistanceDB.bankAccountId()
+        val bankAccountId = ibanPersistanceDB.bankAccountId(configuration.accountId)
         if (bankAccountId == null) {
             view.setForwardText("")
             view.startIBANActivity()
@@ -89,7 +89,7 @@ class PayOutPresenter @Inject constructor(val configuration: DataAccount,
     }
 
     fun hasBankAccount(): Boolean {
-        return ibanPersistanceDB.bankAccountId() != null
+        return ibanPersistanceDB.bankAccountId(configuration.accountId) != null
     }
 
 

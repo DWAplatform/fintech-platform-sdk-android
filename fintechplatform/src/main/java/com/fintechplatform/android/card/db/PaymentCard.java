@@ -16,6 +16,16 @@ public class PaymentCard extends BaseModel {
     public String state;
     @Column
     public String expiration;
+    @Column
+    public String accountId;
+
+    public String getAccountId() {
+        return accountId;
+    }
+
+    public void setAccountId(String accountId) {
+        this.accountId = accountId;
+    }
 
     public String getId() {
         return id;

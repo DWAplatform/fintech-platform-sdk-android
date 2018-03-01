@@ -206,6 +206,7 @@ open class ClientCardRestAPI constructor(
                         }
 
                         val card = PaymentCardItem(response.optString("id"),
+                                response.getString("accountId"),
                                 response.optString("alias"),
                                 response.optString("expiration"),
                                 response.optString("currency"),

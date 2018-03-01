@@ -35,7 +35,7 @@ open class TransactionsPresenter @Inject constructor(val view: TransactionsContr
     }
 
     override fun currentTransactions() {
-        val trs = dbTransactionsPHelper.loadAll()
+        val trs = dbTransactionsPHelper.loadAll(configuration.accountId)
         view.showTransactions(trs)
     }
 

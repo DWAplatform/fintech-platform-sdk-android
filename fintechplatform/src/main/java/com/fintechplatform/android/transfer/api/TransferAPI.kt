@@ -163,7 +163,7 @@ class TransferAPI constructor(internal val hostName: String,
                   tenantId: String,
                   completion: (TransferAccountModel?, Exception?) -> Unit): IRequest<*>? {
 
-        val url = netHelper.getURL("/rest/v1/account/tenants/$tenantId/qrCreditTransfers/$qrCreditTransferId/details")
+        val url = netHelper.getURL("/rest/v1/fintech/tenants/$tenantId/qrCreditTransfers/$qrCreditTransferId/details")
 
         var request: IRequest<*>?
         try {

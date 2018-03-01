@@ -16,8 +16,6 @@ public class DBBalance {
     }
 
     public Balance findBalance(String accountId) {
-        // TODO search accountId
-//        return SQLite.select().from(Balance::class.java).querySingle()
         return SQLite.select()
                 .from(Balance.class)
                 .where(Balance_Table.accountId.eq(accountId))

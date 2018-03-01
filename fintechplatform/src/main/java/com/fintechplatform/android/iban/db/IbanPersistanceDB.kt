@@ -8,14 +8,15 @@ class IbanPersistanceDB @Inject constructor(val ibanDB: IbanDB){
     fun save(bankAccount: BankAccount) {
         val dbbankAccount = Iban()
         dbbankAccount.state = bankAccount.activestate
+        dbbankAccount.accountId = bankAccount.accountId
         dbbankAccount.id = bankAccount.bankaccountid
         dbbankAccount.number = bankAccount.iban
 
         return ibanDB.saveBankAccount(dbbankAccount)
     }
 
-    fun bankAccountId() : String? {
-        return ibanDB.findBankAccount()?.id
+    fun bankAccountId(accountId: String) : String? {
+        return load(accountId)?.bankaccountid
     }
 
     fun replace(bankAccount: BankAccount) {
@@ -23,10 +24,10 @@ class IbanPersistanceDB @Inject constructor(val ibanDB: IbanDB){
         return save(bankAccount)
     }
 
-    fun load(): BankAccount? {
-        val optiban = ibanDB.findBankAccount()
+    fun load(accountId: String): BankAccount? {
+        val optiban = ibanDB.findBankAccount(accountId)
         return optiban?.let { iban ->
-            BankAccount(iban.id, iban.number, iban.state)
+            BankAccount(iban.id, iban.accountId, iban.number, iban.state)
         }
     }
 

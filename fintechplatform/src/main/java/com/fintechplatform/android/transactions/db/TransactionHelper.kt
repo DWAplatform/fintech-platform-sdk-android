@@ -38,6 +38,7 @@ class TransactionHelper @Inject constructor(val moneyHelper: MoneyHelper) {
                 val mhString = moneyHelper.toString(Money(creditedfunds))
                 transactionitem = TransactionItem(
                         t.transactionIds,
+                        t.accountId,
                         "Ricarica",
                         "Carta di Pagamento",
                         t.message,
@@ -54,6 +55,7 @@ class TransactionHelper @Inject constructor(val moneyHelper: MoneyHelper) {
 
                 transactionitem = TransactionItem(
                         t.transactionIds,
+                        t.accountId,
                         "Prelievo",
                         "Conto Bancario",
                         t.message,
@@ -70,6 +72,7 @@ class TransactionHelper @Inject constructor(val moneyHelper: MoneyHelper) {
                 val mhString = moneyHelper.toString(Money(-t_debitedfunds))
                 transactionitem = TransactionItem(
                         t.transactionIds,
+                        t.accountId,
                         "Trasferimento",
                         creditedFullName,
                         t.message,
@@ -86,6 +89,7 @@ class TransactionHelper @Inject constructor(val moneyHelper: MoneyHelper) {
                 val mhString = moneyHelper.toString(Money(t_creditedfunds))
                 transactionitem = TransactionItem(
                         t.transactionIds,
+                        t.accountId,
                         "Trasferimento",
                         debitedFullName,
                         t.message,
@@ -104,6 +108,7 @@ class TransactionHelper @Inject constructor(val moneyHelper: MoneyHelper) {
                 val mhString = moneyHelper.toString(Money(-t_debitedfunds))
                 transactionitem = TransactionItem(
                         t.transactionIds,
+                        t.accountId,
                         "Bonifico",
                         "Conto Bancario",
                         t.message,
@@ -120,6 +125,7 @@ class TransactionHelper @Inject constructor(val moneyHelper: MoneyHelper) {
                 val mhString = moneyHelper.toString(Money(creditedfunds))
                 transactionitem = TransactionItem(
                         t.transactionIds,
+                        t.accountId,
                         "Ricarica",
                         "Conto Bancario",
                         t.message,

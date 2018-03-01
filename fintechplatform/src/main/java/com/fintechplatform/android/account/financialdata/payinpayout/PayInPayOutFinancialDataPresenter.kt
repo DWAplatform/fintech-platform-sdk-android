@@ -30,25 +30,25 @@ class PayInPayOutFinancialDataPresenter @Inject constructor(val view: FinancialD
     }
 
     override fun calcCardValue(): String? {
-        val optcc = cardDB.load()
+        val optcc = cardDB.load(configuration.accountId)
         return optcc?.let { cc ->
             "${cc.alias} ${cc.expiration}"
         }
     }
 
     override fun calcIBANValue(): String? {
-        val optiban = ibanDB.load()
+        val optiban = ibanDB.load(configuration.accountId)
         return optiban?.iban
     }
 
 
     override fun initFinancialData() {
-        ibanDB.load()?.let {
+        ibanDB.load(configuration.accountId)?.let {
             view.setBankAccountText(it.iban?:"")
             isBankAccountLoaded = true
         }
 
-        cardDB.load()?.let { cc ->
+        cardDB.load(configuration.accountId)?.let { cc ->
             view.setPaymentCardNumber("${cc.alias} ${cc.expiration}")
             isPaymentCardLoaded = true
         }
@@ -70,7 +70,7 @@ class PayInPayOutFinancialDataPresenter @Inject constructor(val view: FinancialD
             }
             val bankaccounts = optbankaccounts
             bankaccounts.forEach { ba ->
-                val iban = BankAccount(ba.bankaccountid, ba.iban, ba.activestate)
+                val iban = BankAccount(ba.bankaccountid, ba.accountId, ba.iban, ba.activestate)
                 ibanDB.replace(iban)
             }
             isBankAccountLoaded = true

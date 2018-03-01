@@ -9,6 +9,6 @@ interface PaymentCardPersistence {
 
     fun replace(paymentcard: PaymentCardItem)
 
-    fun paymentCardId():String?
+    fun paymentCardId(accountId: String):String?
 
 }

@@ -156,7 +156,7 @@ class EnterpriseAPI @Inject constructor(internal val hostName: String,
     }
 
     fun getDocuments(token: String, enterpriseId: String, tenantId: String, completion: (ArrayList<EnterpriseDocs?>?, Exception?) -> Unit): IRequest<*>? {
-        val url = netHelper.getURL("/rest/v1/fintech/tenants/$tenantId/enterprises/$enterpriseId/documents")
+        val url = netHelper.getURL("/rest/v1/fintech/tenants/$tenantId/enterprises/$enterpriseId/documents/")
 
         var request: IRequest<*>?
         try {

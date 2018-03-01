@@ -145,14 +145,7 @@ class ProfileAPI @Inject constructor(
 
         var request: IRequest<*>?
         try {
-/*
-case class UserDocument(tenantId: UUID,
-                        userId: UUID,
-                        documentId: UUID,
-                        docType: Option[String] = None,
-                        pages: Option[Seq[String]] = None,
-                        created: Option[String] = None)
- */
+
             val r = requestProvider.jsonArrayRequest(Request.Method.GET, url,
                     null, netHelper.authorizationToken(token),
                     { response: JSONArray ->

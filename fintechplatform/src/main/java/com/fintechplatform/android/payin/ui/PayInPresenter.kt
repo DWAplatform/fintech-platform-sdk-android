@@ -51,7 +51,7 @@ class PayInPresenter @Inject constructor(val configuration: DataAccount,
     }
 
     override fun onConfirm() {
-        val paycard = paymentCardpersistanceDB.paymentCardId()
+        val paycard = paymentCardpersistanceDB.paymentCardId(configuration.accountId)
         if (paycard == null) {
             view.setForward("")
             view.goToCreditCard()
@@ -101,7 +101,7 @@ class PayInPresenter @Inject constructor(val configuration: DataAccount,
     }
 
     private fun hasCreditCard(): Boolean {
-        return paymentCardpersistanceDB.paymentCardId() != null
+        return paymentCardpersistanceDB.paymentCardId(configuration.accountId) != null
     }
 
     private fun refreshConfirmButtonName() {

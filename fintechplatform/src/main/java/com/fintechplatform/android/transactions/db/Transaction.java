@@ -28,6 +28,16 @@ public class Transaction extends BaseModel {
     public String message;
     @Column
     public String error;
+    @Column
+    public String accountId;
+
+    public String getAccountId() {
+        return accountId;
+    }
+
+    public void setAccountId(String accountId) {
+        this.accountId = accountId;
+    }
 
     public String getId() {
         return id;

@@ -4,6 +4,7 @@ import android.os.Parcel
 import android.os.Parcelable
 
 data class TransactionItem(val id: String,
+                           val accountId: String,
                            val what: String,
                            val who: String,
                            val message: String?,
@@ -21,6 +22,7 @@ data class TransactionItem(val id: String,
             source.readString(),
             source.readString(),
             source.readString(),
+            source.readString(),
             source.readLong(),
             source.readString(),
             source.readString(),
@@ -28,6 +30,7 @@ data class TransactionItem(val id: String,
 
     override fun writeToParcel(dest: Parcel?, flags: Int) {
         dest?.writeString(id)
+        dest?.writeString(accountId)
         dest?.writeString(what)
         dest?.writeString(who)
         dest?.writeString(message)

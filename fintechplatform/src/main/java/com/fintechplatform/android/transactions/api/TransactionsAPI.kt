@@ -43,7 +43,7 @@ class TransactionsAPI @Inject constructor(
                     rurl, null, netHelper.authorizationToken(token),
                     { response ->
                         try {
-                            transactionsResponse(response, completion)
+                            transactionsResponse(response, accountId, completion)
                         } catch (e: JSONException) {
                             completion(null, netHelper.ReplyParamsUnexpected(e))
                         }
@@ -74,7 +74,7 @@ class TransactionsAPI @Inject constructor(
     }
 
     @Throws(JSONException::class)
-    private fun transactionsResponse(response: JSONArray, completion: (List<TransactionResponse>?, Exception?) -> Unit){
+    private fun transactionsResponse(response: JSONArray, accountId: String, completion: (List<TransactionResponse>?, Exception?) -> Unit){
         val transactions = ArrayList<TransactionResponse>()
         for (i in 0 until response.length()) {
             val jo = response.getJSONObject(i)
@@ -100,6 +100,7 @@ class TransactionsAPI @Inject constructor(
 
             val tf = TransactionResponse(
                     jo.optString("transactionId"),
+                    accountId,
                     jo.optString("status"),
                     jo.getString("transactionType"),
                     jo.getString("created"),

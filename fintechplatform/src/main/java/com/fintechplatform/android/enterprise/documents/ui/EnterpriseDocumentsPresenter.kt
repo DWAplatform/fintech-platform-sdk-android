@@ -89,7 +89,7 @@ class EnterpriseDocumentsPresenter constructor(val view: EnterpriseDocumentsCont
 
     override fun refreshConfirmButton() {
         view.setAbortText()
-        if(photosBase64.filterNotNull().size >= 2){
+        if(photosBase64.isNotEmpty()){
             view.enableConfirmButton(true)
         } else {
             view.enableConfirmButton(false)

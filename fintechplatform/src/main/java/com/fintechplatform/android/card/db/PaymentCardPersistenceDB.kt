@@ -5,8 +5,8 @@ import com.fintechplatform.android.card.models.PaymentCardItem
 
 class PaymentCardPersistenceDB constructor(val paymentCardDB: PaymentCardDB): PaymentCardPersistence {
 
-    override fun paymentCardId() : String? {
-        return paymentCardDB.findPaymentCard()?.id
+    override fun paymentCardId(accountId: String) : String? {
+        return paymentCardDB.findPaymentCard(accountId)?.id
     }
 
     override fun replace(paymentcard: PaymentCardItem) {
@@ -15,9 +15,9 @@ class PaymentCardPersistenceDB constructor(val paymentCardDB: PaymentCardDB): Pa
     }
 
     override fun getPaymentCardItem(accountId: String): PaymentCardItem? {
-        val optcc = paymentCardDB.findPaymentCard()
+        val optcc = paymentCardDB.findPaymentCard(accountId)
         return optcc?.let { cc ->
-            PaymentCardItem(cc.id, cc.numberAlias, cc.expiration, "EUR", null, cc.state, "token", null)
+            PaymentCardItem(cc.id, cc.accountId, cc.numberAlias, cc.expiration, "EUR", null, cc.state, "token", null)
         }
     }
 
@@ -25,6 +25,7 @@ class PaymentCardPersistenceDB constructor(val paymentCardDB: PaymentCardDB): Pa
         val card = PaymentCard()
         card.state = paymentcard.status
         card.id = paymentcard.id
+        card.accountId = paymentcard.accountId
         card.expiration = paymentcard.expiration
         card.numberAlias = paymentcard.alias
 
@@ -35,10 +36,10 @@ class PaymentCardPersistenceDB constructor(val paymentCardDB: PaymentCardDB): Pa
         paymentCardDB.deletePaymentCard()
     }
 
-    fun load(): PaymentCardItem? {
-        val optcc = paymentCardDB.findPaymentCard()
+    fun load(accountId: String): PaymentCardItem? {
+        val optcc = paymentCardDB.findPaymentCard(accountId)
         return optcc?.let { cc ->
-            PaymentCardItem(cc.id, cc.numberAlias, cc.expiration, "EUR", null,  cc.state, "token", null)
+            PaymentCardItem(cc.id, cc.accountId, cc.numberAlias, cc.expiration, "EUR", null,  cc.state, "token", null)
         }
     }
 }

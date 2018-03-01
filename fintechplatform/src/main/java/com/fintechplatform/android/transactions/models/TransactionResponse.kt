@@ -1,6 +1,7 @@
 package com.fintechplatform.android.transactions.models
 
 data class TransactionResponse (val transactionIds: String,
+                                val accountId: String,
                                 val status: String,
                                 val operationType: String,
                                 val creationDate: String,

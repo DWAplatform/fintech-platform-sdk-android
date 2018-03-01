@@ -232,4 +232,13 @@ class QrConfirmPresenter constructor(var view: QrConfirmContract.View,
             refreshBalance()
         }
     }
+
+    private fun handleErrors(error: Exception) {
+        when (error) {
+            is NetHelper.TokenError ->
+                view.showTokenError()
+            else ->
+                view.showInternalError()
+        }
+    }
 }

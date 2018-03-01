@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.android.volley.toolbox.Volley;
-import com.fintechplatform.android.account.financialdata.payinpayout.FinancialDataActivity;
 import com.fintechplatform.android.account.financialdata.payinpayout.FinancialDataContract;
 import com.fintechplatform.android.api.NetModule;
 import com.fintechplatform.android.card.api.PaymentCardAPIModule;
@@ -50,7 +49,7 @@ public class BankFinancialDataUI {
 
     public void start(Context context) {
         instance = this;
-        Intent intent = new Intent(context, FinancialDataActivity.class);
+        Intent intent = new Intent(context, BankFinancialDataActivity.class);
         context.startActivity(intent);
     }
 }

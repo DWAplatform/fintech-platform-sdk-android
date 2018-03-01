@@ -12,8 +12,6 @@ public class EnterpriseDB {
                 .from(Enterprise.class)
                 .where(Enterprise_Table.id.is(ownerId))
                 .querySingle();
-
-        // return (select from Users::class where (Users_Table.id `is` ownerId)).querySingle()
     }
 
     public void deleteEnterprises() {

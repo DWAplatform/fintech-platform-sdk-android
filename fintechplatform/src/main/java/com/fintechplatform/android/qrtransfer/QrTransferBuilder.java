@@ -2,6 +2,7 @@ package com.fintechplatform.android.qrtransfer;
 
 import com.fintechplatform.android.card.ui.PaymentCardUIModule;
 import com.fintechplatform.android.models.DataAccount;
+import com.fintechplatform.android.payin.ui.PayInUIModule;
 import com.fintechplatform.android.qrtransfer.creditui.QrCreditTransferUIModule;
 import com.fintechplatform.android.qrtransfer.qrconfirm.QrConfirmUIModule;
 
@@ -20,6 +21,7 @@ public class QrTransferBuilder {
         return DaggerQrConfirmUIComponent.builder()
                 .qrConfirmUIModule(new QrConfirmUIModule(dataAccount, hostName, isSandbox))
                 .paymentCardUIModule(new PaymentCardUIModule(hostName, isSandbox, dataAccount))
+                .payInUIModule(new PayInUIModule(hostName, dataAccount, isSandbox))
                 .build();
     }
 }
