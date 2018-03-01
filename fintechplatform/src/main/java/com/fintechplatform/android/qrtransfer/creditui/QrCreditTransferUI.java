@@ -1,4 +1,4 @@
-package com.fintechplatform.android.qrtransfer.ui;
+package com.fintechplatform.android.qrtransfer.creditui;
 
 import android.content.Context;
 import android.content.Intent;
@@ -23,16 +23,26 @@ public class QrCreditTransferUI {
         this.hostName = hostName;
     }
 
-    protected QrCreditTransferComponent createTransferComponent(Context context, QrReceiveActivityContract.View view){
+    protected QrCreditTransferComponent createTransferComponent(Context context, QrReceiveActivityContract.View view, QrReceiveAmountContract.View amountView, QrReceiveShowContract.View showView){
         return DaggerQrCreditTransferComponent.builder()
                 .netModule(new NetModule(Volley.newRequestQueue(context), instance.hostName))
                 .transferAPIModule(new TransferAPIModule(instance.hostName))
+                .qrReceivePresenterModule(new QrReceivePresenterModule(view, amountView, showView, dataAccount))
                 .build();
     }
 
-    public QrCreditTransferComponent buildTransferComponent(Context context, QrReceiveActivityContract.View view) {
-        return instance.createTransferComponent(context, view);
+    public QrCreditTransferComponent buildQrComponent(Context context, QrReceiveActivityContract.View view) {
+        return instance.createTransferComponent(context, view, null, null);
     }
+
+    public QrCreditTransferComponent buildQrAmountComponent(Context context, QrReceiveAmountContract.View view) {
+        return instance.createTransferComponent(context, null, view, null);
+    }
+
+    public QrCreditTransferComponent buildQrShowComponent(Context context, QrReceiveShowContract.View view) {
+        return instance.createTransferComponent(context, null, null, view);
+    }
+
     public void start(Context context){
         instance = this;
         Intent intent = new Intent(context, QrReceiveActivity.class);

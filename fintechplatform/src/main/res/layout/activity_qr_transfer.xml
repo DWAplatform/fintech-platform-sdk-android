@@ -4,7 +4,7 @@
     android:id="@+id/activity_qr_receive"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.fintechplatform.android.qrtransfer.ui.QrReceiveActivity">
+    tools:context="com.fintechplatform.android.qrtransfer.creditui.QrReceiveActivity">
 
     <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/fragment_container"

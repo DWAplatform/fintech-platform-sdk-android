@@ -16,11 +16,11 @@ import com.fintechplatform.android.secure3d.ui.Secure3DUI;
 
 public class PayInUI {
 
-    String hostName;
+    private String hostName;
     private boolean sandbox;
-    DataAccount configuration;
-    Secure3DUI secure3DUI;
-    PaymentCardUI paymentCardUI;
+    private DataAccount configuration;
+    private Secure3DUI secure3DUI;
+    private PaymentCardUI paymentCardUI;
 
 
     protected static PayInUI instance;
@@ -63,17 +63,5 @@ public class PayInUI {
         instance = this;
         Intent intent = new Intent(context, PayInActivity.class);
         context.startActivity(intent);
-    }
-
-    public String getHostName() {
-        return hostName;
-    }
-
-//    public String getToken() {
-//        return keyChain.get("tokenuser");
-//    }
-
-    public DataAccount getConfiguration() {
-        return configuration;
     }
 }

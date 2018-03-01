@@ -1,4 +1,4 @@
-package com.fintechplatform.android.qrtransfer.ui;
+package com.fintechplatform.android.qrtransfer.creditui;
 
 import com.fintechplatform.android.alert.AlertHelpersModule;
 import com.fintechplatform.android.api.NetModule;
@@ -14,7 +14,7 @@ import dagger.Component;
  */
 
 @Singleton
-@Component (modules = {QrReceiveActivityPresenterModule.class, TransferAPIModule.class, NetModule.class, AlertHelpersModule.class, LogModule.class})
+@Component (modules = {QrReceivePresenterModule.class, TransferAPIModule.class, NetModule.class, AlertHelpersModule.class, LogModule.class})
 public interface QrCreditTransferComponent {
     void inject(QrReceiveActivity activity);
     void inject(QrReceiveAmountFragment fragment);

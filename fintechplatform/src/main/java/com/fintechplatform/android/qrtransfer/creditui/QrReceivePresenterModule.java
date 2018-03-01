@@ -1,4 +1,4 @@
-package com.fintechplatform.android.qrtransfer.ui;
+package com.fintechplatform.android.qrtransfer.creditui;
 
 import com.fintechplatform.android.log.Log;
 import com.fintechplatform.android.models.DataAccount;
@@ -13,14 +13,14 @@ import dagger.Provides;
  * Created by ingrid on 18/09/17.
  */
 @Module
-public class QrReceiveActivityPresenterModule {
+public class QrReceivePresenterModule {
 
     QrReceiveActivityContract.View view;
     QrReceiveAmountContract.View amountView;
     QrReceiveShowContract.View showView;
     private DataAccount configuration;
 
-    public QrReceiveActivityPresenterModule(QrReceiveActivityContract.View view, QrReceiveAmountContract.View amountView, QrReceiveShowContract.View showView, DataAccount configuration) {
+    public QrReceivePresenterModule(QrReceiveActivityContract.View view, QrReceiveAmountContract.View amountView, QrReceiveShowContract.View showView, DataAccount configuration) {
         this.view = view;
         this.amountView = amountView;
         this.showView = showView;

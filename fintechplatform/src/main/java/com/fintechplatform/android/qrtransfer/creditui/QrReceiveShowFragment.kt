@@ -1,4 +1,4 @@
-package com.fintechplatform.android.qrtransfer.ui
+package com.fintechplatform.android.qrtransfer.creditui
 
 import android.graphics.Bitmap
 import android.os.Bundle
@@ -28,22 +28,12 @@ class QrReceiveShowFragment: Fragment(), QrReceiveShowContract.View {
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         val view = inflater?.inflate(R.layout.fragment_qr_receive_show, container, false)
-        //App.buildQrReceiveComponent(activity as Context, null, null, this).inject(this)
+        QrCreditTransferUI.instance.buildQrShowComponent(activity,this).inject(this)
         return view
     }
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         presenter.generateQrCode(transactionId)
-    }
-
-    override fun onResume() {
-        super.onResume()
-        presenter.onRegisterReceiver()
-    }
-
-    override fun onPause() {
-        super.onPause()
-        presenter.onUnregisterReceiver()
     }
 
     companion object {

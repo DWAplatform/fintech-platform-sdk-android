@@ -1,4 +1,4 @@
-package com.fintechplatform.android.qrtransfer.ui
+package com.fintechplatform.android.qrtransfer.creditui
 
 import android.os.Bundle
 import android.support.v4.app.FragmentActivity
@@ -17,6 +17,7 @@ class QrReceiveActivity : FragmentActivity(), QrReceiveActivityContract.View {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_qr_transfer)
 
+        QrCreditTransferUI.instance.buildQrComponent(this, this).inject(this)
         presenter.createAmountFragment()
 
     }

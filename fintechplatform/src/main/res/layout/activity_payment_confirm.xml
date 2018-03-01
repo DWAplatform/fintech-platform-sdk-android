@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:background="@color/background"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:id="@+id/header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="25dp"
+            android:background="@color/headerbackgroundcolor">
+
+            <Button
+                android:id="@+id/backwardButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/navheader_abort"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:textSize="18dp"
+                android:layout_marginLeft="5dp"
+                android:textAllCaps="false"
+                style="@style/headerButtonStyle" />
+
+            <TextView
+                android:id="@+id/navheader_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:text="Pagamento"
+                android:layout_alignBaseline="@id/backwardButton"
+                android:textSize="18dp"
+                android:textColor="@android:color/white"
+                android:textAlignment="center"/>
+
+            <Button
+                android:id="@+id/forwardButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/navheader_confirm"
+                android:layout_alignBaseline="@id/backwardButton"
+                android:layout_marginRight="5dp"
+                android:enabled="false"
+                android:layout_alignParentRight="true"
+                style="@style/headerButtonStyle"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/backwardButton"
+                android:id="@+id/person_container">
+
+                <android.support.v7.widget.CardView
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:elevation="12dp"
+                    android:id="@+id/cvnav_user_icon"
+                    app:cardCornerRadius="30dp"
+                    android:innerRadius="0dp"
+                    android:shape="ring"
+                    android:layout_toLeftOf="@id/person_fullname"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    app:cardElevation="0dp"
+                    android:thicknessRatio="1.9">
+                    <ImageView
+                        android:id="@+id/nav_user_icon"
+                        android:layout_height="60dp"
+                        android:layout_width="match_parent"
+                        android:src="@drawable/ic_account_circle_black_24dp"
+                        android:layout_alignParentTop="true"
+                        android:layout_centerHorizontal="true">
+                    </ImageView>
+                </android.support.v7.widget.CardView>
+
+                <TextView
+                    android:id="@+id/person_fullname"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:text="Nome Cognome"
+                    android:textSize="18dp"
+                    android:layout_marginTop="14dp"
+                    android:textColor="@android:color/white"
+                    android:textAlignment="center"/>
+
+                <ProgressBar
+                    android:id="@+id/activityIndicator"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginTop="12dp"
+                    android:indeterminateOnly="true"
+                    android:keepScreenOn="true"
+                    android:layout_marginLeft="20dp"
+                    android:layout_toRightOf="@id/person_fullname"
+                    android:indeterminateTint="@color/white"
+                    android:visibility="gone" />
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/product_message"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@+id/person_container"
+                android:visibility="gone"
+                android:text="Product message"
+                android:layout_marginTop="12dp"
+                android:textSize="18sp"
+                android:textColor="@android:color/white"
+                android:textAlignment="viewEnd"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:layout_below="@+id/header">
+
+            <TextView
+                android:id="@+id/amountText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/black"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="10dp"
+                android:padding="5dp"
+                android:inputType="numberDecimal"
+                android:layout_toStartOf="@id/currencyLabel"
+                android:hint="0,00"
+                android:gravity="right"
+                android:singleLine="true"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/background_entry"
+                android:enabled="false"
+                android:textSize="24dp" />
+
+            <TextView
+                android:id="@+id/currencyLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="24dp"
+                android:text="€"
+                android:textColor="@android:color/black"
+                android:layout_alignParentEnd="true"
+                android:layout_marginRight="20dp"
+                android:layout_alignBaseline="@id/amountText" />
+
+        </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/content"
+        android:id="@+id/balance_container">
+        <TextView
+            android:id="@+id/newBalanceAmountLabel"
+            android:layout_marginTop="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="15dp"
+            android:layout_alignParentEnd="true"
+            android:text="€"
+            android:textColor="@android:color/black"
+            android:layout_marginRight="20dp" />
+
+        <TextView
+            android:id="@+id/newBalanceLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="15dp"
+            android:layout_alignBaseline="@id/newBalanceAmountLabel"
+            android:layout_toLeftOf="@id/newBalanceAmountLabel"
+            android:text="@string/payin_newbalance_label"
+            android:textColor="@android:color/black"
+            android:layout_marginRight="10dp" />
+
+        <TextView
+            android:id="@+id/feeAmountLabel"
+            android:layout_marginTop="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="15dp"
+            android:layout_below="@id/newBalanceAmountLabel"
+            android:layout_alignParentEnd="true"
+            android:text="€"
+            android:textColor="@android:color/black"
+            android:layout_marginRight="20dp" />
+
+        <TextView
+            android:id="@+id/feeLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="15dp"
+            android:layout_alignBaseline="@id/feeAmountLabel"
+            android:layout_toLeftOf="@id/feeAmountLabel"
+            android:text="@string/payin_fee_label"
+            android:layout_alignEnd="@id/newBalanceLabel"
+            android:textColor="@android:color/black" />
+    </RelativeLayout>
+
+</RelativeLayout>

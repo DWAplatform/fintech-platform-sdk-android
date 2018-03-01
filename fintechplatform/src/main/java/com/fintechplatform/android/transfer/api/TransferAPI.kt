@@ -28,7 +28,7 @@ class TransferAPI constructor(internal val hostName: String,
             toAccountId: String,
             toAccountType: String,
             toTenantId: String,
-            message: String,
+            message: String?,
             amount: Long,
             idempotency: String,
             completion: (Exception?) -> Unit): IRequest<*>? {
@@ -157,24 +157,7 @@ class TransferAPI constructor(internal val hostName: String,
 
         return request
     }
-    /*
-    /rest/v1/account/tenants/:tenantId/qrCreditTransfers/:qrCreditTransferId/details
-ritorna
-AccountRefDetailed(tenantId: UUID,
-                              accountType: String,
-                              ownerId: UUID,
-                              accountId: UUID,
-                              name: Option[String],
-                              surname: Option[String],
-                              picture: Option[String]
 
-QrCreditTransferDetailed(qrCreditTransferId: UUID,
-                            creditedAccount: AccountRefDetailed,
-                            amount: Money,
-                            fee: Money,
-                            message: Option[String],
-                            created: String
-     */
     fun getQr(token: String,
                   qrCreditTransferId: String,
                   tenantId: String,

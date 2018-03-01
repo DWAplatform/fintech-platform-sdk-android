@@ -1,4 +1,4 @@
-package com.fintechplatform.android.qrtransfer.ui
+package com.fintechplatform.android.qrtransfer.creditui
 
 import android.content.Context
 import android.os.Bundle
@@ -27,7 +27,7 @@ class QrReceiveAmountFragment: Fragment(), QrReceiveAmountContract.View {
                               savedInstanceState: Bundle?): View? {
 
         val view = inflater?.inflate(R.layout.fragment_qr_receive_amount, container, false)
-        //App.buildQrReceiveComponent(activity as Context, activity as QrReceiveActivityContract.View, this, null).inject(this)
+        QrCreditTransferUI.instance.buildQrAmountComponent(activity, this).inject(this)
         onAttachDelegate?.let { delegate ->
             presenter.setListener(delegate)
         }
@@ -58,7 +58,12 @@ class QrReceiveAmountFragment: Fragment(), QrReceiveAmountContract.View {
     }
 
     override fun getMessagetext(): String? {
-        return messageText.text.toString()
+        if(messageText.text.toString().isNullOrBlank()) {
+            return null
+        }
+        else {
+            return messageText.text.toString()
+        }
     }
 
     override fun setForwardButtonEnable(isEnabled: Boolean) {

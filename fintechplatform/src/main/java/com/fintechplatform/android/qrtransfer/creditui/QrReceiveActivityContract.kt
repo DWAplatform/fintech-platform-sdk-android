@@ -1,4 +1,4 @@
-package com.fintechplatform.android.qrtransfer.ui
+package com.fintechplatform.android.qrtransfer.creditui
 
 /**
  * Created by ingrid on 18/09/17.

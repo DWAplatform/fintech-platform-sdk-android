@@ -1,4 +1,4 @@
-package com.fintechplatform.android.qrtransfer.ui
+package com.fintechplatform.android.qrtransfer.creditui
 
 import com.fintechplatform.android.api.NetHelper
 import com.fintechplatform.android.models.DataAccount

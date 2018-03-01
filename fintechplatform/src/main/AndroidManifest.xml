@@ -31,6 +31,8 @@
         <activity android:name=".newibancontact.ui.NewIbanContactActivity" />
         <activity android:name=".transfer.ui.TransferActivity" />
         <activity android:name=".sct.ui.SctActivity" />
+        <activity android:name=".qrtransfer.qrconfirm.QrConfirmActivity" />
+        <activity android:name=".qrtransfer.creditui.QrReceiveActivity" />
     </application>
 
 </manifest>
