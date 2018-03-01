@@ -176,7 +176,7 @@ class EnterpriseAPI @Inject constructor(internal val hostName: String,
                                 docpages.add(pages.getString(j))
                             }
 
-                            val enterpriseDocs = EnterpriseDocs(jo.getString("documentId"), jo.getString("doctype"), docpages)
+                            val enterpriseDocs = EnterpriseDocs(jo.getString("documentId"), jo.getString("docType"), docpages)
                             documents.add(enterpriseDocs)
                         }
 
@@ -223,7 +223,7 @@ class EnterpriseAPI @Inject constructor(internal val hostName: String,
             jsonObject.put("pages", ja)
 
             val r = requestProvider.jsonObjectRequest(Request.Method.POST, url, jsonObject, netHelper.getHeaderBuilder().authorizationToken(token).idempotency(idempotency).getHeaderMap(), { response ->
-                completion(jsonObject.getString("documentId"), null)
+                completion(response.getString("documentId"), null)
             }) { error ->
                 val status = if (error.networkResponse != null)
                     error.networkResponse.statusCode else -1
