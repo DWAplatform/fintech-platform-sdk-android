@@ -24,17 +24,6 @@ class EnterprisePersistanceDB @Inject constructor(val enterpriseDB: EnterpriseDB
         }
     }
 
-    fun enterpriseAddress(ownerId: String): EnterpriseAddress? {
-        val optEnterprise = enterpriseDB.findEnterprise(ownerId)
-        return optEnterprise?.let {
-            EnterpriseAddress(ownerId,
-                    it.address,
-                    it.city,
-                    it.postalCode,
-                    it.country)
-        }
-    }
-
     fun saveAddress(enterpriseAddress: EnterpriseAddress) {
         val enterprise = enterpriseDB.findEnterprise(enterpriseAddress.ownerId) ?: Enterprise()
         enterprise.id = enterpriseAddress.ownerId
