@@ -16,10 +16,11 @@ public class PaymentCardDB {
         card.save();
     }
 
+    // TODO handle primary / secondary accountId
     public PaymentCard findPaymentCard(String accountId) {
         return SQLite.select()
                 .from(PaymentCard.class)
-                .where(PaymentCard_Table.accountId.eq(accountId))
+//                .where(PaymentCard_Table.accountId.eq(accountId))
                 .querySingle();
     }
 }

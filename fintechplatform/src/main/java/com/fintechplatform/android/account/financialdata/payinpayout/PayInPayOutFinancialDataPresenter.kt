@@ -23,6 +23,8 @@ class PayInPayOutFinancialDataPresenter @Inject constructor(val view: FinancialD
         view.enableIBAN(true)
         view.enablePaymentCard(true)
         view.showGoToEditArrow()
+        ibanDB.delete()
+        cardDB.deletePaymentCard()
     }
 
     override fun onBackwardClicked(){
@@ -90,7 +92,7 @@ class PayInPayOutFinancialDataPresenter @Inject constructor(val view: FinancialD
             }
             val cards = optcards
             cards.forEach { c ->
-                cardDB.savePaymentCard(c)
+                cardDB.replace(c)
             }
             isPaymentCardLoaded = true
             refreshData()

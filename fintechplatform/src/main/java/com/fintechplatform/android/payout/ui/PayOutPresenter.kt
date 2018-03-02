@@ -3,7 +3,9 @@ package com.fintechplatform.android.payout.ui
 import com.fintechplatform.android.account.balance.helpers.BalanceHelper
 import com.fintechplatform.android.account.balance.models.BalanceItem
 import com.fintechplatform.android.api.NetHelper
+import com.fintechplatform.android.iban.api.IbanAPI
 import com.fintechplatform.android.iban.db.IbanPersistanceDB
+import com.fintechplatform.android.iban.models.BankAccount
 import com.fintechplatform.android.models.DataAccount
 import com.fintechplatform.android.money.FeeHelper
 import com.fintechplatform.android.money.Money
@@ -15,6 +17,7 @@ import javax.inject.Inject
 class PayOutPresenter @Inject constructor(val configuration: DataAccount,
                                           val view: PayOutContract.View,
                                           val api: PayOutAPI,
+                                          val linkedBankAPI: IbanAPI,
                                           val moneyHelper: MoneyHelper,
                                           val balanceHelper: BalanceHelper,
                                           val feeHelper: FeeHelper,
@@ -24,7 +27,7 @@ class PayOutPresenter @Inject constructor(val configuration: DataAccount,
 
     override fun initialize() {
         idempotencyPayout = UUID.randomUUID().toString()
-
+        ibanPersistanceDB.delete() //TODO for a better UX get linked bank by accountid
         refreshConfirmButton()
         refreshData()
     }
@@ -38,6 +41,7 @@ class PayOutPresenter @Inject constructor(val configuration: DataAccount,
         view.showKeyboardAmount()
         refreshConfirmButtonName()
         reloadBalance()
+        reloadLinkedBank()
     }
 
     override fun onConfirm() {
@@ -106,6 +110,7 @@ class PayOutPresenter @Inject constructor(val configuration: DataAccount,
     fun refreshData() {
         refreshBalance()
         refreshFee()
+        refreshConfirmButtonName()
     }
 
     fun getAmountMoney(): Money {
@@ -139,6 +144,25 @@ class PayOutPresenter @Inject constructor(val configuration: DataAccount,
             refreshBalance()
         }
     }
+    //TODO for a better UX get linked bank by accountid and delete api call
+    private fun reloadLinkedBank() {
+        linkedBankAPI.getLinkedBanks(configuration.accessToken, configuration.ownerId, configuration.accountId, configuration.accountType, configuration.tenantId) { optbankaccounts, opterror ->
+
+            if (opterror != null) {
+                return@getLinkedBanks
+            }
+            if (optbankaccounts == null) {
+                return@getLinkedBanks
+            }
+            val bankaccounts = optbankaccounts
+            bankaccounts.forEach { ba ->
+                val iban = BankAccount(ba.bankaccountid, ba.accountId, ba.iban, ba.activestate)
+                ibanPersistanceDB.replace(iban)
+            }
+//            isBankAccountLoaded = true
+            refreshData()
+        }
+    }
 
     fun refreshBalance() {
         val newBalance = calcBalance() ?: return
@@ -164,6 +188,7 @@ class PayOutPresenter @Inject constructor(val configuration: DataAccount,
 
         view.setFeeAmountLabel(moneyHelper.toString(moneyFee))
     }
+
 
     fun handleErrors(opterror: Exception) {
         when (opterror) {

@@ -81,8 +81,8 @@ open class FinancialDataActivity : FragmentActivity() , FinancialDataContract.Vi
     override fun onResume() {
         super.onResume()
         presenter.onRefresh()
-        cardValueText.text = presenter.calcCardValue() ?: ""
-        ibanText.text = presenter.calcIBANValue() ?: ""
+//        cardValueText.text = presenter.calcCardValue() ?: ""
+//        ibanText.text = presenter.calcIBANValue() ?: ""
     }
 
     override fun showTokenExpiredWarning() {

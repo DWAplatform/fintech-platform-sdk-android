@@ -2,6 +2,7 @@ package com.fintechplatform.android.payout.ui;
 
 
 import com.fintechplatform.android.account.balance.helpers.BalanceHelper;
+import com.fintechplatform.android.iban.api.IbanAPI;
 import com.fintechplatform.android.iban.db.IbanPersistanceDB;
 import com.fintechplatform.android.models.DataAccount;
 import com.fintechplatform.android.money.FeeHelper;
@@ -26,10 +27,11 @@ public class PayOutPresenterModule {
     @Provides
     @Singleton
     PayOutContract.Presenter providePayOutPresenter(PayOutAPI api,
+                                                    IbanAPI ibanAPI,
                                                     MoneyHelper moneyHelper,
                                                     BalanceHelper balanceHelper,
                                                     FeeHelper feeHelper,
                                                     IbanPersistanceDB ibanPersistanceDB) {
-        return new PayOutPresenter(config, view, api, moneyHelper, balanceHelper, feeHelper, ibanPersistanceDB);
+        return new PayOutPresenter(config, view, api, ibanAPI, moneyHelper, balanceHelper, feeHelper, ibanPersistanceDB);
     }
 }

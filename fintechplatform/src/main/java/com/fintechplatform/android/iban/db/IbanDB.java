@@ -7,10 +7,11 @@ import com.raizlabs.android.dbflow.sql.language.SQLite;
  */
 
 public class IbanDB {
+    // TODO handle primary / secondary accountId
     public Iban findBankAccount(String accountId) {
         return SQLite.select()
                 .from(Iban.class)
-                .where(Iban_Table.id.eq(accountId))
+//                .where(Iban_Table.id.eq(accountId))
                 .querySingle();
     }
 

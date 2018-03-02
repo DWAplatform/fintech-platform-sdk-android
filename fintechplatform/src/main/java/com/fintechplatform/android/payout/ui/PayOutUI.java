@@ -6,6 +6,7 @@ import android.content.Intent;
 import com.android.volley.toolbox.Volley;
 import com.fintechplatform.android.account.balance.api.BalanceAPIModule;
 import com.fintechplatform.android.api.NetModule;
+import com.fintechplatform.android.iban.api.IbanAPIModule;
 import com.fintechplatform.android.iban.ui.IbanUI;
 import com.fintechplatform.android.models.DataAccount;
 import com.fintechplatform.android.payout.api.PayOutAPIModule;
@@ -33,6 +34,7 @@ public class PayOutUI {
                 .payOutAPIModule(new PayOutAPIModule(instance.hostname))
                 .netModule(new NetModule(Volley.newRequestQueue(context), hostname))
                 .balanceAPIModule(new BalanceAPIModule(instance.hostname))
+                .ibanAPIModule(new IbanAPIModule(instance.hostname))
                 .ibanUIModule(new IbanUIModule(ibanUI))
                 .build();
     }

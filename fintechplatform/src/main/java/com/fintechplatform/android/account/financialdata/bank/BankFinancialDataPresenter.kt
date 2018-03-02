@@ -24,6 +24,8 @@ class BankFinancialDataPresenter constructor(private val view: FinancialDataCont
         view.enablePaymentCard(false)
         view.enableIBAN(false)
         view.hideGoToEditArrow()
+        ibanDB.delete()
+        cardDB.deletePaymentCard()
     }
 
     override fun onRefresh() {

@@ -35,6 +35,7 @@ class PayInPresenter @Inject constructor(val configuration: DataAccount,
             view.setAmount(strmoney)
         }
 
+        paymentCardpersistanceDB.deletePaymentCard() //TODO
         refreshConfirmButton()
         refreshData()
     }
@@ -197,7 +198,7 @@ class PayInPresenter @Inject constructor(val configuration: DataAccount,
             }
             val cards = optcards
             cards.forEach { c ->
-                paymentCardpersistanceDB.savePaymentCard(c)
+                paymentCardpersistanceDB.replace(c)
             }
             refreshData()
         }
