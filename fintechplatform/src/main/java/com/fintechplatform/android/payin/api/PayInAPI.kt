@@ -39,14 +39,7 @@ open class PayInAPI @Inject constructor(
             joAmount.put("amount", amount.value )
             joAmount.put("currency", amount.currency)
 
-            // FIXME fix fee model
-            val joFee = JSONObject()
-            joFee.put("amount", 0L)
-            joFee.put("currency", "EUR")
-
-            jsonObject.put("fee", joFee)
             jsonObject.put("amount", joAmount)
-            //jsonObject.put("idempotency", idempotency)
 
             val r = requestProvider.jsonObjectRequest(Request.Method.POST, url, jsonObject,
                     netHelper.getHeaderBuilder().authorizationToken(token).idempotency(idempotency).getHeaderMap(), { response ->

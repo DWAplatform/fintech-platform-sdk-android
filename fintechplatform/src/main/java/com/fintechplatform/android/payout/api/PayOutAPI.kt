@@ -36,12 +36,6 @@ class PayOutAPI @Inject constructor(internal val hostName: String,
             joAmount.put("currency", "EUR")
             jsonObject.put("amount", joAmount)
 
-            // FIXME fee model
-            val joFee = JSONObject()
-            joFee.put("amount", 0L)
-            joFee.put("currency", "EUR")
-            jsonObject.put("fee", joFee)
-
             val r = requestProvider.jsonObjectRequest(Request.Method.POST, url, jsonObject,
                     netHelper.getHeaderBuilder().authorizationToken(token).idempotency(idempotency).getHeaderMap(), { response ->
                 completion(null)

@@ -91,9 +91,6 @@ class TransactionsAPI @Inject constructor(
                 completion(null, netHelper.GenericCommunicationError(Exception(errorMessage)))
             }
 
-            // TODO handle fee transactions
-            val joFee = jo.getJSONObject("fee")
-
             val creditedFullName = joCredited?.run { this.optString("name") + " " + this.optString("surname") }
 
             val debitedFullName = joDebited?.run{ this.optString("name") + " " + this.optString("surname") }

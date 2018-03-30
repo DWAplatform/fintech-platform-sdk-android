@@ -15,7 +15,7 @@ object DateTimeConversion {
 
     fun convertFromRFC3339(str: String): Date? =
         try {
-            Date(SimpleDateFormat(format).parse(str).getTime())
+            Date(SimpleDateFormat(format).parse(str).time)
         } catch(e: Exception) {
             null
         }

@@ -9,18 +9,6 @@ import java.util.List;
  */
 
 public class TransactionDB {
-    /*
-        fun  {
-    }
-
-    fun saveTransaction(t: Transaction) {
-
-    }
-
-    fun  {
-        return SQLite.select().from(Transaction::class.java).queryList()
-    }
-     */
 
     public void deleteTransactions() {
         SQLite.delete().from(Transaction.class).execute();

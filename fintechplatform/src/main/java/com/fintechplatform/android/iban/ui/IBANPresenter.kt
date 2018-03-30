@@ -138,48 +138,6 @@ class IBANPresenter @Inject constructor(val view: IBANContract.View,
             }
 
             "BUSINESS" -> {
-                /*
-                        view.hideKeyboard()
-        view.showWaiting()
-
-        val residential = EnterpriseAddress(
-                configuration.ownerId,
-                configuration.accountId,
-                configuration.tenantId,
-                view.getAddressText(),
-                view.getCityText(),
-                view.getPostalCodeText(),
-                view.getResidenceCountry()
-        )
-
-        api.address(configuration.accessToken,
-                residential) { optenterprise, opterror ->
-
-            view.enableConfirmButton(false)
-            view.hideWaiting()
-
-            if (opterror != null) {
-                handleErrors(opterror)
-                return@address
-            }
-
-            if (optenterprise == null) {
-                return@address
-            }
-
-            val address = EnterpriseAddress(
-                    optenterprise.enterpriseId,
-                    configuration.accountId,
-                    configuration.tenantId,
-                    view.getAddressText(),
-                    view.getCityText(),
-                    view.getPostalCodeText(),
-                    view.getResidenceCountry())
-
-            enterprisePersistanceDB.saveAddress(address)
-            view.goBack()
-        }
-                 */
                 val address = EnterpriseAddress(configuration.ownerId, configuration.accountId, configuration.tenantId,
                         view.getAddressText(),
                         view.getCityText(),

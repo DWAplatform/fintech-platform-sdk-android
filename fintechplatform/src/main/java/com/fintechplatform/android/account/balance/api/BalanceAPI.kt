@@ -33,6 +33,7 @@ open class BalanceAPI @Inject constructor(internal val hostName: String,
                     val balance = response.getJSONObject("balance")
                     val moneyBalance = Money(balance.getLong("amount"), balance.getString("currency"))
 
+//                  TODO  handle availableMoney
                     val availableBalance = response.getJSONObject("availableBalance")
                     val moneyAvailable = Money(availableBalance.getLong("amount"), availableBalance.getString("currency"))
 

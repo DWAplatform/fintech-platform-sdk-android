@@ -103,13 +103,12 @@ class TransactionHelper @Inject constructor(val moneyHelper: MoneyHelper) {
 
             "SCT_PAYMENT" -> {
                 val t_debitedfunds = t.debitedFunds ?: return null
-                val creditedFullName = t.creditedName?: return null
 
                 val mhString = moneyHelper.toString(Money(-t_debitedfunds))
                 transactionitem = TransactionItem(
                         t.transactionIds,
                         t.accountId,
-                        "Bonifico",
+                        "Bonifico interno",
                         "Conto Bancario",
                         t.message,
                         mhString,
@@ -128,6 +127,23 @@ class TransactionHelper @Inject constructor(val moneyHelper: MoneyHelper) {
                         t.accountId,
                         "Ricarica",
                         "Conto Bancario",
+                        t.message,
+                        mhString,
+                        twhen,
+                        timeInMilliseconds,
+                        t.status,
+                        t.error)
+            }
+            "EXTERNAL_BANK_TRANSACTION" -> {
+
+                val creditedfunds = t.creditedFunds ?: return null
+
+                val mhString = moneyHelper.toString(Money(creditedfunds))
+                transactionitem = TransactionItem(
+                        t.transactionIds,
+                        t.accountId,
+                        "Movimento esterno",
+                        "Conto Sella",
                         t.message,
                         mhString,
                         twhen,

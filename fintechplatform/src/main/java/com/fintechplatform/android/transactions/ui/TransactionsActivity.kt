@@ -55,6 +55,7 @@ class TransactionsActivity : FragmentActivity(), TransactionsContract.View {
         super.onResume()
 
         val filter = IntentFilter()
+        filter.addAction("BROADCAST_PAYMENT")
         registerReceiver(notificationReceiver, filter)
 
         presenter.refreshTransactions()

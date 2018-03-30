@@ -186,13 +186,13 @@ class PaymentCardRestAPI constructor(internal val hostName: String,
      * @param completionHandler callback containing the PaymentCard object
      */
     fun sendCardResponseString(userId: String,
-                                       accountId: String,
+                               accountId: String,
                                accountType: String,
-                                       tenantId: String,
-                                       token: String,
-                                       regresponse: String,
-                                       cardRegistration: CardRegistration,
-                                       completion: (PaymentCardItem?, Exception?) -> Unit)
+                               tenantId: String,
+                               token: String,
+                               regresponse: String,
+                               cardRegistration: CardRegistration,
+                               completion: (PaymentCardItem?, Exception?) -> Unit)
             : IRequest<*>? {
         log.debug("FintechPlatform", "sendCardResponseString")
         val url = netHelper.getURL("/rest/v1/fintech/tenants/$tenantId/${netHelper.getPathFromAccountType(accountType)}/$userId/accounts/$accountId/linkedCards/${cardRegistration.cardRegistrationId}")
