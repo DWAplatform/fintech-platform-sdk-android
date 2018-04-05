@@ -2,9 +2,9 @@ package com.fintechplatform.android.sample.auth.api
 
 import com.android.volley.DefaultRetryPolicy
 import com.android.volley.Request
-import com.fintechplatform.android.api.IRequest
-import com.fintechplatform.android.api.IRequestProvider
-import com.fintechplatform.android.api.IRequestQueue
+import com.fintechplatform.android.api.net.IRequest
+import com.fintechplatform.android.api.net.IRequestProvider
+import com.fintechplatform.android.api.net.IRequestQueue
 import com.fintechplatform.android.log.Log
 import com.fintechplatform.android.sample.auth.keys.CheckPin
 import com.fintechplatform.android.sample.auth.keys.CheckPinState

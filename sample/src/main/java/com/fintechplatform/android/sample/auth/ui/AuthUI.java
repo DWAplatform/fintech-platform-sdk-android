@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.android.volley.toolbox.Volley;
-import com.fintechplatform.android.api.NetModule;
+import com.fintechplatform.android.api.net.NetModule;
 import com.fintechplatform.android.sample.auth.api.AuthenticationAPIModule;
 import com.fintechplatform.android.sample.auth.keys.KeyChainModule;
 

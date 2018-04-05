@@ -1,6 +1,6 @@
 package com.fintechplatform.android.sample.auth;
 
-import com.fintechplatform.android.api.NetModule;
+import com.fintechplatform.android.api.net.NetModule;
 import com.fintechplatform.android.log.LogModule;
 import com.fintechplatform.android.sample.auth.api.AuthenticationAPI;
 import com.fintechplatform.android.sample.auth.api.AuthenticationAPIModule;

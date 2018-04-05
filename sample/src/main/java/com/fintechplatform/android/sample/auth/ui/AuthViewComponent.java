@@ -1,7 +1,7 @@
 package com.fintechplatform.android.sample.auth.ui;
 
 import com.fintechplatform.android.alert.AlertHelpersModule;
-import com.fintechplatform.android.api.NetModule;
+import com.fintechplatform.android.api.net.NetModule;
 import com.fintechplatform.android.email.SendEmailHelperModule;
 import com.fintechplatform.android.log.LogModule;
 import com.fintechplatform.android.sample.auth.api.AuthenticationAPIModule;

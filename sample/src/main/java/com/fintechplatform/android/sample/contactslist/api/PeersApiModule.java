@@ -1,8 +1,8 @@
 package com.fintechplatform.android.sample.contactslist.api;
 
-import com.fintechplatform.android.api.IRequestProvider;
-import com.fintechplatform.android.api.IRequestQueue;
-import com.fintechplatform.android.api.NetHelper;
+import com.fintechplatform.android.api.net.IRequestProvider;
+import com.fintechplatform.android.api.net.IRequestQueue;
+import com.fintechplatform.android.api.net.NetHelper;
 import com.fintechplatform.android.log.Log;
 
 import javax.inject.Singleton;

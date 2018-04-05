@@ -3,7 +3,7 @@ package com.fintechplatform.android.sample.auth;
 import android.content.Context;
 
 import com.android.volley.toolbox.Volley;
-import com.fintechplatform.android.api.NetModule;
+import com.fintechplatform.android.api.net.NetModule;
 import com.fintechplatform.android.sample.auth.api.AuthenticationAPIModule;
 import com.fintechplatform.android.sample.auth.keys.DaggerKeyChainComponent;
 import com.fintechplatform.android.sample.auth.keys.KeyChainComponent;

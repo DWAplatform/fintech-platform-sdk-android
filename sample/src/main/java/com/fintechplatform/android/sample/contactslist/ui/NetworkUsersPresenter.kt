@@ -1,6 +1,6 @@
 package com.fintechplatform.android.sample.contactslist.ui
 
-import com.fintechplatform.android.api.NetHelper
+import com.fintechplatform.android.api.net.NetHelper
 import com.fintechplatform.android.models.DataAccount
 import com.fintechplatform.android.sample.contactslist.api.PeersAPI
 import com.fintechplatform.android.sample.contactslist.db.NetworkUsersPersistance

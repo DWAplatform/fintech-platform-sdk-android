@@ -1,18 +1,18 @@
 package com.fintechplatform.android.sample.contactslist.api
 
 import com.android.volley.Request
-import com.fintechplatform.android.api.IRequest
-import com.fintechplatform.android.api.IRequestProvider
-import com.fintechplatform.android.api.IRequestQueue
-import com.fintechplatform.android.api.NetHelper
+import com.fintechplatform.android.api.net.IRequest
+import com.fintechplatform.android.api.net.IRequestProvider
+import com.fintechplatform.android.api.net.IRequestQueue
+import com.fintechplatform.android.api.net.NetHelper
 import com.fintechplatform.android.log.Log
 import com.fintechplatform.android.sample.contactslist.models.NetworkAccounts
 
 
 class PeersAPI constructor(internal val queue: IRequestQueue,
-                          internal val requestProvider: IRequestProvider,
-                          internal val log: Log,
-                          val netHelper: NetHelper) {
+                           internal val requestProvider: IRequestProvider,
+                           internal val log: Log,
+                           val netHelper: NetHelper) {
 
     val TAG = "PeersAPI"
 
