@@ -73,38 +73,51 @@ Sample usage PayIn UI Component in Kotlin
 
 Sample usage PayIn API Component in Kotlin
 -------------------------------------------------
+
+    // If you don't need any UI components and you want to use your own graphics we also provide API components instances, in this example you can see pay in use case: 
+    NO: // Note: you need to supply your payment card ID, an idempotency UUID and how many cash you want to pay in, in this example 20,00 €
+
+In  questo esempioi facciamo una ricarica di 20 euro attracerso la carta con id cardid sul conto accountd
+dellutente userid
+
+
 ```kotlin
     import com.fintechplatform.android.FintechPlatform
     import com.fintechplatform.android.models.DataAccount
     import com.fintechplatform.android.money.Money
     
-    // Initialize Fintech Platform in your MainActivity or in your Application onCreate, and give it Context params
-    val context = this as Context
+    // ....
     
+    // Initialize Fintech Platform (e.g. add in your Application class)
     FintechPlatform.initialize(context)
    
-    // If you don't need any UI components and you want to use your own graphics we also provide API components instances, in this example you can see pay in use case: 
-    // Note: you need to supply your payment card ID, an idempotency UUID and how many cash you want to pay in, in this example 20,00 €
+    // Server host parameters
+    val hostName = "FINTECH_PLATFORM_[SANDBOX]_URL"
+    val accessToken = "XXXXXXYYYYYY.....ZZZZZZ"
     
-    val hostName = "FINTECH_PLATFORM_SANDBOX_URL"
-    val userId = "asd34vfs-poc05098ncoij-aspdl"
-    val accountId = "oijfvsoeij42309uvoije-oijbsf"
-    val accessToken = "jmcjaspjdas023ucv9-2108-vjodawdBOIyhdfa0shPASo384-dcpaos-2edas"
+    // Set User Account Linked Card parameters
+    val userId = "08ad02e8-89fb-44b8-ab65-87eea175adc2"
+    val accountId = "f0c84dbc-5d1d-4973-b212-1ac2cd34e5c3"
+    val cardId = "2bde23fc-df93-4ff2-acce-51f42be62062"
     
-    val paycard = "kjcaso589oVDYkfap-caspijrysdFDaef"
-    val money = Money(2000, "EUR")
-    val idempotencyId = "osaOQKS98VDdsvU-siadhaslfapYDAS"
+    // Amount to cashIn
+    val amountToCashIn = Money(2000, "EUR") // amount in euro cent
     
+    // Optional Idempotency
+    val idempotencyKey = "idemp1"
+    
+    // create payIn API interface
     val payInAPI = FintechPlatform.buildPayIn()
-            .createPayInAPIComponent(hostName, this)
+            .createPayInAPIComponent(hostName, context)
             .payInAPI
      
+    // Start Payin
     payInAPI.payIn(accessToken, 
                     userId,
                     accountId,
-                    paycard,
-                    money,
-                    idempotencyId) { optpayinreply, opterror ->
+                    cardId,
+                    amountToCashIn,
+                    idempotencyKey) { optpayinreply, opterror ->
              
                          if (opterror != null) {
                              handleErrors(opterror)

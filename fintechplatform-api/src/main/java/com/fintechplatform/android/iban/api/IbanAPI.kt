@@ -11,6 +11,9 @@ import org.json.JSONObject
 import java.util.*
 import javax.inject.Inject
 
+/**
+ * Iban API class for communication with Fintech Platform to handle Bank Accounts.
+ */
 class IbanAPI @Inject constructor(internal val hostName: String,
                                   internal val queue: IRequestQueue,
                                   internal val requestProvider: IRequestProvider,
@@ -19,6 +22,12 @@ class IbanAPI @Inject constructor(internal val hostName: String,
 ){
     private val TAG = "IbanAPI"
 
+    /**
+     * Link a new Bank Account with [iban] to the Fintech User Account identified from: [tenantId] [ownerId] [accountType] [accountId].
+     * Use [token] got from "Create User token" request.
+     * Use [idempotency] parameter to avoid multiple inserts.
+     * [completion] callback will be call with BankAccount object in case of success or Exception in case of errors.
+     */
     fun createLinkedBank(token: String,
                          ownerId: String,
                          accountId: String,
@@ -32,7 +41,7 @@ class IbanAPI @Inject constructor(internal val hostName: String,
         var request: IRequest<*>?
         try {
             val jsonObject = JSONObject()
-            //jsonObject.put("bic", "")
+            //jsonObject.put("bic", "") not currenyl used.
             jsonObject.put("iban", iban)
 
             val r = requestProvider.jsonObjectRequest(Request.Method.POST, url, jsonObject,
