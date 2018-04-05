@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/background"
-    tools:context="com.fintechplatform.android.secure3d.ui.Secure3DActivity">
+    tools:context="com.fintechplatform.ui.secure3d.ui.Secure3DActivity">
 
     <RelativeLayout
         android:id="@+id/framel"

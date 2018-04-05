@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/background"
-    tools:context="com.fintechplatform.android.profile.jobinfo.ui.JobInfoActivity">
+    tools:context="com.fintechplatform.ui.profile.jobinfo.ui.JobInfoActivity">
 
     <RelativeLayout
         android:id="@+id/header"

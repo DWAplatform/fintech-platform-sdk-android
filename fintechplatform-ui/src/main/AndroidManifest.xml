@@ -1,38 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.fintechplatform.android">
+    package="com.fintechplatform.ui">
 
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application>
         <activity
-            android:name=".payin.PayInActivity"
+            android:name="com.fintechplatform.ui.payin.PayInActivity"
             android:windowSoftInputMode="stateVisible" />
-        <activity android:name=".secure3d.ui.Secure3DActivity" />
-        <activity android:name=".card.ui.PaymentCardActivity" />
-        <activity android:name=".payout.ui.PayOutActivity" />
-        <activity android:name=".iban.ui.IBANActivity" />
-        <activity android:name="com.fintechplatform.android.account.financialdata.payinpayout.FinancialDataActivity" />
-        <activity android:name=".account.financialdata.bank.BankFinancialDataActivity" />
+        <activity android:name="com.fintechplatform.ui.secure3d.ui.Secure3DActivity" />
+        <activity android:name="com.fintechplatform.ui.card.ui.PaymentCardActivity" />
+        <activity android:name="com.fintechplatform.ui.payout.ui.PayOutActivity" />
+        <activity android:name="com.fintechplatform.ui.iban.ui.IBANActivity" />
+        <activity android:name="com.fintechplatform.ui.account.financialdata.payinpayout.FinancialDataActivity" />
+        <activity android:name="com.fintechplatform.ui.account.financialdata.bank.BankFinancialDataActivity" />
         <activity
-            android:name=".transactions.ui.TransactionsActivity"
+            android:name="com.fintechplatform.ui.transactions.ui.TransactionsActivity"
             android:theme="@style/noAnimTheme" />
-        <activity android:name=".transactions.ui.detail.ui.TransactionDetailActivity" />
-        <activity android:name=".profile.lightdata.ui.LightDataActivity" />
-        <activity android:name=".profile.contacts.ui.ContactsActivity" />
-        <activity android:name=".profile.address.ui.AddressActivity" />
-        <activity android:name=".profile.jobinfo.ui.JobInfoActivity" />
-        <activity android:name=".profile.idcards.ui.IdentityCardsActivity"
+        <activity android:name="com.fintechplatform.ui.transactions.ui.detail.ui.TransactionDetailActivity" />
+        <activity android:name="com.fintechplatform.ui.profile.lightdata.ui.LightDataActivity" />
+        <activity android:name="com.fintechplatform.ui.profile.contacts.ui.ContactsActivity" />
+        <activity android:name="com.fintechplatform.ui.profile.address.ui.AddressActivity" />
+        <activity android:name="com.fintechplatform.ui.profile.jobinfo.ui.JobInfoActivity" />
+        <activity android:name="com.fintechplatform.ui.profile.idcards.ui.IdentityCardsActivity"
             android:screenOrientation="portrait"/>
-        <activity android:name=".enterprise.info.ui.EnterpriseInfoActivity" />
-        <activity android:name=".enterprise.contacts.ui.EnterpriseContactsActivity" />
-        <activity android:name=".enterprise.address.ui.EnterpriseAddressActivity" />
-        <activity android:name=".enterprise.documents.ui.EnterpriseDocumentsActivity" />
-        <activity android:name=".newibancontact.ui.NewIbanContactActivity" />
-        <activity android:name=".transfer.ui.TransferActivity" />
-        <activity android:name=".sct.ui.SctActivity" />
-        <activity android:name=".qrtransfer.qrconfirm.QrConfirmActivity" />
-        <activity android:name=".qrtransfer.creditui.QrReceiveActivity" />
+        <activity android:name="com.fintechplatform.ui.enterprise.info.ui.EnterpriseInfoActivity" />
+        <activity android:name="com.fintechplatform.ui.enterprise.contacts.ui.EnterpriseContactsActivity" />
+        <activity android:name="com.fintechplatform.ui.enterprise.address.ui.EnterpriseAddressActivity" />
+        <activity android:name="com.fintechplatform.ui.enterprise.documents.ui.EnterpriseDocumentsActivity" />
+        <activity android:name="com.fintechplatform.ui.newibancontact.ui.NewIbanContactActivity" />
+        <activity android:name="com.fintechplatform.ui.transfer.ui.TransferActivity" />
+        <activity android:name="com.fintechplatform.ui.sct.ui.SctActivity" />
+        <activity android:name="com.fintechplatform.ui.qrtransfer.qrconfirm.QrConfirmActivity" />
+        <activity android:name="com.fintechplatform.ui.qrtransfer.creditui.QrReceiveActivity" />
     </application>
 
 </manifest>
