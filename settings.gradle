@@ -1,1 +1,1 @@
-include ':sample', ':fintechplatform-api'
+include ':sample', ':fintechplatform-api', ':fintechplatform-ui'

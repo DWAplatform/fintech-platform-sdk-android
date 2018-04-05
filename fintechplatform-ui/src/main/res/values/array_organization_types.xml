@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="organization_types">
+        <item>Impresa individuale</item>
+        <item>Azienda</item>
+        <item>Associazione</item>
+    </string-array>
+</resources>

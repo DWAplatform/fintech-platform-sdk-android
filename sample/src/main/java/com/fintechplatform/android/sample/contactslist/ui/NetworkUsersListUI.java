@@ -4,8 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.android.volley.toolbox.Volley;
-import com.fintechplatform.android.api.net.NetModule;
 import com.fintechplatform.android.models.DataAccount;
+import com.fintechplatform.android.net.net.NetModule;
 import com.fintechplatform.android.sample.contactslist.ui.networkuseritem.DaggerNetworkUserItemComponent;
 import com.fintechplatform.android.sample.contactslist.ui.networkuseritem.NetworkUserItemComponent;
 import com.fintechplatform.android.sample.contactslist.ui.networkuseritem.NetworkUserItemContract;

@@ -1,8 +1,8 @@
 package com.fintechplatform.android.sample.auth.api;
 
-import com.fintechplatform.android.api.net.IRequestProvider;
-import com.fintechplatform.android.api.net.IRequestQueue;
 import com.fintechplatform.android.log.Log;
+import com.fintechplatform.android.net.net.IRequestProvider;
+import com.fintechplatform.android.net.net.IRequestQueue;
 
 import javax.inject.Singleton;
 

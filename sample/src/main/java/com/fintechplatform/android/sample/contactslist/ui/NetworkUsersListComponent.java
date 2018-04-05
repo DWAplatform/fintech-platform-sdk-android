@@ -1,9 +1,9 @@
 package com.fintechplatform.android.sample.contactslist.ui;
 
 import com.fintechplatform.android.alert.AlertHelpersModule;
-import com.fintechplatform.android.api.net.NetModule;
 import com.fintechplatform.android.images.ImageHelperModule;
 import com.fintechplatform.android.log.LogModule;
+import com.fintechplatform.android.net.net.NetModule;
 import com.fintechplatform.android.sample.contactslist.api.PeersApiModule;
 import com.fintechplatform.android.sample.contactslist.models.NetworkUsersPersistanceModule;
 

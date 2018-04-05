@@ -9,6 +9,7 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/fintechplatform-api" />
+            <option value="$PROJECT_DIR$/fintechplatform-ui" />
             <option value="$PROJECT_DIR$/sample" />
           </set>
         </option>

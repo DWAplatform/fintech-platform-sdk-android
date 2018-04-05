@@ -3,6 +3,7 @@ package com.fintechplatform.android.card.api
 import com.fintechplatform.android.card.helpers.PaymentCardHelper
 import com.fintechplatform.android.card.models.PaymentCardItem
 import com.fintechplatform.android.log.Log
+import com.fintechplatform.android.net.IRequest
 import org.json.JSONArray
 import java.lang.Exception
 import javax.inject.Inject
@@ -73,5 +74,15 @@ open class PaymentCardAPI @Inject constructor(
                 }
             }
         }
+    }
+
+    fun getPaymentCards(token:String,
+                        userId: String,
+                        accountId: String,
+                        accountType: String,
+                        tenantId: String,
+                        completion: (List<PaymentCardItem>?, Exception?) -> Unit): IRequest<*>? {
+
+        return restAPI.getPaymentCards(token, userId, accountId, accountType, tenantId, completion)
     }
 }
