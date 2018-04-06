@@ -62,11 +62,11 @@ Sample usage PayIn UI Component in Kotlin
       
     val dataAccount = DataAccount(userId, accountId, accessToken)
     
-    val payInUI = FintechPlatform.buildPayIn()
+    val cashInUI = FintechPlatform.buildPayIn()
                     .createPayInUIComponent(hostName, isSandbox, dataAccount)
-                    .payInUI
+                    .cashInUI
                     
-    payInUI.start(context)
+    cashInUI.start(context)
     
 ```
 

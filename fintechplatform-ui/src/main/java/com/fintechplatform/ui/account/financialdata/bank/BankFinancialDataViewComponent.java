@@ -6,8 +6,8 @@ import com.fintechplatform.api.log.LogModule;
 import com.fintechplatform.api.net.NetModule;
 import com.fintechplatform.ui.alert.AlertHelpersModule;
 import com.fintechplatform.ui.card.db.PaymentCardPersistanceModule;
+import com.fintechplatform.ui.cashin.ui.PaymentCardUIModule;
 import com.fintechplatform.ui.iban.db.IbanPersistanceDBModule;
-import com.fintechplatform.ui.payin.ui.PaymentCardUIModule;
 import com.fintechplatform.ui.payout.ui.IbanUIModule;
 
 import javax.inject.Singleton;

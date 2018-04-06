@@ -36,11 +36,11 @@ class FintechPlatformAPITest {
         val account = FintechPlatformAPI.buildAccount(user)
         val balance = FintechPlatformAPI.buildBalance(account)
         val paymentCard = FintechPlatformAPI.buildPaymentCard(account)
-        val payIn = FintechPlatformAPI.buildPayIn(account, balance, paymentCard)
+        val cashIn = FintechPlatformAPI.buildPayIn(account, balance, paymentCard)
 
 
 
-        val ui = payIn.buildPayInUI(payIn.buildAPI("eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJleHAiOjE1MTI3NDU0MDAsImlhdCI6MTUxMjY1OTAwMCwiY2xpZW50SWQiOiJkYmI3YzEwYS03MzY3LTExZTctODgxMy1iZmUyY2ExMGJiOWEifQ.A1z1-uMuMdq_CrbNjT7xhzrUdJQ1cIIjoLFUqTIi63JUFi0fmkE0CxW-iVemo2VR8qyJjXW6CljJ-8p3cy0V5A",
+        val ui = cashIn.buildPayInUI(cashIn.buildAPI("eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJleHAiOjE1MTI3NDU0MDAsImlhdCI6MTUxMjY1OTAwMCwiY2xpZW50SWQiOiJkYmI3YzEwYS03MzY3LTExZTctODgxMy1iZmUyY2ExMGJiOWEifQ.A1z1-uMuMdq_CrbNjT7xhzrUdJQ1cIIjoLFUqTIi63JUFi0fmkE0CxW-iVemo2VR8qyJjXW6CljJ-8p3cy0V5A",
                 "https://api.sandbox.dwaplatform.com", context), MoneyHelper(), FeeHelper(), PayInPresenterFactory())
 
 

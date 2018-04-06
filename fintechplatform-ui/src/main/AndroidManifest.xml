@@ -6,7 +6,7 @@
 
     <application>
         <activity
-            android:name="com.fintechplatform.ui.payin.PayInActivity"
+            android:name="com.fintechplatform.ui.cashin.CashInActivity"
             android:windowSoftInputMode="stateVisible" />
         <activity android:name="com.fintechplatform.ui.secure3d.ui.Secure3DActivity" />
         <activity android:name="com.fintechplatform.ui.card.ui.PaymentCardActivity" />

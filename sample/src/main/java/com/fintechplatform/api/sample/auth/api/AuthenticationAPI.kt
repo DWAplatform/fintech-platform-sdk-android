@@ -21,7 +21,7 @@ class AuthenticationAPI constructor(internal val hostName: String,
 
     inner class ReplyParamsUnexpected(throwable: Throwable) : Exception(throwable)
 
-    private final val TAG = "PayInAPI"
+    private final val TAG = "CashInAPI"
 
     private val PROTOCOL_CHARSET = "utf-8"
 

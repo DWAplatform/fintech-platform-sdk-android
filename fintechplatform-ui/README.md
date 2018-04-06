@@ -42,7 +42,7 @@ Sample usage in Kotlin
                 
                 FintechPlatform.buildPayIn()
                         .createPayInUIComponent(hostName, true, dataAccount)
-                        .payInUI.start(this)
+                        .cashInUI.start(this)
     
                 FintechPlatform.buildPayOut()
                         .createPayOutUI(hostName, dataAccount)

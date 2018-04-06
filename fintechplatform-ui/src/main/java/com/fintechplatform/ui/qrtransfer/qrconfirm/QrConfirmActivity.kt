@@ -9,8 +9,8 @@ import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import com.fintechplatform.ui.R
 import com.fintechplatform.ui.alert.AlertHelpers
+import com.fintechplatform.ui.cashin.ui.CashInUI
 import com.fintechplatform.ui.images.ImageHelper
-import com.fintechplatform.ui.payin.ui.PayInUI
 import kotlinx.android.synthetic.main.activity_payment_confirm.*
 import javax.inject.Inject
 
@@ -23,7 +23,7 @@ class QrConfirmActivity : FragmentActivity(), QrConfirmContract.View {
     @Inject lateinit var alertHelpers: AlertHelpers
     @Inject lateinit var imageHelper: ImageHelper
     @Inject lateinit var presenter: QrConfirmContract.Presenter
-    @Inject lateinit var payInUI: PayInUI
+    @Inject lateinit var cashInUI: CashInUI
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -84,7 +84,7 @@ class QrConfirmActivity : FragmentActivity(), QrConfirmContract.View {
     }
 
     override fun goToPayIn(amount: Long) {
-        payInUI.start(this, amount)
+        cashInUI.start(this, amount)
     }
 
     override fun setForwardButtonPayIn() {

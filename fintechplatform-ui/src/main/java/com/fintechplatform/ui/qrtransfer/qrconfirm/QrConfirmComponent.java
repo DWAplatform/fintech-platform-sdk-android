@@ -1,17 +1,17 @@
 package com.fintechplatform.ui.qrtransfer.qrconfirm;
 
 import com.fintechplatform.api.account.balance.api.BalanceAPIModule;
+import com.fintechplatform.api.log.LogModule;
+import com.fintechplatform.api.net.NetModule;
+import com.fintechplatform.api.transfer.api.TransferAPIModule;
 import com.fintechplatform.ui.account.balance.helpers.BalanceHelperModule;
 import com.fintechplatform.ui.alert.AlertHelpersModule;
+import com.fintechplatform.ui.cashin.ui.CashInUIModule;
+import com.fintechplatform.ui.cashin.ui.PaymentCardUIModule;
+import com.fintechplatform.ui.cashin.ui.Secure3DUIHelperModule;
 import com.fintechplatform.ui.images.ImageHelperModule;
-import com.fintechplatform.api.log.LogModule;
 import com.fintechplatform.ui.money.FeeHelperModule;
 import com.fintechplatform.ui.money.MoneyHelperModule;
-import com.fintechplatform.api.net.NetModule;
-import com.fintechplatform.ui.payin.ui.PayInUIModule;
-import com.fintechplatform.ui.payin.ui.PaymentCardUIModule;
-import com.fintechplatform.ui.payin.ui.Secure3DUIHelperModule;
-import com.fintechplatform.api.transfer.api.TransferAPIModule;
 
 import javax.inject.Singleton;
 
@@ -24,7 +24,7 @@ import dagger.Component;
 @Component(modules = {
         QrConfirmPresenterModule.class,
         TransferAPIModule.class,
-        PayInUIModule.class,
+        CashInUIModule.class,
         AlertHelpersModule.class,
         ImageHelperModule.class,
         BalanceHelperModule.class,

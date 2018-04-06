@@ -5,15 +5,15 @@ import android.content.Intent;
 
 import com.android.volley.toolbox.Volley;
 import com.fintechplatform.api.account.balance.api.BalanceAPIModule;
-import com.fintechplatform.ui.card.ui.PaymentCardUI;
-import com.fintechplatform.ui.models.DataAccount;
 import com.fintechplatform.api.net.NetModule;
-import com.fintechplatform.ui.payin.ui.PayInUI;
-import com.fintechplatform.ui.payin.ui.PayInUIModule;
-import com.fintechplatform.ui.payin.ui.PaymentCardUIModule;
-import com.fintechplatform.ui.payin.ui.Secure3DUIHelperModule;
-import com.fintechplatform.ui.secure3d.ui.Secure3DUI;
 import com.fintechplatform.api.transfer.api.TransferAPIModule;
+import com.fintechplatform.ui.card.ui.PaymentCardUI;
+import com.fintechplatform.ui.cashin.ui.CashInUI;
+import com.fintechplatform.ui.cashin.ui.CashInUIModule;
+import com.fintechplatform.ui.cashin.ui.PaymentCardUIModule;
+import com.fintechplatform.ui.cashin.ui.Secure3DUIHelperModule;
+import com.fintechplatform.ui.models.DataAccount;
+import com.fintechplatform.ui.secure3d.ui.Secure3DUI;
 
 /**
  * Created by ingrid on 28/02/18.
@@ -24,17 +24,17 @@ public class QrConfirmUI {
     private String hostName;
     private boolean sandbox;
     private DataAccount configuration;
-    private PayInUI payInUI;
+    private CashInUI cashInUI;
     private Secure3DUI secure3DUI;
     private PaymentCardUI paymentCardUI;
 
 
     protected static QrConfirmUI instance;
 
-    public QrConfirmUI(String hostName, DataAccount configuration, PayInUI payInUI, Secure3DUI secure3DUI, PaymentCardUI paymentCardUI, boolean sandbox) {
+    public QrConfirmUI(String hostName, DataAccount configuration, CashInUI cashInUI, Secure3DUI secure3DUI, PaymentCardUI paymentCardUI, boolean sandbox) {
         this.hostName = hostName;
         this.configuration = configuration;
-        this.payInUI = payInUI;
+        this.cashInUI = cashInUI;
         this.secure3DUI = secure3DUI;
         this.paymentCardUI = paymentCardUI;
         this.sandbox = sandbox;
@@ -43,7 +43,7 @@ public class QrConfirmUI {
     protected QrConfirmComponent buildQrPaymentConfirmtComponent(Context context, QrConfirmContract.View v)  {
         return DaggerQrConfirmComponent.builder()
                 .qrConfirmPresenterModule(new QrConfirmPresenterModule(v, configuration))
-                .payInUIModule(new PayInUIModule(instance.hostName, configuration, sandbox))
+                .cashInUIModule(new CashInUIModule(instance.hostName, configuration, sandbox))
                 .netModule(new NetModule(Volley.newRequestQueue(context), instance.hostName))
                 .transferAPIModule(new TransferAPIModule(hostName))
                 .balanceAPIModule(new BalanceAPIModule(instance.hostName))

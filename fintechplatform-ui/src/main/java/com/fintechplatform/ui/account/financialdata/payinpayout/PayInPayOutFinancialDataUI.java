@@ -8,9 +8,9 @@ import com.fintechplatform.api.card.api.PaymentCardAPIModule;
 import com.fintechplatform.api.iban.api.IbanAPIModule;
 import com.fintechplatform.api.net.NetModule;
 import com.fintechplatform.ui.card.ui.PaymentCardUI;
+import com.fintechplatform.ui.cashin.ui.PaymentCardUIModule;
 import com.fintechplatform.ui.iban.ui.IbanUI;
 import com.fintechplatform.ui.models.DataAccount;
-import com.fintechplatform.ui.payin.ui.PaymentCardUIModule;
 import com.fintechplatform.ui.payout.ui.IbanUIModule;
 
 public class PayInPayOutFinancialDataUI {

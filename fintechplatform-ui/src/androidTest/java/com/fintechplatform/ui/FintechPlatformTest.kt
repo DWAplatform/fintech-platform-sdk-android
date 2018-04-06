@@ -37,11 +37,11 @@ class FintechPlatformTest {
         val account = FintechPlatform.buildAccount(user)
         val balance = FintechPlatform.buildBalance(account)
         val paymentCard = FintechPlatform.buildPaymentCard(account)
-        val payIn = FintechPlatform.buildPayIn(account, balance, paymentCard)
+        val cashIn = FintechPlatform.buildCashIn(account, balance, paymentCard)
 
 
 
-        val ui = payIn.buildPayInUI(payIn.buildAPI("eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJleHAiOjE1MTI3NDU0MDAsImlhdCI6MTUxMjY1OTAwMCwiY2xpZW50SWQiOiJkYmI3YzEwYS03MzY3LTExZTctODgxMy1iZmUyY2ExMGJiOWEifQ.A1z1-uMuMdq_CrbNjT7xhzrUdJQ1cIIjoLFUqTIi63JUFi0fmkE0CxW-iVemo2VR8qyJjXW6CljJ-8p3cy0V5A",
+        val ui = cashIn.buildPayInUI(cashIn.buildAPI("eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJleHAiOjE1MTI3NDU0MDAsImlhdCI6MTUxMjY1OTAwMCwiY2xpZW50SWQiOiJkYmI3YzEwYS03MzY3LTExZTctODgxMy1iZmUyY2ExMGJiOWEifQ.A1z1-uMuMdq_CrbNjT7xhzrUdJQ1cIIjoLFUqTIi63JUFi0fmkE0CxW-iVemo2VR8qyJjXW6CljJ-8p3cy0V5A",
                 "https://api.sandbox.dwaplatform.com", context), MoneyHelper(), FeeHelper(), PayInPresenterFactory())
 
 
@@ -64,8 +64,8 @@ class FintechPlatformTest {
         val accountId = "722c4d74-ba56-11e7-8487-a7b42609a5c1"
         val paymentCardId = "7e30a4d8-918b-11e7-931d-8b5fb14500e0"
 
-        val payIn = FintechPlatform.buildPayIn()
-        val payInComponent = payIn.createPayInUIComponent(
+        val payIn = FintechPlatform.buildCashIn()
+        val payInComponent = payIn.createCashInUIComponent(
                 hostName,
                 true,
                 DataAccount(userId, accountId, paymentCardId))
