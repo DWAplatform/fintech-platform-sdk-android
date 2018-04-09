@@ -1,3 +1,4 @@
+[ ![Download](https://api.bintray.com/packages/nabertech/fintech-android-sdk/fintechplatform/images/download.svg) ](https://bintray.com/nabertech/fintech-android-sdk/fintechplatform/_latestVersion)
 Fintech Platform Android SDK
 =================================================
 Fintech platform is an Android client libraryto work with Fintech Platform.
@@ -10,8 +11,9 @@ Installation
 No need to clone the repository or download any files -- just add this line to your app's `build.gradle` inside the `dependencies` section:
 
     implementation 'com.fintechplatform:fintechplatform-api:1.0.0'
-    
+    implementation 'com.fintechplatform:fintechplatform-ui:1.0.0'
 
+Make sure you have jcenter() repository added in your build.gradle file at the Project level
 
 License
 -------------------------------------------------
@@ -42,18 +44,23 @@ We supply the following modules:
 ###### fintechplatform-ui
 1. cash in 
 2. cash out
-3. balance
-4. payment card registration
-5. bank account, IBAN address registration
+4. adding new payment card
+5. adding bank account, with IBAN address and User Residential data (because needed) at the same Activity
 6. transactions list
 7. 3Dsecure
-8. (profile) personal informations
-9. (enterprise profile) company informations
+8. Personal informations, detailed for each kind of data: 
+* general informations
+* contacts: email and telephone number
+* residential address
+* job information
+* IDs documents
+9. Company informations
 
 
 Sample usage CashIn API Component in Kotlin
 -------------------------------------------------
-######Fintech Account (accountId) is credited with 20,00 € using a card (cardId) owned by the user (userId)
+
+Fintech Account (accountId) is credited with 20,00 € using a card (cardId) owned by the user (userId)
 
 
 ```kotlin
@@ -61,32 +68,32 @@ Sample usage CashIn API Component in Kotlin
     import com.fintechplatform.android.models.DataAccount
     import com.fintechplatform.android.money.Money
     
-    // ....
+// ....
     
-    // Initialize Fintech Platform (e.g. add in your Application class)
+//  Initialize Fintech Platform (e.g. add in your Application class)
     FintechPlatform.initialize(context)
    
-    // Server host parameters
+//  Server host parameters
     val hostName = "FINTECH_PLATFORM_[SANDBOX]_URL"
     val accessToken = "XXXXXXYYYYYY.....ZZZZZZ"
     
-    // Set User Account Linked Card parameters
+//  Set User Account Linked Card parameters
     val userId = "08ad02e8-89fb-44b8-ab65-87eea175adc2"
     val accountId = "f0c84dbc-5d1d-4973-b212-1ac2cd34e5c3"
     val cardId = "2bde23fc-df93-4ff2-acce-51f42be62062"
     
-    // Amount to cashIn
+//  Amount to cashIn
     val amountToCashIn = Money(2000, "EUR") // amount in euro cent
     
-    // Optional Idempotency
+//  Optional Idempotency
     val idempotencyKey = "idemp1"
     
-    // create payIn API interface
+//  create payIn API interface
     val cashInAPI = FintechPlatform.buildPayIn()
             .createCashInAPIComponent(hostName, context)
             .cashInAPI
      
-    // Start Payin
+//  Start Payin
     cashInAPI.cashIn(accessToken, 
                     userId,
                     accountId,
