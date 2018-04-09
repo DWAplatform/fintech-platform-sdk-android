@@ -1,6 +1,6 @@
 Fintech Platform Android SDK
 =================================================
-Fintech platform is an Android client library.
+Fintech platform is an Android client libraryto work with Fintech Platform.
 
 Installation
 -------------------------------------------------
@@ -9,7 +9,7 @@ Installation
 
 No need to clone the repository or download any files -- just add this line to your app's `build.gradle` inside the `dependencies` section:
 
-    implementation 'com.fintechplatform:fintechplatform:1.1.0'
+    implementation 'com.fintechplatform:fintechplatform-api:1.0.0'
     
 
 
@@ -21,64 +21,39 @@ Fintech Platform SDK is distributed under MIT license, see LICENSE file.
 Contacts
 -------------------------------------------------
 Report bugs or suggest features using
-[issue tracker at GitHub](https://github.com/nabertech/fintech-android-sdk/issues).
+[issue tracker at GitHub](https://github.com/DWAplatform/fintech-platform-sdk-android/issues).
 
 Features
 -------------------------------------------------
 We supply the following modules:
 
-1. pay in 
-2. pay out
+###### fintechplatform-api
+
+1. cash in 
+2. cash out
 3. balance
 4. payment card registration
 5. bank account, IBAN address registration
 6. transactions list
 7. 3Dsecure
-8. (profile) personal informations````
+8. (profile) personal informations
 9. (enterprise profile) company informations
 
-Each module provides a builder of a UI or API component.
+###### fintechplatform-ui
+1. cash in 
+2. cash out
+3. balance
+4. payment card registration
+5. bank account, IBAN address registration
+6. transactions list
+7. 3Dsecure
+8. (profile) personal informations
+9. (enterprise profile) company informations
 
-Sample usage PayIn UI Component in Kotlin
+
+Sample usage CashIn API Component in Kotlin
 -------------------------------------------------
-```kotlin
-    import com.fintechplatform.android.FintechPlatform
-    import com.fintechplatform.android.models.DataAccount
-    
-    // Initialize Fintech Platform in your MainActivity or in your Application onCreate, and give it Context params
-    val context = this as Context
-    
-    FintechPlatform.initialize(context)
-    
-    // Components needs to have your own configuration as params (hostname, userid, accountid and token access to the platform)
-    // accessToken is the key that you received from server after PIN authentication process.
-     
-    val hostName = "FINTECH_PLATFORM_SANDBOX_URL"
-    val userId = "asd34vfs-poc05098ncoij-aspdl"
-    val accountId = "oijfvsoeij42309uvoije-oijbsf"
-    val accessToken = "jmcjaspjdas023ucv9-2108-vjodawdBOIyhdfa0shPASo384-dcpaos-2edas"
-    
-    val isSandbox = true
-      
-    val dataAccount = DataAccount(userId, accountId, accessToken)
-    
-    val cashInUI = FintechPlatform.buildPayIn()
-                    .createPayInUIComponent(hostName, isSandbox, dataAccount)
-                    .cashInUI
-                    
-    cashInUI.start(context)
-    
-```
-
-
-Sample usage PayIn API Component in Kotlin
--------------------------------------------------
-
-    // If you don't need any UI components and you want to use your own graphics we also provide API components instances, in this example you can see pay in use case: 
-    NO: // Note: you need to supply your payment card ID, an idempotency UUID and how many cash you want to pay in, in this example 20,00 €
-
-In  questo esempioi facciamo una ricarica di 20 euro attracerso la carta con id cardid sul conto accountd
-dellutente userid
+######Fintech Account (accountId) is credited with 20,00 € using a card (cardId) owned by the user (userId)
 
 
 ```kotlin
@@ -107,12 +82,12 @@ dellutente userid
     val idempotencyKey = "idemp1"
     
     // create payIn API interface
-    val payInAPI = FintechPlatform.buildPayIn()
-            .createPayInAPIComponent(hostName, context)
-            .payInAPI
+    val cashInAPI = FintechPlatform.buildPayIn()
+            .createCashInAPIComponent(hostName, context)
+            .cashInAPI
      
     // Start Payin
-    payInAPI.payIn(accessToken, 
+    cashInAPI.cashIn(accessToken, 
                     userId,
                     accountId,
                     cardId,
@@ -137,8 +112,33 @@ dellutente userid
                          }
                     }
 ```
-
-Example app
+Sample usage CashIn UI Component in Kotlin
 -------------------------------------------------
-
-You can run the [Sample Fintech SDK application](https://github.com/nabertech/sample-fintech-android-sdk) to test some of the features.
+```kotlin
+    import com.fintechplatform.android.FintechPlatform
+    import com.fintechplatform.android.models.DataAccount
+    
+    // Initialize Fintech Platform in your MainActivity or in your Application onCreate, and give it Context params
+    val context = this as Context
+    
+    FintechPlatform.initialize(context)
+    
+    // Components needs to have your own configuration as params (hostname, userid, accountid and token access to the platform)
+    // accessToken is the key that you received from server after PIN authentication process.
+     
+    val hostName = "FINTECH_PLATFORM_SANDBOX_URL"
+    val userId = "asd34vfs-poc05098ncoij-aspdl"
+    val accountId = "oijfvsoeij42309uvoije-oijbsf"
+    val accessToken = "jmcjaspjdas023ucv9-2108-vjodawdBOIyhdfa0shPASo384-dcpaos-2edas"
+    
+    val isSandbox = true
+      
+    val dataAccount = DataAccount(userId, accountId, accessToken)
+    
+    val cashInUI = FintechPlatform.buildCashIn()
+                    .createCashInUIComponent(hostName, isSandbox, dataAccount)
+                    .cashInUI
+                    
+    cashInUI.start(context)
+    
+```
