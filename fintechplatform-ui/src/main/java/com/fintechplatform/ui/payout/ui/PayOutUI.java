@@ -7,7 +7,7 @@ import com.android.volley.toolbox.Volley;
 import com.fintechplatform.api.account.balance.api.BalanceAPIModule;
 import com.fintechplatform.api.iban.api.IbanAPIModule;
 import com.fintechplatform.api.net.NetModule;
-import com.fintechplatform.api.payout.api.PayOutAPIModule;
+import com.fintechplatform.api.cashout.api.CashOutAPIModule;
 import com.fintechplatform.ui.iban.ui.IbanUI;
 import com.fintechplatform.ui.models.DataAccount;
 
@@ -31,7 +31,7 @@ public class PayOutUI {
     protected PayOutViewComponent buildPayOutViewComponent(Context context, PayOutContract.View view) {
         return DaggerPayOutViewComponent.builder()
                 .payOutPresenterModule(new PayOutPresenterModule(view, instance.configuration))
-                .payOutAPIModule(new PayOutAPIModule(instance.hostname))
+                .cashOutAPIModule(new CashOutAPIModule(instance.hostname))
                 .netModule(new NetModule(Volley.newRequestQueue(context), hostname))
                 .balanceAPIModule(new BalanceAPIModule(instance.hostname))
                 .ibanAPIModule(new IbanAPIModule(instance.hostname))

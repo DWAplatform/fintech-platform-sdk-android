@@ -19,17 +19,17 @@ open class PaymentCardAPI @Inject constructor(
         internal val paymentCardHelper: PaymentCardHelper) {
 
     /**
-     * Represent the error send as reply from FintechPlatformAPI API.
+     * Represent the error send as reply from Fintech Platform API.
      *
-     * @property json error as json array, can be null in case of json parsing error
-     * @property throwable error returned from the underlying HTTP library
+     * [json] error as json array, can be null in case of json parsing error
+     * [throwable] error returned from the underlying HTTP library
      */
     data class APIReplyError(val json: JSONArray?, val throwable: Throwable) : Exception(throwable)
 
     /**
      * Represent the error during FintechPlatformAPI API response parse.
      *
-     * @property throwable error returned from parser
+     * [throwable] error returned from parser
      */
     data class ParseReplyParamsException(val throwable: Throwable) : Exception(throwable)
 
@@ -38,14 +38,16 @@ open class PaymentCardAPI @Inject constructor(
     /**
      *  Register a PaymentCard. Use this method to register a user card and PLEASE DO NOT save card information on your own client or server side.
      *
-     *  @property token token returned from FintechPlatformAPI to the create card request.
-     *  @property cardNumber 16 digits user card number, without spaces or dashes
-     *  @property expiration card expiration date in MMYY format
-     *  @property cxv  3 digit cxv card number
-     *  @property completionHandler callback called after the server communication is done and containing a PaymentCard object or an Exception in case of error.
+     *  This request also links given card to the Fintech Platform Account, identified from [tenantId] [ownerId] [accountType] and [accountId] params.
+     *  [token] Fintech Platform API token got from "Create User token" request.
+     *  [cardNumber] 16 digits user card number, without spaces or dashes
+     *  [expiration] card expiration date in MMYY format
+     *  [cvxValue] 3 digit cxv card number
+     *  [currency] card default currency
+     *  [completionHandler] callback called after the server communication is done and containing a PaymentCard item object or an Exception in case of error.
      */
     open fun registerCard(token: String,
-                          userId: String,
+                          ownerId: String,
                           accountId: String,
                           accountType: String,
                           tenantId: String,
@@ -60,13 +62,13 @@ open class PaymentCardAPI @Inject constructor(
 
         paymentCardHelper.checkCardFormat(cardNumber, expiration, cvxValue)
 
-        restAPI.createCreditCardRegistration(userId, accountId, accountType, tenantId, token, paymentCardHelper.generateAlias(cardNumber), expiration, currency){ optCardReg, optError ->
+        restAPI.createCreditCardRegistration(ownerId, accountId, accountType, tenantId, token, paymentCardHelper.generateAlias(cardNumber), expiration, currency){ optCardReg, optError ->
             optError?.let { error -> completionHandler(null, error); return@createCreditCardRegistration }
             optCardReg?.let { cr->
-                restAPI.getCardSafe(PaymentCardRestAPI.CardToRegister(cardNumber, expiration, cvxValue), userId, accountId, accountType, tenantId, token) { optCardSafe, optErrorCS ->
+                restAPI.getCardSafe(PaymentCardRestAPI.CardToRegister(cardNumber, expiration, cvxValue), ownerId, accountId, accountType, tenantId, token) { optCardSafe, optErrorCS ->
                     optErrorCS?.let { completionHandler(null, it); return@getCardSafe}
                     optCardSafe?.let { cardToRegister ->
-                        restAPI.postCardRegistrationData(userId, accountId, accountType, tenantId, token, cardToRegister.cardNumber, cardToRegister.expiration, cardToRegister.cvx, cr) { paymentCardItem, exception ->
+                        restAPI.postCardRegistrationData(ownerId, accountId, accountType, tenantId, token, cardToRegister.cardNumber, cardToRegister.expiration, cardToRegister.cvx, cr) { paymentCardItem, exception ->
                             exception?.let { completionHandler(null, it); return@postCardRegistrationData }
                             paymentCardItem?.let { completionHandler(it, null) }
                         }
@@ -76,13 +78,18 @@ open class PaymentCardAPI @Inject constructor(
         }
     }
 
+    /**
+     * Get Payment Cards linked to Fintech Platform Account, identified from [tenantId] [ownerId] [accountType] and [accountId] params.
+     *  [token] Fintech Platform API token got from "Create User token" request.
+     *  [completion] callback returns the list of cards or an Exception if occurent some errors
+     */
     fun getPaymentCards(token:String,
-                        userId: String,
+                        ownerId: String,
                         accountId: String,
                         accountType: String,
                         tenantId: String,
                         completion: (List<PaymentCardItem>?, Exception?) -> Unit): IRequest<*>? {
 
-        return restAPI.getPaymentCards(token, userId, accountId, accountType, tenantId, completion)
+        return restAPI.getPaymentCards(token, ownerId, accountId, accountType, tenantId, completion)
     }
 }

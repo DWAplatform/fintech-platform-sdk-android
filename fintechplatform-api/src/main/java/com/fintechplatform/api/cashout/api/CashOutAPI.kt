@@ -1,4 +1,4 @@
-package com.fintechplatform.api.payout.api
+package com.fintechplatform.api.cashout.api
 
 import com.android.volley.Request
 import com.fintechplatform.api.log.Log
@@ -8,25 +8,33 @@ import com.fintechplatform.api.net.IRequestQueue
 import com.fintechplatform.api.net.NetHelper
 import org.json.JSONObject
 import javax.inject.Inject
+/**
+ * CashOut API class performs a cashOut request to Fintech Platform.
+ */
+class CashOutAPI @Inject constructor(internal val hostName: String,
+                                     internal val queue: IRequestQueue,
+                                     internal val requestProvider: IRequestProvider,
+                                     internal val log: Log,
+                                     val netHelper: NetHelper) {
 
-class PayOutAPI @Inject constructor(internal val hostName: String,
-                                    internal val queue: IRequestQueue,
-                                    internal val requestProvider: IRequestProvider,
-                                    internal val log: Log,
-                                    val netHelper: NetHelper) {
+    private val TAG = "CashOutAPI"
 
-    private val TAG = "PayOutAPI"
-
-    fun payOut(token: String,
-               userId: String,
-               accountId: String,
-               accountType: String,
-               tenantId: String,
-               linkedBankId: String,
-               amount: Long,
-               idempotency: String,
-               completion: (Exception?) -> Unit): IRequest<*>? {
-        val url = netHelper.getURL("/rest/v1/fintech/tenants/$tenantId/${netHelper.getPathFromAccountType(accountType)}/$userId/accounts/$accountId/linkedBanks/$linkedBankId/cashOuts")
+    /**
+     * CashOut transfers money from Fintech Account, identified from [tenantId] [ownerId] [accountType] and [accountId] params, to linked bank account [linkedBankId]
+     * You have to set the [amount] to transfer.
+     * Use [token] got from "Create User token" request.
+     * Use [idempotency] parameter to avoid multiple inserts.
+     */
+    fun cashOut(token: String,
+                ownerId: String,
+                accountId: String,
+                accountType: String,
+                tenantId: String,
+                linkedBankId: String,
+                amount: Long,
+                idempotency: String,
+                completion: (Exception?) -> Unit): IRequest<*>? {
+        val url = netHelper.getURL("/rest/v1/fintech/tenants/$tenantId/${netHelper.getPathFromAccountType(accountType)}/$ownerId/accounts/$accountId/linkedBanks/$linkedBankId/cashOuts")
 
         var request: IRequest<*>?
         try {
@@ -58,7 +66,7 @@ class PayOutAPI @Inject constructor(internal val hostName: String,
             queue.add(r)
             request = r
         } catch (e: Exception) {
-            log.error(TAG, "payOut", e)
+            log.error(TAG, "cashOut", e)
             request = null
         }
 

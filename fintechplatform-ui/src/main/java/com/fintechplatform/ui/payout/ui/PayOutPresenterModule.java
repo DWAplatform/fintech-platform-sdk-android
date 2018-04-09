@@ -7,7 +7,7 @@ import com.fintechplatform.ui.iban.db.IbanPersistanceDB;
 import com.fintechplatform.ui.models.DataAccount;
 import com.fintechplatform.ui.money.FeeHelper;
 import com.fintechplatform.ui.money.MoneyHelper;
-import com.fintechplatform.api.payout.api.PayOutAPI;
+import com.fintechplatform.api.cashout.api.CashOutAPI;
 
 import javax.inject.Singleton;
 
@@ -26,7 +26,7 @@ public class PayOutPresenterModule {
 
     @Provides
     @Singleton
-    PayOutContract.Presenter providePayOutPresenter(PayOutAPI api,
+    PayOutContract.Presenter providePayOutPresenter(CashOutAPI api,
                                                     IbanAPI ibanAPI,
                                                     MoneyHelper moneyHelper,
                                                     BalanceHelper balanceHelper,

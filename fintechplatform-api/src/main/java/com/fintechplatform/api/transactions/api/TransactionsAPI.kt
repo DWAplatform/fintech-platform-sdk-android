@@ -12,6 +12,9 @@ import org.json.JSONException
 import java.util.*
 import javax.inject.Inject
 
+/**
+ * TransactionsAPI class performs request to Fintech Platform to get detailed transactions information.
+ */
 class TransactionsAPI @Inject constructor(
         internal val hostName: String,
         internal val queue: IRequestQueue,
@@ -21,6 +24,11 @@ class TransactionsAPI @Inject constructor(
 
     private val TAG = "TransactionsAPI"
 
+    /**
+     * Get transactions (cash in, cash out, purchases) of the Fintech Account selected from [tenantId], [accountId], [accountType] and [ownerId].
+     * The array in [completion] will have a maximum length based on the [limit] parameter (default 5, max 100).
+     *  [token] Fintech Platform API token got from "Create User token" request.
+     */
     fun transactions(token: String,
                      ownerId: String,
                      accountId: String,

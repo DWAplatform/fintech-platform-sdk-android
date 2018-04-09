@@ -13,7 +13,9 @@ import org.json.JSONObject
 import java.util.*
 import javax.inject.Inject
 
-
+/**
+ * ProfileAPI class performs request to get and updates user profile informations
+ */
 class ProfileAPI @Inject constructor(
         internal val hostName: String,
         internal val queue: IRequestQueue,
@@ -22,7 +24,10 @@ class ProfileAPI @Inject constructor(
         val netHelper: NetHelper) {
 
     private val TAG = "ProfileAPI"
-
+    /**
+     * Get informations about User [userid] from Fintech Platform identified from [tenantId].
+     * use [token] got from "Create User token" request.
+     */
     fun searchUser(token: String, userid: String, tenantId: String?, completion: (UserProfile?, Exception?) -> Unit): IRequest<*>? {
 
         val url = netHelper.getURL("/rest/v1/fintech/tenants/$tenantId/users/$userid")
@@ -140,6 +145,11 @@ class ProfileAPI @Inject constructor(
         return request
     }
 
+    /**
+     * Get User [userId] documents form Fintech Platform [tenantId]
+     * use [token] got from "Create User token" request.
+     * [completion] returns list of documents uploaded to Fintech Platform
+     */
     fun getDocuments(token: String, userId: String, tenantId: String, completion: (List<UserDocuments?>?, Exception?) -> Unit): IRequest<*>? {
         val url = netHelper.getURL("/rest/v1/fintech/tenants/$tenantId/users/$userId/documents/")
 
@@ -188,6 +198,14 @@ class ProfileAPI @Inject constructor(
         return request
     }
 
+    /**
+     * Send User [userId] IDs document to Fintech Platform, identified from [tenantId].
+     * use [token] got from "Create User token" request.
+     * [doctype] type of document uploaded [IDENTITY_CARD, PASSPORT, DRIVING_LICENCE ]
+     * [documents] Array of Base 64 encoded image uploaded.
+     * Use [idempotency] parameter to avoid multiple inserts.
+     * [completion] return document UUID identifier.
+     */
     fun documents(token: String,
                   userId: String,
                   tenantId: String,
@@ -238,6 +256,9 @@ class ProfileAPI @Inject constructor(
         return request
     }
 
+    /**
+     * Update User informations, identified from [lightData] object (name, surname, birthday, nationality)
+     */
     fun lightdata(token: String,
                   lightData: UserLightData,
                   completion: (UserProfileReply?, Exception?) -> Unit) {
@@ -253,6 +274,9 @@ class ProfileAPI @Inject constructor(
 
     }
 
+    /**
+     * Update User informations, identified from [contacts] object (email and telephone)
+     */
     fun contacts(token: String,
                  contacts: UserContacts,
                  completion: (UserProfileReply?, Exception?) -> Unit) {
@@ -264,6 +288,9 @@ class ProfileAPI @Inject constructor(
                 completion = completion)
     }
 
+    /**
+     * Update User [residential] informations (address, zipcode, city and country)
+     */
     fun residential(token: String,
                     residential: UserResidential,
                     completion: (UserProfileReply?, Exception?) -> Unit) {
@@ -278,6 +305,9 @@ class ProfileAPI @Inject constructor(
                 completion = completion)
     }
 
+    /**
+     * Update User [jobInfo] informations (jobInfo and income)
+     */
     fun jobInfo(token: String,
                 jobInfo: UserJobInfo,
                 completion: (UserProfileReply?, Exception?) -> Unit) {

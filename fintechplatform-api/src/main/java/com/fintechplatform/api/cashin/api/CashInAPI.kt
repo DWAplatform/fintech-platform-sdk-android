@@ -24,7 +24,7 @@ open class CashInAPI @Inject constructor(
     private val TAG = "CashInAPI"
 
     /**
-     * cashIn transfer money from Linked Card [cardId] to the Fintech Account, identified from [tenantId] [ownerId] [accountType] and [accountId] params.
+     * cashIn transfers money from Linked Card [cardId] to the Fintech Account, identified from [tenantId] [ownerId] [accountType] and [accountId] params.
      * You have to set the amount and currency to transfer, both to set into [amount] param.
      * Use [token] got from "Create User token" request.
      * Use [idempotency] parameter to avoid multiple inserts.

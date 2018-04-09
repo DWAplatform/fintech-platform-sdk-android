@@ -5,7 +5,7 @@ import com.fintechplatform.api.account.balance.api.BalanceAPIModule;
 import com.fintechplatform.api.iban.api.IbanAPIModule;
 import com.fintechplatform.api.log.LogModule;
 import com.fintechplatform.api.net.NetModule;
-import com.fintechplatform.api.payout.api.PayOutAPIModule;
+import com.fintechplatform.api.cashout.api.CashOutAPIModule;
 import com.fintechplatform.ui.account.balance.helpers.BalanceHelperModule;
 import com.fintechplatform.ui.alert.AlertHelpersModule;
 import com.fintechplatform.ui.iban.db.IbanPersistanceDBModule;
@@ -27,7 +27,7 @@ import dagger.Component;
         BalanceAPIModule.class,
         IbanAPIModule.class,
         FeeHelperModule.class,
-        PayOutAPIModule.class,
+        CashOutAPIModule.class,
         IbanPersistanceDBModule.class,
         IbanUIModule.class
 })

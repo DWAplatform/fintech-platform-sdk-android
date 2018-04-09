@@ -1,4 +1,4 @@
-package com.fintechplatform.api.payout.api;
+package com.fintechplatform.api.cashout.api;
 
 import com.fintechplatform.api.log.Log;
 import com.fintechplatform.api.net.IRequestProvider;
@@ -11,17 +11,17 @@ import dagger.Module;
 import dagger.Provides;
 
 @Module
-public class PayOutAPIModule {
+public class CashOutAPIModule {
 
     private String hostName;
 
-    public PayOutAPIModule(String hostName) {
+    public CashOutAPIModule(String hostName) {
         this.hostName = hostName;
     }
 
     @Provides
     @Singleton
-    PayOutAPI providePayInAPI(IRequestQueue queue, IRequestProvider requestProvider, Log log, NetHelper netHelper) {
-        return new PayOutAPI(hostName, queue, requestProvider, log, netHelper);
+    CashOutAPI providePayInAPI(IRequestQueue queue, IRequestProvider requestProvider, Log log, NetHelper netHelper) {
+        return new CashOutAPI(hostName, queue, requestProvider, log, netHelper);
     }
 }

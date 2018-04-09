@@ -34,18 +34,18 @@ class PaymentCardRestAPI constructor(internal val hostName: String,
     /**
      * Represent the error send as reply from FintechPlatformAPI API.
      *
-     * @property json error as json array, can be null in case of json parsing error
-     * @property throwable error returned from the underlying HTTP library
+     * [json] error as json array, can be null in case of json parsing error
+     * [throwable] error returned from the underlying HTTP library
      */
     data class APIReplyError(val json: JSONArray?, val throwable: Throwable) : java.lang.Exception(throwable)
 
     /**
      * Create a new registration card request, to obtain data useful to send to the card tokenizer service
      *
-     * @param token dwaplatform token as get from create card post request
-     * @param alias card number alias
-     * @param expiration card expiration
-     * @param completionHandler callback containing card registration object
+     * [token] dwaplatform token as get from create card post request
+     * [alias] card number alias
+     * [expiration] card expiration
+     * [callback] callback containing card registration object
      */
     fun createCreditCardRegistration(userId: String,
                                      accountId: String,
@@ -124,9 +124,9 @@ class PaymentCardRestAPI constructor(internal val hostName: String,
     /**
      * Send card registration to card tokenizer service
      *
-     * @param card actual card data to tokenize
-     * @param cardRegistration card registration data to authorize the tokenization
-     * @param completionHandler callback containing registration key
+     * actual card data to tokenize, identified from [cardnumber], [expiration] and [cvx].
+     * [cardRegistration] card registration data to authorize the tokenization
+     * [completion] callback containing registration key
      */
     fun postCardRegistrationData(userId: String,
                                 accountId: String,
@@ -134,7 +134,8 @@ class PaymentCardRestAPI constructor(internal val hostName: String,
                                 tenantId: String,
                                 token: String,
                                 cardnumber: String,
-                                expiration: String, cvx: String,
+                                expiration: String,
+                                 cvx: String,
                                 cardRegistration: CardRegistration,
                                 completion: (PaymentCardItem?, Exception?) -> Unit)
             : IRequest<*> {
@@ -178,10 +179,10 @@ class PaymentCardRestAPI constructor(internal val hostName: String,
 
     /**
      * Complete card registration process.
-     * @param token dwaplatform token as get from create card post request
-     * @param cardRegistrationId univoke id obtained from card registration process
-     * @param registration registration key obtained from tokenizer service
-     * @param completionHandler callback containing the PaymentCard object
+     * [token] dwaplatform token as get from create card post request
+     * [cardRegistrationId] univoke id obtained from card registration process
+     * [registration] registration key obtained from tokenizer service
+     * [completion] callback containing the PaymentCard object
      */
     fun sendCardResponseString(userId: String,
                                accountId: String,
@@ -260,8 +261,8 @@ class PaymentCardRestAPI constructor(internal val hostName: String,
      * Get Test PaymentCard data to use on sandbox environment.
      * If not in sandbox, will be returned the card data get from cardFrom parameter.
      *
-     * @param cardFrom original card data, to use only in production environment
-     * @param completionHandler callback containing the card data to use for registration.
+     * [cardFrom] original card data, to use only in production environment
+     * [completionHandler] callback containing the card data to use for registration.
      */
     open fun getCardSafe(cardFrom: CardToRegister,
                          userId: String,
@@ -299,6 +300,11 @@ class PaymentCardRestAPI constructor(internal val hostName: String,
         }
     }
 
+    /**
+     * Get Payment Cards linked to Fintech Platform Account, identified from [tenantId] [ownerId] [accountType] and [accountId] params.
+     *  [token] Fintech Platform API token got from "Create User token" request.
+     *  [completion] callback returns the list of cards or an Exception if occurent some errors
+     */
     fun getPaymentCards(token:String,
                         userId: String,
                         accountId: String,

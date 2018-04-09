@@ -9,10 +9,6 @@ import javax.inject.Singleton;
 
 import dagger.Component;
 
-/**
- * Created by tcappellari on 08/12/2017.
- */
-
 @Singleton
 @Component(modules= {
         NetModule.class,

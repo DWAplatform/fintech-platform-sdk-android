@@ -9,7 +9,9 @@ import com.fintechplatform.api.net.IRequestQueue
 import com.fintechplatform.api.net.NetHelper
 import org.json.JSONException
 import javax.inject.Inject
-
+/**
+ * Balance API class performs request to Fintech Platform to get balance information.
+ */
 open class BalanceAPI @Inject constructor(internal val hostName: String,
                                         internal val queue: IRequestQueue,
                                         internal val requestProvider: IRequestProvider,
@@ -18,9 +20,16 @@ open class BalanceAPI @Inject constructor(internal val hostName: String,
 
     private final val TAG = "BalanceAPI"
 
-    open fun balance(token: String, ownerId: String, accountId: String, accountType: String, tenantId: String, completion: (Money?, Exception?) -> Unit): IRequest<*>? {
-
-
+    /**
+     * Balance represent the total amount of money that User [ownerId] has in his own Fintech Account, identified from [tenantId] [accountType] and [accountId] params.
+     * Use [token] got from "Create User token" request.
+     */
+    open fun balance(token: String,
+                     ownerId: String,
+                     accountId: String,
+                     accountType: String,
+                     tenantId: String,
+                     completion: (Money?, Exception?) -> Unit): IRequest<*>? {
 
         val url = netHelper.getURL("/rest/v1/fintech/tenants/$tenantId/${netHelper.getPathFromAccountType(accountType)}/$ownerId/accounts/$accountId/balance")
 

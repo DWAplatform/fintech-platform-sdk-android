@@ -6,11 +6,6 @@ import com.android.volley.toolbox.Volley;
 import com.fintechplatform.api.account.balance.api.BalanceAPIModule;
 import com.fintechplatform.api.net.NetModule;
 
-
-/**
- * Created by tcappellari on 08/12/2017.
- */
-
 public class BalanceAPIBuilder {
 
     public BalanceAPIComponent createBalanceAPIComponent(String hostName, Context context) {

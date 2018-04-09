@@ -10,13 +10,13 @@ import com.fintechplatform.ui.money.FeeHelper
 import com.fintechplatform.api.money.Money
 import com.fintechplatform.ui.money.MoneyHelper
 import com.fintechplatform.api.net.NetHelper
-import com.fintechplatform.api.payout.api.PayOutAPI
+import com.fintechplatform.api.cashout.api.CashOutAPI
 import java.util.*
 import javax.inject.Inject
 
 class PayOutPresenter @Inject constructor(val configuration: DataAccount,
                                           val view: PayOutContract.View,
-                                          val api: PayOutAPI,
+                                          val api: CashOutAPI,
                                           val linkedBankAPI: IbanAPI,
                                           val moneyHelper: MoneyHelper,
                                           val balanceHelper: BalanceHelper,
@@ -58,7 +58,7 @@ class PayOutPresenter @Inject constructor(val configuration: DataAccount,
 
         val money = Money.valueOf(view.getAmount())
 
-        api.payOut(configuration.accessToken,
+        api.cashOut(configuration.accessToken,
                 configuration.ownerId,
                 configuration.accountId,
                 configuration.accountType,
@@ -72,7 +72,7 @@ class PayOutPresenter @Inject constructor(val configuration: DataAccount,
 
             if (opterror != null) {
                 handleErrors(opterror)
-                return@payOut
+                return@cashOut
             }
 
             view.goBack()

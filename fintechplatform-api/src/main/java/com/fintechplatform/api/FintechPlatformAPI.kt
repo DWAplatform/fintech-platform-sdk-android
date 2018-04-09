@@ -11,8 +11,8 @@ import com.fintechplatform.api.enterprise.EnterpriseAPIBuilder
 import com.fintechplatform.api.enterprise.api.EnterpriseAPI
 import com.fintechplatform.api.iban.IBANAPIBuilder
 import com.fintechplatform.api.iban.api.IbanAPI
-import com.fintechplatform.api.payout.PayOutAPIBuilder
-import com.fintechplatform.api.payout.api.PayOutAPI
+import com.fintechplatform.api.cashout.CashOutAPIBuilder
+import com.fintechplatform.api.cashout.api.CashOutAPI
 import com.fintechplatform.api.profile.ProfileAPIBuilder
 import com.fintechplatform.api.profile.api.ProfileAPI
 import com.fintechplatform.api.sct.SctAPIBuilder
@@ -31,8 +31,8 @@ class FintechPlatformAPI {
         }
 
 
-        fun getPayOut(hostName: String, context: Context): PayOutAPI {
-            return PayOutAPIBuilder().createPayOutAPI(context, hostName).payOutAPI
+        fun getCashOut(hostName: String, context: Context): CashOutAPI {
+            return CashOutAPIBuilder().createCashOutAPI(context, hostName).cashOutAPI
         }
 
         fun getPaymentCard(hostName: String, context: Context, isSandbox: Boolean): PaymentCardAPI {

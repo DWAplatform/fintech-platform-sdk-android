@@ -36,17 +36,15 @@ We supply the following modules:
 4. Payment card registration
 5. IBAN address registration
 6. Transactions list
-7. 3Dsecure
-8. (profile) Personal informations
-9. (enterprise profile) Company informations
+7. (profile) Personal informations
+8. (enterprise profile) Company informations
 
 ###### fintechplatform-ui
-1. Cash in 
+1. Cash in / 3DSecure
 2. Cash out
 4. Linking payment card to Fintech Platform Account
 5. Linking bank account, with IBAN address and User Residential data (because needed) to Fintech Platform Account
 6. Transactions list
-7. 3Dsecure
 8. Personal informations: 
     * general informations
     * contacts: email and telephone number
