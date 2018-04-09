@@ -10,9 +10,8 @@ Installation
 
 No need to clone the repository or download any files -- just add this line to your app's `build.gradle` inside the `dependencies` section:
 
-    implementation 'com.fintechplatform:fintechplatform-api:1.0.0'
-    implementation 'com.fintechplatform:fintechplatform-ui:1.0.0'
-
+    implementation 'com.fintechplatform:fintechplatform-api:1.2.0'
+    implementation 'com.fintechplatform:fintechplatform-ui:1.2.0'
 Make sure you have jcenter() repository added in your build.gradle file at the Project level
 
 License
@@ -31,30 +30,34 @@ We supply the following modules:
 
 ###### fintechplatform-api
 
-1. cash in 
-2. cash out
-3. balance
-4. payment card registration
-5. bank account, IBAN address registration
-6. transactions list
+1. Cash in 
+2. Cash out
+3. Balance
+4. Payment card registration
+5. IBAN address registration
+6. Transactions list
 7. 3Dsecure
-8. (profile) personal informations
-9. (enterprise profile) company informations
+8. (profile) Personal informations
+9. (enterprise profile) Company informations
 
 ###### fintechplatform-ui
-1. cash in 
-2. cash out
-4. adding new payment card
-5. adding bank account, with IBAN address and User Residential data (because needed) at the same Activity
-6. transactions list
+1. Cash in 
+2. Cash out
+4. Linking payment card to Fintech Platform Account
+5. Linking bank account, with IBAN address and User Residential data (because needed) to Fintech Platform Account
+6. Transactions list
 7. 3Dsecure
-8. Personal informations, detailed for each kind of data: 
-* general informations
-* contacts: email and telephone number
-* residential address
-* job information
-* IDs documents
+8. Personal informations: 
+    * general informations
+    * contacts: email and telephone number
+    * residential address
+    * job information
+    * IDs documents
 9. Company informations
+    * general informations
+    * contacts
+    * quarter general address
+    * documents
 
 
 Sample usage CashIn API Component in Kotlin
