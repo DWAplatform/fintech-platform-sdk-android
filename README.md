@@ -1,4 +1,5 @@
-[ ![Download](https://api.bintray.com/packages/nabertech/fintech-android-sdk/fintechplatform/images/download.svg) ](https://bintray.com/nabertech/fintech-android-sdk/fintechplatform/_latestVersion)
+[ ![Download](https://api.bintray.com/packages/dwafintech/fintechplatform/sdk-android/images/download.svg) ](https://bintray.com/dwafintech/fintechplatform/sdk-android/_latestVersion)
+
 Fintech Platform Android SDK
 =================================================
 Fintech platform is an Android client libraryto work with Fintech Platform.
@@ -10,8 +11,8 @@ Installation
 
 No need to clone the repository or download any files -- just add this line to your app's `build.gradle` inside the `dependencies` section:
 
-    implementation 'com.fintechplatform:fintechplatform-api:1.2.0'
-    implementation 'com.fintechplatform:fintechplatform-ui:1.2.0'
+    implementation 'com.fintech.platform:fintechplatform-api:1.2.0'
+    implementation 'com.fintech.platform:fintechplatform-ui:1.2.0'
 Make sure you have jcenter() repository added in your build.gradle file at the Project level
 
 License
@@ -89,12 +90,12 @@ Fintech Account (accountId) is credited with 20,00 € using a card (cardId) own
 //  Optional Idempotency
     val idempotencyKey = "idemp1"
     
-//  create payIn API interface
+//  create cash in API interface
     val cashInAPI = FintechPlatform.buildPayIn()
             .createCashInAPIComponent(hostName, context)
             .cashInAPI
      
-//  Start Payin
+//  Start Cash in
     cashInAPI.cashIn(accessToken, 
                     userId,
                     accountId,
