@@ -70,32 +70,32 @@ Fintech Account (accountId) is credited with 20,00 € using a card (cardId) own
     import com.fintechplatform.android.models.DataAccount
     import com.fintechplatform.android.money.Money
     
-// ....
+    // ....
     
-//  Initialize Fintech Platform (e.g. add in your Application class)
+    // Initialize Fintech Platform (e.g. add in your Application class)
     FintechPlatform.initialize(context)
    
-//  Server host parameters
+    // Server host parameters
     val hostName = "FINTECH_PLATFORM_[SANDBOX]_URL"
     val accessToken = "XXXXXXYYYYYY.....ZZZZZZ"
     
-//  Set User Account Linked Card parameters
+    // Set User Account Linked Card parameters
     val userId = "08ad02e8-89fb-44b8-ab65-87eea175adc2"
     val accountId = "f0c84dbc-5d1d-4973-b212-1ac2cd34e5c3"
     val cardId = "2bde23fc-df93-4ff2-acce-51f42be62062"
     
-//  Amount to cashIn
+    // Amount to cashIn
     val amountToCashIn = Money(2000, "EUR") // amount in euro cent
     
-//  Optional Idempotency
+    // Optional Idempotency
     val idempotencyKey = "idemp1"
     
-//  create cash in API interface
+    // create cash in API interface
     val cashInAPI = FintechPlatform.buildPayIn()
             .createCashInAPIComponent(hostName, context)
             .cashInAPI
      
-//  Start Cash in
+    // Start Cash in request
     cashInAPI.cashIn(accessToken, 
                     userId,
                     accountId,
@@ -115,9 +115,10 @@ Fintech Account (accountId) is credited with 20,00 € using a card (cardId) own
                          
                          val payinreply = optpayinreply
                          if (payinreply.securecodeneeded) {
-                             goToSecure3D(payinreply.redirecturl ?: "")
+                             // 3d secure required
+                             goToSecure3D(payinreply.redirecturl)
                          } else {
-                             // pay in has just done
+                             // Cash in completed
                          }
                     }
 ```
