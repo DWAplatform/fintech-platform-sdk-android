@@ -11,8 +11,15 @@ Installation
 
 No need to clone the repository or download any files -- just add this line to your app's `build.gradle` inside the `dependencies` section:
 
+For API module only
+
+    implementation 'com.fintech.platform:fintechplatform-api:1.2.0'
+    
+For UI module
+
     implementation 'com.fintech.platform:fintechplatform-api:1.2.0'
     implementation 'com.fintech.platform:fintechplatform-ui:1.2.0'
+    
 Make sure you have jcenter() repository added in your build.gradle file at the Project level
 
 License
