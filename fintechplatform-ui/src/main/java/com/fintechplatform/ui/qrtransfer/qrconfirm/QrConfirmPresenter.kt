@@ -5,12 +5,7 @@ import com.fintechplatform.ui.account.balance.helpers.BalanceHelper
 import com.fintechplatform.ui.account.balance.models.BalanceItem
 import com.fintechplatform.ui.models.DataAccount
 import com.fintechplatform.ui.money.FeeHelper
-import com.fintechplatform.api.money.Money
 import com.fintechplatform.ui.money.MoneyHelper
-import com.fintechplatform.api.net.NetHelper
-import com.fintechplatform.api.profile.models.UserProfile
-import com.fintechplatform.api.transfer.api.TransferAPI
-import com.fintechplatform.api.transfer.models.TransferAccountModel
 import java.util.*
 
 /**
@@ -227,7 +222,7 @@ class QrConfirmPresenter constructor(var view: QrConfirmContract.View,
                 return@balance
             }
             val balance = optbalance
-            balanceHelper.persistence.saveBalance(BalanceItem(configuration.accountId, balance))
+            balanceHelper.persistence.saveBalance(BalanceItem(configuration.accountId, balance[0]))
 
             refreshBalance()
         }

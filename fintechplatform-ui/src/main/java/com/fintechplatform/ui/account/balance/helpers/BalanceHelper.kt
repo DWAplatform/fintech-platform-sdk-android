@@ -1,8 +1,6 @@
 package com.fintechplatform.ui.account.balance.helpers
 
 import com.fintechplatform.ui.account.balance.models.BalanceItem
-import com.fintechplatform.api.money.Money
-import com.fintechplatform.api.account.balance.api.BalanceAPI
 import javax.inject.Inject
 
 open class BalanceHelper @Inject constructor(val persistence: BalancePersistence,
@@ -23,8 +21,8 @@ open class BalanceHelper @Inject constructor(val persistence: BalancePersistence
             }
 
             val bal = optbalance
-            persistence.saveBalance(BalanceItem(accountId, bal))
-            callback(bal, null)
+            persistence.saveBalance(BalanceItem(accountId, bal[0]))
+            callback(bal[0], null)
         }
 
         return persistence.getBalanceItem(accountId)?.money ?: Money(0)

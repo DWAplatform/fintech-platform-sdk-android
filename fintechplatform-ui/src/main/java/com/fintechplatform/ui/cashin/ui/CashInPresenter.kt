@@ -1,9 +1,5 @@
 package com.fintechplatform.ui.cashin
 
-import com.fintechplatform.api.card.api.PaymentCardRestAPI
-import com.fintechplatform.api.cashin.api.CashInAPI
-import com.fintechplatform.api.money.Money
-import com.fintechplatform.api.net.NetHelper
 import com.fintechplatform.ui.account.balance.helpers.BalanceHelper
 import com.fintechplatform.ui.account.balance.models.BalanceItem
 import com.fintechplatform.ui.card.db.PaymentCardPersistenceDB
@@ -134,7 +130,7 @@ class CashInPresenter @Inject constructor(val configuration: DataAccount,
                 return@balance
             }
             val balance = optbalance
-            balanceHelper.persistence.saveBalance(BalanceItem(configuration.accountId, balance))
+            balanceHelper.persistence.saveBalance(BalanceItem(configuration.accountId, balance[0]))
 
             refreshBalance()
         }

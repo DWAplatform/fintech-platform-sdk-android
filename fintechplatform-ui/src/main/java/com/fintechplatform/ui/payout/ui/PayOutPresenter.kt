@@ -2,15 +2,10 @@ package com.fintechplatform.ui.payout.ui
 
 import com.fintechplatform.ui.account.balance.helpers.BalanceHelper
 import com.fintechplatform.ui.account.balance.models.BalanceItem
-import com.fintechplatform.api.iban.api.IbanAPI
 import com.fintechplatform.ui.iban.db.IbanPersistanceDB
-import com.fintechplatform.api.iban.models.BankAccount
 import com.fintechplatform.ui.models.DataAccount
 import com.fintechplatform.ui.money.FeeHelper
-import com.fintechplatform.api.money.Money
 import com.fintechplatform.ui.money.MoneyHelper
-import com.fintechplatform.api.net.NetHelper
-import com.fintechplatform.api.cashout.api.CashOutAPI
 import java.util.*
 import javax.inject.Inject
 
@@ -139,7 +134,7 @@ class PayOutPresenter @Inject constructor(val configuration: DataAccount,
                 return@balance
             }
             val balance = optbalance
-            balanceHelper.persistence.saveBalance(BalanceItem(configuration.accountId, balance))
+            balanceHelper.persistence.saveBalance(BalanceItem(configuration.accountId, balance[0]))
 
             refreshBalance()
         }

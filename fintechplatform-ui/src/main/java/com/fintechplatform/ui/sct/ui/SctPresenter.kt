@@ -1,14 +1,10 @@
 package com.fintechplatform.ui.sct.ui
 
-import com.fintechplatform.api.account.balance.api.BalanceAPI
 import com.fintechplatform.ui.account.balance.helpers.BalancePersistence
 import com.fintechplatform.ui.account.balance.models.BalanceItem
 import com.fintechplatform.ui.models.DataAccount
 import com.fintechplatform.ui.money.FeeHelper
-import com.fintechplatform.api.money.Money
 import com.fintechplatform.ui.money.MoneyHelper
-import com.fintechplatform.api.net.NetHelper
-import com.fintechplatform.api.sct.api.SctAPI
 import com.fintechplatform.ui.sct.model.PeersIBANModel
 import java.text.SimpleDateFormat
 import java.util.*
@@ -179,7 +175,7 @@ class SctPresenter constructor(private val view: SctContract.View,
                 return@balance
             }
             val balance = optbalance
-            balancePersistence.saveBalance(BalanceItem(config.accountId, balance))
+            balancePersistence.saveBalance(BalanceItem(config.accountId, balance[0]))
 
             refreshBalance()
         }

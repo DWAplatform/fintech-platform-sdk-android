@@ -1,15 +1,10 @@
 package com.fintechplatform.ui.transfer.ui
 
-import com.fintechplatform.api.account.balance.api.BalanceAPI
 import com.fintechplatform.ui.account.balance.helpers.BalancePersistence
 import com.fintechplatform.ui.account.balance.models.BalanceItem
 import com.fintechplatform.ui.models.DataAccount
 import com.fintechplatform.ui.money.FeeHelper
-import com.fintechplatform.api.money.Money
 import com.fintechplatform.ui.money.MoneyHelper
-import com.fintechplatform.api.net.NetHelper
-import com.fintechplatform.api.transfer.api.TransferAPI
-import com.fintechplatform.api.transfer.models.TransferAccountModel
 import java.util.*
 
 class TransferPresenter constructor(private var view: TransferContract.View,
@@ -163,7 +158,7 @@ class TransferPresenter constructor(private var view: TransferContract.View,
                 return@balance
             }
             val balance = optbalance
-            balancePersistence.saveBalance(BalanceItem(config.accountId, balance))
+            balancePersistence.saveBalance(BalanceItem(config.accountId, balance[0]))
 
             refreshBalance()
         }

@@ -23,13 +23,14 @@ open class BalanceAPI @Inject constructor(internal val hostName: String,
     /**
      * Balance represent the total amount of money that User [ownerId] has in his own Fintech Account, identified from [tenantId] [accountType] and [accountId] params.
      * Use [token] got from "Create User token" request.
+     * [completion] is a list of balances, first item is the current balance, second item is the available balance
      */
     open fun balance(token: String,
                      ownerId: String,
                      accountId: String,
                      accountType: String,
                      tenantId: String,
-                     completion: (Money?, Exception?) -> Unit): IRequest<*>? {
+                     completion: (List<Money>?, Exception?) -> Unit): IRequest<*>? {
 
         val url = netHelper.getURL("/rest/v1/fintech/tenants/$tenantId/${netHelper.getPathFromAccountType(accountType)}/$ownerId/accounts/$accountId/balance")
 
@@ -39,14 +40,17 @@ open class BalanceAPI @Inject constructor(internal val hostName: String,
             val r = requestProvider.jsonObjectRequest(Request.Method.GET, url,
                     null, netHelper.authorizationToken(token), { response ->
                 try {
+                    val balanceList = arrayListOf<Money>()
                     val balance = response.getJSONObject("balance")
                     val moneyBalance = Money(balance.getLong("amount"), balance.getString("currency"))
 
-//                  TODO  handle availableMoney
+                    balanceList.add(moneyBalance)
+
                     val availableBalance = response.getJSONObject("availableBalance")
                     val moneyAvailable = Money(availableBalance.getLong("amount"), availableBalance.getString("currency"))
 
-                    completion(moneyBalance, null)
+                    balanceList.add(moneyAvailable)
+                    completion(balanceList, null)
                 } catch (e: JSONException) {
                     completion(null, netHelper.ReplyParamsUnexpected(e))
                 }
