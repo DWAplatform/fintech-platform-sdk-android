@@ -1,8 +1,8 @@
 package com.fintechplatform.ui.account.balance.db
 
+import com.fintechplatform.api.account.balance.models.BalanceItem
 import com.fintechplatform.api.money.Money
 import com.fintechplatform.ui.account.balance.helpers.BalancePersistence
-import com.fintechplatform.ui.account.balance.models.BalanceItem
 
 class DBBalancePersistence constructor(val dbBalance: DBBalance): BalancePersistence {
 
@@ -13,17 +13,18 @@ class DBBalancePersistence constructor(val dbBalance: DBBalance): BalancePersist
             return null
         }
 
-        return BalanceItem(optobj.accountId, Money(optobj.amount, optobj.currency))
+        return BalanceItem(Money(optobj.amount, optobj.currency), Money(optobj.availableBalance, optobj.currency))
 
     }
 
-    override fun saveBalance(balance: BalanceItem) {
+    override fun saveBalance(balance: BalanceItem, accountId: String) {
 
         dbBalance.deleteBalance()
         val dbb = Balance()
-        dbb.amount = balance.money.value
-        dbb.currency = balance.money.currency
-        dbb.accountId = balance.accountId
+        dbb.amount = balance.balance.value
+        dbb.currency = balance.balance.currency
+        dbb.accountId = accountId
+        dbb.availableBalance = balance.availableBalance.value
         return dbBalance.saveBalance(dbb)
 
     }

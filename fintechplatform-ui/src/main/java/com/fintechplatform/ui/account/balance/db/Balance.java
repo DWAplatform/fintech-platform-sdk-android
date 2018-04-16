@@ -16,6 +16,8 @@ public class Balance extends BaseModel {
     public String currency;
     @Column
     public String accountId;
+    @Column
+    public Long availableBalance;
 
     public String getId() {
         return id;
@@ -31,5 +33,29 @@ public class Balance extends BaseModel {
 
     public void setAmount(Long amount) {
         this.amount = amount;
+    }
+
+    public String getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(String currency) {
+        this.currency = currency;
+    }
+
+    public String getAccountId() {
+        return accountId;
+    }
+
+    public void setAccountId(String accountId) {
+        this.accountId = accountId;
+    }
+
+    public Long getAvailableBalance() {
+        return availableBalance;
+    }
+
+    public void setAvailableBalance(Long availableBalance) {
+        this.availableBalance = availableBalance;
     }
 }

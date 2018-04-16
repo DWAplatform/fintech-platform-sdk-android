@@ -1,6 +1,7 @@
 package com.fintechplatform.api.account.balance.api
 
 import com.android.volley.Request
+import com.fintechplatform.api.account.balance.models.BalanceItem
 import com.fintechplatform.api.log.Log
 import com.fintechplatform.api.money.Money
 import com.fintechplatform.api.net.IRequest
@@ -30,7 +31,7 @@ open class BalanceAPI @Inject constructor(internal val hostName: String,
                      accountId: String,
                      accountType: String,
                      tenantId: String,
-                     completion: (List<Money>?, Exception?) -> Unit): IRequest<*>? {
+                     completion: (BalanceItem?, Exception?) -> Unit): IRequest<*>? {
 
         val url = netHelper.getURL("/rest/v1/fintech/tenants/$tenantId/${netHelper.getPathFromAccountType(accountType)}/$ownerId/accounts/$accountId/balance")
 
@@ -40,17 +41,14 @@ open class BalanceAPI @Inject constructor(internal val hostName: String,
             val r = requestProvider.jsonObjectRequest(Request.Method.GET, url,
                     null, netHelper.authorizationToken(token), { response ->
                 try {
-                    val balanceList = arrayListOf<Money>()
                     val balance = response.getJSONObject("balance")
                     val moneyBalance = Money(balance.getLong("amount"), balance.getString("currency"))
 
-                    balanceList.add(moneyBalance)
 
                     val availableBalance = response.getJSONObject("availableBalance")
                     val moneyAvailable = Money(availableBalance.getLong("amount"), availableBalance.getString("currency"))
 
-                    balanceList.add(moneyAvailable)
-                    completion(balanceList, null)
+                    completion(BalanceItem(moneyBalance, moneyAvailable), null)
                 } catch (e: JSONException) {
                     completion(null, netHelper.ReplyParamsUnexpected(e))
                 }

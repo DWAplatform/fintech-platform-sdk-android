@@ -1,7 +1,11 @@
 package com.fintechplatform.ui.cashin
 
+import com.fintechplatform.api.account.balance.models.BalanceItem
+import com.fintechplatform.api.card.api.PaymentCardRestAPI
+import com.fintechplatform.api.cashin.api.CashInAPI
+import com.fintechplatform.api.money.Money
+import com.fintechplatform.api.net.NetHelper
 import com.fintechplatform.ui.account.balance.helpers.BalanceHelper
-import com.fintechplatform.ui.account.balance.models.BalanceItem
 import com.fintechplatform.ui.card.db.PaymentCardPersistenceDB
 import com.fintechplatform.ui.models.DataAccount
 import com.fintechplatform.ui.money.FeeHelper
@@ -130,7 +134,7 @@ class CashInPresenter @Inject constructor(val configuration: DataAccount,
                 return@balance
             }
             val balance = optbalance
-            balanceHelper.persistence.saveBalance(BalanceItem(configuration.accountId, balance[0]))
+            balanceHelper.persistence.saveBalance(BalanceItem(balance.balance, balance.availableBalance), configuration.accountId)
 
             refreshBalance()
         }
@@ -161,7 +165,7 @@ class CashInPresenter @Inject constructor(val configuration: DataAccount,
         val amount = view.getAmount()
         val amountmoney = Money.valueOf(amount)
 
-        val newbalance = Money(bi.money.value + amountmoney.value)
+        val newbalance = Money(bi.balance.value + amountmoney.value)
         val newBalanceStr = moneyHelper.toString(newbalance)
 
         view.setNewBalanceAmount(newBalanceStr)
@@ -173,13 +177,15 @@ class CashInPresenter @Inject constructor(val configuration: DataAccount,
 
         val moneyFee: Money
         if (amountmoney.value == 0L) {
-            moneyFee = Money(0)
+            view.setFeeAmount(moneyHelper.toString(Money(0L)))
         } else {
-            val fee = feeHelper.calcPayInFee(amountmoney.value)
-            moneyFee = Money(fee)
+//            val fee = feeHelper.calcPayInFee(amountmoney.value)
+//            moneyFee = Money(fee)
+            calcCashInFee(amountmoney)
+
         }
 
-        view.setFeeAmount(moneyHelper.toString(moneyFee))
+//        view.setFeeAmount(moneyHelper.toString(moneyFee))
     }
 
     private fun loadPaymentCard() {
@@ -197,6 +203,27 @@ class CashInPresenter @Inject constructor(val configuration: DataAccount,
                 paymentCardpersistanceDB.replace(c)
             }
             refreshData()
+        }
+    }
+
+    fun calcCashInFee(amount: Money) {
+        val paycard = paymentCardpersistanceDB.paymentCardId(configuration.accountId) ?: return
+        api.cashInFee(configuration.accessToken,
+                configuration.tenantId,
+                configuration.accountId,
+                configuration.ownerId,
+                configuration.accountType,
+                paycard,
+                amount) { optfee, optexception ->
+            if (optexception != null) {
+                handleErrors(optexception)
+                return@cashInFee
+            }
+            if (optfee == null) {
+                return@cashInFee
+            }
+
+            view.setFeeAmount(moneyHelper.toString(optfee))
         }
     }
 }

@@ -94,27 +94,19 @@ class CashOutAPI @Inject constructor(internal val hostName: String,
         val url = netHelper.getURL("/rest/v1/account/tenants/$tenantId/${netHelper.getPathFromAccountType(accountType)}/$ownerId/accounts/$accountId/linkedBanks/$linkedBankId/cashOutsFee")
 
         val params = HashMap<String, Any>()
-        params.put("amount", amount.value.toString())
-        params.put("currency", amount.currency)
+        params["amount"] = amount.value.toString()
+        params["currency"] = amount.currency
         val rurl = netHelper.getUrlDataString(url, params)
 
         var request: IRequest<*>?
         try {
-            val jsonObject = JSONObject()
-
-            val joAmount = JSONObject()
-            joAmount.put("amount", amount.value )
-            joAmount.put("currency", amount.currency)
-
-            jsonObject.put("amount", joAmount)
-
-            val r = requestProvider.jsonObjectRequest(Request.Method.GET, rurl, jsonObject,
+            val r = requestProvider.jsonObjectRequest(Request.Method.GET, rurl, null,
                     netHelper.getHeaderBuilder().authorizationToken(token).getHeaderMap(), { response ->
 
-                val amount = response.getString("amount")
+                val amountResp = response.getLong("amount")
                 val currency = response.optString("currency")
 
-                completion(Money(amount.toLong(), currency), null)
+                completion(Money(amountResp, currency), null)
             }) { error ->
 
                 val status = if (error.networkResponse != null) error.networkResponse.statusCode

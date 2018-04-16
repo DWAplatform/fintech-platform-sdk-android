@@ -1,7 +1,12 @@
 package com.fintechplatform.ui.payout.ui
 
+import com.fintechplatform.api.account.balance.models.BalanceItem
+import com.fintechplatform.api.cashout.api.CashOutAPI
+import com.fintechplatform.api.iban.api.IbanAPI
+import com.fintechplatform.api.iban.models.BankAccount
+import com.fintechplatform.api.money.Money
+import com.fintechplatform.api.net.NetHelper
 import com.fintechplatform.ui.account.balance.helpers.BalanceHelper
-import com.fintechplatform.ui.account.balance.models.BalanceItem
 import com.fintechplatform.ui.iban.db.IbanPersistanceDB
 import com.fintechplatform.ui.models.DataAccount
 import com.fintechplatform.ui.money.FeeHelper
@@ -118,7 +123,7 @@ class PayOutPresenter @Inject constructor(val configuration: DataAccount,
         val optbi = balanceHelper.persistence.getBalanceItem(configuration.accountId) ?: return null
         val amountmoney = getAmountMoney()
 
-        val newbalance = Money(optbi.money.value - amountmoney.value)
+        val newbalance = Money(optbi.balance.value - amountmoney.value)
         return newbalance
     }
 
@@ -134,7 +139,7 @@ class PayOutPresenter @Inject constructor(val configuration: DataAccount,
                 return@balance
             }
             val balance = optbalance
-            balanceHelper.persistence.saveBalance(BalanceItem(configuration.accountId, balance[0]))
+            balanceHelper.persistence.saveBalance(BalanceItem(balance.balance, balance.availableBalance), configuration.accountId)
 
             refreshBalance()
         }
@@ -174,14 +179,11 @@ class PayOutPresenter @Inject constructor(val configuration: DataAccount,
     fun refreshFee() {
         val amountmoney = getAmountMoney()
 
-        val moneyFee =
-                if (amountmoney.value == 0L) {
-                    Money(0)
-                } else {
-                    Money(feeHelper.calcPayOutFee(amountmoney.value))
-                }
-
-        view.setFeeAmountLabel(moneyHelper.toString(moneyFee))
+        if (amountmoney.value == 0L) {
+            view.setFeeAmountLabel(moneyHelper.toString(Money(0L)))
+        } else {
+            calcCashOutFee(amountmoney)
+        }
     }
 
 
@@ -193,6 +195,28 @@ class PayOutPresenter @Inject constructor(val configuration: DataAccount,
                 view.showTokenExpiredWarning()
             else ->
                 view.showCommunicationInternalError()
+        }
+    }
+
+    fun calcCashOutFee(amount: Money) {
+        val bankAccountId = ibanPersistanceDB.bankAccountId(configuration.accountId)?: return
+
+        api.cashOutFee(configuration.accessToken,
+                configuration.tenantId,
+                configuration.accountId,
+                configuration.ownerId,
+                configuration.accountType,
+                bankAccountId,
+                amount) { optfee, optexception ->
+            if (optexception != null) {
+                handleErrors(optexception)
+                return@cashOutFee
+            }
+            if (optfee == null) {
+                return@cashOutFee
+            }
+
+            view.setFeeAmountLabel(moneyHelper.toString(optfee))
         }
     }
 }

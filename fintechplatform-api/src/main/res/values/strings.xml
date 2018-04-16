@@ -277,10 +277,6 @@
     <string name="payin_fee_label">Commissione</string>
 
     <string name="transactions_title">Transactions</string>
-    <string name="payin_amount">Ricarica conto</string>
-    <string name="payin_fee">Commissione</string>
-
-    <string name="payin_cc">Metodo pagamento</string>
 
     <string name="payout_title">Prelievo conto</string>
     <string name="payout_subtitle">indicare l\'importo da prelevare</string>

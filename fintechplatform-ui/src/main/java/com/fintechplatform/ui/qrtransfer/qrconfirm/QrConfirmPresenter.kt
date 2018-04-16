@@ -1,8 +1,13 @@
 package com.fintechplatform.ui.qrtransfer.qrconfirm
 
 import android.graphics.Color
+import com.fintechplatform.api.account.balance.models.BalanceItem
+import com.fintechplatform.api.money.Money
+import com.fintechplatform.api.net.NetHelper
+import com.fintechplatform.api.profile.models.UserProfile
+import com.fintechplatform.api.transfer.api.TransferAPI
+import com.fintechplatform.api.transfer.models.TransferAccountModel
 import com.fintechplatform.ui.account.balance.helpers.BalanceHelper
-import com.fintechplatform.ui.account.balance.models.BalanceItem
 import com.fintechplatform.ui.models.DataAccount
 import com.fintechplatform.ui.money.FeeHelper
 import com.fintechplatform.ui.money.MoneyHelper
@@ -65,7 +70,7 @@ class QrConfirmPresenter constructor(var view: QrConfirmContract.View,
         val optnewbalance = optbi?.let {
             val amountmoney = getAmountMoney()
 
-            Money(optbi.money.value - amountmoney.value)
+            Money(optbi.balance.value - amountmoney.value)
         }
         return optnewbalance
     }
@@ -222,8 +227,7 @@ class QrConfirmPresenter constructor(var view: QrConfirmContract.View,
                 return@balance
             }
             val balance = optbalance
-            balanceHelper.persistence.saveBalance(BalanceItem(configuration.accountId, balance[0]))
-
+            balanceHelper.persistence.saveBalance(BalanceItem(balance.balance, balance.availableBalance), configuration.accountId)
             refreshBalance()
         }
     }

@@ -32,6 +32,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/navheader_forward"
+                android:textColor="@color/textcolorWhite"
                 android:layout_alignBaseline="@id/backwardButton"
                 android:layout_marginRight="5dp"
                 android:enabled="false"

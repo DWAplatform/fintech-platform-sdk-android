@@ -1,7 +1,11 @@
 package com.fintechplatform.ui.sct.ui
 
+import com.fintechplatform.api.account.balance.api.BalanceAPI
+import com.fintechplatform.api.account.balance.models.BalanceItem
+import com.fintechplatform.api.money.Money
+import com.fintechplatform.api.net.NetHelper
+import com.fintechplatform.api.sct.api.SctAPI
 import com.fintechplatform.ui.account.balance.helpers.BalancePersistence
-import com.fintechplatform.ui.account.balance.models.BalanceItem
 import com.fintechplatform.ui.models.DataAccount
 import com.fintechplatform.ui.money.FeeHelper
 import com.fintechplatform.ui.money.MoneyHelper
@@ -129,7 +133,7 @@ class SctPresenter constructor(private val view: SctContract.View,
         val optnewbalance = optbi?.let {
             val amountmoney = getAmountMoney()
 
-            Money(optbi.money.value - amountmoney.value)
+            Money(optbi.balance.value - amountmoney.value)
         }
         return optnewbalance
     }
@@ -175,7 +179,7 @@ class SctPresenter constructor(private val view: SctContract.View,
                 return@balance
             }
             val balance = optbalance
-            balancePersistence.saveBalance(BalanceItem(config.accountId, balance[0]))
+            balancePersistence.saveBalance(BalanceItem(balance.balance, balance.availableBalance), config.accountId)
 
             refreshBalance()
         }
