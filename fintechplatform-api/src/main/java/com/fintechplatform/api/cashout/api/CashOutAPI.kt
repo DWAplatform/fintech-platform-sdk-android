@@ -91,7 +91,7 @@ class CashOutAPI @Inject constructor(internal val hostName: String,
                    completion: (Money?, Exception?) -> Unit): IRequest<*>? {
 
 
-        val url = netHelper.getURL("/rest/v1/account/tenants/$tenantId/${netHelper.getPathFromAccountType(accountType)}/$ownerId/accounts/$accountId/linkedBanks/$linkedBankId/cashOutsFee")
+        val url = netHelper.getURL("/rest/v1/fintech/tenants/$tenantId/${netHelper.getPathFromAccountType(accountType)}/$ownerId/accounts/$accountId/linkedBanks/$linkedBankId/cashOutsFee")
 
         val params = HashMap<String, Any>()
         params["amount"] = amount.value.toString()
