@@ -13,11 +13,11 @@ No need to clone the repository or download any files -- just add this line to y
 
 For API module only
 
-    implementation 'com.fintech.platform:fintechplatform-api:1.2.0'
+    implementation 'com.fintech.platform:fintechplatform-api:1.2.1'
     
 For UI module
 
-    implementation 'com.fintech.platform:fintechplatform-api:1.2.0'
+    implementation 'com.fintech.platform:fintechplatform-api:1.2.1'
     implementation 'com.fintech.platform:fintechplatform-ui:1.2.0'
     
 Make sure you have jcenter() repository added in your build.gradle file at the Project level
@@ -44,8 +44,9 @@ We supply the following modules:
 4. Payment card registration
 5. IBAN address registration
 6. Transactions list
-7. (profile) Personal informations
-8. (enterprise profile) Company informations
+7. Peer to peer transfers
+8. (profile) User personal informations
+9. (enterprise profile) Company informations
 
 ###### fintechplatform-ui
 1. Cash in / 3DSecure
@@ -53,6 +54,7 @@ We supply the following modules:
 4. Linking payment card to Fintech Platform Account
 5. Linking bank account, with IBAN address and User Residential data (because needed) to Fintech Platform Account
 6. Transactions list
+7. Peer to peer transfers
 8. Personal informations: 
     * general informations
     * contacts: email and telephone number
