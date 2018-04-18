@@ -321,7 +321,7 @@ class PaymentCardRestAPI constructor(internal val hostName: String,
             val url = netHelper.getUrlDataString(baseurl, params)
 
 
-            val r = requestProvider.jsonArrayRequest(Request.Method.GET, url,
+            val r = requestProvider.jsonArrayRequest(Request.Method.GET, baseurl,
                     null, netHelper.authorizationToken(token),
                     { response: JSONArray ->
 

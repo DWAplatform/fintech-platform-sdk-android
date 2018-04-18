@@ -2,6 +2,7 @@ package com.fintechplatform.ui.transactions.db
 
 import com.fintechplatform.ui.transactions.models.TransactionItem
 import com.fintechplatform.api.transactions.models.TransactionResponse
+import com.fintechplatform.ui.transactions.models.TransactionHelper
 import javax.inject.Inject
 
 class TransactionPersistanceDB @Inject constructor(val db: TransactionDB, val thelper: TransactionHelper){

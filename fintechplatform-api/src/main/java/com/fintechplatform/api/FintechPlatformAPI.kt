@@ -13,6 +13,8 @@ import com.fintechplatform.api.iban.IBANAPIBuilder
 import com.fintechplatform.api.iban.api.IbanAPI
 import com.fintechplatform.api.cashout.CashOutAPIBuilder
 import com.fintechplatform.api.cashout.api.CashOutAPI
+import com.fintechplatform.api.pagopa.PagoPaAPIBuilder
+import com.fintechplatform.api.pagopa.api.PagoPaAPI
 import com.fintechplatform.api.profile.ProfileAPIBuilder
 import com.fintechplatform.api.profile.api.ProfileAPI
 import com.fintechplatform.api.sct.SctAPIBuilder
@@ -63,8 +65,12 @@ class FintechPlatformAPI {
             return TransferAPIBuilder().createTrasnferAPIComponent(context, hostName).transferAPI
         }
 
-        fun buildSct(hostName: String, context: Context): SctAPI {
+        fun getSct(hostName: String, context: Context): SctAPI {
             return SctAPIBuilder().createSctAPIComponent(context, hostName).sctAPI
+        }
+
+        fun getPagoPA(hostName: String, context: Context) : PagoPaAPI {
+            return PagoPaAPIBuilder().createCashInAPIComponent(hostName, context).pagoPaAPI
         }
 
     }

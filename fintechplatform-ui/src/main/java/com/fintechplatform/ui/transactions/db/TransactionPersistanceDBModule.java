@@ -2,6 +2,7 @@ package com.fintechplatform.ui.transactions.db;
 
 import com.fintechplatform.ui.money.MoneyHelper;
 import com.fintechplatform.ui.transactions.models.TransactionDetailHelper;
+import com.fintechplatform.ui.transactions.models.TransactionHelper;
 
 import javax.inject.Singleton;
 

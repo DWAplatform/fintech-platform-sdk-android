@@ -1,8 +1,7 @@
-package com.fintechplatform.ui.transactions.db
+package com.fintechplatform.ui.transactions.models
 
 import com.fintechplatform.api.money.Money
 import com.fintechplatform.ui.money.MoneyHelper
-import com.fintechplatform.ui.transactions.models.TransactionItem
 import com.fintechplatform.api.transactions.models.TransactionResponse
 import java.text.SimpleDateFormat
 import java.util.*
@@ -151,7 +150,22 @@ class TransactionHelper @Inject constructor(val moneyHelper: MoneyHelper) {
                         t.status,
                         t.error)
             }
+            "PAGO_PA" ->{
+                val t_debitedfunds = t.debitedFunds ?: return null
 
+                val mhString = moneyHelper.toString(Money(-t_debitedfunds))
+                transactionitem = TransactionItem(
+                        t.transactionIds,
+                        t.accountId,
+                        "PagoPA",
+                        "Ente pubblico",
+                        t.message,
+                        mhString,
+                        twhen,
+                        timeInMilliseconds,
+                        t.status,
+                        t.error)
+            }
 //            "Purchase_M1" -> {
 //                val t_debiteduserid = t.debiteduserid ?: return null
 //                val t_debitedfunds = t.debitedfunds ?: return null
