@@ -86,4 +86,16 @@ class VolleyRequestProvider : IRequestProvider {
             }
         }
     }
+
+    override fun nothingRequest(method: Int,
+                                url: String,
+                                header: Map<String, String>,
+                                errorListener: (VolleyError) -> Unit): VolleyNothingRequest {
+        return object : VolleyNothingRequest(method, url, errorListener) {
+            @Throws(AuthFailureError::class)
+            override fun getHeaders(): Map<String, String> {
+                return header
+            }
+        }
+    }
 }

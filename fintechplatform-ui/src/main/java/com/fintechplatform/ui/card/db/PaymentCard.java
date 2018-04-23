@@ -18,6 +18,16 @@ public class PaymentCard extends BaseModel {
     public String expiration;
     @Column
     public String accountId;
+    @Column
+    public boolean isDefault;
+
+    public boolean isDefault() {
+        return isDefault;
+    }
+
+    public void setDefault(boolean aDefault) {
+        isDefault = aDefault;
+    }
 
     public String getAccountId() {
         return accountId;

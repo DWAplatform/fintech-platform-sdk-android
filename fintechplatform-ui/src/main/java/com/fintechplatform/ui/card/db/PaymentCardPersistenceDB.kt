@@ -17,7 +17,7 @@ class PaymentCardPersistenceDB constructor(val paymentCardDB: PaymentCardDB): Pa
     override fun getPaymentCardItem(accountId: String): PaymentCardItem? {
         val optcc = paymentCardDB.findPaymentCard(accountId)
         return optcc?.let { cc ->
-            PaymentCardItem(cc.id, cc.accountId, cc.numberAlias, cc.expiration, "EUR", null, cc.state, "token", null)
+            PaymentCardItem(cc.id, cc.accountId, cc.numberAlias, cc.expiration, "EUR", cc.isDefault, cc.state)
         }
     }
 
@@ -28,6 +28,7 @@ class PaymentCardPersistenceDB constructor(val paymentCardDB: PaymentCardDB): Pa
         card.accountId = paymentcard.accountId
         card.expiration = paymentcard.expiration
         card.numberAlias = paymentcard.alias
+        card.isDefault = paymentcard.default?: false
 
         paymentCardDB.savePaymentCard(card)
     }
@@ -39,7 +40,14 @@ class PaymentCardPersistenceDB constructor(val paymentCardDB: PaymentCardDB): Pa
     fun load(accountId: String): PaymentCardItem? {
         val optcc = paymentCardDB.findPaymentCard(accountId)
         return optcc?.let { cc ->
-            PaymentCardItem(cc.id, cc.accountId, cc.numberAlias, cc.expiration, "EUR", null,  cc.state, "token", null)
+            PaymentCardItem(cc.id, cc.accountId, cc.numberAlias, cc.expiration, "EUR", cc.isDefault,  cc.state)
+        }
+    }
+
+    fun findDefaultPaymentCard(): PaymentCardItem? {
+        val optDefaultCard =  paymentCardDB.findDefaultCard()
+        return optDefaultCard.let {
+            PaymentCardItem(it.id, it.accountId, it.numberAlias, it.expiration, "EUR", it.isDefault, it.state)
         }
     }
 }

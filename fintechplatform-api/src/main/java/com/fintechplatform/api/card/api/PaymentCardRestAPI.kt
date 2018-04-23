@@ -230,7 +230,7 @@ class PaymentCardRestAPI constructor(internal val hostName: String,
                             val createOpt: String? = response.optString("created")
 
                             val c = PaymentCardItem(creditcardid, accountId, numberalias,
-                                    expirationdate, currency, null, activestate, null, createOpt)
+                                    expirationdate, currency, null, activestate, createOpt)
                             completion(c, null)
                         } catch (e: JSONException) {
                             completion(null, netHelper.ReplyParamsUnexpected(e))
@@ -341,7 +341,6 @@ class PaymentCardRestAPI constructor(internal val hostName: String,
                                     reply.optString("currency"),
                                     null,
                                     reply.optString("status"),
-                                    null,
                                     reply.optString("created"))
                         }
 
@@ -372,4 +371,95 @@ class PaymentCardRestAPI constructor(internal val hostName: String,
         return request
     }
 
+    fun deletePaymentCard(token:String,
+                          userId: String,
+                          accountId: String,
+                          accountType: String,
+                          tenantId: String,
+                          cardId: String,
+                          completion: (Exception?) -> Unit): IRequest<*>? {
+
+        val baseurl = netHelper.getURL("/rest/v1/fintech/tenants/$tenantId/${netHelper.getPathFromAccountType(accountType)}/$userId/accounts/$accountId/linkedCards/$cardId")
+
+        var request: IRequest<*>?
+        try {
+
+            val r = requestProvider.nothingRequest(Request.Method.DELETE, baseurl,
+                     netHelper.authorizationToken(token),
+            { error ->
+                val status = if (error.networkResponse != null) error.networkResponse.statusCode
+                else -1
+                when (status) {
+                    401 -> {
+                        completion(netHelper.TokenError(error))
+                        log.error(TAG, "delete card error", error.fillInStackTrace())
+                    }
+                    else -> {
+                        completion(netHelper.createRequestError(error))
+                        log.error(TAG, "delete card error", error.fillInStackTrace())
+                    }
+                }
+            })
+            r.setIRetryPolicy(netHelper.defaultpolicy)
+            queue.add(r)
+            request = r
+        } catch (e: Exception) {
+            log.error(TAG, "delete payment card", e)
+            request = null
+        }
+
+        return request
+    }
+
+    fun setDefaultCard(token:String,
+                       userId: String,
+                       accountId: String,
+                       accountType: String,
+                       tenantId: String,
+                       cardId: String,
+                       completion: (PaymentCardItem?, Exception?) -> Unit): IRequest<*>? {
+
+        val baseurl = netHelper.getURL("/rest/v1/fintech/tenants/$tenantId/${netHelper.getPathFromAccountType(accountType)}/$userId/accounts/$accountId/linkedCards/$cardId/default")
+
+        var request: IRequest<*>?
+        try {
+
+            val r = requestProvider.jsonObjectRequest(Request.Method.PUT, baseurl,
+                    null, netHelper.authorizationToken(token),
+                    { paymentCardResponse ->
+
+                        completion(PaymentCardItem(
+                                paymentCardResponse.optString("cardId"),
+                                paymentCardResponse.getString("accountId"),
+                                paymentCardResponse.optString("alias"),
+                                paymentCardResponse.optString("expiration"),
+                                paymentCardResponse.optString("currency"),
+                                paymentCardResponse.optBoolean("defaultCard"),
+                                paymentCardResponse.optString("status"),
+                                paymentCardResponse.optString("created")), null)
+                    })
+            {error ->
+                val status = if (error.networkResponse != null) error.networkResponse.statusCode
+                else -1
+                when (status) {
+                    401 -> {
+                        completion(null, netHelper.TokenError(error))
+                        log.error(TAG, "transactions error", error.fillInStackTrace())
+                    }
+                    else -> {
+                        completion(null, netHelper.createRequestError(error))
+                        log.error(TAG, "transactions error", error.fillInStackTrace())
+                    }
+                }
+            }
+            r.setIRetryPolicy(netHelper.defaultpolicy)
+            queue.add(r)
+            request = r
+        } catch (e: Exception) {
+            log.error(TAG, "delete payment card", e)
+            request = null
+        }
+
+        return request
+    }
 }

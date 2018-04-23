@@ -23,4 +23,11 @@ public class PaymentCardDB {
 //                .where(PaymentCard_Table.accountId.eq(accountId))
                 .querySingle();
     }
+
+    public PaymentCard findDefaultCard() {
+        return SQLite.select()
+                .from(PaymentCard.class)
+                .where(PaymentCard_Table.isDefault.eq(true))
+                .querySingle();
+    }
 }

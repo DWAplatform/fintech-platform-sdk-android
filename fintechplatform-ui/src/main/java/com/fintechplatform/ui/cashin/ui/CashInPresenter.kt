@@ -202,7 +202,7 @@ class CashInPresenter @Inject constructor(val configuration: DataAccount,
 //            cards.forEach { c ->
 //                paymentCardpersistanceDB.replace(c)
 //            }
-
+            // todo use default payment card
             paymentCardpersistanceDB.replace(cards[0])
             refreshData()
         }

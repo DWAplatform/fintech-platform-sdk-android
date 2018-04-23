@@ -92,4 +92,30 @@ open class PaymentCardAPI @Inject constructor(
 
         return restAPI.getPaymentCards(token, ownerId, accountId, accountType, tenantId, completion)
     }
+
+    /**
+     * Delete specific Payment Cards [cardId] linked to Fintech Platform Account.
+     * Fitench Platform Account is identified from [tenantId] [ownerId] [accountType] and [accountId] params.
+     *  [token] Fintech Platform API token got from "Create User token" request.
+     *  [completion] callback returns the list of cards or an Exception if occurent some errors
+     */
+    fun deletePaymentCard(token:String,
+                          ownerId: String,
+                          accountId: String,
+                          accountType: String,
+                          tenantId: String,
+                          cardId: String,
+                          completion: (Exception?) -> Unit): IRequest<*>? {
+        return restAPI.deletePaymentCard(token, ownerId, accountId, accountType, tenantId, cardId, completion)
+    }
+
+    fun setDefaultPaymentCard(token:String,
+                              ownerId: String,
+                              accountId: String,
+                              accountType: String,
+                              tenantId: String,
+                              cardId: String,
+                              completion: (PaymentCardItem?, Exception?) -> Unit): IRequest<*>? {
+        return restAPI.setDefaultCard(token, ownerId, accountId, accountType, tenantId, cardId, completion)
+    }
 }

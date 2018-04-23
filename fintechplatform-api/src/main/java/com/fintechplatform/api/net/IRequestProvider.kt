@@ -1,10 +1,7 @@
 package com.fintechplatform.api.net
 
 import com.android.volley.VolleyError
-import com.fintechplatform.api.net.volley.VolleyJsonArrayRequest
-import com.fintechplatform.api.net.volley.VolleyJsonObjectRequest
-import com.fintechplatform.api.net.volley.VolleyJsonObjectRequestArrayReply
-import com.fintechplatform.api.net.volley.VolleyStringRequest
+import com.fintechplatform.api.net.volley.*
 import org.json.JSONArray
 import org.json.JSONObject
 
@@ -53,4 +50,9 @@ interface IRequestProvider {
                                     header: Map<String, String>,
                                     listener: (JSONArray) -> Unit,
                                     errorListener: (VolleyError) -> Unit): VolleyJsonObjectRequestArrayReply
+
+    fun nothingRequest(method: Int,
+                       url: String,
+                       header: Map<String, String>,
+                       errorListener: (VolleyError) -> Unit): VolleyNothingRequest
 }
