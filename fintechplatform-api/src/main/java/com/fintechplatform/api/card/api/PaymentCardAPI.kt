@@ -64,11 +64,11 @@ open class PaymentCardAPI @Inject constructor(
 
         restAPI.createCreditCardRegistration(ownerId, accountId, accountType, tenantId, token, paymentCardHelper.generateAlias(cardNumber), expiration, currency){ optCardReg, optError ->
             optError?.let { error -> completionHandler(null, error); return@createCreditCardRegistration }
-            optCardReg?.let { cr->
+            optCardReg?.let { crReply->
                 restAPI.getCardSafe(PaymentCardRestAPI.CardToRegister(cardNumber, expiration, cvxValue), ownerId, accountId, accountType, tenantId, token) { optCardSafe, optErrorCS ->
                     optErrorCS?.let { completionHandler(null, it); return@getCardSafe}
                     optCardSafe?.let { cardToRegister ->
-                        restAPI.postCardRegistrationData(ownerId, accountId, accountType, tenantId, token, cardToRegister.cardNumber, cardToRegister.expiration, cardToRegister.cvx, cr) { paymentCardItem, exception ->
+                        restAPI.postCardRegistrationData(ownerId, accountId, accountType, tenantId, token, cardToRegister.cardNumber, cardToRegister.expiration, cardToRegister.cvx, crReply) { paymentCardItem, exception ->
                             exception?.let { completionHandler(null, it); return@postCardRegistrationData }
                             paymentCardItem?.let { completionHandler(it, null) }
                         }

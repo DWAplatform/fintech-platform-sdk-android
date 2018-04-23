@@ -31,6 +31,9 @@ class PaymentCardRestAPI constructor(internal val hostName: String,
                                 val accessKey: String,
                                 val registration: String? = null)
 
+    data class CreateCardRegistrationReply(val cardId: String,
+                                           val cardRegistration: CardRegistration)
+
     /**
      * Represent the error send as reply from FintechPlatformAPI API.
      *
@@ -54,7 +57,7 @@ class PaymentCardRestAPI constructor(internal val hostName: String,
                                      numberalias: String,
                                      expiration: String,
                                      currency: String,
-                                     callback: (CardRegistration?, Exception?) -> Unit): IRequest<*>? {
+                                     callback: (CreateCardRegistrationReply?, Exception?) -> Unit): IRequest<*>? {
 
         log.debug("FintechPlatformAPI", "createCreditCardRegistration")
         val url = netHelper.getURL("/rest/v1/fintech/tenants/$tenantId/${netHelper.getPathFromAccountType(accountType)}/$userId/accounts/$accountId/linkedCards")
@@ -82,14 +85,16 @@ class PaymentCardRestAPI constructor(internal val hostName: String,
                             val preregistrationData =
                                     mapper.getString("preregistrationData")
                             val accessKey = mapper.getString("accessKey")
+                            val cardRegistrationId = mapper.getString("cardRegistrationId")
 
-                            val c = CardRegistration(cardid,
+                            val c = CardRegistration(cardRegistrationId,
                                     crurl,
                                     preregistrationData,
                                     accessKey,
                                     null)
+                            val reply = CreateCardRegistrationReply(cardid, c)
 
-                            callback(c, null)
+                            callback(reply, null)
                         } catch (e: JSONException) {
                             callback(null, netHelper.ReplyParamsUnexpected(e))
                             log.error(TAG, "transactions error", e)
@@ -136,16 +141,16 @@ class PaymentCardRestAPI constructor(internal val hostName: String,
                                 cardnumber: String,
                                 expiration: String,
                                  cvx: String,
-                                cardRegistration: CardRegistration,
+                                cardRegistrationReply: CreateCardRegistrationReply,
                                 completion: (PaymentCardItem?, Exception?) -> Unit)
             : IRequest<*> {
 
         log.debug("FintechPlatformAPI", "getCardRegistrationData")
-        val url = cardRegistration.url
+        val url = cardRegistrationReply.cardRegistration.url
 
         val params = HashMap<String, String>()
-        params.put("data", cardRegistration.preregistrationData)
-        params.put("accessKeyRef", cardRegistration.accessKey)
+        params.put("data", cardRegistrationReply.cardRegistration.preregistrationData)
+        params.put("accessKeyRef", cardRegistrationReply.cardRegistration.accessKey)
         params.put("cardNumber", cardnumber)
         params.put("cardExpirationDate", expiration)
         params.put("cardCvx", cvx)
@@ -156,7 +161,7 @@ class PaymentCardRestAPI constructor(internal val hostName: String,
         val request = requestProvider.stringRequest(Request.Method.POST, url, params, header,
                 { response ->
                     log.debug("FintechPlatformAPI", "on response getCardRegistrationData")
-                    sendCardResponseString(userId, accountId, accountType, tenantId, token, response, cardRegistration, completion)
+                    sendCardResponseString(userId, accountId, accountType, tenantId, token, response, cardRegistrationReply, completion)
                 }) { error ->
             val status = if (error.networkResponse != null) error.networkResponse.statusCode
             else -1
@@ -190,15 +195,15 @@ class PaymentCardRestAPI constructor(internal val hostName: String,
                                tenantId: String,
                                token: String,
                                regresponse: String,
-                               cardRegistration: CardRegistration,
+                               cardRegistration: CreateCardRegistrationReply,
                                completion: (PaymentCardItem?, Exception?) -> Unit)
             : IRequest<*>? {
         log.debug("FintechPlatformAPI", "sendCardResponseString")
-        val url = netHelper.getURL("/rest/v1/fintech/tenants/$tenantId/${netHelper.getPathFromAccountType(accountType)}/$userId/accounts/$accountId/linkedCards/${cardRegistration.cardRegistrationId}")
+        val url = netHelper.getURL("/rest/v1/fintech/tenants/$tenantId/${netHelper.getPathFromAccountType(accountType)}/$userId/accounts/$accountId/linkedCards/${cardRegistration.cardId}")
 
         var request: IRequest<*>?
         try {
-            val payload = cardRegistration.copy(registration = regresponse)
+            val payload = cardRegistration.cardRegistration.copy(registration = regresponse)
 
             val joPayload = JSONObject()
             joPayload.put("accessKey", payload.accessKey)
