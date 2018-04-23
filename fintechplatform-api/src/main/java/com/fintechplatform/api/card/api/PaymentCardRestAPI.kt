@@ -134,15 +134,15 @@ class PaymentCardRestAPI constructor(internal val hostName: String,
      * [completion] callback containing registration key
      */
     fun postCardRegistrationData(userId: String,
-                                accountId: String,
+                                 accountId: String,
                                  accountType: String,
-                                tenantId: String,
-                                token: String,
-                                cardnumber: String,
-                                expiration: String,
+                                 tenantId: String,
+                                 token: String,
+                                 cardnumber: String,
+                                 expiration: String,
                                  cvx: String,
-                                cardRegistrationReply: CreateCardRegistrationReply,
-                                completion: (PaymentCardItem?, Exception?) -> Unit)
+                                 cardRegistrationReply: CreateCardRegistrationReply,
+                                 completion: (PaymentCardItem?, Exception?) -> Unit)
             : IRequest<*> {
 
         log.debug("FintechPlatformAPI", "getCardRegistrationData")

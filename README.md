@@ -13,11 +13,11 @@ No need to clone the repository or download any files -- just add this line to y
 
 For API module only
 
-    implementation 'com.fintech.platform:fintechplatform-api:1.2.4'
+    implementation 'com.fintech.platform:fintechplatform-api:1.3.0'
     
 For UI module
 
-    implementation 'com.fintech.platform:fintechplatform-api:1.2.4'
+    implementation 'com.fintech.platform:fintechplatform-api:1.3.0'
     implementation 'com.fintech.platform:fintechplatform-ui:1.2.2'
     
 Make sure you have jcenter() repository added in your build.gradle file at the Project level

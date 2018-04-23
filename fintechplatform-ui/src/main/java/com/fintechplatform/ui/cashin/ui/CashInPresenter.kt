@@ -199,9 +199,11 @@ class CashInPresenter @Inject constructor(val configuration: DataAccount,
                 return@getPaymentCards
             }
             val cards = optcards
-            cards.forEach { c ->
-                paymentCardpersistanceDB.replace(c)
-            }
+//            cards.forEach { c ->
+//                paymentCardpersistanceDB.replace(c)
+//            }
+
+            paymentCardpersistanceDB.replace(cards[0])
             refreshData()
         }
     }
