@@ -91,8 +91,12 @@ class PayInPayOutFinancialDataPresenter @Inject constructor(val view: FinancialD
                 return@getPaymentCards
             }
             val cards = optcards
-            cards.forEach { c ->
-                cardDB.replace(c)
+//            cards.forEach { c ->
+//                cardDB.replace(c)
+//            }
+            // todo show default card
+            if(cards.isNotEmpty()) {
+                cardDB.replace(cards[0])
             }
             isPaymentCardLoaded = true
             refreshData()
