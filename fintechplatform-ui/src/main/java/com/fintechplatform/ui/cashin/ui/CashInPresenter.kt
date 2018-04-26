@@ -203,7 +203,9 @@ class CashInPresenter @Inject constructor(val configuration: DataAccount,
 //                paymentCardpersistanceDB.replace(c)
 //            }
             // todo use default payment card
-            paymentCardpersistanceDB.replace(cards[0])
+            if(cards.isNotEmpty()) {
+                paymentCardpersistanceDB.replace(cards[0])
+            }
             refreshData()
         }
     }
