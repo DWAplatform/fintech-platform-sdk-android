@@ -20,18 +20,18 @@ class PaymentCardRestAPI constructor(internal val hostName: String,
                                      val netHelper: NetHelper) {
     private val TAG = "PaymentCardRestAPI"
 
-    data class CardToRegister(val cardNumber: String,
+    internal data class CardToRegister(val cardNumber: String,
                               val expiration: String,
                               val cvx: String)
 
 
-    data class CardRegistration(val cardRegistrationId: String,
+    internal data class CardRegistration(val cardRegistrationId: String,
                                 val url: String,
                                 val preregistrationData: String,
                                 val accessKey: String,
                                 val registration: String? = null)
 
-    data class CreateCardRegistrationReply(val cardId: String,
+    internal data class CreateCardRegistrationReply(val cardId: String,
                                            val cardRegistration: CardRegistration)
 
     /**
@@ -50,7 +50,7 @@ class PaymentCardRestAPI constructor(internal val hostName: String,
      * [expiration] card expiration
      * [callback] callback containing card registration object
      */
-    fun createCreditCardRegistration(userId: String,
+    internal fun createCreditCardRegistration(userId: String,
                                      accountId: String,
                                      accountType: String,
                                      tenantId: String, token: String,
@@ -97,7 +97,7 @@ class PaymentCardRestAPI constructor(internal val hostName: String,
                             callback(reply, null)
                         } catch (e: JSONException) {
                             callback(null, netHelper.ReplyParamsUnexpected(e))
-                            log.error(TAG, "transactions error", e)
+                            log.error(TAG, "createCreditCardRegistration error", e)
                         }
                     }) { error ->
                 val status = if (error.networkResponse != null) error.networkResponse.statusCode
@@ -105,11 +105,11 @@ class PaymentCardRestAPI constructor(internal val hostName: String,
                 when (status) {
                     401 -> {
                         callback(null, netHelper.TokenError(error))
-                        log.error(TAG, "transactions error", error.fillInStackTrace())
+                        log.error(TAG, "createCreditCardRegistration error", error.fillInStackTrace())
                     }
                     else -> {
                         callback(null, netHelper.createRequestError(error))
-                        log.error(TAG, "transactions error", error.fillInStackTrace())
+                        log.error(TAG, "createCreditCardRegistration error", error.fillInStackTrace())
                     }
                 }
             }
@@ -118,7 +118,7 @@ class PaymentCardRestAPI constructor(internal val hostName: String,
             queue.add(request)
 
         } catch (e: Exception) {
-            log.error(TAG, "transactions error", e)
+            log.error(TAG, "createCreditCardRegistration error", e)
             request = null
         }
 
@@ -133,7 +133,7 @@ class PaymentCardRestAPI constructor(internal val hostName: String,
      * [cardRegistration] card registration data to authorize the tokenization
      * [completion] callback containing registration key
      */
-    fun postCardRegistrationData(userId: String,
+    internal fun postCardRegistrationData(userId: String,
                                  accountId: String,
                                  accountType: String,
                                  tenantId: String,
@@ -168,11 +168,11 @@ class PaymentCardRestAPI constructor(internal val hostName: String,
             when (status) {
                 401 -> {
                     completion(null, netHelper.TokenError(error))
-                    log.error(TAG, "transactions error", error.fillInStackTrace())
+                    log.error(TAG, "postCardRegistrationData error", error.fillInStackTrace())
                 }
                 else -> {
                     completion(null, netHelper.createRequestError(error))
-                    log.error(TAG, "transactions error", error.fillInStackTrace())
+                    log.error(TAG, "postCardRegistrationData error", error.fillInStackTrace())
                 }
             }
         }
@@ -189,7 +189,7 @@ class PaymentCardRestAPI constructor(internal val hostName: String,
      * [registration] registration key obtained from tokenizer service
      * [completion] callback containing the PaymentCard object
      */
-    fun sendCardResponseString(userId: String,
+    internal fun sendCardResponseString(userId: String,
                                accountId: String,
                                accountType: String,
                                tenantId: String,
@@ -218,7 +218,6 @@ class PaymentCardRestAPI constructor(internal val hostName: String,
             request = requestProvider.jsonObjectRequest(Request.Method.PUT, url, jo,
                     netHelper.authorizationToken(token),
                     { response ->
-                        log.debug("FintechPlatformAPI", "on response sendCardResponseString")
                         try {
 
                             val creditcardid = response.getString("cardId")
@@ -241,11 +240,11 @@ class PaymentCardRestAPI constructor(internal val hostName: String,
                 when (status) {
                     401 -> {
                         completion(null, netHelper.TokenError(error))
-                        log.error(TAG, "transactions error", error.fillInStackTrace())
+                        log.error(TAG, "sendCardResponseString error", error.fillInStackTrace())
                     }
                     else -> {
                         completion(null, netHelper.createRequestError(error))
-                        log.error(TAG, "transactions error", error.fillInStackTrace())
+                        log.error(TAG, "sendCardResponseString error", error.fillInStackTrace())
                     }
                 }
             }
@@ -254,7 +253,7 @@ class PaymentCardRestAPI constructor(internal val hostName: String,
             queue.add(request)
 
         } catch (e: Exception) {
-            log.error(TAG, "transactions error", e)
+            log.error(TAG, "sendCardResponseString error", e)
             request = null
         }
 
@@ -269,7 +268,7 @@ class PaymentCardRestAPI constructor(internal val hostName: String,
      * [cardFrom] original card data, to use only in production environment
      * [completionHandler] callback containing the card data to use for registration.
      */
-    open fun getCardSafe(cardFrom: CardToRegister,
+    internal fun getCardSafe(cardFrom: CardToRegister,
                          userId: String,
                          accountId: String,
                          accountType: String,
@@ -310,7 +309,7 @@ class PaymentCardRestAPI constructor(internal val hostName: String,
      *  [token] Fintech Platform API token got from "Create User token" request.
      *  [completion] callback returns the list of cards or an Exception if occurent some errors
      */
-    fun getPaymentCards(token:String,
+    internal fun getPaymentCards(token:String,
                         userId: String,
                         accountId: String,
                         accountType: String,
@@ -352,11 +351,11 @@ class PaymentCardRestAPI constructor(internal val hostName: String,
                 when (status) {
                     401 -> {
                         completion(null, netHelper.TokenError(error))
-                        log.error(TAG, "transactions error", error.fillInStackTrace())
+                        log.error(TAG, "get payment cards", error.fillInStackTrace())
                     }
                     else -> {
                         completion(null, netHelper.createRequestError(error))
-                        log.error(TAG, "transactions error", error.fillInStackTrace())
+                        log.error(TAG, "get payment cards", error.fillInStackTrace())
                     }
                 }
             }
@@ -364,14 +363,14 @@ class PaymentCardRestAPI constructor(internal val hostName: String,
             queue.add(r)
             request = r
         } catch (e: Exception) {
-            log.error(TAG, "getcreditcards", e)
+            log.error(TAG, "get payment cards", e)
             request = null
         }
 
         return request
     }
 
-    fun deletePaymentCard(token:String,
+    internal fun deletePaymentCard(token:String,
                           userId: String,
                           accountId: String,
                           accountType: String,
@@ -392,11 +391,11 @@ class PaymentCardRestAPI constructor(internal val hostName: String,
                 when (status) {
                     401 -> {
                         completion(netHelper.TokenError(error))
-                        log.error(TAG, "delete card error", error.fillInStackTrace())
+                        log.error(TAG, "delete payment card", error.fillInStackTrace())
                     }
                     else -> {
                         completion(netHelper.createRequestError(error))
-                        log.error(TAG, "delete card error", error.fillInStackTrace())
+                        log.error(TAG, "delete payment card", error.fillInStackTrace())
                     }
                 }
             })
@@ -411,7 +410,7 @@ class PaymentCardRestAPI constructor(internal val hostName: String,
         return request
     }
 
-    fun setDefaultCard(token:String,
+    internal fun setDefaultCard(token:String,
                        userId: String,
                        accountId: String,
                        accountType: String,
@@ -444,11 +443,11 @@ class PaymentCardRestAPI constructor(internal val hostName: String,
                 when (status) {
                     401 -> {
                         completion(null, netHelper.TokenError(error))
-                        log.error(TAG, "transactions error", error.fillInStackTrace())
+                        log.error(TAG, "set default payment card", error.fillInStackTrace())
                     }
                     else -> {
                         completion(null, netHelper.createRequestError(error))
-                        log.error(TAG, "transactions error", error.fillInStackTrace())
+                        log.error(TAG, "set default payment card", error.fillInStackTrace())
                     }
                 }
             }
@@ -456,7 +455,7 @@ class PaymentCardRestAPI constructor(internal val hostName: String,
             queue.add(r)
             request = r
         } catch (e: Exception) {
-            log.error(TAG, "delete payment card", e)
+            log.error(TAG, "set default payment card", e)
             request = null
         }
 

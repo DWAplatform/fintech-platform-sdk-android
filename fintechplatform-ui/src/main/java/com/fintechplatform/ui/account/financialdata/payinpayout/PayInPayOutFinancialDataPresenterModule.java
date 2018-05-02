@@ -1,8 +1,8 @@
 package com.fintechplatform.ui.account.financialdata.payinpayout;
 
-import com.fintechplatform.api.card.api.PaymentCardRestAPI;
-import com.fintechplatform.ui.card.db.PaymentCardPersistenceDB;
+import com.fintechplatform.api.card.api.PaymentCardAPI;
 import com.fintechplatform.api.iban.api.IbanAPI;
+import com.fintechplatform.ui.card.db.PaymentCardPersistenceDB;
 import com.fintechplatform.ui.iban.db.IbanPersistanceDB;
 import com.fintechplatform.ui.models.DataAccount;
 
@@ -23,7 +23,7 @@ public class PayInPayOutFinancialDataPresenterModule {
 
     @Provides
     @Singleton
-    FinancialDataContract.Presenter providesPayInPayOutFinancialDataPresenter(PaymentCardRestAPI cardAPI, IbanAPI ibanAPI, PaymentCardPersistenceDB paymentCardPersistenceDB, IbanPersistanceDB ibanPersistanceDB){
+    FinancialDataContract.Presenter providesPayInPayOutFinancialDataPresenter(PaymentCardAPI cardAPI, IbanAPI ibanAPI, PaymentCardPersistenceDB paymentCardPersistenceDB, IbanPersistanceDB ibanPersistanceDB){
         return new PayInPayOutFinancialDataPresenter(view, cardAPI, ibanAPI, configuration, ibanPersistanceDB, paymentCardPersistenceDB);
     }
 

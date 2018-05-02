@@ -1,7 +1,7 @@
 package com.fintechplatform.ui.cashin
 
 import com.fintechplatform.api.account.balance.models.BalanceItem
-import com.fintechplatform.api.card.api.PaymentCardRestAPI
+import com.fintechplatform.api.card.api.PaymentCardAPI
 import com.fintechplatform.api.cashin.api.CashInAPI
 import com.fintechplatform.api.money.Money
 import com.fintechplatform.api.net.NetHelper
@@ -16,7 +16,7 @@ import javax.inject.Inject
 class CashInPresenter @Inject constructor(val configuration: DataAccount,
                                           val view: CashInContract.View,
                                           val api: CashInAPI,
-                                          val apiCardRest: PaymentCardRestAPI,
+                                          val apiCardRest: PaymentCardAPI,
                                           val moneyHelper: MoneyHelper,
                                           val balanceHelper: BalanceHelper,
                                           val feeHelper: FeeHelper,

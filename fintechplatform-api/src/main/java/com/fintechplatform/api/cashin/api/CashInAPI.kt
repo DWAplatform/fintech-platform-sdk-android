@@ -137,7 +137,7 @@ open class CashInAPI @Inject constructor(
             queue.add(r)
             request = r
         } catch (e: Exception) {
-            log.error(TAG, "cashIn", e)
+            log.error(TAG, "cashInFee", e)
             request = null
         }
 

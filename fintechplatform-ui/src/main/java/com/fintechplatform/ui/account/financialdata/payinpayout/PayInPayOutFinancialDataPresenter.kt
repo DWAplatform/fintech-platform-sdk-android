@@ -1,6 +1,6 @@
 package com.fintechplatform.ui.account.financialdata.payinpayout
 
-import com.fintechplatform.api.card.api.PaymentCardRestAPI
+import com.fintechplatform.api.card.api.PaymentCardAPI
 import com.fintechplatform.api.iban.api.IbanAPI
 import com.fintechplatform.api.iban.models.BankAccount
 import com.fintechplatform.api.net.NetHelper
@@ -10,7 +10,7 @@ import com.fintechplatform.ui.models.DataAccount
 import javax.inject.Inject
 
 class PayInPayOutFinancialDataPresenter @Inject constructor(val view: FinancialDataContract.View,
-                                                            val apiCardRest: PaymentCardRestAPI,
+                                                            val apiCardRest: PaymentCardAPI,
                                                             val apiBankAccount: IbanAPI,
                                                             val configuration: DataAccount,
                                                             val ibanDB: IbanPersistanceDB,

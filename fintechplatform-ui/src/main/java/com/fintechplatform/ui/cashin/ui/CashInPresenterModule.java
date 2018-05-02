@@ -1,6 +1,6 @@
 package com.fintechplatform.ui.cashin.ui;
 
-import com.fintechplatform.api.card.api.PaymentCardRestAPI;
+import com.fintechplatform.api.card.api.PaymentCardAPI;
 import com.fintechplatform.api.cashin.api.CashInAPI;
 import com.fintechplatform.ui.account.balance.helpers.BalanceHelper;
 import com.fintechplatform.ui.card.db.PaymentCardPersistenceDB;
@@ -29,8 +29,8 @@ public class CashInPresenterModule {
 
     @Provides
     @Singleton
-    CashInContract.Presenter providePayInPresenter(CashInAPI api,
-                                                   PaymentCardRestAPI apiCard,
+    CashInContract.Presenter provideCashInPresenter(CashInAPI api,
+                                                   PaymentCardAPI apiCard,
                                                    MoneyHelper moneyHelper,
                                                    BalanceHelper balanceHelper,
                                                    FeeHelper feeHelper,
