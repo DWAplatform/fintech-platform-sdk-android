@@ -1,6 +1,8 @@
 package com.fintechplatform.api.card.api
 
 import com.android.volley.Request
+import com.fintechplatform.api.card.helpers.DateTimeConversion
+import com.fintechplatform.api.card.models.PaymentCardIssuer
 import com.fintechplatform.api.card.models.PaymentCardItem
 import com.fintechplatform.api.log.Log
 import com.fintechplatform.api.net.IRequest
@@ -41,6 +43,29 @@ class PaymentCardRestAPI constructor(internal val hostName: String,
      * [throwable] error returned from the underlying HTTP library
      */
     data class APIReplyError(val json: JSONArray?, val throwable: Throwable) : java.lang.Exception(throwable)
+
+    private fun toPaymentCardItem(reply: JSONObject): PaymentCardItem {
+
+        val issuer = reply.optString("issuer").let {
+            PaymentCardIssuer.valueOf(it)
+        }
+        val created = reply.optString("created").let {
+            DateTimeConversion.convertFromRFC3339(it)
+        }
+        val updated = reply.optString("updated").let {
+            DateTimeConversion.convertFromRFC3339(it)
+        }
+
+        return PaymentCardItem(
+                reply.optString("cardId"),
+                reply.getString("accountId"),
+                reply.optString("alias"),
+                reply.optString("expiration"),
+                reply.optString("currency"),
+                reply.optBoolean("defaultCard"),
+                reply.optString("status"),
+                issuer, created, updated)
+    }
 
     /**
      * Create a new registration card request, to obtain data useful to send to the card tokenizer service
@@ -219,17 +244,7 @@ class PaymentCardRestAPI constructor(internal val hostName: String,
                     netHelper.authorizationToken(token),
                     { response ->
                         try {
-
-                            val creditcardid = response.getString("cardId")
-                            val numberalias = response.getString("alias")
-                            val expirationdate = response.getString("expiration")
-                            val activestate = response.getString("status")
-                            val currency = response.getString("currency")
-
-                            val createOpt: String? = response.optString("created")
-
-                            val c = PaymentCardItem(creditcardid, accountId, numberalias,
-                                    expirationdate, currency, null, activestate, createOpt)
+                            val c = toPaymentCardItem(response)
                             completion(c, null)
                         } catch (e: JSONException) {
                             completion(null, netHelper.ReplyParamsUnexpected(e))
@@ -304,6 +319,8 @@ class PaymentCardRestAPI constructor(internal val hostName: String,
         }
     }
 
+
+
     /**
      * Get Payment Cards linked to Fintech Platform Account, identified from [tenantId] [ownerId] [accountType] and [accountId] params.
      *  [token] Fintech Platform API token got from "Create User token" request.
@@ -331,16 +348,7 @@ class PaymentCardRestAPI constructor(internal val hostName: String,
 
                         val creditcards = IntArray(response.length()) {i -> i}.map { i ->
                             val reply = response.getJSONObject(i)
-
-                            PaymentCardItem(
-                                    reply.optString("cardId"),
-                                    reply.getString("accountId"),
-                                    reply.optString("alias"),
-                                    reply.optString("expiration"),
-                                    reply.optString("currency"),
-                                    null,
-                                    reply.optString("status"),
-                                    reply.optString("created"))
+                            toPaymentCardItem(reply)
                         }
 
                         completion(creditcards, null)
@@ -427,15 +435,7 @@ class PaymentCardRestAPI constructor(internal val hostName: String,
                     null, netHelper.authorizationToken(token),
                     { paymentCardResponse ->
 
-                        completion(PaymentCardItem(
-                                paymentCardResponse.optString("cardId"),
-                                paymentCardResponse.getString("accountId"),
-                                paymentCardResponse.optString("alias"),
-                                paymentCardResponse.optString("expiration"),
-                                paymentCardResponse.optString("currency"),
-                                paymentCardResponse.optBoolean("defaultCard"),
-                                paymentCardResponse.optString("status"),
-                                paymentCardResponse.optString("created")), null)
+                        completion(toPaymentCardItem(paymentCardResponse), null)
                     })
             {error ->
                 val status = if (error.networkResponse != null) error.networkResponse.statusCode
