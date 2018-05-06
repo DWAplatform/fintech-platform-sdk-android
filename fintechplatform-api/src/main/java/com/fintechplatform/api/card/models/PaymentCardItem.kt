@@ -1,5 +1,12 @@
 package com.fintechplatform.api.card.models
 
+import java.util.*
+
+
+enum class PaymentCardIssuer {
+    VISA, MASTERCARD, DINERS, MAESTRO, UNKNOWN
+}
+
 /**
  * PaymentCard data model
  */
@@ -10,5 +17,7 @@ data class PaymentCardItem(val id: String?,
                            val currency: String,
                            val default: Boolean?,
                            val status: String?,
-                           val create: String?="")
+                           val issuer: PaymentCardIssuer?,
+                           val created: Date?,
+                           val updated: Date?)
 

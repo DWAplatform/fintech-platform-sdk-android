@@ -54,7 +54,7 @@ class FintechPlatformAPITest {
 
     @Test
     fun test_startPayInUI() {
-        val context = InstrumentationRegistry.getTargetContext()
+        /*val context = InstrumentationRegistry.getTargetContext()
 
         val hostName = "https://restApi.sandbox.dwaplatform.com"
         val token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJleHAiOjE1MTI3NDU0MDAsImlhdCI6MTUxMjY1OTAwMCwiY2xpZW50SWQiOiJkYmI3YzEwYS03MzY3LTExZTctODgxMy1iZmUyY2ExMGJiOWEifQ.A1z1-uMuMdq_CrbNjT7xhzrUdJQ1cIIjoLFUqTIi63JUFi0fmkE0CxW-iVemo2VR8qyJjXW6CljJ-8p3cy0V5A"
@@ -70,7 +70,7 @@ class FintechPlatformAPITest {
                 DataAccount(userId, accountId, paymentCardId))
         payInComponent.payInUI.start(context)
 
-        Thread.sleep(20000)
+        Thread.sleep(20000)*/
 
 
 
@@ -78,7 +78,7 @@ class FintechPlatformAPITest {
 
     @Test
     fun test_startSecure3dUI() {
-        val context = InstrumentationRegistry.getTargetContext()
+        /*val context = InstrumentationRegistry.getTargetContext()
 
         val hostName = "https://restApi.sandbox.dwaplatform.com"
         val token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJleHAiOjE1MTI3NDU0MDAsImlhdCI6MTUxMjY1OTAwMCwiY2xpZW50SWQiOiJkYmI3YzEwYS03MzY3LTExZTctODgxMy1iZmUyY2ExMGJiOWEifQ.A1z1-uMuMdq_CrbNjT7xhzrUdJQ1cIIjoLFUqTIi63JUFi0fmkE0CxW-iVemo2VR8qyJjXW6CljJ-8p3cy0V5A"
@@ -90,7 +90,7 @@ class FintechPlatformAPITest {
         val payIn = FintechPlatformAPI.build3DSecure()
         val payInComponent = payIn.buildSecure3DUIComponent().secure3DUI.start(context, "www.google.com")
 
-        Thread.sleep(20000)
+        Thread.sleep(20000)*/
 
     }
 
