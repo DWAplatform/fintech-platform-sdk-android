@@ -192,12 +192,12 @@ class PaymentCardRestAPI constructor(internal val hostName: String,
             else -1
             when (status) {
                 401 -> {
-                    completion(null, netHelper.TokenError(error))
                     log.error(TAG, "postCardRegistrationData error", error.fillInStackTrace())
+                    completion(null, netHelper.TokenError(error))
                 }
                 else -> {
-                    completion(null, netHelper.createRequestError(error))
                     log.error(TAG, "postCardRegistrationData error", error.fillInStackTrace())
+                    completion(null, netHelper.createRequestError(error))
                 }
             }
         }

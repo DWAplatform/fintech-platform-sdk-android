@@ -7,16 +7,20 @@ import java.util.*
  * Date time conversion from and to RFC3339 standard
  */
 object DateTimeConversion {
-    val format = "yyyy-MM-dd'T'HH:mm:ssXXX"
+    val format = "yyyy-MM-dd'T'HH:mm:ssZZZZZZ"
 
     fun convert2RFC3339(ts: Date): String =
         SimpleDateFormat(format).format(ts)
 
 
-    fun convertFromRFC3339(str: String): Date? =
+    fun convertFromRFC3339(str: String): Date? {
+            val c = str[0]
+
+
         try {
-            Date(SimpleDateFormat(format).parse(str).time)
+            return Date(SimpleDateFormat(format).parse(str).time)
         } catch(e: Exception) {
-            null
+           return  null
         }
+    }
 }
