@@ -1,7 +1,9 @@
 package com.fintechplatform.api.cashin.api
 
 import com.android.volley.Request
+import com.fintechplatform.api.card.helpers.DateTimeConversion
 import com.fintechplatform.api.cashin.models.CashInReply
+import com.fintechplatform.api.cashin.models.CashInStatus
 import com.fintechplatform.api.log.Log
 import com.fintechplatform.api.money.Money
 import com.fintechplatform.api.net.IRequest
@@ -59,8 +61,15 @@ open class CashInAPI @Inject constructor(
                 val transactionid = response.getString("transactionId")
                 val securecodeneeded = response.getBoolean("secure3D")
                 val redirecturl = response.optString("redirectURL")
+                val status = response.optString("status")
+                val created = response.optString("created").let {
+                    DateTimeConversion.convertFromRFC3339(it)
+                }
+                val updated = response.optString("updated").let {
+                    DateTimeConversion.convertFromRFC3339(it)
+                }
 
-                completion(CashInReply(transactionid, securecodeneeded, redirecturl), null)
+                completion(CashInReply(transactionid, securecodeneeded, redirecturl, CashInStatus.valueOf(status), created, updated), null)
             }) { error ->
 
                 val status = if (error.networkResponse != null) error.networkResponse.statusCode
