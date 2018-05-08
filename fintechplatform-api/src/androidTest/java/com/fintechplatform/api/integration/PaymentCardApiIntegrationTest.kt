@@ -32,17 +32,6 @@ class PaymentCardApiIntegrationTest {
         accountId = ""
     }
 
-    @Test
-    fun test_convertFromAndToRFC3339() {
-        val dateStr = "2018-05-07T13:54:55+02:00"
-        // When
-        val result = DateTimeConversion.convertFromRFC3339(dateStr)
-
-        val resultString = DateTimeConversion.convert2RFC3339(result!!)
-
-        // Then
-        Assert.assertEquals(resultString, dateStr)
-    }
 
     @Test
     fun testCards() {
