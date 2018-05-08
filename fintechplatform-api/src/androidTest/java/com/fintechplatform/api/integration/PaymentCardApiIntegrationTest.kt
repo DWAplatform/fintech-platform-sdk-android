@@ -26,17 +26,10 @@ class PaymentCardApiIntegrationTest {
 
     @Before
     fun setUp() {
-        /*hostName = ProcessInfo.processInfo.environment["HOSTNAME"]!
-        accessToken = ProcessInfo.processInfo.environment["ACCOUNT_TOKEN"]!
-        tenantId = ProcessInfo.processInfo.environment["TENANT_ID"]!
-        userId = ProcessInfo.processInfo.environment["OWNER_ID"]!
-        accountId = ProcessInfo.processInfo.environment["ACCOUNT_ID"]!*/
-
-        hostName = "http://172.16.21.28:9000"
-        accessToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJleHAiOjE1MjU3NzU1NjEsImlhdCI6MTUyNTY4OTE2MSwidGVuYW50SWQiOiJiMDQ1NmNjNC01NTc0LTQ4M2UtYjRmOS1lODg2Y2MzZmVkZmUiLCJhY2NvdW50VHlwZSI6IlBFUlNPTkFMIiwib3duZXJJZCI6IjU5YzdhZDY4LTk2ZDQtNGEwNS04MGFmLWM2YjkzODdmNjYzMCIsImFjY291bnRJZCI6ImFiMTk2YWNjLTk1M2MtNDgzYS1hMGIxLTFmOGI2NDA3ZDRlZCIsImp3dFR5cGUiOiJBQ0NPVU5UIiwic2NvcGUiOlsiTElOS0VEX0NBUkQiLCJMSU5LRURfQ0FSRF9DQVNIX0lOIl19.vQ5v1jYmjpNUMMV_i8QhAERQQtszEltE-vvkdLR7TBiePbRfpXqN-fST3j-jISUQCr8fQzfg2Q3ejjn3S2cAXQ"
-        tenantId = "b0456cc4-5574-483e-b4f9-e886cc3fedfe"
-        userId = "59c7ad68-96d4-4a05-80af-c6b9387f6630"
-        accountId = "ab196acc-953c-483a-a0b1-1f8b6407d4ed"
+        accessToken = ""
+        tenantId = ""
+        userId = ""
+        accountId = ""
     }
 
     @Test
@@ -56,6 +49,27 @@ class PaymentCardApiIntegrationTest {
 
         val context = InstrumentationRegistry.getTargetContext()
         val paymentCardAPI = FintechPlatformAPI.getPaymentCard(hostName, context, true)
+
+
+        // get initial payment card for account user
+        // getPaymentCards, expect two Cards
+        val expectationGetCardsN = CountDownLatch(1)
+        var cardsList: List<PaymentCardItem>? = null
+        var cardsListOptError: Exception? = null
+        paymentCardAPI.getPaymentCards(accessToken, userId, accountId,  "PERSONAL", tenantId) {
+            optList, optError ->
+            cardsListOptError = optError
+            cardsList = optList
+
+            expectationGetCardsN.countDown()
+        }
+
+        expectationGetCardsN.await(600, TimeUnit.SECONDS)
+
+        Assert.assertNull(cardsListOptError)
+        Assert.assertNotNull(cardsList)
+        val initialCardItems = cardsList!!.size
+
 
         var paymentCard1: PaymentCardItem? = null
         var paymentCard1OptError: Exception? = null
@@ -81,8 +95,6 @@ class PaymentCardApiIntegrationTest {
         
         // getPaymentCards, expect only the First Card created
         val expectationGetCards1 = CountDownLatch(1)
-        var cardsList: List<PaymentCardItem>? = null
-        var cardsListOptError: Exception? = null
         paymentCardAPI.getPaymentCards(accessToken, userId, accountId,  "PERSONAL", tenantId)
         { optList, optError ->
 
@@ -97,7 +109,7 @@ class PaymentCardApiIntegrationTest {
         Assert.assertNull(cardsListOptError)
         Assert.assertNotNull(cardsList)
 
-//        Assert.assertEquals(cardsList!!.size, 1)
+        Assert.assertEquals(cardsList!!.size, initialCardItems + 1)
         Assert.assertTrue(cardsList!!.contains(paymentCard1!!))
 
         
@@ -134,7 +146,7 @@ class PaymentCardApiIntegrationTest {
 
         Assert.assertNull(cardsListOptError)
         Assert.assertNotNull(cardsList)
-//        Assert.assertEquals(cardsList!!.size, 2)
+        Assert.assertEquals(cardsList!!.size, initialCardItems + 2)
 
         Assert.assertTrue(cardsList!!.contains(paymentCard1!!))
         Assert.assertTrue(cardsList!!.contains(paymentCard2!!))
@@ -172,7 +184,7 @@ class PaymentCardApiIntegrationTest {
 
         Assert.assertEquals(paymentCard1Default, setDefaultCard1)
 
-        Assert.assertTrue(setDefaultCard1!!.updated!!.after(paymentCard1!!.updated!!))
+        Assert.assertTrue(setDefaultCard1!!.updated!!.compareTo(paymentCard1!!.updated!!) >= 0)
 
 
         // getPaymentCard, expect 2 cards, the first as default and the other not
@@ -190,7 +202,7 @@ class PaymentCardApiIntegrationTest {
 
         Assert.assertNull(cardsListOptError)
         Assert.assertNotNull(cardsList)
-        Assert.assertEquals(cardsList!!.size, 2)
+        Assert.assertEquals(cardsList!!.size, initialCardItems + 2)
 
         Assert.assertTrue(cardsList!!.contains(paymentCard1Default))
 
@@ -254,7 +266,7 @@ class PaymentCardApiIntegrationTest {
         Assert.assertNull(cardsListOptError)
         Assert.assertNotNull(cardsList)
 
-        Assert.assertEquals(cardsList!!.size, 2)
+        Assert.assertEquals(cardsList!!.size, initialCardItems + 2)
 
         val paymentCard1NotDefault = PaymentCardItem(
                 paymentCard1!!.id,
@@ -274,21 +286,20 @@ class PaymentCardApiIntegrationTest {
         // delete the second Card
         val expectationDeleteCard1 = CountDownLatch(1)
         var deleteCard1OptError: Exception?= null
-        //var deleteCard1: Boolean?= null
+        var deleteCard1: Boolean?= null
         paymentCard2?.id.let { cardId ->
             paymentCardAPI.deletePaymentCard(accessToken, userId, accountId,  "PERSONAL", tenantId,
                     cardId!!) { optError ->
                 deleteCard1OptError = optError
-                //deleteCard1 = true
+                deleteCard1 = true
                 expectationDeleteCard1.countDown()
             }
         }
 
-        expectationDeleteCard1.await(600, TimeUnit.SECONDS)
+        expectationDeleteCard1.await(60, TimeUnit.SECONDS)
 
         Assert.assertNull(deleteCard1OptError)
-        //Assert.assertNotNull(deleteCard1, "Doesn't delete payment card")
-        //Assert.assertTrue(deleteCard1!)
+        Assert.assertNotNull(deleteCard1)
 
         // getPaymentCard, expect only the first card
         val expectationGetCards5 = CountDownLatch(1)
@@ -306,20 +317,20 @@ class PaymentCardApiIntegrationTest {
         Assert.assertNull(cardsListOptError)
         Assert.assertNotNull(cardsList)
 
-        Assert.assertEquals(cardsList?.size, 1)
+        Assert.assertEquals(cardsList?.size, initialCardItems + 1)
         Assert.assertTrue(cardsList!!.contains(paymentCard1NotDefault))
 
         // deleteCard the first card
         val expectationDeleteCard2 = CountDownLatch(1)
         var deleteCard2OptError: Exception?= null
-        //var deleteCard2:Bool?= null
+        var deleteCard2: Boolean?= null
         paymentCard1?.id.let { cardId ->
             paymentCardAPI.deletePaymentCard(accessToken,
                     userId, accountId,  "PERSONAL", tenantId, cardId!!) {
                 optError ->
 
                 deleteCard2OptError = optError
-                //deleteCard2 = optBool
+                deleteCard2 = true
 
                 expectationDeleteCard2.countDown()
             }
@@ -327,8 +338,8 @@ class PaymentCardApiIntegrationTest {
         expectationDeleteCard2.await(600, TimeUnit.SECONDS)
 
         Assert.assertNull(deleteCard2OptError)
-        //Assert.assertNull(deleteCard2, "Doesn't delete payment card")
-        //Assert.assertTrue(deleteCard2!)
+        Assert.assertNotNull(deleteCard2)
+        Assert.assertTrue(deleteCard2!!)
 
         // getPaymentCard, expect empty cards
         val expectationGetCards6 = CountDownLatch(1)
@@ -344,8 +355,8 @@ class PaymentCardApiIntegrationTest {
         expectationGetCards6.await(600, TimeUnit.SECONDS)
 
         Assert.assertNull(cardsListOptError)
-        Assert.assertNull(cardsList)
-        Assert.assertEquals(cardsList?.size, 0)
+        Assert.assertNotNull(cardsList)
+        Assert.assertEquals(cardsList?.size, initialCardItems)
 
 
 

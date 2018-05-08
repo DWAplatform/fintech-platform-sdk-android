@@ -90,8 +90,9 @@ class VolleyRequestProvider : IRequestProvider {
     override fun nothingRequest(method: Int,
                                 url: String,
                                 header: Map<String, String>,
+                                listener: (Nothing?) -> Unit,
                                 errorListener: (VolleyError) -> Unit): VolleyNothingRequest {
-        return object : VolleyNothingRequest(method, url, errorListener) {
+        return object : VolleyNothingRequest(method, url, listener, errorListener) {
             @Throws(AuthFailureError::class)
             override fun getHeaders(): Map<String, String> {
                 return header
