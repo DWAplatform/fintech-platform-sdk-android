@@ -3,7 +3,6 @@ package com.fintechplatform.api.integration
 import android.support.test.InstrumentationRegistry
 import android.support.test.runner.AndroidJUnit4
 import com.fintechplatform.api.FintechPlatformAPI
-import com.fintechplatform.api.card.helpers.DateTimeConversion
 import com.fintechplatform.api.card.models.PaymentCardItem
 import org.junit.Assert
 import org.junit.Before
@@ -26,10 +25,17 @@ class PaymentCardApiIntegrationTest {
 
     @Before
     fun setUp() {
-        accessToken = ""
-        tenantId = ""
-        userId = ""
-        accountId = ""
+        /*hostName = ProcessInfo.processInfo.environment["HOSTNAME"]!
+        accessToken = ProcessInfo.processInfo.environment["ACCOUNT_TOKEN"]!
+        tenantId = ProcessInfo.processInfo.environment["TENANT_ID"]!
+        userId = ProcessInfo.processInfo.environment["OWNER_ID"]!
+        accountId = ProcessInfo.processInfo.environment["ACCOUNT_ID"]!*/
+
+        hostName = "http://192.168.1.73:9000"
+        accessToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJleHAiOjE1MjU5MzcxNTgsImlhdCI6MTUyNTg1MDc1OCwidGVuYW50SWQiOiJiMDQ1NmNjNC01NTc0LTQ4M2UtYjRmOS1lODg2Y2MzZmVkZmUiLCJhY2NvdW50VHlwZSI6IlBFUlNPTkFMIiwib3duZXJJZCI6ImQ0NTk5MWU2LWIzYTItNDVlYy04YjFiLWZlM2Q2OTVhMjQ3YiIsImFjY291bnRJZCI6IjdiNWRlODNjLTUzN2ItNGQwNy1iYWVhLTk2NDc3ZmU2ZTIxZSIsImp3dFR5cGUiOiJBQ0NPVU5UIiwic2NvcGUiOlsiTElOS0VEX0NBUkQiLCJMSU5LRURfQ0FSRF9DQVNIX0lOIl19.h4sZmqX8W-zO36wFYNSzqd8H4D19my20s5qvjDka48JSdtrF7j8CarqgbKxrZSPLx3ict0Xa1lBB0xVwL86g0g"
+        tenantId = "b0456cc4-5574-483e-b4f9-e886cc3fedfe"
+        userId = "d45991e6-b3a2-45ec-8b1b-fe3d695a247b"
+        accountId = "7b5de83c-537b-4d07-baea-96477fe6e21e"
     }
 
 
@@ -72,7 +78,6 @@ class PaymentCardApiIntegrationTest {
             paymentCard1 = optPaymentCardItem
 
             expectationRegisterCard1.countDown()
-
 
         }
 
