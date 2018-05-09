@@ -393,6 +393,10 @@ class PaymentCardRestAPI constructor(internal val hostName: String,
 
             val r = requestProvider.nothingRequest(Request.Method.DELETE, baseurl,
                      netHelper.authorizationToken(token),
+                    { paymentCardResponse ->
+
+                        completion(null)
+                    },
             { error ->
                 val status = if (error.networkResponse != null) error.networkResponse.statusCode
                 else -1

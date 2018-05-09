@@ -54,5 +54,6 @@ interface IRequestProvider {
     fun nothingRequest(method: Int,
                        url: String,
                        header: Map<String, String>,
+                       listener: (Nothing?) -> Unit,
                        errorListener: (VolleyError) -> Unit): VolleyNothingRequest
 }
