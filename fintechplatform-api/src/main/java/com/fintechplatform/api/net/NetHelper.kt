@@ -3,9 +3,10 @@ package com.fintechplatform.api.net
 import com.android.volley.DefaultRetryPolicy
 import com.android.volley.NetworkResponse
 import com.android.volley.VolleyError
+import com.fintechplatform.api.account.models.AccountType
 import com.fintechplatform.api.card.api.PaymentCardRestAPI
 import com.fintechplatform.api.enterprise.models.EnterpriseProfile
-import com.fintechplatform.api.profile.models.UserProfile
+import com.fintechplatform.api.user.models.UserProfile
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
@@ -27,8 +28,8 @@ class NetHelper constructor(val hostName: String) {
             return this
         }
 
-        fun idempotency(idempotencyKey: String): HeaderBuilder {
-            header.put("Idempotency-Key", idempotencyKey)
+        fun idempotency(idempotencyKey: String?): HeaderBuilder {
+            idempotencyKey?.let { header.put("Idempotency-Key", idempotencyKey) }
             return this
         }
 
@@ -79,11 +80,10 @@ class NetHelper constructor(val hostName: String) {
         }
     }
 
-    fun getPathFromAccountType(accountType: String): String {
-        return if (accountType == "PERSONAL"){
-                "users"
-            } else {
-                "enterprises"
+    fun getPathFromAccountType(accountType: AccountType): String {
+        return when (accountType) {
+            AccountType.PERSONAL -> "users"
+            AccountType.BUSINESS -> "enterprises"
             }
     }
 

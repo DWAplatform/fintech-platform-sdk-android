@@ -1,9 +1,9 @@
-package com.fintechplatform.api.profile;
+package com.fintechplatform.api.user;
 
 import com.fintechplatform.api.log.LogModule;
 import com.fintechplatform.api.net.NetModule;
-import com.fintechplatform.api.profile.api.ProfileAPI;
-import com.fintechplatform.api.profile.api.ProfileAPIModule;
+import com.fintechplatform.api.user.api.ProfileAPI;
+import com.fintechplatform.api.user.api.ProfileAPIModule;
 
 import javax.inject.Singleton;
 

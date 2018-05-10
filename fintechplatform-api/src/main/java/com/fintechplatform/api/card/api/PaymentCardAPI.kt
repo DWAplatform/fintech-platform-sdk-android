@@ -1,11 +1,14 @@
 package com.fintechplatform.api.card.api
 
+import com.fintechplatform.api.account.models.Account
 import com.fintechplatform.api.card.helpers.PaymentCardHelper
-import com.fintechplatform.api.card.models.PaymentCardItem
+import com.fintechplatform.api.card.models.PaymentCard
 import com.fintechplatform.api.log.Log
+import com.fintechplatform.api.money.Currency
 import com.fintechplatform.api.net.IRequest
 import org.json.JSONArray
 import java.lang.Exception
+import java.util.*
 import javax.inject.Inject
 
 /**
@@ -35,6 +38,9 @@ open class PaymentCardAPI @Inject constructor(
 
     private val TAG = "ClientCardAPI"
 
+    /*
+    registerPaymentCard(token: String, account: Account, alias, expiration, currency, idempotencyKey: String?, completionHandler: (PaymentCard?, Exception?))
+     */
     /**
      *  Register a PaymentCard. Use this method to register a user card and PLEASE DO NOT save card information on your own client or server side.
      *
@@ -47,28 +53,47 @@ open class PaymentCardAPI @Inject constructor(
      *  [completionHandler] callback called after the server communication is done and containing a PaymentCard item object or an Exception in case of error.
      */
     open fun registerCard(token: String,
-                          ownerId: String,
-                          accountId: String,
-                          accountType: String,
-                          tenantId: String,
+                          account: Account,
                           cardNumber: String,
                           expiration: String,
                           cvxValue: String,
-                          currency: String,
-                          completionHandler: (PaymentCardItem?, Exception?) -> Unit) {
+                          currency: Currency,
+                          idempotencyKey: String? = null,
+                          completionHandler: (PaymentCard?, Exception?) -> Unit) {
 
         log.debug(TAG, "fun registerCard called")
 
 
         paymentCardHelper.checkCardFormat(cardNumber, expiration, cvxValue)
 
-        restAPI.createCreditCardRegistration(ownerId, accountId, accountType, tenantId, token, paymentCardHelper.generateAlias(cardNumber), expiration, currency){ optCardReg, optError ->
+        restAPI.createCreditCardRegistration(account.ownerId.toString(),
+                account.accountId.toString(),
+                account.accountType,
+                account.tenantId.toString(),
+                token,
+                paymentCardHelper.generateAlias(cardNumber),
+                expiration,
+                currency){ optCardReg, optError ->
+
             optError?.let { error -> completionHandler(null, error); return@createCreditCardRegistration }
             optCardReg?.let { crReply->
-                restAPI.getCardSafe(PaymentCardRestAPI.CardToRegister(cardNumber, expiration, cvxValue), ownerId, accountId, accountType, tenantId, token) { optCardSafe, optErrorCS ->
+                restAPI.getCardSafe(PaymentCardRestAPI.CardToRegister(cardNumber, expiration, cvxValue),
+                        account.ownerId.toString(),
+                        account.accountId.toString(),
+                        account.accountType,
+                        account.tenantId.toString(),
+                        token) { optCardSafe, optErrorCS ->
                     optErrorCS?.let { completionHandler(null, it); return@getCardSafe}
                     optCardSafe?.let { cardToRegister ->
-                        restAPI.postCardRegistrationData(ownerId, accountId, accountType, tenantId, token, cardToRegister.cardNumber, cardToRegister.expiration, cardToRegister.cvx, crReply) { paymentCardItem, exception ->
+                        restAPI.postCardRegistrationData(account.ownerId.toString(),
+                                account.accountId.toString(),
+                                account.accountType,
+                                account.tenantId.toString(),
+                                token,
+                                cardToRegister.cardNumber,
+                                cardToRegister.expiration,
+                                cardToRegister.cvx,
+                                crReply) { paymentCardItem, exception ->
                             exception?.let { completionHandler(null, it); return@postCardRegistrationData }
                             paymentCardItem?.let { completionHandler(it, null) }
                         }
@@ -84,13 +109,10 @@ open class PaymentCardAPI @Inject constructor(
      *  [completion] callback returns the list of cards or an Exception if occurent some errors
      */
     open fun getPaymentCards(token:String,
-                        ownerId: String,
-                        accountId: String,
-                        accountType: String,
-                        tenantId: String,
-                        completion: (List<PaymentCardItem>?, Exception?) -> Unit): IRequest<*>? {
+                        account: Account,
+                        completion: (List<PaymentCard>?, Exception?) -> Unit): IRequest<*>? {
 
-        return restAPI.getPaymentCards(token, ownerId, accountId, accountType, tenantId, completion)
+        return restAPI.getPaymentCards(token, account.ownerId.toString(), account.accountId.toString(), account.accountType, account.tenantId.toString(), completion)
     }
 
     /**
@@ -100,22 +122,16 @@ open class PaymentCardAPI @Inject constructor(
      *  [completion] callback returns the list of cards or an Exception if occurent some errors
      */
     open fun deletePaymentCard(token:String,
-                          ownerId: String,
-                          accountId: String,
-                          accountType: String,
-                          tenantId: String,
-                          cardId: String,
-                          completion: (Exception?) -> Unit): IRequest<*>? {
-        return restAPI.deletePaymentCard(token, ownerId, accountId, accountType, tenantId, cardId, completion)
+                               account: Account,
+                               cardId: String,
+                               completion: (Exception?) -> Unit): IRequest<*>? {
+        return restAPI.deletePaymentCard(token, account.ownerId.toString(), account.accountId.toString(), account.accountType, account.tenantId.toString(), cardId, completion)
     }
 
     open fun setDefaultPaymentCard(token:String,
-                              ownerId: String,
-                              accountId: String,
-                              accountType: String,
-                              tenantId: String,
-                              cardId: String,
-                              completion: (PaymentCardItem?, Exception?) -> Unit): IRequest<*>? {
-        return restAPI.setDefaultCard(token, ownerId, accountId, accountType, tenantId, cardId, completion)
+                                   account: Account,
+                                   cardId: String,
+                                   completion: (PaymentCard?, Exception?) -> Unit): IRequest<*>? {
+        return restAPI.setDefaultCard(token, account.ownerId.toString(), account.accountId.toString(), account.accountType, account.tenantId.toString(), cardId, completion)
     }
 }

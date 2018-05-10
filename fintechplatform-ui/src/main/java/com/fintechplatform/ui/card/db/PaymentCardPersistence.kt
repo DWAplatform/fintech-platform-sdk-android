@@ -1,14 +1,14 @@
 package com.fintechplatform.ui.card.db
 
-import com.fintechplatform.api.card.models.PaymentCardItem
+import com.fintechplatform.api.card.models.PaymentCard
 
 interface PaymentCardPersistence {
 
-    open fun getPaymentCardItem(accountId: String): PaymentCardItem?
+    open fun getPaymentCardItem(accountId: String): PaymentCard?
 
-    fun savePaymentCard(paymentcard: PaymentCardItem)
+    fun savePaymentCard(paymentcard: PaymentCard)
 
-    fun replace(paymentcard: PaymentCardItem)
+    fun replace(paymentcard: PaymentCard)
 
     fun paymentCardId(accountId: String):String?
 

@@ -1,10 +1,13 @@
 package com.fintechplatform.api.card.api
 
 import com.android.volley.Request
+import com.fintechplatform.api.account.models.AccountType
 import com.fintechplatform.api.card.helpers.DateTimeConversion
 import com.fintechplatform.api.card.models.PaymentCardIssuer
-import com.fintechplatform.api.card.models.PaymentCardItem
+import com.fintechplatform.api.card.models.PaymentCard
+import com.fintechplatform.api.card.models.PaymentCardStatus
 import com.fintechplatform.api.log.Log
+import com.fintechplatform.api.money.Currency
 import com.fintechplatform.api.net.IRequest
 import com.fintechplatform.api.net.IRequestProvider
 import com.fintechplatform.api.net.IRequestQueue
@@ -12,7 +15,6 @@ import com.fintechplatform.api.net.NetHelper
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
-import java.util.*
 
 class PaymentCardRestAPI constructor(internal val hostName: String,
                                      internal val queue: IRequestQueue,
@@ -44,7 +46,7 @@ class PaymentCardRestAPI constructor(internal val hostName: String,
      */
     data class APIReplyError(val json: JSONArray?, val throwable: Throwable) : java.lang.Exception(throwable)
 
-    private fun toPaymentCardItem(reply: JSONObject): PaymentCardItem {
+    private fun toPaymentCardItem(reply: JSONObject): PaymentCard {
 
         val issuer = reply.optString("issuer").let {
             PaymentCardIssuer.valueOf(it)
@@ -55,16 +57,24 @@ class PaymentCardRestAPI constructor(internal val hostName: String,
         val updated = reply.optString("updated").let {
             DateTimeConversion.convertFromRFC3339(it)
         }
+        val currency = reply.optString("currency")?.let {
+            Currency.valueOf(it)
+        }
 
-        return PaymentCardItem(
+        val status = reply.optString("status")?.let {
+            PaymentCardStatus.valueOf(it)
+        }
+
+        return PaymentCard(
                 reply.optString("cardId"),
-                reply.getString("accountId"),
                 reply.optString("alias"),
                 reply.optString("expiration"),
-                reply.optString("currency"),
+                currency,
+                issuer,
+                status,
                 reply.optBoolean("defaultCard"),
-                reply.optString("status"),
-                issuer, created, updated)
+                created, updated)
+
     }
 
     /**
@@ -77,11 +87,11 @@ class PaymentCardRestAPI constructor(internal val hostName: String,
      */
     internal fun createCreditCardRegistration(userId: String,
                                      accountId: String,
-                                     accountType: String,
+                                     accountType: AccountType,
                                      tenantId: String, token: String,
                                      numberalias: String,
                                      expiration: String,
-                                     currency: String,
+                                     currency: Currency,
                                      callback: (CreateCardRegistrationReply?, Exception?) -> Unit): IRequest<*>? {
 
         log.debug("FintechPlatformAPI", "createCreditCardRegistration")
@@ -160,14 +170,14 @@ class PaymentCardRestAPI constructor(internal val hostName: String,
      */
     internal fun postCardRegistrationData(userId: String,
                                  accountId: String,
-                                 accountType: String,
+                                 accountType: AccountType,
                                  tenantId: String,
                                  token: String,
                                  cardnumber: String,
                                  expiration: String,
                                  cvx: String,
                                  cardRegistrationReply: CreateCardRegistrationReply,
-                                 completion: (PaymentCardItem?, Exception?) -> Unit)
+                                 completion: (PaymentCard?, Exception?) -> Unit)
             : IRequest<*> {
 
         log.debug("FintechPlatformAPI", "getCardRegistrationData")
@@ -216,12 +226,12 @@ class PaymentCardRestAPI constructor(internal val hostName: String,
      */
     internal fun sendCardResponseString(userId: String,
                                accountId: String,
-                               accountType: String,
+                               accountType: AccountType,
                                tenantId: String,
                                token: String,
                                regresponse: String,
                                cardRegistration: CreateCardRegistrationReply,
-                               completion: (PaymentCardItem?, Exception?) -> Unit)
+                               completion: (PaymentCard?, Exception?) -> Unit)
             : IRequest<*>? {
         log.debug("FintechPlatformAPI", "sendCardResponseString")
         val url = netHelper.getURL("/rest/v1/fintech/tenants/$tenantId/${netHelper.getPathFromAccountType(accountType)}/$userId/accounts/$accountId/linkedCards/${cardRegistration.cardId}")
@@ -286,7 +296,7 @@ class PaymentCardRestAPI constructor(internal val hostName: String,
     internal fun getCardSafe(cardFrom: CardToRegister,
                          userId: String,
                          accountId: String,
-                         accountType: String,
+                         accountType: AccountType,
                          tenantId: String,
                          token: String,
                          completionHandler: (CardToRegister?, Exception?) -> Unit) {
@@ -329,9 +339,9 @@ class PaymentCardRestAPI constructor(internal val hostName: String,
     internal fun getPaymentCards(token:String,
                         userId: String,
                         accountId: String,
-                        accountType: String,
+                        accountType: AccountType,
                         tenantId: String,
-                        completion: (List<PaymentCardItem>?, Exception?) -> Unit): IRequest<*>? {
+                        completion: (List<PaymentCard>?, Exception?) -> Unit): IRequest<*>? {
 
         val baseurl = netHelper.getURL("/rest/v1/fintech/tenants/$tenantId/${netHelper.getPathFromAccountType(accountType)}/$userId/accounts/$accountId/linkedCards")
 
@@ -381,7 +391,7 @@ class PaymentCardRestAPI constructor(internal val hostName: String,
     internal fun deletePaymentCard(token:String,
                           userId: String,
                           accountId: String,
-                          accountType: String,
+                          accountType: AccountType,
                           tenantId: String,
                           cardId: String,
                           completion: (Exception?) -> Unit): IRequest<*>? {
@@ -425,10 +435,10 @@ class PaymentCardRestAPI constructor(internal val hostName: String,
     internal fun setDefaultCard(token:String,
                        userId: String,
                        accountId: String,
-                       accountType: String,
+                       accountType: AccountType,
                        tenantId: String,
                        cardId: String,
-                       completion: (PaymentCardItem?, Exception?) -> Unit): IRequest<*>? {
+                       completion: (PaymentCard?, Exception?) -> Unit): IRequest<*>? {
 
         val baseurl = netHelper.getURL("/rest/v1/fintech/tenants/$tenantId/${netHelper.getPathFromAccountType(accountType)}/$userId/accounts/$accountId/linkedCards/$cardId/default")
 

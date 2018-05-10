@@ -1,10 +1,10 @@
-package com.fintechplatform.api.profile;
+package com.fintechplatform.api.user;
 
 import android.content.Context;
 
 import com.android.volley.toolbox.Volley;
 import com.fintechplatform.api.net.NetModule;
-import com.fintechplatform.api.profile.api.ProfileAPIModule;
+import com.fintechplatform.api.user.api.ProfileAPIModule;
 
 public class ProfileAPIBuilder {
 

@@ -1,4 +1,4 @@
-package com.fintechplatform.api.profile.models
+package com.fintechplatform.api.user.models
 
 data class UserProfile(val userid: String,
                        val name: String? = null,

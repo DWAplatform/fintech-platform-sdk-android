@@ -3,10 +3,10 @@ package com.fintechplatform.ui.profile.contacts.ui
 import com.fintechplatform.ui.email.EmailHelper
 import com.fintechplatform.ui.models.DataAccount
 import com.fintechplatform.api.net.NetHelper
-import com.fintechplatform.api.profile.api.ProfileAPI
+import com.fintechplatform.api.user.api.ProfileAPI
 import com.fintechplatform.ui.profile.db.user.UsersPersistanceDB
-import com.fintechplatform.api.profile.models.UserContacts
-import com.fintechplatform.api.profile.models.UserProfileReply
+import com.fintechplatform.api.user.models.UserContacts
+import com.fintechplatform.api.user.models.UserProfileReply
 import javax.inject.Inject
 
 class ContactsPresenter @Inject constructor(val view: ContactsContract.View,

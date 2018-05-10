@@ -9,7 +9,7 @@ import com.fintechplatform.api.iban.models.BankAccount
 import com.fintechplatform.api.iban.models.UserResidential
 import com.fintechplatform.ui.models.DataAccount
 import com.fintechplatform.api.net.NetHelper
-import com.fintechplatform.api.profile.api.ProfileAPI
+import com.fintechplatform.api.user.api.ProfileAPI
 import com.fintechplatform.ui.profile.db.user.UsersPersistanceDB
 import com.mukesh.countrypicker.Country
 import java.util.*

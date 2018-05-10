@@ -1,8 +1,9 @@
 package com.fintechplatform.api.cashin.api
 
 import com.android.volley.Request
+import com.fintechplatform.api.account.models.Account
 import com.fintechplatform.api.card.helpers.DateTimeConversion
-import com.fintechplatform.api.cashin.models.CashInReply
+import com.fintechplatform.api.cashin.models.CashInResponse
 import com.fintechplatform.api.cashin.models.CashInStatus
 import com.fintechplatform.api.log.Log
 import com.fintechplatform.api.money.Money
@@ -35,15 +36,12 @@ open class CashInAPI @Inject constructor(
      * Whether secure3D is required, you will find the specific redirect URL.
      */
     open fun cashIn(token: String,
-                    ownerId: String,
-                    accountId: String,
-                    accountType: String,
-                    tenantId: String,
+                    account: Account,
                     cardId: String,
                     amount: Money,
-                    idempotency: String,
-                    completion: (CashInReply?, Exception?) -> Unit): IRequest<*>? {
-        val url = netHelper.getURL("/rest/v1/fintech/tenants/$tenantId/${netHelper.getPathFromAccountType(accountType)}/$ownerId/accounts/$accountId/linkedCards/$cardId/cashIns")
+                    idempotencyKey: String?,
+                    completion: (CashInResponse?, Exception?) -> Unit): IRequest<*>? {
+        val url = netHelper.getURL("/rest/v1/fintech/tenants/${account.tenantId}/${netHelper.getPathFromAccountType(account.accountType)}/${account.ownerId}/accounts/$${account.accountId}/linkedCards/$cardId/cashIns")
 
         var request: IRequest<*>?
         try {
@@ -55,8 +53,9 @@ open class CashInAPI @Inject constructor(
 
             jsonObject.put("amount", joAmount)
 
+
             val r = requestProvider.jsonObjectRequest(Request.Method.POST, url, jsonObject,
-                    netHelper.getHeaderBuilder().authorizationToken(token).idempotency(idempotency).getHeaderMap(), { response ->
+                    netHelper.getHeaderBuilder().authorizationToken(token).idempotency(idempotencyKey).getHeaderMap(), { response ->
 
                 val transactionid = response.getString("transactionId")
                 val securecodeneeded = response.getBoolean("secure3D")
@@ -69,7 +68,7 @@ open class CashInAPI @Inject constructor(
                     DateTimeConversion.convertFromRFC3339(it)
                 }
 
-                completion(CashInReply(transactionid, securecodeneeded, redirecturl, CashInStatus.valueOf(status), created, updated), null)
+                completion(CashInResponse(UUID.fromString(transactionid), securecodeneeded, redirecturl, CashInStatus.valueOf(status), created, updated), null)
             }) { error ->
 
                 val status = if (error.networkResponse != null) error.networkResponse.statusCode
@@ -103,15 +102,12 @@ open class CashInAPI @Inject constructor(
      * Use [token] got from "Create User token" request.
      */
     fun cashInFee(token: String,
-                  tenantId: String,
-                  accountId: String,
-                  ownerId: String,
-                  accountType: String,
+                  account: Account,
                   cardId: String,
                   amount: Money,
                   completion: (Money?, Exception?) -> Unit): IRequest<*>? {
 
-        val url = netHelper.getURL("/rest/v1/fintech/tenants/$tenantId/${netHelper.getPathFromAccountType(accountType)}/$ownerId/accounts/$accountId/linkedCards/$cardId/cashInsFee")
+        val url = netHelper.getURL("/rest/v1/fintech/tenants/${account.tenantId}/${netHelper.getPathFromAccountType(account.accountType)}/${account.ownerId}/accounts/\$${account.accountId}/linkedCards/$cardId/cashInsFee")
 
         val params = HashMap<String, Any>()
         params["amount"] = amount.value.toString()

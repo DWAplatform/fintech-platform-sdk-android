@@ -2,6 +2,7 @@ package com.fintechplatform.api.account.balance.api
 
 import com.android.volley.Request
 import com.fintechplatform.api.account.balance.models.BalanceItem
+import com.fintechplatform.api.account.models.AccountType
 import com.fintechplatform.api.log.Log
 import com.fintechplatform.api.money.Money
 import com.fintechplatform.api.net.IRequest
@@ -29,7 +30,7 @@ open class BalanceAPI @Inject constructor(internal val hostName: String,
     open fun balance(token: String,
                      ownerId: String,
                      accountId: String,
-                     accountType: String,
+                     accountType: AccountType,
                      tenantId: String,
                      completion: (BalanceItem?, Exception?) -> Unit): IRequest<*>? {
 

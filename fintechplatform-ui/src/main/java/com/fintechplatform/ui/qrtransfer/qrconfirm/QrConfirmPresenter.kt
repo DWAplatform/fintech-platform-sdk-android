@@ -4,7 +4,7 @@ import android.graphics.Color
 import com.fintechplatform.api.account.balance.models.BalanceItem
 import com.fintechplatform.api.money.Money
 import com.fintechplatform.api.net.NetHelper
-import com.fintechplatform.api.profile.models.UserProfile
+import com.fintechplatform.api.user.models.UserProfile
 import com.fintechplatform.api.transfer.api.TransferAPI
 import com.fintechplatform.api.transfer.models.TransferAccountModel
 import com.fintechplatform.ui.account.balance.helpers.BalanceHelper

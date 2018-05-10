@@ -8,7 +8,7 @@ import com.fintechplatform.api.iban.api.IbanAPIModule;
 import com.fintechplatform.ui.iban.db.IbanPersistanceDBModule;
 import com.fintechplatform.api.log.LogModule;
 import com.fintechplatform.api.net.NetModule;
-import com.fintechplatform.api.profile.api.ProfileAPIModule;
+import com.fintechplatform.api.user.api.ProfileAPIModule;
 import com.fintechplatform.ui.profile.db.user.UsersPersistanceDBModule;
 
 import javax.inject.Singleton;

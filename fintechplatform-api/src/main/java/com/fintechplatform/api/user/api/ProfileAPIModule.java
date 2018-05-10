@@ -1,4 +1,4 @@
-package com.fintechplatform.api.profile.api;
+package com.fintechplatform.api.user.api;
 
 import com.fintechplatform.api.log.Log;
 import com.fintechplatform.api.net.IRequestProvider;

@@ -8,7 +8,7 @@ import com.fintechplatform.api.enterprise.api.EnterpriseAPIModule;
 import com.fintechplatform.api.iban.api.IbanAPIModule;
 import com.fintechplatform.ui.models.DataAccount;
 import com.fintechplatform.api.net.NetModule;
-import com.fintechplatform.api.profile.api.ProfileAPIModule;
+import com.fintechplatform.api.user.api.ProfileAPIModule;
 
 public class IbanUI {
 

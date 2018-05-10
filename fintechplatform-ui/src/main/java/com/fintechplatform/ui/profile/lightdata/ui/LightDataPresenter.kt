@@ -2,9 +2,9 @@ package com.fintechplatform.ui.profile.lightdata.ui
 
 import com.fintechplatform.ui.models.DataAccount
 import com.fintechplatform.api.net.NetHelper
-import com.fintechplatform.api.profile.api.ProfileAPI
+import com.fintechplatform.api.user.api.ProfileAPI
 import com.fintechplatform.ui.profile.db.user.UsersPersistanceDB
-import com.fintechplatform.api.profile.models.UserLightData
+import com.fintechplatform.api.user.models.UserLightData
 import com.mukesh.countrypicker.Country
 import java.text.SimpleDateFormat
 import java.util.*

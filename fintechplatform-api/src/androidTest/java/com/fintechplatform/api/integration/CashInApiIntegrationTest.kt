@@ -3,8 +3,8 @@ package com.fintechplatform.api.integration
 import android.support.test.InstrumentationRegistry
 import android.support.test.runner.AndroidJUnit4
 import com.fintechplatform.api.FintechPlatformAPI
-import com.fintechplatform.api.card.models.PaymentCardItem
-import com.fintechplatform.api.cashin.models.CashInReply
+import com.fintechplatform.api.card.models.PaymentCard
+import com.fintechplatform.api.cashin.models.CashInResponse
 import com.fintechplatform.api.cashin.models.CashInStatus
 import com.fintechplatform.api.money.Money
 import org.junit.Assert
@@ -48,7 +48,7 @@ class CashInApiIntegrationTest {
 
         // creo carta prima del cashin.
         val paymentCardAPI = FintechPlatformAPI.getPaymentCard(hostName, context, true)
-        var paymentCard : PaymentCardItem? = null
+        var paymentCard : PaymentCard? = null
         var paymentCardError: Exception? = null
         val expectationRegisterCard = CountDownLatch(1)
         paymentCardAPI.registerCard(accessToken, userId, accountId, "PERSONAL", tenantId, "1234123412341234",  "0122", "123", "EUR") { optPaymentCard, optError ->
@@ -82,7 +82,7 @@ class CashInApiIntegrationTest {
         Assert.assertEquals(0L, cashInFee?.value)
 
         // calcolo cashIn no needs 3D Secure
-        var cashIn1 : CashInReply? = null
+        var cashIn1 : CashInResponse? = null
         var cashInError1 : Exception? = null
         val expectationCashIn1 = CountDownLatch(1)
         val idempotency10eur = UUID.randomUUID().toString()
@@ -101,7 +101,7 @@ class CashInApiIntegrationTest {
 
 
         // calcolo cashIn needs 3D Secure
-        var cashIn2 : CashInReply? = null
+        var cashIn2 : CashInResponse? = null
         var cashInError2 : Exception? = null
         val expectationCashIn2 = CountDownLatch(1)
         val idempotency100eur = UUID.randomUUID().toString()

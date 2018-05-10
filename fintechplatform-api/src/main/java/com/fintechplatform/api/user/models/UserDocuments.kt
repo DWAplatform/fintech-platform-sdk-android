@@ -1,4 +1,4 @@
-package com.fintechplatform.api.profile.models
+package com.fintechplatform.api.user.models
 
 data class UserDocuments(val docId: String?=null,
                          val doctype: String?= null,

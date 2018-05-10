@@ -1,6 +1,6 @@
 package com.fintechplatform.ui.profile.db.documents
 
-import com.fintechplatform.api.profile.models.UserDocuments
+import com.fintechplatform.api.user.models.UserDocuments
 import javax.inject.Inject
 
 class DocumentsPersistanceDB @Inject constructor(val dbDocs: DocumentsDB){

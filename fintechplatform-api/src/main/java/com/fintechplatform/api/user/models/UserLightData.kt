@@ -1,4 +1,4 @@
-package com.fintechplatform.api.profile.models
+package com.fintechplatform.api.user.models
 
 data class UserLightData(val userid: String,
                          val tenantId: String,

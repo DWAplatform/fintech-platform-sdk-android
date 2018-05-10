@@ -1,4 +1,4 @@
-package com.fintechplatform.api.profile.api
+package com.fintechplatform.api.user.api
 
 import com.android.volley.Request
 import com.fintechplatform.api.iban.models.UserResidential
@@ -7,7 +7,7 @@ import com.fintechplatform.api.net.IRequest
 import com.fintechplatform.api.net.IRequestProvider
 import com.fintechplatform.api.net.IRequestQueue
 import com.fintechplatform.api.net.NetHelper
-import com.fintechplatform.api.profile.models.*
+import com.fintechplatform.api.user.models.*
 import org.json.JSONArray
 import org.json.JSONObject
 import java.util.*

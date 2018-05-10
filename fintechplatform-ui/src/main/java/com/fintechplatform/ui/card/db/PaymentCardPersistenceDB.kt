@@ -1,6 +1,9 @@
 package com.fintechplatform.ui.card.db
 
-import com.fintechplatform.api.card.models.PaymentCardItem
+import com.fintechplatform.api.account.models.Account
+import com.fintechplatform.api.card.models.PaymentCard
+import com.fintechplatform.api.user.models.User
+import java.util.*
 
 
 class PaymentCardPersistenceDB constructor(val paymentCardDB: PaymentCardDB): PaymentCardPersistence {
@@ -9,25 +12,25 @@ class PaymentCardPersistenceDB constructor(val paymentCardDB: PaymentCardDB): Pa
         return paymentCardDB.findPaymentCard(accountId)?.id
     }
 
-    override fun replace(paymentcard: PaymentCardItem) {
+    override fun replace(paymentcard: PaymentCard) {
         paymentCardDB.deletePaymentCard()
         savePaymentCard(paymentcard)
     }
 
-    override fun getPaymentCardItem(accountId: String): PaymentCardItem? {
+    override fun getPaymentCardItem(accountId: String): PaymentCard? {
         val optcc = paymentCardDB.findPaymentCard(accountId)
         return optcc?.let { cc ->
             // FIXME: add issuer, created, updated
-            PaymentCardItem(cc.id, cc.accountId, cc.numberAlias, cc.expiration, "EUR",
+            PaymentCard(cc.id, cc.accountId, cc.numberAlias, cc.expiration, "EUR",
                     cc.isDefault, cc.state, null, null, null)
         }
     }
 
-    override fun savePaymentCard(paymentcard: PaymentCardItem) {
+    override fun savePaymentCard(paymentcard: PaymentCard) {
         // FIXME: save issuer, created, updated
         val card = PaymentCard()
         card.state = paymentcard.status
-        card.id = paymentcard.id
+        card.id = paymentcard.cardId
         card.accountId = paymentcard.accountId
         card.expiration = paymentcard.expiration
         card.numberAlias = paymentcard.alias
@@ -40,20 +43,20 @@ class PaymentCardPersistenceDB constructor(val paymentCardDB: PaymentCardDB): Pa
         paymentCardDB.deletePaymentCard()
     }
 
-    fun load(accountId: String): PaymentCardItem? {
+    fun load(accountId: String): PaymentCard? {
         val optcc = paymentCardDB.findPaymentCard(accountId)
         return optcc?.let { cc ->
             // FIXME: add issuer, created, updated
-            PaymentCardItem(cc.id, cc.accountId, cc.numberAlias, cc.expiration, "EUR",
+            PaymentCard(cc.id, cc.accountId, cc.numberAlias, cc.expiration, "EUR",
                     cc.isDefault,  cc.state, null, null, null)
         }
     }
 
-    fun findDefaultPaymentCard(): PaymentCardItem? {
+    fun findDefaultPaymentCard(): PaymentCard? {
         val optDefaultCard =  paymentCardDB.findDefaultCard()
         return optDefaultCard.let {
             // FIXME: add issuer, created, updated
-            PaymentCardItem(it.id, it.accountId, it.numberAlias, it.expiration, "EUR",
+            PaymentCard(it.id, it.accountId, it.numberAlias, it.expiration, "EUR",
                     it.isDefault, it.state, null, null, null)
         }
     }

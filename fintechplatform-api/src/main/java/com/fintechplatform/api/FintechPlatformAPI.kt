@@ -15,8 +15,8 @@ import com.fintechplatform.api.cashout.CashOutAPIBuilder
 import com.fintechplatform.api.cashout.api.CashOutAPI
 import com.fintechplatform.api.pagopa.PagoPaAPIBuilder
 import com.fintechplatform.api.pagopa.api.PagoPaAPI
-import com.fintechplatform.api.profile.ProfileAPIBuilder
-import com.fintechplatform.api.profile.api.ProfileAPI
+import com.fintechplatform.api.user.ProfileAPIBuilder
+import com.fintechplatform.api.user.api.ProfileAPI
 import com.fintechplatform.api.sct.SctAPIBuilder
 import com.fintechplatform.api.sct.api.SctAPI
 import com.fintechplatform.api.transactions.TransactionAPIBuilder

@@ -1,10 +1,10 @@
 package com.fintechplatform.ui.profile.db.user
 
 import com.fintechplatform.api.iban.models.UserResidential
-import com.fintechplatform.api.profile.models.UserContacts
-import com.fintechplatform.api.profile.models.UserJobInfo
-import com.fintechplatform.api.profile.models.UserLightData
-import com.fintechplatform.api.profile.models.UserProfile
+import com.fintechplatform.api.user.models.UserContacts
+import com.fintechplatform.api.user.models.UserJobInfo
+import com.fintechplatform.api.user.models.UserLightData
+import com.fintechplatform.api.user.models.UserProfile
 import javax.inject.Inject
 
 class UsersPersistanceDB @Inject constructor(val dbUsers: UsersDB) {
