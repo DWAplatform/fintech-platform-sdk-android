@@ -7,6 +7,8 @@ import com.fintechplatform.api.card.models.PaymentCard
 import com.fintechplatform.api.cashin.models.CashInResponse
 import com.fintechplatform.api.cashin.models.CashInStatus
 import com.fintechplatform.api.money.Money
+import com.fintechplatform.api.net.ErrorCode
+import com.fintechplatform.api.net.NetHelper
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
@@ -36,10 +38,10 @@ class CashInApiIntegrationTest {
         */
 
         hostName = "http://192.168.1.73:9000"
-        accessToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJleHAiOjE1MjU5MzcxNTgsImlhdCI6MTUyNTg1MDc1OCwidGVuYW50SWQiOiJiMDQ1NmNjNC01NTc0LTQ4M2UtYjRmOS1lODg2Y2MzZmVkZmUiLCJhY2NvdW50VHlwZSI6IlBFUlNPTkFMIiwib3duZXJJZCI6ImQ0NTk5MWU2LWIzYTItNDVlYy04YjFiLWZlM2Q2OTVhMjQ3YiIsImFjY291bnRJZCI6IjdiNWRlODNjLTUzN2ItNGQwNy1iYWVhLTk2NDc3ZmU2ZTIxZSIsImp3dFR5cGUiOiJBQ0NPVU5UIiwic2NvcGUiOlsiTElOS0VEX0NBUkQiLCJMSU5LRURfQ0FSRF9DQVNIX0lOIl19.h4sZmqX8W-zO36wFYNSzqd8H4D19my20s5qvjDka48JSdtrF7j8CarqgbKxrZSPLx3ict0Xa1lBB0xVwL86g0g"
+        accessToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJleHAiOjE1MjYzNzA3MzYsImlhdCI6MTUyNjI4NDMzNiwidGVuYW50SWQiOiJiMDQ1NmNjNC01NTc0LTQ4M2UtYjRmOS1lODg2Y2MzZmVkZmUiLCJhY2NvdW50VHlwZSI6IlBFUlNPTkFMIiwib3duZXJJZCI6IjQyN2M5ODQwLWIxMTktNDJjYS04MGYxLTNhM2E4YmY2ODQyMSIsImFjY291bnRJZCI6ImMzZmQxOWViLTY3ZDQtNDI1MS1hZWZkLTRkNDc0NTA5MzM3ZSIsImp3dFR5cGUiOiJBQ0NPVU5UIiwic2NvcGUiOlsiTElOS0VEX0NBUkQiLCJMSU5LRURfQ0FSRF9DQVNIX0lOIl19.Xp-HEM46llMdrEfZUHAtjoJ_ffdeJm1WLMsF5_YWLvQLXo3KU0JW0EBwEZvwaSpNJVrzGhu86EYKmPJn4o1MPQ"
         tenantId = "b0456cc4-5574-483e-b4f9-e886cc3fedfe"
-        userId = "d45991e6-b3a2-45ec-8b1b-fe3d695a247b"
-        accountId = "7b5de83c-537b-4d07-baea-96477fe6e21e"
+        userId = "427c9840-b119-42ca-80f1-3a3a8bf68421"
+        accountId = "c3fd19eb-67d4-4251-aefd-4d474509337e"
     }
 
     @Test
@@ -117,5 +119,51 @@ class CashInApiIntegrationTest {
         Assert.assertNotNull(cashIn2)
         Assert.assertTrue(cashIn2?.securecodeneeded!!)
         Assert.assertEquals(CashInStatus.CREATED, cashIn2?.status)
+
+        // calcolo cashIn Failed
+        var cashInFailed : CashInReply? = null
+        var cashInErrorFailed : Exception? = null
+        val expectationCashInFailed = CountDownLatch(1)
+        val idempotencyFailed = UUID.randomUUID().toString()
+
+        cashInAPI.cashIn(accessToken, userId, accountId, "PERSONAL", tenantId, paymentCard!!.id!!, Money(-10L, "EUR"), idempotencyFailed) { optCashIn, optError ->
+            cashInFailed = optCashIn
+            cashInErrorFailed = optError
+            expectationCashInFailed.countDown()
+        }
+
+        expectationCashInFailed.await(600, TimeUnit.SECONDS)
+
+        Assert.assertNull(cashInFailed)
+        Assert.assertNotNull(cashInErrorFailed)
+        Assert.assertTrue(cashInErrorFailed is NetHelper.APIResponseError)
+        (cashInErrorFailed as NetHelper.APIResponseError?)?.let {
+            Assert.assertEquals(it.errors?.get(0)?.code, ErrorCode.asp_generic_error)
+            it.message?.let {
+                print(it)
+            }
+        }
+
+
+        // calcolo cashIn Exception
+        var cashInExc : CashInReply? = null
+        var cashInErrorExc : Exception? = null
+        val expectationCashInExc = CountDownLatch(1)
+        val idempotencyExc = UUID.randomUUID().toString()
+
+        cashInAPI.cashIn(accessToken, userId, UUID.randomUUID().toString(), "PERSONAL", tenantId, paymentCard!!.id!!, Money(100L, "EUR"), idempotencyExc) { optCashIn, optError ->
+            cashInExc = optCashIn
+            cashInErrorExc = optError
+            expectationCashInExc.countDown()
+        }
+
+        expectationCashInExc.await(600, TimeUnit.SECONDS)
+
+        Assert.assertNull(cashInExc)
+        Assert.assertNotNull(cashInErrorExc)
+        Assert.assertTrue(cashInErrorExc is NetHelper.APIResponseError)
+        (cashInErrorExc as NetHelper.APIResponseError?)?.let {
+            Assert.assertEquals(it.errors?.get(0)?.code, ErrorCode.authentication_error)
+        }
     }
 }

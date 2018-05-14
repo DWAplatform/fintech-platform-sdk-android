@@ -7,6 +7,8 @@ import com.fintechplatform.api.account.models.Account
 import com.fintechplatform.api.card.models.PaymentCard
 import com.fintechplatform.api.card.models.PaymentCardStatus
 import com.fintechplatform.api.money.Currency
+import com.fintechplatform.api.net.ErrorCode
+import com.fintechplatform.api.net.NetHelper
 import com.fintechplatform.api.user.models.User
 import org.junit.Assert
 import org.junit.Before
@@ -355,8 +357,25 @@ class PaymentCardApiIntegrationTest {
         Assert.assertEquals(cardsList?.size, initialCardItems)
 
 
+        // handle Exception using random cardId
+        val expectationGetCards7 = CountDownLatch(1)
+        paymentCardAPI.deletePaymentCard(accessToken, account, UUID.randomUUID().toString()){
+            optError ->
+
+            cardsListOptError = optError
+
+            expectationGetCards7.countDown()
+        }
+
+        expectationGetCards7.await(600, TimeUnit.SECONDS)
+
+        Assert.assertNotNull(cardsListOptError)
+        Assert.assertTrue(cardsListOptError is NetHelper.APIResponseError)
+        (cardsListOptError as NetHelper.APIResponseError?)?.let {
+            Assert.assertEquals(it.errors?.size, 1)
+            Assert.assertEquals(ErrorCode.resource_not_found, it.errors?.get(0)?.code)
+        }
 
     }
-
 
 }

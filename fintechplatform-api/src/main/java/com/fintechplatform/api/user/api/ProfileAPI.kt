@@ -38,7 +38,7 @@ class ProfileAPI @Inject constructor(
             val r = requestProvider.jsonObjectRequest(Request.Method.GET, url,
                     null, netHelper.authorizationToken(token),
                     { response ->
-                        val (userprofile, error) = netHelper.searchUserReplyParser(response)
+                        val (userprofile, error) = searchUserReplyParser(response)
                         completion(userprofile, error)
                     })
             {error ->
@@ -319,5 +319,31 @@ class ProfileAPI @Inject constructor(
                 income = jobInfo.income,
                 completion = completion)
     }
+
+
+    data class UserReplyParserResult(val userprofile: UserProfile?, val error: Exception?)
+    private fun searchUserReplyParser(response: JSONObject) : UserReplyParserResult {
+
+        val userprofile = UserProfile(
+                response.getString("userId"),
+                response.optString("name"),
+                response.optString("surname"),
+                response.optString("nationality"),
+                response.optString("birthday"),
+                response.optString("addressOfResidence"),
+                response.optString("postalCode"),
+                response.optString("cityOfResidence"),
+                response.optString("telephone"),
+                response.optString("email"),
+                response.optString("photo"),
+                response.optString("countryOfResidence"),
+                response.optString("occupation"),
+                response.optString("incomeRange"),
+                null)
+
+        return UserReplyParserResult(userprofile, null)
+
+    }
+
 
 }

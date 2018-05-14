@@ -49,6 +49,14 @@ class NetHelper constructor(val hostName: String) {
 
     inner class EnterpriseNotFound(throwable: Throwable) : Exception(throwable)
 
+    /**
+     * Represent the error response from Fintech Platform API.
+     *
+     * [errors] error as a list of Error, could be null in case of json parsing error
+     * [throwable] error returned from the underlying HTTP library
+     */
+    data class APIResponseError(val errors: List<Error>?, val throwable: Throwable) : Exception(throwable)
+
     val PROTOCOL_CHARSET = "utf-8"
 
     fun getURL(path: String): String {
@@ -68,15 +76,30 @@ class NetHelper constructor(val hostName: String) {
         return getHeaderBuilder().authorizationToken(token).getHeaderMap()
     }
 
-    fun createRequestError(volleyError: VolleyError): PaymentCardRestAPI.APIReplyError {
+    fun createRequestError(volleyError: VolleyError): Exception {
 
         try {
             val response: NetworkResponse = volleyError.networkResponse
             val jsonString = String(response.data, Charset.forName(PROTOCOL_CHARSET))
 
-            return PaymentCardRestAPI.APIReplyError(JSONArray(jsonString), volleyError)
+            val arrayJson = JSONArray(jsonString)
+
+            val listError = (0 until arrayJson.length())
+                    .map { arrayJson.get(it) as JSONObject }
+                    .map {
+                        val rep =
+                        try {
+                            Pair(ErrorCode.valueOf(it.getString("code")), it.getString("message"))
+                        } catch (x: Exception) {
+                            Pair(ErrorCode.unknown_error, "[${it.getString("code")}] ${it.getString("message")}")
+                        }
+                        Error(rep.first, rep.second)
+                    }
+                    .toList()
+
+            return APIResponseError(listError, volleyError)
         } catch(e: JSONException) {
-            return PaymentCardRestAPI.APIReplyError(null, volleyError)
+            return GenericCommunicationError(e)
         }
     }
 
@@ -108,58 +131,4 @@ class NetHelper constructor(val hostName: String) {
         return result.toString()
     }
 
-    data class UserReplyParserResult(val userprofile: UserProfile?, val error: Exception?)
-    fun searchUserReplyParser(response: JSONObject) : UserReplyParserResult {
-
-        val userprofile = UserProfile(
-                response.getString("userId"),
-                response.optString("name"),
-                response.optString("surname"),
-                response.optString("nationality"),
-                response.optString("birthday"),
-                response.optString("addressOfResidence"),
-                response.optString("postalCode"),
-                response.optString("cityOfResidence"),
-                response.optString("telephone"),
-                response.optString("email"),
-                response.optString("photo"),
-                response.optString("countryOfResidence"),
-                response.optString("occupation"),
-                response.optString("incomeRange"),
-                null)
-
-        return UserReplyParserResult(userprofile, null)
-
-    }
-    /*
-
-case class Enterprise(tenantId: UUID,
-                      enterpriseId: UUID,
-                      legalRepresentativeId: Option[UUID] = None,
-                      telephone: Option[String] = None,
-                      email: Option[String] = None,
-                      name: Option[String] = None,
-                      enterpriseType: Option[String] = None,
-                      countryHeadquarters: Option[String] = None,
-                      cityOfHeadquarters: Option[String] = None,
-                      addressOfHeadquarters: Option[String] = None,
-                      postalCodeHeadquarters: Option[String] = None,
-                      created: Option[String] = None,
-                      updated: Option[String] = None)
- */
-
-    fun searchEnterpriseReplyParser(response: JSONObject) : EnterpriseProfile {
-        return EnterpriseProfile(
-                response.getString("enterpriseId"),
-                response.optString("legalRepresentativeId"),
-                response.optString("name"),
-                response.optString("telephone"),
-                response.optString("email"),
-                response.optString("enterpriseType"),
-                response.optString("countryHeadquarters"),
-                response.optString("cityOfHeadquarters"),
-                response.optString("addressOfHeadquarters"),
-                response.optString("postalCodeHeadquarters")
-        )
-    }
 }

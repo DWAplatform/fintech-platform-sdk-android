@@ -6,7 +6,6 @@ import com.fintechplatform.api.card.models.PaymentCard
 import com.fintechplatform.api.log.Log
 import com.fintechplatform.api.money.Currency
 import com.fintechplatform.api.net.IRequest
-import org.json.JSONArray
 import java.lang.Exception
 import java.util.*
 import javax.inject.Inject
@@ -20,14 +19,6 @@ open class PaymentCardAPI @Inject constructor(
         internal val restAPI: PaymentCardRestAPI,
         internal val log: Log,
         internal val paymentCardHelper: PaymentCardHelper) {
-
-    /**
-     * Represent the error send as reply from Fintech Platform API.
-     *
-     * [json] error as json array, can be null in case of json parsing error
-     * [throwable] error returned from the underlying HTTP library
-     */
-    data class APIReplyError(val json: JSONArray?, val throwable: Throwable) : Exception(throwable)
 
     /**
      * Represent the error during FintechPlatformAPI API response parse.
