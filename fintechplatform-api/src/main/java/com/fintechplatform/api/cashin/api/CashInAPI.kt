@@ -71,19 +71,7 @@ open class CashInAPI @Inject constructor(
 
                 completion(CashInReply(transactionid, securecodeneeded, redirecturl, CashInStatus.valueOf(status), created, updated), null)
             }) { error ->
-
-                val status = if (error.networkResponse != null) error.networkResponse.statusCode
-                else -1
-                when (status) {
-                    401 -> {
-                        completion(null, netHelper.TokenError(error))
-                    }
-
-                    409 -> {
-                        completion(null, netHelper.IdempotencyError(error))
-                    }
-                    else -> completion(null, netHelper.GenericCommunicationError(error))
-                }
+                completion(null, netHelper.createRequestError(error))
             }
             r.setIRetryPolicy(netHelper.defaultpolicy)
             queue.add(r)
@@ -128,19 +116,7 @@ open class CashInAPI @Inject constructor(
 
                 completion(Money(amountResp, currency), null)
             }) { error ->
-
-                val status = if (error.networkResponse != null) error.networkResponse.statusCode
-                else -1
-                when (status) {
-                    401 -> {
-                        completion(null, netHelper.TokenError(error))
-                    }
-
-                    409 -> {
-                        completion(null, netHelper.IdempotencyError(error))
-                    }
-                    else -> completion(null, netHelper.GenericCommunicationError(error))
-                }
+                completion(null, netHelper.createRequestError(error))
             }
             r.setIRetryPolicy(netHelper.defaultpolicy)
             queue.add(r)

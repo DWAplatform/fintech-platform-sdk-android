@@ -22,6 +22,7 @@ class PaymentCardRestAPI constructor(internal val hostName: String,
                                      val netHelper: NetHelper) {
     private val TAG = "PaymentCardRestAPI"
 
+
     internal data class CardToRegister(val cardNumber: String,
                               val expiration: String,
                               val cvx: String)
@@ -42,7 +43,6 @@ class PaymentCardRestAPI constructor(internal val hostName: String,
      * [json] error as json array, can be null in case of json parsing error
      * [throwable] error returned from the underlying HTTP library
      */
-    data class APIReplyError(val json: JSONArray?, val throwable: Throwable) : java.lang.Exception(throwable)
 
     private fun toPaymentCardItem(reply: JSONObject): PaymentCardItem {
 
@@ -125,19 +125,8 @@ class PaymentCardRestAPI constructor(internal val hostName: String,
                             log.error(TAG, "createCreditCardRegistration error", e)
                         }
                     }) { error ->
-                val status = if (error.networkResponse != null) error.networkResponse.statusCode
-                else -1
-                when (status) {
-                    401 -> {
-                        callback(null, netHelper.TokenError(error))
-                        log.error(TAG, "createCreditCardRegistration error", error.fillInStackTrace())
+                            callback(null, netHelper.createRequestError(error))
                     }
-                    else -> {
-                        callback(null, netHelper.createRequestError(error))
-                        log.error(TAG, "createCreditCardRegistration error", error.fillInStackTrace())
-                    }
-                }
-            }
 
             request.setIRetryPolicy(netHelper.defaultpolicy)
             queue.add(request)
@@ -188,19 +177,8 @@ class PaymentCardRestAPI constructor(internal val hostName: String,
                     log.debug("FintechPlatformAPI", "on response getCardRegistrationData")
                     sendCardResponseString(userId, accountId, accountType, tenantId, token, response, cardRegistrationReply, completion)
                 }) { error ->
-            val status = if (error.networkResponse != null) error.networkResponse.statusCode
-            else -1
-            when (status) {
-                401 -> {
-                    log.error(TAG, "postCardRegistrationData error", error.fillInStackTrace())
-                    completion(null, netHelper.TokenError(error))
-                }
-                else -> {
-                    log.error(TAG, "postCardRegistrationData error", error.fillInStackTrace())
                     completion(null, netHelper.createRequestError(error))
                 }
-            }
-        }
 
         request.setIRetryPolicy(netHelper.defaultpolicy)
         queue.add(request)
@@ -250,19 +228,8 @@ class PaymentCardRestAPI constructor(internal val hostName: String,
                             completion(null, netHelper.ReplyParamsUnexpected(e))
                         }
                     }) { error ->
-                val status = if (error.networkResponse != null) error.networkResponse.statusCode
-                else -1
-                when (status) {
-                    401 -> {
-                        completion(null, netHelper.TokenError(error))
-                        log.error(TAG, "sendCardResponseString error", error.fillInStackTrace())
-                    }
-                    else -> {
                         completion(null, netHelper.createRequestError(error))
-                        log.error(TAG, "sendCardResponseString error", error.fillInStackTrace())
                     }
-                }
-            }
 
             request.setIRetryPolicy(netHelper.defaultpolicy)
             queue.add(request)
@@ -313,7 +280,6 @@ class PaymentCardRestAPI constructor(internal val hostName: String,
                     }) { error ->
                 completionHandler(null, netHelper.createRequestError(error))
             }
-
             request.setIRetryPolicy(netHelper.defaultpolicy)
             queue.add(request)
         }
@@ -353,19 +319,8 @@ class PaymentCardRestAPI constructor(internal val hostName: String,
 
                         completion(creditcards, null)
                     })
-            {error ->
-                val status = if (error.networkResponse != null) error.networkResponse.statusCode
-                else -1
-                when (status) {
-                    401 -> {
-                        completion(null, netHelper.TokenError(error))
-                        log.error(TAG, "get payment cards", error.fillInStackTrace())
-                    }
-                    else -> {
-                        completion(null, netHelper.createRequestError(error))
-                        log.error(TAG, "get payment cards", error.fillInStackTrace())
-                    }
-                }
+            { error ->
+                completion(null, netHelper.createRequestError(error))
             }
             r.setIRetryPolicy(netHelper.defaultpolicy)
             queue.add(r)
@@ -397,20 +352,9 @@ class PaymentCardRestAPI constructor(internal val hostName: String,
 
                         completion(null)
                     },
-            { error ->
-                val status = if (error.networkResponse != null) error.networkResponse.statusCode
-                else -1
-                when (status) {
-                    401 -> {
-                        completion(netHelper.TokenError(error))
-                        log.error(TAG, "delete payment card", error.fillInStackTrace())
-                    }
-                    else -> {
+                    { error ->
                         completion(netHelper.createRequestError(error))
-                        log.error(TAG, "delete payment card", error.fillInStackTrace())
-                    }
-                }
-            })
+                    })
             r.setIRetryPolicy(netHelper.defaultpolicy)
             queue.add(r)
             request = r
@@ -441,19 +385,8 @@ class PaymentCardRestAPI constructor(internal val hostName: String,
 
                         completion(toPaymentCardItem(paymentCardResponse), null)
                     })
-            {error ->
-                val status = if (error.networkResponse != null) error.networkResponse.statusCode
-                else -1
-                when (status) {
-                    401 -> {
-                        completion(null, netHelper.TokenError(error))
-                        log.error(TAG, "set default payment card", error.fillInStackTrace())
-                    }
-                    else -> {
-                        completion(null, netHelper.createRequestError(error))
-                        log.error(TAG, "set default payment card", error.fillInStackTrace())
-                    }
-                }
+            { error ->
+                completion(null, netHelper.createRequestError(error))
             }
             r.setIRetryPolicy(netHelper.defaultpolicy)
             queue.add(r)

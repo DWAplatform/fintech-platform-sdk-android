@@ -28,7 +28,7 @@ class EnterpriseAPI @Inject constructor(internal val hostName: String,
             val r = requestProvider.jsonObjectRequest(Request.Method.GET, url,
                     null, netHelper.authorizationToken(token),
                     { response ->
-                        val enterprise = netHelper.searchEnterpriseReplyParser(response)
+                        val enterprise = searchEnterpriseReplyParser(response)
                         completion(enterprise, null)
                     })
             { error ->
@@ -248,5 +248,20 @@ class EnterpriseAPI @Inject constructor(internal val hostName: String,
         }
 
         return request
+    }
+
+    private fun searchEnterpriseReplyParser(response: JSONObject) : EnterpriseProfile {
+        return EnterpriseProfile(
+                response.getString("enterpriseId"),
+                response.optString("legalRepresentativeId"),
+                response.optString("name"),
+                response.optString("telephone"),
+                response.optString("email"),
+                response.optString("enterpriseType"),
+                response.optString("countryHeadquarters"),
+                response.optString("cityOfHeadquarters"),
+                response.optString("addressOfHeadquarters"),
+                response.optString("postalCodeHeadquarters")
+        )
     }
 }
