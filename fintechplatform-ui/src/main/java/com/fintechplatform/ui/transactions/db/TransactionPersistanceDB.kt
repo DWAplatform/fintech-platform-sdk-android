@@ -1,8 +1,9 @@
 package com.fintechplatform.ui.transactions.db
 
-import com.fintechplatform.ui.transactions.models.TransactionItem
 import com.fintechplatform.api.transactions.models.TransactionResponse
+import com.fintechplatform.ui.transactions.models.ExternalTransaction
 import com.fintechplatform.ui.transactions.models.TransactionHelper
+import com.fintechplatform.ui.transactions.models.TransactionItem
 import javax.inject.Inject
 
 class TransactionPersistanceDB @Inject constructor(val db: TransactionDB, val thelper: TransactionHelper){
@@ -28,6 +29,17 @@ class TransactionPersistanceDB @Inject constructor(val db: TransactionDB, val th
 
         transactionsFull.forEach { t ->
             val optthitem = thelper.transactionItem(t)
+            optthitem?.let { thitem ->
+                save(thitem)
+            }
+        }
+    }
+
+    fun saveAllEsternal(transactionsFull: List<ExternalTransaction>) {
+        db.deleteTransactions()
+
+        transactionsFull.forEach { t ->
+            val optthitem = thelper.convertTransactionItem(t)
             optthitem?.let { thitem ->
                 save(thitem)
             }
