@@ -6,10 +6,7 @@ import com.fintechplatform.api.cashin.models.CashInReply
 import com.fintechplatform.api.cashin.models.CashInStatus
 import com.fintechplatform.api.log.Log
 import com.fintechplatform.api.money.Money
-import com.fintechplatform.api.net.IRequest
-import com.fintechplatform.api.net.IRequestProvider
-import com.fintechplatform.api.net.IRequestQueue
-import com.fintechplatform.api.net.NetHelper
+import com.fintechplatform.api.net.*
 import org.json.JSONObject
 import java.util.*
 import javax.inject.Inject
@@ -62,6 +59,18 @@ open class CashInAPI @Inject constructor(
                 val securecodeneeded = response.getBoolean("secure3D")
                 val redirecturl = response.optString("redirectURL")
                 val status = response.optString("status")
+                if (CashInStatus.valueOf(status) == CashInStatus.FAILED) {
+                    val error = response.getJSONObject("error")
+
+                    val rep =
+                    try {
+                        Pair(ErrorCode.valueOf(error.getString("code")), error.getString("message"))
+                    } catch (x: Exception) {
+                        Pair(ErrorCode.unknown_error, "[${error.getString("code")}] ${error.getString("message")}")
+                    }
+
+                    completion(null, NetHelper.APIResponseError(listOf(Error(rep.first, rep.second)), null))
+                }
                 val created = response.optString("created").let {
                     DateTimeConversion.convertFromRFC3339(it)
                 }
