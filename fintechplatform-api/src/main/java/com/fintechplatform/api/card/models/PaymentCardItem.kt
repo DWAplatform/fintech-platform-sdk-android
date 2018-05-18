@@ -7,6 +7,10 @@ enum class PaymentCardIssuer {
     VISA, MASTERCARD, DINERS, MAESTRO, UNKNOWN
 }
 
+enum class PaymentCardStatus {
+    CREATED, VALIDATED, NOT_ACTIVE, INVALID
+}
+
 /**
  * PaymentCard data model
  */
@@ -16,7 +20,7 @@ data class PaymentCardItem(val id: String?,
                            val expiration: String?,
                            val currency: String,
                            val default: Boolean?,
-                           val status: String?,
+                           val status: PaymentCardStatus?,
                            val issuer: PaymentCardIssuer?,
                            val created: Date?,
                            val updated: Date?)

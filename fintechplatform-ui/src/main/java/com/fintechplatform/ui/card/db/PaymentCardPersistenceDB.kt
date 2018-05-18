@@ -1,6 +1,7 @@
 package com.fintechplatform.ui.card.db
 
 import com.fintechplatform.api.card.models.PaymentCardItem
+import com.fintechplatform.api.card.models.PaymentCardStatus
 
 
 class PaymentCardPersistenceDB constructor(val paymentCardDB: PaymentCardDB): PaymentCardPersistence {
@@ -19,14 +20,14 @@ class PaymentCardPersistenceDB constructor(val paymentCardDB: PaymentCardDB): Pa
         return optcc?.let { cc ->
             // FIXME: add issuer, created, updated
             PaymentCardItem(cc.id, cc.accountId, cc.numberAlias, cc.expiration, "EUR",
-                    cc.isDefault, cc.state, null, null, null)
+                    cc.isDefault, PaymentCardStatus.valueOf(cc.state), null, null, null)
         }
     }
 
     override fun savePaymentCard(paymentcard: PaymentCardItem) {
         // FIXME: save issuer, created, updated
         val card = PaymentCard()
-        card.state = paymentcard.status
+        card.state = paymentcard.status.toString()
         card.id = paymentcard.id
         card.accountId = paymentcard.accountId
         card.expiration = paymentcard.expiration
@@ -45,7 +46,7 @@ class PaymentCardPersistenceDB constructor(val paymentCardDB: PaymentCardDB): Pa
         return optcc?.let { cc ->
             // FIXME: add issuer, created, updated
             PaymentCardItem(cc.id, cc.accountId, cc.numberAlias, cc.expiration, "EUR",
-                    cc.isDefault,  cc.state, null, null, null)
+                    cc.isDefault,  PaymentCardStatus.valueOf(cc.state), null, null, null)
         }
     }
 
@@ -54,7 +55,7 @@ class PaymentCardPersistenceDB constructor(val paymentCardDB: PaymentCardDB): Pa
         return optDefaultCard.let {
             // FIXME: add issuer, created, updated
             PaymentCardItem(it.id, it.accountId, it.numberAlias, it.expiration, "EUR",
-                    it.isDefault, it.state, null, null, null)
+                    it.isDefault, PaymentCardStatus.valueOf(it.state), null, null, null)
         }
     }
 }
