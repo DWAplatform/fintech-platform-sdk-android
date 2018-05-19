@@ -1,6 +1,5 @@
 package com.fintechplatform.ui.transactions.models
 
-import com.fintechplatform.api.card.helpers.DateTimeConversion
 import com.fintechplatform.api.money.Money
 import com.fintechplatform.api.transactions.models.TransactionResponse
 import com.fintechplatform.ui.money.MoneyHelper
@@ -17,6 +16,17 @@ class TransactionHelper @Inject constructor(val moneyHelper: MoneyHelper) {
         } else {
             val d = sdf.parse(date)
             val formatter = SimpleDateFormat("dd-MM-yyyy HH:mm:ss")
+            return formatter.format(d)
+        }
+    }
+
+    private fun formatStringDateSella(date: String?): String {
+        val sdf = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault())
+        if (date.isNullOrBlank()) {
+            return ""
+        } else {
+            val d = sdf.parse(date)
+            val formatter = SimpleDateFormat("dd-MM-yyyy")
             return formatter.format(d)
         }
     }
@@ -213,13 +223,13 @@ class TransactionHelper @Inject constructor(val moneyHelper: MoneyHelper) {
 
     fun convertTransactionItem(t: ExternalTransaction): TransactionItem? {
         val serverDateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss")
-        val currentDate = Calendar.getInstance().time
-        val timeInMillisecondsValueted = currentDate.time
+//        val currentDate = Calendar.getInstance().time
+//        val timeInMillisecondsValueted = currentDate.time
 
-        val twhen = formatStringDate(t.accountingDate)
-        val twhen2 = formatStringDate(DateTimeConversion.convert2RFC3339(currentDate))//formatStringDate(t.valueDate)
-//        val timeInMillisecondsAccounting = serverDateFormat.parse(t.accountingDate).time
-//        val timeInMillisecondsValueted = serverDateFormat.parse(t.valueDate).time
+        val twhen = formatStringDateSella(t.accountingDate)
+        val twhen2 = formatStringDateSella(t.valueDate)
+        val timeInMillisecondsAccounting = serverDateFormat.parse(t.accountingDate).time
+        val timeInMillisecondsValueted = serverDateFormat.parse(t.valueDate).time
 
         val moneyString = moneyHelper.toString(t.amount)
         val message = t.message?.toLowerCase()?:""

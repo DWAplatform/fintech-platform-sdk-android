@@ -4,6 +4,7 @@ import com.fintechplatform.api.transactions.models.TransactionResponse
 import com.fintechplatform.ui.transactions.models.ExternalTransaction
 import com.fintechplatform.ui.transactions.models.TransactionHelper
 import com.fintechplatform.ui.transactions.models.TransactionItem
+import java.text.SimpleDateFormat
 import javax.inject.Inject
 
 class TransactionPersistanceDB @Inject constructor(val db: TransactionDB, val thelper: TransactionHelper){
@@ -38,7 +39,14 @@ class TransactionPersistanceDB @Inject constructor(val db: TransactionDB, val th
     fun saveAllEsternal(transactionsFull: List<ExternalTransaction>) {
         db.deleteTransactions()
 
-        transactionsFull.forEach { t ->
+        val ordered = transactionsFull.sortedByDescending { t ->
+            t.valueDate?.let {
+                val serverDateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss")
+                serverDateFormat.parse(it).time
+            }?: 0
+        }
+
+        ordered.forEach { t ->
             val optthitem = thelper.convertTransactionItem(t)
             optthitem?.let { thitem ->
                 save(thitem)
