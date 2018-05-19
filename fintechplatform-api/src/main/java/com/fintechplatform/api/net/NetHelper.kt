@@ -95,7 +95,7 @@ class NetHelper constructor(val hostName: String) {
 
             return APIResponseError(listError, volleyError)
         } catch(e: JSONException) {
-            return GenericCommunicationError(e)
+            return GenericCommunicationError(volleyError)
         }
     }
 
