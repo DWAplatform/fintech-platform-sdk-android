@@ -54,10 +54,13 @@ open class CashInAPI @Inject constructor(
             val r = requestProvider.jsonObjectRequest(Request.Method.POST, url, jsonObject,
                     netHelper.getHeaderBuilder().authorizationToken(token).idempotency(idempotencyKey).getHeaderMap(), { response ->
 
-                val transactionid = response.getString("transactionId")
-                val securecodeneeded = response.getBoolean("secure3D")
-                val redirecturl = response.optString("redirectURL")
+                val transactionId = response.getString("transactionId")
+                val secureCodeNeeded = response.getBoolean("secure3D")
+                val redirectUrl = response.optString("redirectURL")
                 val status = response.optString("status")
+                val feeObj = response.getJSONObject("fee")
+                val feeAmount = feeObj.getLong("amount")
+                val feeCurrency = feeObj.getString("currency")
                 if (CashInStatus.valueOf(status) == CashInStatus.FAILED) {
                     val error = response.getJSONObject("error")
 
@@ -77,7 +80,7 @@ open class CashInAPI @Inject constructor(
                     DateTimeConversion.convertFromRFC3339(it)
                 }
 
-                completion(CashInResponse(UUID.fromString(transactionid), securecodeneeded, redirecturl, CashInStatus.valueOf(status), created, updated), null)
+                completion(CashInResponse(UUID.fromString(transactionId), amount, Money(feeAmount, feeCurrency), secureCodeNeeded, redirectUrl, CashInStatus.valueOf(status), created, updated), null)
             }) { error ->
                 completion(null, netHelper.createRequestError(error))
             }

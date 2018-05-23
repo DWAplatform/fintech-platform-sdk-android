@@ -1,6 +1,7 @@
 package com.fintechplatform.api.transactions.api
 
 import com.android.volley.Request
+import com.fintechplatform.api.account.models.AccountType
 import com.fintechplatform.api.log.Log
 import com.fintechplatform.api.net.IRequest
 import com.fintechplatform.api.net.IRequestProvider
@@ -38,7 +39,7 @@ class TransactionsAPI @Inject constructor(
                      offset: Int?,
                      completion: (List<TransactionResponse>?, Exception?) -> Unit): IRequest<*>? {
 
-        val url = netHelper.getURL("/rest/v1/fintech/tenants/$tenantId/${netHelper.getPathFromAccountType(accountType)}/$ownerId/accounts/$accountId/transactionsDetailed")
+        val url = netHelper.getURL("/rest/v1/fintech/tenants/$tenantId/${netHelper.getPathFromAccountType(AccountType.valueOf(accountType))}/$ownerId/accounts/$accountId/transactionsDetailed")
 
         var request: IRequest<*>?
         try {

@@ -282,7 +282,7 @@ class ProfileAPI @Inject constructor(
                  completion: (UserProfileReply?, Exception?) -> Unit) {
 
         editProfile(token = token,
-                userid = contacts.userid,
+                userid = contacts.userId,
                 tenantId = contacts.tenantId,
                 email = contacts.email,
                 completion = completion)

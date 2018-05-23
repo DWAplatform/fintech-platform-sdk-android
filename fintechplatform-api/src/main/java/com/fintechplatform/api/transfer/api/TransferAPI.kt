@@ -1,6 +1,7 @@
 package com.fintechplatform.api.transfer.api
 
 import com.android.volley.Request
+import com.fintechplatform.api.account.models.AccountType
 import com.fintechplatform.api.log.Log
 import com.fintechplatform.api.money.Money
 import com.fintechplatform.api.net.IRequest
@@ -33,7 +34,7 @@ class TransferAPI constructor(internal val hostName: String,
             idempotency: String,
             completion: (Exception?) -> Unit): IRequest<*>? {
 
-        val url = netHelper.getURL("/rest/v1/fintech/tenants/$fromTenantId/${netHelper.getPathFromAccountType(fromAccountType)}/$fromuserId/accounts/$fromAccountId/transfers")
+        val url = netHelper.getURL("/rest/v1/fintech/tenants/$fromTenantId/${netHelper.getPathFromAccountType(AccountType.valueOf(fromAccountType))}/$fromuserId/accounts/$fromAccountId/transfers")
 
         var request: IRequest<*>?
         try {

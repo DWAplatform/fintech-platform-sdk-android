@@ -358,7 +358,7 @@ class PaymentCardRestAPI constructor(internal val hostName: String,
 
             val r = requestProvider.nothingRequest(Request.Method.DELETE, baseurl,
                      netHelper.authorizationToken(token),
-                    { paymentCardResponse ->
+                    { _ ->
 
                         completion(null)
                     },

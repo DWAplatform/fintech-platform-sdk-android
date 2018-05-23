@@ -1,6 +1,7 @@
 package com.fintechplatform.api.iban.api
 
 import com.android.volley.Request
+import com.fintechplatform.api.account.models.AccountType
 import com.fintechplatform.api.iban.models.BankAccount
 import com.fintechplatform.api.net.IRequest
 import com.fintechplatform.api.net.IRequestProvider
@@ -36,7 +37,7 @@ class IbanAPI @Inject constructor(internal val hostName: String,
                          iban: String,
                          idempotency: String,
                          completion: (BankAccount?, Exception?) -> Unit): IRequest<*>? {
-        val url = netHelper.getURL("/rest/v1/fintech/tenants/$tenantId/${netHelper.getPathFromAccountType(accountType)}/$ownerId/accounts/$accountId/linkedBanks")
+        val url = netHelper.getURL("/rest/v1/fintech/tenants/$tenantId/${netHelper.getPathFromAccountType(AccountType.valueOf(accountType))}/$ownerId/accounts/$accountId/linkedBanks")
 
         var request: IRequest<*>?
         try {
@@ -82,7 +83,7 @@ class IbanAPI @Inject constructor(internal val hostName: String,
                        tenantId: String,
                        completion: (List<BankAccount>?, Exception?) -> Unit): IRequest<*>? {
 
-        val baseurl = netHelper.getURL("/rest/v1/fintech/tenants/$tenantId/${netHelper.getPathFromAccountType(accountType)}/$ownerId/accounts/$accountId/linkedBanks")
+        val baseurl = netHelper.getURL("/rest/v1/fintech/tenants/$tenantId/${netHelper.getPathFromAccountType(AccountType.valueOf(accountType))}/$ownerId/accounts/$accountId/linkedBanks")
 
         var request: IRequest<*>?
         try {
@@ -132,7 +133,7 @@ class IbanAPI @Inject constructor(internal val hostName: String,
                 accountType: String,
                 tenantId: String,
                 completion: (String?, Exception?) -> Unit): IRequest<*>? {
-        val baseurl = netHelper.getURL("/rest/v1/fintech/tenants/$tenantId/${netHelper.getPathFromAccountType(accountType)}/$ownerId/accounts/$accountId/iban")
+        val baseurl = netHelper.getURL("/rest/v1/fintech/tenants/$tenantId/${netHelper.getPathFromAccountType(AccountType.valueOf(accountType))}/$ownerId/accounts/$accountId/iban")
 
         var request: IRequest<*>?
         try {

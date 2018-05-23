@@ -1,6 +1,7 @@
 package com.fintechplatform.api.cashout.api
 
 import com.android.volley.Request
+import com.fintechplatform.api.account.models.AccountType
 import com.fintechplatform.api.log.Log
 import com.fintechplatform.api.money.Money
 import com.fintechplatform.api.net.IRequest
@@ -37,7 +38,7 @@ class CashOutAPI @Inject constructor(internal val hostName: String,
                 amount: Long,
                 idempotency: String,
                 completion: (Exception?) -> Unit): IRequest<*>? {
-        val url = netHelper.getURL("/rest/v1/fintech/tenants/$tenantId/${netHelper.getPathFromAccountType(accountType)}/$ownerId/accounts/$accountId/linkedBanks/$linkedBankId/cashOuts")
+        val url = netHelper.getURL("/rest/v1/fintech/tenants/$tenantId/${netHelper.getPathFromAccountType(AccountType.valueOf(accountType))}/$ownerId/accounts/$accountId/linkedBanks/$linkedBankId/cashOuts")
 
         var request: IRequest<*>?
         try {
@@ -48,7 +49,7 @@ class CashOutAPI @Inject constructor(internal val hostName: String,
             jsonObject.put("amount", joAmount)
 
             val r = requestProvider.jsonObjectRequest(Request.Method.POST, url, jsonObject,
-                    netHelper.getHeaderBuilder().authorizationToken(token).idempotency(idempotency).getHeaderMap(), { response ->
+                    netHelper.getHeaderBuilder().authorizationToken(token).idempotency(idempotency).getHeaderMap(), { _ ->
                 completion(null)
             }) { error ->
 
@@ -91,7 +92,7 @@ class CashOutAPI @Inject constructor(internal val hostName: String,
                    completion: (Money?, Exception?) -> Unit): IRequest<*>? {
 
 
-        val url = netHelper.getURL("/rest/v1/fintech/tenants/$tenantId/${netHelper.getPathFromAccountType(accountType)}/$ownerId/accounts/$accountId/linkedBanks/$linkedBankId/cashOutsFee")
+        val url = netHelper.getURL("/rest/v1/fintech/tenants/$tenantId/${netHelper.getPathFromAccountType(AccountType.valueOf(accountType))}/$ownerId/accounts/$accountId/linkedBanks/$linkedBankId/cashOutsFee")
 
         val params = HashMap<String, Any>()
         params["amount"] = amount.value.toString()

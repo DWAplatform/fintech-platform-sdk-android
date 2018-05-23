@@ -1,6 +1,7 @@
 package com.fintechplatform.api.pagopa.api
 
 import com.android.volley.Request
+import com.fintechplatform.api.account.models.AccountType
 import com.fintechplatform.api.log.Log
 import com.fintechplatform.api.net.IRequest
 import com.fintechplatform.api.net.IRequestProvider
@@ -29,7 +30,7 @@ class PagoPaAPI @Inject constructor(internal val hostName: String,
               idempotency: String,
               completion: (Boolean?, Exception?) -> Unit): IRequest<*>? {
 
-        val url = netHelper.getURL("/rest/v1/fintech/tenants/$tenantId/${netHelper.getPathFromAccountType(accountType)}/$ownerId/accounts/$accountId/pagoPA")
+        val url = netHelper.getURL("/rest/v1/fintech/tenants/$tenantId/${netHelper.getPathFromAccountType(AccountType.valueOf(accountType))}/$ownerId/accounts/$accountId/pagoPA")
 
         var request: IRequest<*>?
         try {
@@ -42,7 +43,7 @@ class PagoPaAPI @Inject constructor(internal val hostName: String,
 
             // [{"code":"asp_not_implemented","message":"Function: [pagoPA#Personal] not implemented in Mangopay"}]
             val r = requestProvider.jsonObjectRequest(Request.Method.POST, url, jsonObject,
-                    netHelper.getHeaderBuilder().authorizationToken(token).idempotency(idempotency).getHeaderMap(), { response ->
+                    netHelper.getHeaderBuilder().authorizationToken(token).idempotency(idempotency).getHeaderMap(), { _ ->
 
                 completion(true, null)
             }) { error ->
