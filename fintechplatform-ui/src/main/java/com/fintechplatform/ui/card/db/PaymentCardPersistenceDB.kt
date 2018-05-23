@@ -2,6 +2,8 @@ package com.fintechplatform.ui.card.db
 
 import com.fintechplatform.api.account.models.Account
 import com.fintechplatform.api.card.models.PaymentCard
+import com.fintechplatform.api.card.models.PaymentCardStatus
+
 import com.fintechplatform.api.user.models.User
 import java.util.*
 
@@ -29,8 +31,8 @@ class PaymentCardPersistenceDB constructor(val paymentCardDB: PaymentCardDB): Pa
     override fun savePaymentCard(paymentcard: PaymentCard) {
         // FIXME: save issuer, created, updated
         val card = PaymentCard()
-        card.state = paymentcard.status
         card.id = paymentcard.cardId
+        card.state = paymentcard.status.toString()
         card.accountId = paymentcard.accountId
         card.expiration = paymentcard.expiration
         card.numberAlias = paymentcard.alias
