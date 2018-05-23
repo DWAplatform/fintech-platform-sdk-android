@@ -70,9 +70,9 @@ class PaymentCardRestAPI constructor(internal val hostName: String,
                 reply.optString("alias"),
                 reply.optString("expiration"),
                 currency,
-                issuer,
-                status,
                 reply.optBoolean("defaultCard"),
+                status,
+                issuer,
                 created, updated)
 
     }
