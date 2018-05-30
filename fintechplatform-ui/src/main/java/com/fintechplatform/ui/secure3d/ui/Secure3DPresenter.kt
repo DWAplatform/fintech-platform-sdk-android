@@ -10,7 +10,7 @@ open class Secure3DPresenter @Inject constructor(val view: Secure3DContract.View
 
     override fun onPageFinished(url: String) {
         view.hideCommunicationWait()
-        if (url.contains("/rest/1.0/fin/payin/3Dsecurecallback?tid=")) {
+        if (url.contains("mangopay3dsecureCallbackHandler?transactionId")) {
             view.goBack()
         }
     }
