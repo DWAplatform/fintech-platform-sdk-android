@@ -1,6 +1,7 @@
 package com.fintechplatform.api.user.api
 
 import com.android.volley.Request
+import com.fintechplatform.api.account.models.Account
 import com.fintechplatform.api.iban.models.UserResidential
 import com.fintechplatform.api.log.Log
 import com.fintechplatform.api.net.IRequest
@@ -49,7 +50,7 @@ class ProfileAPI @Inject constructor(
                         completion(null, netHelper.TokenError(error))
                     404 -> completion(null, netHelper.UserNotFound(error))
                     else ->
-                        completion(null, netHelper.GenericCommunicationError(error))
+                        completion(null, netHelper.createRequestError(error))
                 }
             }
             r.setIRetryPolicy(netHelper.defaultpolicy)
@@ -131,7 +132,7 @@ class ProfileAPI @Inject constructor(
                         completion(null, netHelper.TokenError(error))
                     404 -> completion(null, netHelper.UserNotFound(error))
                     else ->
-                        completion(null, netHelper.GenericCommunicationError(error))
+                        completion(null, netHelper.createRequestError(error))
                 }
             }
             r.setIRetryPolicy(netHelper.defaultpolicy)
@@ -171,7 +172,7 @@ class ProfileAPI @Inject constructor(
                                 docs.add(pages.getString(j))
                             }
 
-                            val userdoc = UserDocuments(jo.getString("documentId"), jo.optString("doctype"), docs)
+                            val userdoc = UserDocuments(jo.getString("documentId"), jo.optString("docType"), docs)
                             documents.add(userdoc)
                         }
 
@@ -184,7 +185,7 @@ class ProfileAPI @Inject constructor(
                     401 ->
                         completion(null, netHelper.TokenError(error))
                     else ->
-                        completion(null, netHelper.GenericCommunicationError(error))
+                        completion(null, netHelper.createRequestError(error))
                 }
             }
             r.setIRetryPolicy(netHelper.defaultpolicy)
@@ -225,7 +226,7 @@ class ProfileAPI @Inject constructor(
             }
 
             val jsonObject = JSONObject()
-            jsonObject.put("doctype", doctype)
+            jsonObject.put("docType", doctype)
             jsonObject.put("pages", ja)
 
             val r = requestProvider.jsonObjectRequest(Request.Method.POST, url, jsonObject, netHelper.getHeaderBuilder().authorizationToken(token).idempotency(idempotency).getHeaderMap(), { response ->
@@ -241,7 +242,7 @@ class ProfileAPI @Inject constructor(
                     401 -> {
                         completion(null, netHelper.TokenError(error))
                     }
-                    else -> completion(null, netHelper.GenericCommunicationError(error))
+                    else -> completion(null, netHelper.createRequestError(error))
                 }
             }
 
@@ -250,6 +251,35 @@ class ProfileAPI @Inject constructor(
             request = r
         } catch (e: Exception){
             log.error(TAG, "documents", e)
+            request = null
+        }
+
+        return request
+    }
+
+    fun kycRequired(token: String,
+                    account: Account,
+                    completion: (List<DocType>?, Exception?) -> Unit): IRequest<*>? {
+        val url = netHelper.getURL("/rest/v1/fintech/tenants/${account.tenantId}/${netHelper.getPathFromAccountType(account.accountType)}/${account.ownerId}/accounts/${account.accountId}/kycRequiredDocuments")
+        var request: IRequest<*>?
+        try {
+            val r = requestProvider.jsonObjectRequest(Request.Method.GET, url, null,
+                    netHelper.getHeaderBuilder().authorizationToken(token).getHeaderMap(), { response ->
+
+                val jsonDocTypeArray = response.getJSONArray("docType")
+                var docTypes = listOf<DocType>()
+                for (type in 0 until jsonDocTypeArray.length()) {
+                    docTypes = listOf(DocType.valueOf(jsonDocTypeArray[type] as String))
+                }
+                completion(docTypes, null)
+            }) { error ->
+                completion(null, netHelper.createRequestError(error))
+            }
+            r.setIRetryPolicy(netHelper.defaultpolicy)
+            queue.add(r)
+            request = r
+        } catch (e: Exception) {
+            log.error(TAG, "kycRequired", e)
             request = null
         }
 
@@ -325,7 +355,7 @@ class ProfileAPI @Inject constructor(
     private fun searchUserReplyParser(response: JSONObject) : UserReplyParserResult {
 
         val userprofile = UserProfile(
-                response.getString("userId"),
+                UUID.fromString(response.getString("userId")),
                 response.optString("name"),
                 response.optString("surname"),
                 response.optString("nationality"),

@@ -1,6 +1,8 @@
 package com.fintechplatform.api.user.models
 
-data class UserProfile(val userid: String,
+import java.util.*
+
+data class UserProfile(val userid: UUID,
                        val name: String? = null,
                        val surname: String? = null,
                        val nationality: String? = null,
