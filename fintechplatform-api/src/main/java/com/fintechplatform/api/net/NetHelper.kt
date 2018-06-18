@@ -4,9 +4,6 @@ import com.android.volley.DefaultRetryPolicy
 import com.android.volley.NetworkResponse
 import com.android.volley.VolleyError
 import com.fintechplatform.api.account.models.AccountType
-import com.fintechplatform.api.card.api.PaymentCardRestAPI
-import com.fintechplatform.api.enterprise.models.EnterpriseProfile
-import com.fintechplatform.api.user.models.UserProfile
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
@@ -14,8 +11,6 @@ import java.io.UnsupportedEncodingException
 import java.net.URLEncoder
 import java.nio.charset.Charset
 import java.util.*
-
-
 
 
 class NetHelper constructor(val hostName: String) {
@@ -107,7 +102,7 @@ class NetHelper constructor(val hostName: String) {
         return when (accountType) {
             AccountType.PERSONAL -> "users"
             AccountType.BUSINESS -> "enterprises"
-            }
+        }
     }
 
     @Throws(UnsupportedEncodingException::class)

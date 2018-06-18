@@ -3,26 +3,28 @@ package com.fintechplatform.api
 import android.content.Context
 import com.fintechplatform.api.account.balance.BalanceAPIBuilder
 import com.fintechplatform.api.account.balance.api.BalanceAPI
+import com.fintechplatform.api.account.kyc.KycAPI
+import com.fintechplatform.api.account.kyc.di.KycAPIBuilder
 import com.fintechplatform.api.card.PaymentCardAPIBuilder
 import com.fintechplatform.api.card.api.PaymentCardAPI
 import com.fintechplatform.api.cashin.CashInAPIBuilder
 import com.fintechplatform.api.cashin.api.CashInAPI
+import com.fintechplatform.api.cashout.CashOutAPIBuilder
+import com.fintechplatform.api.cashout.api.CashOutAPI
 import com.fintechplatform.api.enterprise.EnterpriseAPIBuilder
 import com.fintechplatform.api.enterprise.api.EnterpriseAPI
 import com.fintechplatform.api.iban.IBANAPIBuilder
 import com.fintechplatform.api.iban.api.IbanAPI
-import com.fintechplatform.api.cashout.CashOutAPIBuilder
-import com.fintechplatform.api.cashout.api.CashOutAPI
 import com.fintechplatform.api.pagopa.PagoPaAPIBuilder
 import com.fintechplatform.api.pagopa.api.PagoPaAPI
-import com.fintechplatform.api.user.ProfileAPIBuilder
-import com.fintechplatform.api.user.api.ProfileAPI
 import com.fintechplatform.api.sct.SctAPIBuilder
 import com.fintechplatform.api.sct.api.SctAPI
 import com.fintechplatform.api.transactions.TransactionAPIBuilder
 import com.fintechplatform.api.transactions.api.TransactionsAPI
 import com.fintechplatform.api.transfer.TransferAPIBuilder
 import com.fintechplatform.api.transfer.api.TransferAPI
+import com.fintechplatform.api.user.ProfileAPIBuilder
+import com.fintechplatform.api.user.api.ProfileAPI
 
 class FintechPlatformAPI {
 
@@ -73,6 +75,9 @@ class FintechPlatformAPI {
             return PagoPaAPIBuilder().createCashInAPIComponent(hostName, context).pagoPaAPI
         }
 
+        fun getKYC(hostName: String,context: Context): KycAPI {
+            return KycAPIBuilder().createKycAPI(hostName, context)
+        }
     }
 
 }

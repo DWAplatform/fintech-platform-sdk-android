@@ -97,9 +97,9 @@ dependencies {
 
     //dagger
     // apt command comes from the android-apt plugin
-    api "com.google.dagger:dagger:2.10"
-    kapt "com.google.dagger:dagger-compiler:2.10"
-    androidTestAnnotationProcessor "com.google.dagger:dagger-compiler:2.10"
+    api "com.google.dagger:dagger:2.16"
+    kapt "com.google.dagger:dagger-compiler:2.16"
+    androidTestAnnotationProcessor "com.google.dagger:dagger-compiler:2.16"
     compileOnly 'javax.annotation:jsr250-api:1.0'
 }
 
