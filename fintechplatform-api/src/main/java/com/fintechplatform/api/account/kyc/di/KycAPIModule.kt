@@ -14,7 +14,7 @@ class KycAPIModule constructor(val hostName: String) {
 
     @Provides
     @Singleton
-    internal fun provideKycAPIModule(queue: IRequestQueue, requestProvider: IRequestProvider, netHelper: NetHelper, log: Log): KycAPI {
+    fun provideKycAPIModule(queue: IRequestQueue, requestProvider: IRequestProvider, netHelper: NetHelper, log: Log): KycAPI {
         return KycAPI(hostName, queue, requestProvider, log, netHelper)
     }
 }

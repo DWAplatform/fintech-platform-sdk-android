@@ -38,7 +38,7 @@ open class CashInAPI @Inject constructor(
                     amount: Money,
                     idempotencyKey: String?,
                     completion: (CashInResponse?, Exception?) -> Unit): IRequest<*>? {
-        val url = netHelper.getURL("/rest/v1/fintech/tenants/${account.tenantId}/${netHelper.getPathFromAccountType(account.accountType)}/${account.ownerId}/accounts/$${account.accountId}/linkedCards/$cardId/cashIns")
+        val url = netHelper.getURL("/rest/v1/fintech/tenants/${account.tenantId}/${netHelper.getPathFromAccountType(account.accountType)}/${account.ownerId}/accounts/${account.accountId}/linkedCards/$cardId/cashIns")
 
         var request: IRequest<*>?
         try {

@@ -8,6 +8,7 @@ import com.fintechplatform.api.net.IRequestProvider
 import com.fintechplatform.api.net.IRequestQueue
 import com.fintechplatform.api.net.NetHelper
 import com.fintechplatform.api.user.models.DocType
+import org.json.JSONArray
 import javax.inject.Inject
 
 
@@ -29,11 +30,11 @@ class KycAPI @Inject constructor(
             val r = requestProvider.jsonObjectRequest(Request.Method.GET, url, null,
                     netHelper.getHeaderBuilder().authorizationToken(token).getHeaderMap(), { response ->
 
-                val jsonDocTypeArray = response.getJSONArray("docType")
-                var docTypes = (0 until jsonDocTypeArray.length())
-                        .map {
-                            DocType.valueOf(jsonDocTypeArray[it] as String)
-                        }
+                val jsonArray = response.getJSONArray("docType")
+
+                var docTypes = (0 until jsonArray.length())
+                        .map { jsonArray[it] as JSONArray }
+                        .map { DocType.valueOf(it[0] as String) }
                 completion(docTypes, null)
             }) { error ->
                 completion(null, netHelper.createRequestError(error))
