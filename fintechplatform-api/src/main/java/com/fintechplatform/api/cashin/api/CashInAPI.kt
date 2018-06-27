@@ -64,12 +64,13 @@ open class CashInAPI @Inject constructor(
 
                     val rep =
                     try {
-                        Pair(ErrorCode.valueOf(error.getString("code")), error.getString("message"))
+                        Error(ErrorCode.valueOf(error.getString("code")), error.getString("message"))
                     } catch (x: Exception) {
-                        Pair(ErrorCode.unknown_error, "[${error.getString("code")}] ${error.getString("message")}")
+                        Error(ErrorCode.unknown_error, "[${error.getString("code")}] ${error.getString("message")}")
                     }
 
-                    completion(null, NetHelper.APIResponseError(listOf(Error(rep.first, rep.second)), null))
+                    completion(null, NetHelper.APIResponseError(listOf(rep), null))
+                    return@jsonObjectRequest
                 }
                 val created = response.optString("created").let {
                     DateTimeConversion.convertFromRFC3339(it)
