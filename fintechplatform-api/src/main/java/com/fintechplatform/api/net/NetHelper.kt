@@ -13,7 +13,7 @@ import java.nio.charset.Charset
 import java.util.*
 
 
-class NetHelper constructor(val hostName: String) {
+open class NetHelper constructor(val hostName: String) {
 
     inner class HeaderBuilder {
         private var header = HashMap<String, String>()

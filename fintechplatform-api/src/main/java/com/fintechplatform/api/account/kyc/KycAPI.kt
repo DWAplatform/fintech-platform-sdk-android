@@ -11,8 +11,7 @@ import com.fintechplatform.api.user.models.DocType
 import org.json.JSONArray
 import javax.inject.Inject
 
-
-class KycAPI @Inject constructor(
+open class KycAPI @Inject constructor(
         internal val hostName: String,
         internal val queue: IRequestQueue,
         internal val requestProvider: IRequestProvider,
@@ -21,7 +20,7 @@ class KycAPI @Inject constructor(
 
     private val TAG = "kycAPI"
 
-    fun kycRequired(token: String,
+    open fun kycRequired(token: String,
                     account: Account,
                     completion: (List<DocType>?, Exception?) -> Unit): IRequest<*>? {
         val url = netHelper.getURL("/rest/v1/fintech/tenants/${account.tenantId}/${netHelper.getPathFromAccountType(account.accountType)}/${account.ownerId}/accounts/${account.accountId}/kycRequiredDocuments")
