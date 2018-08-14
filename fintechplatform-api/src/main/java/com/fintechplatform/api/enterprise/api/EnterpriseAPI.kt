@@ -16,7 +16,7 @@ class EnterpriseAPI @Inject constructor(internal val hostName: String,
                                         internal val queue: IRequestQueue,
                                         internal val requestProvider: IRequestProvider,
                                         internal val log: Log,
-                                        val netHelper: NetHelper) {
+                                        internal val netHelper: NetHelper) {
     private val TAG = "EnterpriseAPI"
 
     fun getEnterprise(token: String, enterpriseId: String, tenantId: String, completion: (EnterpriseProfile?, Exception?) -> Unit): IRequest<*>? {

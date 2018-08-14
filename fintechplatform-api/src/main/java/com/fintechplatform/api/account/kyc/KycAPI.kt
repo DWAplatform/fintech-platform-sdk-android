@@ -17,7 +17,7 @@ open class KycAPI @Inject constructor(
         internal val queue: IRequestQueue,
         internal val requestProvider: IRequestProvider,
         internal val log: Log,
-        val netHelper: NetHelper) {
+        internal val netHelper: NetHelper) {
 
     private val TAG = "kycAPI"
 
@@ -26,7 +26,7 @@ open class KycAPI @Inject constructor(
      * Use [token] got from "Create User token" request.
      * [completion] callback contains the list of docType required.
      */
-    open fun kycRequired(token: String,
+    open fun getKycRequired(token: String,
                          account: Account,
                          completion: (List<DocType>?, Exception?) -> Unit): IRequest<*>? {
         val url = netHelper.getURL("/rest/v1/fintech/tenants/${account.tenantId}/${netHelper.getPathFromAccountType(account.accountType)}/${account.ownerId}/accounts/${account.accountId}/kycRequiredDocuments")

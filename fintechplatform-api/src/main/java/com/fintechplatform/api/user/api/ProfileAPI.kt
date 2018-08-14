@@ -21,7 +21,7 @@ class ProfileAPI @Inject constructor(
         internal val queue: IRequestQueue,
         internal val requestProvider: IRequestProvider,
         internal val log: Log,
-        val netHelper: NetHelper) {
+        internal val netHelper: NetHelper) {
 
     private val TAG = "ProfileAPI"
     /**
