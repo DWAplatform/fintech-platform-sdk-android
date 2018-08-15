@@ -2,8 +2,10 @@ package com.fintechplatform.api.account.kyc
 
 import com.android.volley.Request
 import com.fintechplatform.api.account.models.Account
+import com.fintechplatform.api.account.models.Kyc
 import com.fintechplatform.api.account.models.KycRequested
 import com.fintechplatform.api.account.models.KycStatus
+import com.fintechplatform.api.card.helpers.DateTimeConversion
 import com.fintechplatform.api.log.Log
 import com.fintechplatform.api.net.*
 import com.fintechplatform.api.user.models.DocType
@@ -58,7 +60,6 @@ open class KycAPI @Inject constructor(
     /**
      * Needed to begin a KYC procedure.The validate [documentId] can take from 2h to 2 days to complete.
      */
-
     open fun kycProcedure(token: String,
                           account: Account,
                           documentId: UUID,
@@ -104,5 +105,60 @@ open class KycAPI @Inject constructor(
         return request
     }
 
+
+    fun kycStatus(token: String,
+                  account: Account,
+                  completion: (Kyc?, Exception?) -> Unit): IRequest<*>? {
+
+        val url = netHelper.getURL("/rest/v1/fintech/tenants/${account.tenantId}/${netHelper.getPathFromAccountType(account.accountType)}/${account.ownerId}/accounts/${account.accountId}/kycs")
+        var request: IRequest<*>?
+        try {
+            val r = requestProvider.jsonArrayRequest(Request.Method.GET, url, null,
+                    netHelper.getHeaderBuilder().authorizationToken(token).getHeaderMap(), { response ->
+
+                val kycs = (0 until response.length())
+                        .map { response[it] as JSONObject }
+                        .map {
+                            val date = DateTimeConversion.convertFromRFC3339(it.getString("created"))
+
+                            it.getJSONObject("error")?.let {
+                                val errorMessage =
+                                try {
+                                    Error(ErrorCode.valueOf(it.getString("code")), it.getString("message"))
+                                } catch (x: Exception) {
+                                    Error(ErrorCode.unknown_error, "[${it.getString("code")}] ${it.getString("message")}")
+                                }
+                                Kyc( UUID.fromString(it.getString("kycId")),
+                                        UUID.fromString(it.getString("documentId")),
+                                        KycStatus.valueOf(it.getString("status")),
+                                        date,
+                                        errorMessage
+                                )
+                                completion(null, NetHelper.APIResponseError(listOf(errorMessage), null))
+                                return@jsonArrayRequest
+                            }
+
+                            Kyc( UUID.fromString(it.getString("kycId")),
+                                UUID.fromString(it.getString("documentId")),
+                                KycStatus.valueOf(it.getString("status")),
+                                date )
+                        }.sortedByDescending { it.created }
+
+                completion(kycs[0], null)
+
+            }) { error ->
+                completion(null, netHelper.createRequestError(error))
+            }
+            r.setIRetryPolicy(netHelper.defaultpolicy)
+            queue.add(r)
+            request = r
+        } catch (e: Exception) {
+            log.error(TAG, "kycRequired", e)
+            request = null
+        }
+
+        return request
+
+    }
 
 }
