@@ -13,7 +13,7 @@ import com.fintechplatform.api.net.NetHelper
 import org.json.JSONObject
 import javax.inject.Inject
 
-
+open
 class AccountAPI @Inject constructor(internal val hostName: String,
                                      internal val queue: IRequestQueue,
                                      internal val requestProvider: IRequestProvider,
@@ -22,6 +22,7 @@ class AccountAPI @Inject constructor(internal val hostName: String,
 
     private val TAG = "AccountAPI"
 
+    open
     fun getPersonalAccount(token: String,
                                    account: Account,
                                    completion: (PersonalAccount?, Exception?) -> Unit): IRequest<*>? {
@@ -51,6 +52,7 @@ class AccountAPI @Inject constructor(internal val hostName: String,
         return request
     }
 
+    open
     fun updatePersonalAccount(token: String,
                                       account: Account,
                                       completion: (PersonalAccount?, Exception?) -> Unit): IRequest<*>? {

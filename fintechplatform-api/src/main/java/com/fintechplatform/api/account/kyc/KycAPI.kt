@@ -106,7 +106,7 @@ open class KycAPI @Inject constructor(
     }
 
 
-    fun kycStatus(token: String,
+    open fun kycStatus(token: String,
                   account: Account,
                   completion: (Kyc?, Exception?) -> Unit): IRequest<*>? {
 
