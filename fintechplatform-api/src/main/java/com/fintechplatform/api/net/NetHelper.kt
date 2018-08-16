@@ -74,25 +74,28 @@ open class NetHelper constructor(val hostName: String) {
     fun createRequestError(volleyError: VolleyError): Exception {
 
         try {
-            val response: NetworkResponse = volleyError.networkResponse
-            val jsonString = String(response.data, Charset.forName(PROTOCOL_CHARSET))
+            val response: NetworkResponse? = volleyError.networkResponse
+            response?.let {
+                val jsonString = String(response.data, Charset.forName(PROTOCOL_CHARSET))
 
-            val arrayJson = JSONArray(jsonString)
+                val arrayJson = JSONArray(jsonString)
 
-            val listError = (0 until arrayJson.length())
-                    .map { arrayJson.get(it) as JSONObject }
-                    .map {
-                        val rep =
-                        try {
-                            Pair(ErrorCode.valueOf(it.getString("code")), it.getString("message"))
-                        } catch (x: Exception) {
-                            Pair(ErrorCode.unknown_error, "[${it.getString("code")}] ${it.getString("message")}")
+                val listError = (0 until arrayJson.length())
+                        .map { arrayJson.get(it) as JSONObject }
+                        .map {
+                            val rep =
+                                    try {
+                                        Pair(ErrorCode.valueOf(it.getString("code")), it.getString("message"))
+                                    } catch (x: Exception) {
+                                        Pair(ErrorCode.unknown_error, "[${it.getString("code")}] ${it.getString("message")}")
+                                    }
+                            Error(rep.first, rep.second)
                         }
-                        Error(rep.first, rep.second)
-                    }
-                    .toList()
+                        .toList()
 
-            return APIResponseError(listError, volleyError)
+                return APIResponseError(listError, volleyError)
+
+            }?: return GenericCommunicationError(volleyError)
         } catch(e: JSONException) {
             return GenericCommunicationError(volleyError)
         }
