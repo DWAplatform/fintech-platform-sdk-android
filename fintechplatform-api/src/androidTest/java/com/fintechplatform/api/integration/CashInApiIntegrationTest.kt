@@ -33,7 +33,7 @@ class CashInApiIntegrationTest {
     @Before
     fun setUp() {
 
-        hostName = "http://www.sandbox.lightbankingservices.com/api/v1"
+        hostName = "http://api.sandbox.lightbankingservices.com"
 
         /**
          * go to api-test path:
@@ -57,6 +57,9 @@ class CashInApiIntegrationTest {
     fun cashIn() {
         val context = InstrumentationRegistry.getTargetContext()
 
+        val expectationFake = CountDownLatch(1)
+        val expectationMillisecondsAwait = 10L
+
         // creo carta prima del cashin.
         val paymentCardAPI = FintechPlatformAPI.getPaymentCard(hostName, context, true)
         var paymentCard : PaymentCard? = null
@@ -69,6 +72,7 @@ class CashInApiIntegrationTest {
         }
 
         expectationRegisterCard.await(600, TimeUnit.SECONDS)
+        expectationFake.await(expectationMillisecondsAwait, TimeUnit.MILLISECONDS)
 
         Assert.assertNull(paymentCardError)
         Assert.assertNotNull(paymentCard)
@@ -87,6 +91,8 @@ class CashInApiIntegrationTest {
         }
 
         expectationCashInFee.await(600, TimeUnit.SECONDS)
+        expectationFake.await(expectationMillisecondsAwait, TimeUnit.MILLISECONDS)
+
         Assert.assertNotNull(cashInFee)
         Assert.assertNull(cashInErrorFee)
         Assert.assertEquals(0L, cashInFee?.value)
@@ -104,6 +110,8 @@ class CashInApiIntegrationTest {
         }
 
         expectationCashIn1.await(600, TimeUnit.SECONDS)
+        expectationFake.await(expectationMillisecondsAwait, TimeUnit.MILLISECONDS)
+
         Assert.assertNull(cashInError1)
         Assert.assertNotNull(cashIn1)
         Assert.assertFalse(cashIn1?.securecodeneeded!!)
@@ -123,12 +131,14 @@ class CashInApiIntegrationTest {
         }
 
         expectationCashIn2.await(600, TimeUnit.SECONDS)
+        expectationFake.await(expectationMillisecondsAwait, TimeUnit.MILLISECONDS)
+
         Assert.assertNull(cashInError2)
         Assert.assertNotNull(cashIn2)
         Assert.assertTrue(cashIn2?.securecodeneeded!!)
         Assert.assertEquals(CashInStatus.CREATED, cashIn2?.status)
 
-        // calcolo cashIn Failed
+        // calcolo cashIn generic error
         var cashInFailed : CashInResponse? = null
         var cashInErrorFailed : Exception? = null
         val expectationCashInFailed = CountDownLatch(1)
@@ -141,24 +151,50 @@ class CashInApiIntegrationTest {
         }
 
         expectationCashInFailed.await(600, TimeUnit.SECONDS)
+        expectationFake.await(expectationMillisecondsAwait, TimeUnit.MILLISECONDS)
 
         Assert.assertNull(cashInFailed)
         Assert.assertNotNull(cashInErrorFailed)
         Assert.assertTrue(cashInErrorFailed is NetHelper.APIResponseError)
         (cashInErrorFailed as NetHelper.APIResponseError?)?.let {
-            Assert.assertEquals(it.errors?.get(0)?.code, ErrorCode.asp_generic_error)
+            Assert.assertEquals(ErrorCode.asp_generic_error, it.errors?.get(0)?.code)
             it.message?.let {
                 print(it)
             }
         }
 
+        // calcolo cashIn Failed
+        var cashInFailed2 : CashInResponse? = null
+        var cashInErrorFailed2: Exception? = null
+        val expectationCashInFailed2 = CountDownLatch(1)
+        val idempotencyFailed2 = UUID.randomUUID().toString()
 
-        // calcolo cashIn Exception
+        cashInAPI.cashIn(accessToken, account, paymentCard!!.cardId!!, Money(0L, "EUR"), idempotencyFailed2) { optCashIn, optError ->
+            cashInFailed2 = optCashIn
+            cashInErrorFailed2 = optError
+            expectationCashInFailed2.countDown()
+        }
+
+        expectationCashInFailed2.await(10, TimeUnit.SECONDS)
+        expectationFake.await(expectationMillisecondsAwait, TimeUnit.MILLISECONDS)
+
+        Assert.assertNull(cashInFailed2)
+        Assert.assertNotNull(cashInErrorFailed2)
+        Assert.assertTrue(cashInErrorFailed2 is NetHelper.APIResponseError)
+        (cashInErrorFailed2 as NetHelper.APIResponseError?)?.let {
+            Assert.assertEquals(ErrorCode.asp_creditedfunds_must_be_more_than_0, it.errors?.get(0)?.code)
+            it.message?.let {
+                print(it)
+            }
+        }
+
+        // cashIn Exception
         var cashInExc : CashInResponse? = null
         var cashInErrorExc : Exception? = null
         val expectationCashInExc = CountDownLatch(1)
         val idempotencyExc = UUID.randomUUID().toString()
 
+        account = Account.personalAccount(User(UUID.randomUUID(), UUID.randomUUID()), UUID.randomUUID())
         cashInAPI.cashIn(accessToken, account, paymentCard!!.cardId!!, Money(100L, "EUR"), idempotencyExc) { optCashIn, optError ->
             cashInExc = optCashIn
             cashInErrorExc = optError
@@ -166,12 +202,14 @@ class CashInApiIntegrationTest {
         }
 
         expectationCashInExc.await(600, TimeUnit.SECONDS)
+        expectationFake.await(expectationMillisecondsAwait, TimeUnit.MILLISECONDS)
 
         Assert.assertNull(cashInExc)
         Assert.assertNotNull(cashInErrorExc)
+
         Assert.assertTrue(cashInErrorExc is NetHelper.APIResponseError)
         (cashInErrorExc as NetHelper.APIResponseError?)?.let {
-            Assert.assertEquals(it.errors?.get(0)?.code, ErrorCode.authentication_error)
+            Assert.assertEquals(ErrorCode.authentication_error, it.errors?.get(0)?.code)
         }
     }
 }

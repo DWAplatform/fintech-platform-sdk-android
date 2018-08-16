@@ -108,7 +108,7 @@ open class CashInAPI @Inject constructor(
                   amount: Money,
                   completion: (Money?, Exception?) -> Unit): IRequest<*>? {
 
-        val url = netHelper.getURL("/rest/v1/fintech/tenants/${account.tenantId}/${netHelper.getPathFromAccountType(account.accountType)}/${account.ownerId}/accounts/\$${account.accountId}/linkedCards/$cardId/cashInsFee")
+        val url = netHelper.getURL("/rest/v1/fintech/tenants/${account.tenantId}/${netHelper.getPathFromAccountType(account.accountType)}/${account.ownerId}/accounts/${account.accountId}/linkedCards/$cardId/cashInsFee")
 
         val params = HashMap<String, Any>()
         params["amount"] = amount.value.toString()
