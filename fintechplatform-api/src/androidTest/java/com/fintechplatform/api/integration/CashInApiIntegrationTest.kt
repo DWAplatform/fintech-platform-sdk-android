@@ -3,12 +3,15 @@ package com.fintechplatform.api.integration
 import android.support.test.InstrumentationRegistry
 import android.support.test.runner.AndroidJUnit4
 import com.fintechplatform.api.FintechPlatformAPI
+import com.fintechplatform.api.account.models.Account
 import com.fintechplatform.api.card.models.PaymentCard
 import com.fintechplatform.api.cashin.models.CashInResponse
 import com.fintechplatform.api.cashin.models.CashInStatus
+import com.fintechplatform.api.money.Currency
 import com.fintechplatform.api.money.Money
 import com.fintechplatform.api.net.ErrorCode
 import com.fintechplatform.api.net.NetHelper
+import com.fintechplatform.api.user.models.User
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
@@ -22,26 +25,32 @@ import java.util.concurrent.TimeUnit
  */
 @RunWith(AndroidJUnit4::class)
 class CashInApiIntegrationTest {
+
     lateinit var hostName: String
     lateinit var accessToken: String
-    lateinit var tenantId: String
-    lateinit var userId: String
-    lateinit var accountId: String
+    lateinit var account: Account
 
     @Before
     fun setUp() {
-        /*hostName = ProcessInfo.processInfo.environment["HOSTNAME"]!
-        accessToken = ProcessInfo.processInfo.environment["ACCOUNT_TOKEN"]!
-        tenantId = ProcessInfo.processInfo.environment["TENANT_ID"]!
-        userId = ProcessInfo.processInfo.environment["OWNER_ID"]!
-        accountId = ProcessInfo.processInfo.environment["ACCOUNT_ID"]!
-        */
 
-        hostName = "http://192.168.1.73:9000"
-        accessToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJleHAiOjE1MjYzNzA3MzYsImlhdCI6MTUyNjI4NDMzNiwidGVuYW50SWQiOiJiMDQ1NmNjNC01NTc0LTQ4M2UtYjRmOS1lODg2Y2MzZmVkZmUiLCJhY2NvdW50VHlwZSI6IlBFUlNPTkFMIiwib3duZXJJZCI6IjQyN2M5ODQwLWIxMTktNDJjYS04MGYxLTNhM2E4YmY2ODQyMSIsImFjY291bnRJZCI6ImMzZmQxOWViLTY3ZDQtNDI1MS1hZWZkLTRkNDc0NTA5MzM3ZSIsImp3dFR5cGUiOiJBQ0NPVU5UIiwic2NvcGUiOlsiTElOS0VEX0NBUkQiLCJMSU5LRURfQ0FSRF9DQVNIX0lOIl19.Xp-HEM46llMdrEfZUHAtjoJ_ffdeJm1WLMsF5_YWLvQLXo3KU0JW0EBwEZvwaSpNJVrzGhu86EYKmPJn4o1MPQ"
-        tenantId = "b0456cc4-5574-483e-b4f9-e886cc3fedfe"
-        userId = "427c9840-b119-42ca-80f1-3a3a8bf68421"
-        accountId = "c3fd19eb-67d4-4251-aefd-4d474509337e"
+        hostName = "http://www.sandbox.lightbankingservices.com/api/v1"
+
+        /**
+         * go to api-test path:
+         * fintech-platform-api-test user$
+         *
+         * and run this script to obtain ids and params:
+         *
+         * SDK_IOS_WORKSPACE_PATH="" ./node_modules/mocha/bin/mocha tests/mobile_sdk_test.js
+         */
+
+        val tenantId = "b0456cc4-5574-483e-b4f9-e886cc3fedfe"
+        val userId = "b3483f59-c7f2-41aa-9d45-e21dbf4722ca"
+        val accountId = "f3f931ca-9104-4a51-b74c-11370f358636"
+
+        accessToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJleHAiOjE1MzQ0OTcwNTgsImlhdCI6MTUzNDQxMDY1OCwidGVuYW50SWQiOiJiMDQ1NmNjNC01NTc0LTQ4M2UtYjRmOS1lODg2Y2MzZmVkZmUiLCJhY2NvdW50VHlwZSI6IlBFUlNPTkFMIiwib3duZXJJZCI6ImIzNDgzZjU5LWM3ZjItNDFhYS05ZDQ1LWUyMWRiZjQ3MjJjYSIsImFjY291bnRJZCI6ImYzZjkzMWNhLTkxMDQtNGE1MS1iNzRjLTExMzcwZjM1ODYzNiIsImp3dFR5cGUiOiJBQ0NPVU5UIiwic2NvcGUiOlsiTElOS0VEX0NBUkQiLCJMSU5LRURfQ0FSRF9DQVNIX0lOIl19.f6FWhNHp1ZNAtyRTtGypuGZEZPKLN0BnOHL2w_dmEbV1tORH9yo_OwJZ015LpfzHXyK_rnqfIl0gneFbFME0pg"
+
+        account = Account.personalAccount(User(UUID.fromString(tenantId), UUID.fromString(userId)), UUID.fromString(accountId))
     }
 
     @Test
@@ -53,7 +62,7 @@ class CashInApiIntegrationTest {
         var paymentCard : PaymentCard? = null
         var paymentCardError: Exception? = null
         val expectationRegisterCard = CountDownLatch(1)
-        paymentCardAPI.registerCard(accessToken, userId, accountId, "PERSONAL", tenantId, "1234123412341234",  "0122", "123", "EUR") { optPaymentCard, optError ->
+        paymentCardAPI.registerCard(accessToken,account,"1234123412341234",  "0122", "123", Currency.EUR) { optPaymentCard, optError ->
             paymentCard = optPaymentCard
             paymentCardError = optError
             expectationRegisterCard.countDown()
@@ -66,13 +75,12 @@ class CashInApiIntegrationTest {
 
         val cashInAPI = FintechPlatformAPI.getPayIn(hostName, context)
 
-
-        // calcolo le Fee
+        // Fee
         var cashInFee : Money? = null
         var cashInErrorFee : Exception? = null
         val expectationCashInFee = CountDownLatch(1)
 
-        cashInAPI.cashInFee(accessToken, tenantId, accountId, userId, "PERSONAL", paymentCard!!.id!!, Money(1000L, "EUR")) { optCashInFee, optError ->
+        cashInAPI.cashInFee(accessToken, account, paymentCard!!.cardId!!, Money(1000L, "EUR")) { optCashInFee, optError ->
             cashInFee = optCashInFee
             cashInErrorFee = optError
             expectationCashInFee.countDown()
@@ -83,13 +91,13 @@ class CashInApiIntegrationTest {
         Assert.assertNull(cashInErrorFee)
         Assert.assertEquals(0L, cashInFee?.value)
 
-        // calcolo cashIn no needs 3D Secure
+        // cashIn no needs 3D Secure
         var cashIn1 : CashInResponse? = null
         var cashInError1 : Exception? = null
         val expectationCashIn1 = CountDownLatch(1)
         val idempotency10eur = UUID.randomUUID().toString()
 
-        cashInAPI.cashIn(accessToken, userId, accountId, "PERSONAL", tenantId, paymentCard!!.id!!, Money(1000L, "EUR"), idempotency10eur) { optCashIn, optError ->
+        cashInAPI.cashIn(accessToken, account, paymentCard!!.cardId!!, Money(1000L, "EUR"), idempotency10eur) { optCashIn, optError ->
             cashIn1 = optCashIn
             cashInError1 = optError
             expectationCashIn1.countDown()
@@ -102,13 +110,13 @@ class CashInApiIntegrationTest {
         Assert.assertEquals(CashInStatus.SUCCEEDED, cashIn1?.status)
 
 
-        // calcolo cashIn needs 3D Secure
+        // cashIn needs 3D Secure
         var cashIn2 : CashInResponse? = null
         var cashInError2 : Exception? = null
         val expectationCashIn2 = CountDownLatch(1)
         val idempotency100eur = UUID.randomUUID().toString()
 
-        cashInAPI.cashIn(accessToken, userId, accountId, "PERSONAL", tenantId, paymentCard!!.id!!, Money(10000L, "EUR"), idempotency100eur) { optCashIn, optError ->
+        cashInAPI.cashIn(accessToken, account, paymentCard!!.cardId!!, Money(10000L, "EUR"), idempotency100eur) { optCashIn, optError ->
             cashIn2 = optCashIn
             cashInError2 = optError
             expectationCashIn2.countDown()
@@ -121,12 +129,12 @@ class CashInApiIntegrationTest {
         Assert.assertEquals(CashInStatus.CREATED, cashIn2?.status)
 
         // calcolo cashIn Failed
-        var cashInFailed : CashInReply? = null
+        var cashInFailed : CashInResponse? = null
         var cashInErrorFailed : Exception? = null
         val expectationCashInFailed = CountDownLatch(1)
         val idempotencyFailed = UUID.randomUUID().toString()
 
-        cashInAPI.cashIn(accessToken, userId, accountId, "PERSONAL", tenantId, paymentCard!!.id!!, Money(-10L, "EUR"), idempotencyFailed) { optCashIn, optError ->
+        cashInAPI.cashIn(accessToken, account, paymentCard!!.cardId!!, Money(-10L, "EUR"), idempotencyFailed) { optCashIn, optError ->
             cashInFailed = optCashIn
             cashInErrorFailed = optError
             expectationCashInFailed.countDown()
@@ -146,12 +154,12 @@ class CashInApiIntegrationTest {
 
 
         // calcolo cashIn Exception
-        var cashInExc : CashInReply? = null
+        var cashInExc : CashInResponse? = null
         var cashInErrorExc : Exception? = null
         val expectationCashInExc = CountDownLatch(1)
         val idempotencyExc = UUID.randomUUID().toString()
 
-        cashInAPI.cashIn(accessToken, userId, UUID.randomUUID().toString(), "PERSONAL", tenantId, paymentCard!!.id!!, Money(100L, "EUR"), idempotencyExc) { optCashIn, optError ->
+        cashInAPI.cashIn(accessToken, account, paymentCard!!.cardId!!, Money(100L, "EUR"), idempotencyExc) { optCashIn, optError ->
             cashInExc = optCashIn
             cashInErrorExc = optError
             expectationCashInExc.countDown()
