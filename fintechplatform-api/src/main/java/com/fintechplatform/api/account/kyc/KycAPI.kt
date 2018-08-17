@@ -144,7 +144,7 @@ open class KycAPI @Inject constructor(
                                 date )
                         }.sortedByDescending { it.created }
 
-                completion(kycs[0], null)
+                completion(kycs.firstOrNull(), null)
 
             }) { error ->
                 completion(null, netHelper.createRequestError(error))
