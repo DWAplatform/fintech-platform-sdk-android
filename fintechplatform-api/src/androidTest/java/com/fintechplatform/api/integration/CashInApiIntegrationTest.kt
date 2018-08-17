@@ -84,7 +84,7 @@ class CashInApiIntegrationTest {
         var cashInErrorFee : Exception? = null
         val expectationCashInFee = CountDownLatch(1)
 
-        cashInAPI.cashInFee(accessToken, account, paymentCard!!.cardId!!, Money(1000L, "EUR")) { optCashInFee, optError ->
+        cashInAPI.cashInFee(accessToken, account, paymentCard!!.cardId!!, Money(1000L, Currency.EUR)) { optCashInFee, optError ->
             cashInFee = optCashInFee
             cashInErrorFee = optError
             expectationCashInFee.countDown()
@@ -103,7 +103,7 @@ class CashInApiIntegrationTest {
         val expectationCashIn1 = CountDownLatch(1)
         val idempotency10eur = UUID.randomUUID().toString()
 
-        cashInAPI.cashIn(accessToken, account, paymentCard!!.cardId!!, Money(1000L, "EUR"), idempotency10eur) { optCashIn, optError ->
+        cashInAPI.cashIn(accessToken, account, paymentCard!!.cardId!!, Money(1000L, Currency.EUR), idempotency10eur) { optCashIn, optError ->
             cashIn1 = optCashIn
             cashInError1 = optError
             expectationCashIn1.countDown()
@@ -124,7 +124,7 @@ class CashInApiIntegrationTest {
         val expectationCashIn2 = CountDownLatch(1)
         val idempotency100eur = UUID.randomUUID().toString()
 
-        cashInAPI.cashIn(accessToken, account, paymentCard!!.cardId!!, Money(10000L, "EUR"), idempotency100eur) { optCashIn, optError ->
+        cashInAPI.cashIn(accessToken, account, paymentCard!!.cardId!!, Money(10000L, Currency.EUR), idempotency100eur) { optCashIn, optError ->
             cashIn2 = optCashIn
             cashInError2 = optError
             expectationCashIn2.countDown()
@@ -144,7 +144,7 @@ class CashInApiIntegrationTest {
         val expectationCashInFailed = CountDownLatch(1)
         val idempotencyFailed = UUID.randomUUID().toString()
 
-        cashInAPI.cashIn(accessToken, account, paymentCard!!.cardId!!, Money(-10L, "EUR"), idempotencyFailed) { optCashIn, optError ->
+        cashInAPI.cashIn(accessToken, account, paymentCard!!.cardId!!, Money(-10L, Currency.EUR), idempotencyFailed) { optCashIn, optError ->
             cashInFailed = optCashIn
             cashInErrorFailed = optError
             expectationCashInFailed.countDown()
@@ -169,7 +169,7 @@ class CashInApiIntegrationTest {
         val expectationCashInFailed2 = CountDownLatch(1)
         val idempotencyFailed2 = UUID.randomUUID().toString()
 
-        cashInAPI.cashIn(accessToken, account, paymentCard!!.cardId!!, Money(0L, "EUR"), idempotencyFailed2) { optCashIn, optError ->
+        cashInAPI.cashIn(accessToken, account, paymentCard!!.cardId!!, Money(0L, Currency.EUR), idempotencyFailed2) { optCashIn, optError ->
             cashInFailed2 = optCashIn
             cashInErrorFailed2 = optError
             expectationCashInFailed2.countDown()
@@ -195,7 +195,7 @@ class CashInApiIntegrationTest {
         val idempotencyExc = UUID.randomUUID().toString()
 
         account = Account.personalAccount(User(UUID.randomUUID(), UUID.randomUUID()), UUID.randomUUID())
-        cashInAPI.cashIn(accessToken, account, paymentCard!!.cardId!!, Money(100L, "EUR"), idempotencyExc) { optCashIn, optError ->
+        cashInAPI.cashIn(accessToken, account, paymentCard!!.cardId!!, Money(100L, Currency.EUR), idempotencyExc) { optCashIn, optError ->
             cashInExc = optCashIn
             cashInErrorExc = optError
             expectationCashInExc.countDown()

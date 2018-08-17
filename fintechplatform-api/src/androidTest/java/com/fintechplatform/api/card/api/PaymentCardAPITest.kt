@@ -81,7 +81,7 @@ class PaymentCardAPITest {
         val expectationCashIn1 = CountDownLatch(1)
         val idempotency10eur = UUID.randomUUID().toString()
 
-        cashInAPI.cashIn(accessToken, account, card!!.cardId!!, Money(33300000L, "EUR"), idempotency10eur) { optCashIn, optError ->
+        cashInAPI.cashIn(accessToken, account, card!!.cardId!!, Money(33300000L, Currency.EUR), idempotency10eur) { optCashIn, optError ->
             cashIn1 = optCashIn
             cashInError1 = optError
             expectationCashIn1.countDown()

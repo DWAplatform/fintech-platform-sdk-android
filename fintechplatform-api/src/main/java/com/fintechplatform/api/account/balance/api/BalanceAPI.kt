@@ -4,6 +4,7 @@ import com.android.volley.Request
 import com.fintechplatform.api.account.balance.models.BalanceItem
 import com.fintechplatform.api.account.models.AccountType
 import com.fintechplatform.api.log.Log
+import com.fintechplatform.api.money.Currency
 import com.fintechplatform.api.money.Money
 import com.fintechplatform.api.net.IRequest
 import com.fintechplatform.api.net.IRequestProvider
@@ -43,11 +44,11 @@ open class BalanceAPI @Inject constructor(internal val hostName: String,
                     null, netHelper.authorizationToken(token), { response ->
                 try {
                     val balance = response.getJSONObject("balance")
-                    val moneyBalance = Money(balance.getLong("amount"), balance.getString("currency"))
+                    val moneyBalance = Money(balance.getLong("amount"), Currency.valueOf(balance.getString("currency")))
 
 
                     val availableBalance = response.getJSONObject("availableBalance")
-                    val moneyAvailable = Money(availableBalance.getLong("amount"), availableBalance.getString("currency"))
+                    val moneyAvailable = Money(availableBalance.getLong("amount"), Currency.valueOf(availableBalance.getString("currency")))
 
                     completion(BalanceItem(moneyBalance, moneyAvailable), null)
                 } catch (e: JSONException) {
