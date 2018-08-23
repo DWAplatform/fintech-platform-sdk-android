@@ -1,8 +1,8 @@
 package com.fintechplatform.api.iban.models
 
-data class UserResidential(val userid: String,
-                           val tenantid: String,
-                           val address: String?,
-                           val ZIPcode: String?,
-                           val city: String?,
-                           val countryofresidence: String?)
+data class UserResidential(val userId: String,
+                           val tenantId: String,
+                           val address: String?=null,
+                           val postalCode: String?=null,
+                           val city: String?=null,
+                           val countryOfResidence: String?=null)

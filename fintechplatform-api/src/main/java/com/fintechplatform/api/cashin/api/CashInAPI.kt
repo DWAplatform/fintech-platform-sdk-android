@@ -147,12 +147,16 @@ open class CashInAPI @Inject constructor(
 
         val url = netHelper.getURL("/rest/v1/fintech/tenants/${account.tenantId}/${netHelper.getPathFromAccountType(account.accountType)}/${account.ownerId}/accounts/${account.accountId}/cashInBalance")
 
-        val fromDate = DateTimeConversion.convert2RFC3339(now)
+
+        val calendar = Calendar.getInstance()
+        calendar.add(Calendar.YEAR, -1)
+        val yearAgoFormatted = DateTimeConversion.convert2RFC3339(calendar.time)
         val nowFormatted = DateTimeConversion.convert2RFC3339(now)
+
         var request: IRequest<*>?
         try {
             val params = HashMap<String, Any>()
-            params.put("fromDate", fromDate)
+            params.put("fromDate", yearAgoFormatted)
             params.put("toDate", nowFormatted)
             val rurl = netHelper.getUrlDataString(url, params)
 

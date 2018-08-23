@@ -50,7 +50,21 @@ open class NetHelper constructor(val hostName: String) {
      * [errors] error as a list of Error, could be null in case of json parsing error
      * [throwable] error returned from the underlying HTTP library
      */
-    data class APIResponseError(val errors: List<Error>?, val throwable: Throwable?) : Exception(throwable)
+    data class APIResponseError(val errors: List<Error>?, val throwable: Throwable?) : Exception(throwable) {
+
+        //TODO: extend message: if list not empty => print error else throwable.message
+
+        override val message: String?
+            get() {
+                val errors = errors?.let {
+                    it.map {
+                        it.toString()
+                    }.toString()
+                }
+                return errors ?: super.message
+            }
+
+    }
 
     val PROTOCOL_CHARSET = "utf-8"
 

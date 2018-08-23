@@ -110,7 +110,7 @@ class ProfileAPI @Inject constructor(
                 hparams = netHelper.authorizationToken(token)
             } else {
                 val h = HashMap<String, String>()
-                h.put("Authorization", "Bearer " + token)
+                h["Authorization"] = "Bearer $token"
                 hparams = h
             }
 
@@ -296,12 +296,12 @@ class ProfileAPI @Inject constructor(
                     completion: (UserProfileReply?, Exception?) -> Unit) {
 
         editProfile(token = token,
-                userid = residential.userid,
-                tenantId = residential.tenantid,
+                userid = residential.userId,
+                tenantId = residential.tenantId,
                 address = residential.address,
-                zipcode = residential.ZIPcode,
+                zipcode = residential.postalCode,
                 city = residential.city,
-                countryofresidence = residential.countryofresidence,
+                countryofresidence = residential.countryOfResidence,
                 completion = completion)
     }
 
