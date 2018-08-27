@@ -62,6 +62,7 @@ class AccountAPI @Inject constructor(internal val hostName: String,
 
             val jsonObject = JSONObject()
             jsonObject.put("levelStatus", AccountLevelStatus.REQUEST_UPGRADE_TO_LEVEL2.name)
+            jsonObject.put("status", "ENABLED")
 
             val r = requestProvider.jsonObjectRequest(Request.Method.PUT, url, jsonObject,
                     netHelper.getHeaderBuilder().authorizationToken(token).getHeaderMap(), { response ->
