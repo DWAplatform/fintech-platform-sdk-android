@@ -1,6 +1,6 @@
 package com.fintechplatform.api.money
 
-class Money(val value: Long, val currency: String = "EUR") {
+class Money(val value: Long, val currency: Currency = Currency.EUR) {
 
     override fun toString(): String {
         return toString(",")
@@ -22,7 +22,7 @@ class Money(val value: Long, val currency: String = "EUR") {
         else {
             val i = value / 100
 
-            var si = ""
+            var si: String
             if (i < 1000) {
                 si = i.toString()
             } else {

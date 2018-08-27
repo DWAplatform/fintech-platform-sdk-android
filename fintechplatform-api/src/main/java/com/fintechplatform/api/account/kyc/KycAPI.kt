@@ -121,30 +121,23 @@ open class KycAPI @Inject constructor(
                         .map {
                             val date = DateTimeConversion.convertFromRFC3339(it.getString("created"))
 
-                            it.getJSONObject("error")?.let {
-                                val errorMessage =
+                            val errorMessage = it.optJSONObject("error")?.let {
                                 try {
                                     Error(ErrorCode.valueOf(it.getString("code")), it.getString("message"))
                                 } catch (x: Exception) {
                                     Error(ErrorCode.unknown_error, "[${it.getString("code")}] ${it.getString("message")}")
                                 }
-                                Kyc( UUID.fromString(it.getString("kycId")),
-                                        UUID.fromString(it.getString("documentId")),
-                                        KycStatus.valueOf(it.getString("status")),
-                                        date,
-                                        errorMessage
-                                )
-                                completion(null, NetHelper.APIResponseError(listOf(errorMessage), null))
-                                return@jsonArrayRequest
                             }
 
-                            Kyc( UUID.fromString(it.getString("kycId")),
-                                UUID.fromString(it.getString("documentId")),
-                                KycStatus.valueOf(it.getString("status")),
-                                date )
+                    Kyc(UUID.fromString(it.getString("kycId")),
+                            UUID.fromString(it.getString("documentId")),
+                            KycStatus.valueOf(it.getString("status")),
+                            date,
+                            errorMessage)
+
                         }.sortedByDescending { it.created }
 
-                completion(kycs[0], null)
+                completion(kycs.firstOrNull(), null)
 
             }) { error ->
                 completion(null, netHelper.createRequestError(error))

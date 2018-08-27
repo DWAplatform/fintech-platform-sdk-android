@@ -5,7 +5,6 @@ import android.support.test.runner.AndroidJUnit4
 import com.fintechplatform.api.FintechPlatformAPI
 import com.fintechplatform.api.account.models.Account
 import com.fintechplatform.api.card.models.PaymentCard
-import com.fintechplatform.api.card.models.PaymentCardStatus
 import com.fintechplatform.api.money.Currency
 import com.fintechplatform.api.net.ErrorCode
 import com.fintechplatform.api.net.NetHelper
@@ -177,9 +176,9 @@ class PaymentCardApiIntegrationTest {
                 paymentCard1!!.alias,
                 paymentCard1!!.expiration,
                 paymentCard1!!.currency,
-                paymentCard1!!.issuer,
-                paymentCard1!!.status,
                 true,
+                paymentCard1!!.status,
+                paymentCard1!!.issuer,
                 paymentCard1!!.created,
                 setDefaultCard1!!.updated)
 
@@ -211,9 +210,9 @@ class PaymentCardApiIntegrationTest {
                 paymentCard2!!.alias,
                 paymentCard2!!.expiration,
                 paymentCard2!!.currency,
-                paymentCard2!!.issuer,
-                paymentCard2!!.status,
                 false,
+                paymentCard1!!.status,
+                paymentCard1!!.issuer,
                 paymentCard2!!.created, setDefaultCard1!!.updated)
         Assert.assertTrue(cardsList!!.contains(paymentCard2NotDefault))
 
@@ -241,9 +240,9 @@ class PaymentCardApiIntegrationTest {
                 paymentCard2!!.alias,
                 paymentCard2!!.expiration,
                 paymentCard2!!.currency,
-                paymentCard2!!.issuer,
-                paymentCard2!!.status,
                 true,
+                paymentCard1!!.status,
+                paymentCard1!!.issuer,
                 paymentCard2!!.created, setDefaultCard2!!.updated)
 
         Assert.assertEquals(paymentCard2Default, setDefaultCard2)
@@ -272,9 +271,9 @@ class PaymentCardApiIntegrationTest {
                 paymentCard1!!.alias,
                 paymentCard1!!.expiration,
                 paymentCard1!!.currency,
-                paymentCard1!!.issuer,
+                true,
                 paymentCard1!!.status,
-        true,
+                paymentCard1!!.issuer,
                 paymentCard1!!.created,
                 setDefaultCard2!!.updated)
 

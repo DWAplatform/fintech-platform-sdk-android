@@ -20,7 +20,7 @@ class DateTimeConversionTest {
      */
     @Test
     fun test_convertFromAndToRFC3339() {
-        val dateStrType1 = "2018-05-07T13:54:55+02:00"
+        val dateStrType1 = "2018-05-07T13:54:55+01:00"
         // When
         val resultDateType1 = DateTimeConversion.convertFromRFC3339(dateStrType1)
         Assert.assertNotNull(resultDateType1)

@@ -1,6 +1,8 @@
 package com.fintechplatform.api
 
 import android.content.Context
+import com.fintechplatform.api.account.AccountAPIBuilder
+import com.fintechplatform.api.account.api.AccountAPI
 import com.fintechplatform.api.account.balance.BalanceAPIBuilder
 import com.fintechplatform.api.account.balance.api.BalanceAPI
 import com.fintechplatform.api.account.kyc.KycAPI
@@ -77,6 +79,10 @@ class FintechPlatformAPI {
 
         fun getKYC(hostName: String,context: Context): KycAPI {
             return KycAPIBuilder().createKycAPI(hostName, context)
+        }
+
+        fun getAccountAPI(hostName: String,context: Context): AccountAPI {
+            return AccountAPIBuilder().createAccountAPIComponent(context, hostName).getAccountAPI()
         }
     }
 

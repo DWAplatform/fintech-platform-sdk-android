@@ -1,11 +1,13 @@
 package com.fintechplatform.api.cashin.api
 
 import com.android.volley.Request
+import com.fintechplatform.api.account.balance.models.BalanceItem
 import com.fintechplatform.api.account.models.Account
 import com.fintechplatform.api.card.helpers.DateTimeConversion
 import com.fintechplatform.api.cashin.models.CashInResponse
 import com.fintechplatform.api.cashin.models.CashInStatus
 import com.fintechplatform.api.log.Log
+import com.fintechplatform.api.money.Currency
 import com.fintechplatform.api.money.Money
 import com.fintechplatform.api.net.*
 import org.json.JSONObject
@@ -81,7 +83,7 @@ open class CashInAPI @Inject constructor(
                     DateTimeConversion.convertFromRFC3339(it)
                 }
 
-                completion(CashInResponse(UUID.fromString(transactionId), amount, Money(feeAmount, feeCurrency), secureCodeNeeded, redirectUrl, CashInStatus.valueOf(status), created, updated), null)
+                completion(CashInResponse(UUID.fromString(transactionId), amount, Money(feeAmount, Currency.valueOf(feeCurrency)), secureCodeNeeded, redirectUrl, CashInStatus.valueOf(status), created, updated), null)
             }) { error ->
                 completion(null, netHelper.createRequestError(error))
             }
@@ -108,7 +110,7 @@ open class CashInAPI @Inject constructor(
                   amount: Money,
                   completion: (Money?, Exception?) -> Unit): IRequest<*>? {
 
-        val url = netHelper.getURL("/rest/v1/fintech/tenants/${account.tenantId}/${netHelper.getPathFromAccountType(account.accountType)}/${account.ownerId}/accounts/\$${account.accountId}/linkedCards/$cardId/cashInsFee")
+        val url = netHelper.getURL("/rest/v1/fintech/tenants/${account.tenantId}/${netHelper.getPathFromAccountType(account.accountType)}/${account.ownerId}/accounts/${account.accountId}/linkedCards/$cardId/cashInsFee")
 
         val params = HashMap<String, Any>()
         params["amount"] = amount.value.toString()
@@ -123,7 +125,7 @@ open class CashInAPI @Inject constructor(
                 val amountResp = response.getLong("amount")
                 val currency = response.optString("currency")
 
-                completion(Money(amountResp, currency), null)
+                completion(Money(amountResp, Currency.valueOf(currency)), null)
             }) { error ->
                 completion(null, netHelper.createRequestError(error))
             }
@@ -138,4 +140,57 @@ open class CashInAPI @Inject constructor(
         return request
     }
 
+    fun cashInBalanceOverflow(token: String,
+                              account: Account,
+                              now: Date,
+                              completion: (BalanceItem?, Exception?) -> Unit): IRequest<*>? {
+
+        val url = netHelper.getURL("/rest/v1/fintech/tenants/${account.tenantId}/${netHelper.getPathFromAccountType(account.accountType)}/${account.ownerId}/accounts/${account.accountId}/cashInBalance")
+
+
+        val calendar = Calendar.getInstance()
+        calendar.add(Calendar.YEAR, -1)
+        val yearAgoFormatted = DateTimeConversion.convert2RFC3339(calendar.time)
+        val nowFormatted = DateTimeConversion.convert2RFC3339(now)
+
+        var request: IRequest<*>?
+        try {
+            val params = HashMap<String, Any>()
+            params.put("fromDate", yearAgoFormatted)
+            params.put("toDate", nowFormatted)
+            val rurl = netHelper.getUrlDataString(url, params)
+
+            request = requestProvider.jsonObjectRequest(Request.Method.GET,
+                    rurl, null, netHelper.authorizationToken(token),
+                    { response ->
+
+                        val balance = response.getJSONObject("balance")
+                        val availableBalance = response.getJSONObject("availableBalance")
+
+                        completion(
+                                BalanceItem(
+                                    Money(balance.getLong("amount"), Currency.valueOf(balance.getString("currency"))),
+                                    Money(availableBalance.getLong("amount"), Currency.valueOf(availableBalance.getString("currency")))
+                                ), null)
+                    }) { error ->
+                val status = if (error.networkResponse != null)
+                    error.networkResponse.statusCode else -1
+                when (status) {
+                    401 -> {
+                        completion(null, netHelper.TokenError(error))
+                    }
+                    else -> completion(null, netHelper.createRequestError(error))
+                }
+            }
+
+            request.setIRetryPolicy(netHelper.defaultpolicy)
+            queue.add(request)
+
+        } catch (e: Exception) {
+            log.error(TAG, "cashInBalanceOverflow error", e)
+            request = null
+        }
+
+        return request
+    }
 }
