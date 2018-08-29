@@ -86,7 +86,6 @@ open class NetHelper constructor(val hostName: String) {
     }
 
     fun createRequestError(volleyError: VolleyError): Exception {
-
         try {
             val response: NetworkResponse? = volleyError.networkResponse
             response?.let {
@@ -95,7 +94,10 @@ open class NetHelper constructor(val hostName: String) {
                 val arrayJson = JSONArray(jsonString)
 
                 val listError = (0 until arrayJson.length())
-                        .map { arrayJson.get(it) as JSONObject }
+                        .map {
+                            val optJsonObj = arrayJson.get(it) as? JSONObject
+                            optJsonObj ?: return GenericCommunicationError(volleyError)
+                        }
                         .map {
                             val rep =
                                     try {
