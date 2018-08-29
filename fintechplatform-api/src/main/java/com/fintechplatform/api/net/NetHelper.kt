@@ -12,9 +12,7 @@ import java.nio.charset.Charset
 import java.util.*
 
 
-
-
-class NetHelper constructor(val hostName: String) {
+open class NetHelper constructor(val hostName: String) {
 
     inner class HeaderBuilder {
         private var header = HashMap<String, String>()
@@ -24,8 +22,8 @@ class NetHelper constructor(val hostName: String) {
             return this
         }
 
-        fun idempotency(idempotencyKey: String): HeaderBuilder {
-            header.put("Idempotency-Key", idempotencyKey)
+        fun idempotency(idempotencyKey: String?): HeaderBuilder {
+            idempotencyKey?.let { header.put("Idempotency-Key", idempotencyKey) }
             return this
         }
 
@@ -51,7 +49,21 @@ class NetHelper constructor(val hostName: String) {
      * [errors] error as a list of Error, could be null in case of json parsing error
      * [throwable] error returned from the underlying HTTP library
      */
-    data class APIResponseError(val errors: List<Error>?, val throwable: Throwable?) : Exception(throwable)
+    data class APIResponseError(val errors: List<Error>?, val throwable: Throwable?) : Exception(throwable) {
+
+        //TODO: extend message: if list not empty => print error else throwable.message
+
+        override val message: String?
+            get() {
+                val errors = errors?.let {
+                    it.map {
+                        it.toString()
+                    }.toString()
+                }
+                return errors ?: super.message
+            }
+
+    }
 
     val PROTOCOL_CHARSET = "utf-8"
 
@@ -73,27 +85,32 @@ class NetHelper constructor(val hostName: String) {
     }
 
     fun createRequestError(volleyError: VolleyError): Exception {
-
         try {
-            val response: NetworkResponse = volleyError.networkResponse
-            val jsonString = String(response.data, Charset.forName(PROTOCOL_CHARSET))
+            val response: NetworkResponse? = volleyError.networkResponse
+            response?.let {
+                val jsonString = String(response.data, Charset.forName(PROTOCOL_CHARSET))
 
-            val arrayJson = JSONArray(jsonString)
+                val arrayJson = JSONArray(jsonString)
 
-            val listError = (0 until arrayJson.length())
-                    .map { arrayJson.get(it) as JSONObject }
-                    .map {
-                        val rep =
-                        try {
-                            Pair(ErrorCode.valueOf(it.getString("code")), it.getString("message"))
-                        } catch (x: Exception) {
-                            Pair(ErrorCode.unknown_error, "[${it.getString("code")}] ${it.getString("message")}")
+                val listError = (0 until arrayJson.length())
+                        .map {
+                            val optJsonObj = arrayJson.get(it) as? JSONObject
+                            optJsonObj ?: return GenericCommunicationError(volleyError)
                         }
-                        Error(rep.first, rep.second)
-                    }
-                    .toList()
+                        .map {
+                            val rep =
+                                    try {
+                                        Pair(ErrorCode.valueOf(it.getString("code")), it.getString("message"))
+                                    } catch (x: Exception) {
+                                        Pair(ErrorCode.unknown_error, "[${it.getString("code")}] ${it.getString("message")}")
+                                    }
+                            Error(rep.first, rep.second)
+                        }
+                        .toList()
 
-            return APIResponseError(listError, volleyError)
+                return APIResponseError(listError, volleyError)
+
+            }?: return GenericCommunicationError(volleyError)
         } catch(e: JSONException) {
             return GenericCommunicationError(volleyError)
         }
