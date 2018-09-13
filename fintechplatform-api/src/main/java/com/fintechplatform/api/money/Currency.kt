@@ -14,6 +14,4 @@ enum class Currency {
     PLN,
     CAD,
     AUD
-//    @RequiresApi()
-//    fun displayName(c: Currency) : String = java.util.Currency.getInstance(c.name).displayName
 }
