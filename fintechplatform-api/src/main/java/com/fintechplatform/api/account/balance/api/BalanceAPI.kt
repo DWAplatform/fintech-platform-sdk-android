@@ -54,7 +54,7 @@ open class BalanceAPI @Inject constructor(internal val hostName: String,
                 }
             }
             ) { error ->
-                completion(null, error)
+                completion(null, netHelper.createRequestError(error))
             }
             r.setIRetryPolicy(netHelper.defaultpolicy)
             queue.add(r)

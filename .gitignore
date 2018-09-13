@@ -7,6 +7,8 @@ com_crashlytics_export_strings.xml
 
 # Local configuration file (sdk path, etc)
 local.properties
+/projectFilesBackup/
+/projectFilesBackup1/
 
 # Gradle generated files
 .gradle/
@@ -28,6 +30,7 @@ local.properties
 .idea/vcs.xml
 .idea/caches
 .idea/codeStyles
+.idea/caches/build_file_checksums.ser
 *.iml
 
 # OS-specific files

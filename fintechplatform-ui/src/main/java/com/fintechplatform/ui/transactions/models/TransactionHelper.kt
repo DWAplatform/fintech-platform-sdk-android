@@ -1,15 +1,15 @@
 package com.fintechplatform.ui.transactions.models
 
 import com.fintechplatform.api.money.Money
-import com.fintechplatform.ui.money.MoneyHelper
 import com.fintechplatform.api.transactions.models.TransactionResponse
+import com.fintechplatform.ui.money.MoneyHelper
 import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
 
 class TransactionHelper @Inject constructor(val moneyHelper: MoneyHelper) {
 
-    private fun convertDate(date: String?): String {
+    private fun formatStringDate(date: String?): String {
         val sdf = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault())
         if (date.isNullOrBlank()) {
             return ""
@@ -20,10 +20,21 @@ class TransactionHelper @Inject constructor(val moneyHelper: MoneyHelper) {
         }
     }
 
+    private fun formatStringDateSella(date: String?): String {
+        val sdf = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault())
+        if (date.isNullOrBlank()) {
+            return ""
+        } else {
+            val d = sdf.parse(date)
+            val formatter = SimpleDateFormat("dd-MM-yyyy")
+            return formatter.format(d)
+        }
+    }
+
     fun transactionItem(t: TransactionResponse): TransactionItem? {
         val serverDateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss")
 
-        val twhen = convertDate(t.creationDate)
+        val twhen = formatStringDate(t.creationDate)
         val timeInMilliseconds = serverDateFormat.parse(t.creationDate).time
         val operationtype = t.operationType
 
@@ -208,6 +219,32 @@ class TransactionHelper @Inject constructor(val moneyHelper: MoneyHelper) {
                 transactionitem = null
         }
         return transactionitem
+    }
+
+    fun convertTransactionItem(t: ExternalTransaction): TransactionItem? {
+        val serverDateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss")
+//        val currentDate = Calendar.getInstance().time
+//        val timeInMillisecondsValueted = currentDate.time
+
+        val twhen = formatStringDateSella(t.accountingDate)
+        val twhen2 = formatStringDateSella(t.valueDate)
+        val timeInMillisecondsAccounting = serverDateFormat.parse(t.accountingDate).time
+        val timeInMillisecondsValueted = serverDateFormat.parse(t.valueDate).time
+
+        val moneyString = moneyHelper.toString(t.amount)
+        val message = t.message?.toLowerCase()?:""
+        return TransactionItem(
+                    t.transactionId,
+                    t.accountId,
+                    "c/c Sella",
+                    message,
+                    t.message,
+                    moneyString,
+                    twhen2,
+                    timeInMillisecondsValueted,
+                    t.status,
+                    t.error)
+
     }
 
 }
