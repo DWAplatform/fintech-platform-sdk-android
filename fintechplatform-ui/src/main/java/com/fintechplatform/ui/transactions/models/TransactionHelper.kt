@@ -228,8 +228,21 @@ class TransactionHelper @Inject constructor(val moneyHelper: MoneyHelper) {
 
         val twhen = formatStringDateSella(t.accountingDate)
         val twhen2 = formatStringDateSella(t.valueDate)
-        val timeInMillisecondsAccounting = serverDateFormat.parse(t.accountingDate).time
-        val timeInMillisecondsValueted = serverDateFormat.parse(t.valueDate).time
+        val timeInMillisecondsAccounting = t.accountingDate?.let {
+            if (it.isNotEmpty()){
+                serverDateFormat.parse(it).time
+            } else {
+                0L
+            }
+        }?: 0L
+        val timeInMillisecondsValueted = t.valueDate?.let {
+            if (it.isNotEmpty()) {
+                serverDateFormat.parse(it).time
+            } else {
+                0L
+            }
+
+        }?: 0L
 
         val moneyString = moneyHelper.toString(t.amount)
         val message = t.message?.toLowerCase()?:""

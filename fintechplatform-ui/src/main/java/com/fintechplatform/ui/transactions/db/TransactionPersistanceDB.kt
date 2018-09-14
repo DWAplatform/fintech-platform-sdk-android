@@ -42,8 +42,12 @@ class TransactionPersistanceDB @Inject constructor(val db: TransactionDB, val th
         val ordered = transactionsFull.sortedByDescending { t ->
             t.valueDate?.let {
                 val serverDateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss")
-                serverDateFormat.parse(it).time
-            }?: 0
+                try {
+                    serverDateFormat.parse(it).time
+                } catch (e: Exception) {
+                    0L
+                }
+            }?: 0L
         }
 
         ordered.forEach { t ->
