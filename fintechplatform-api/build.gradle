@@ -17,7 +17,7 @@ ext {
     siteUrl = 'https://github.com/DWAplatform/fintech-platform-sdk-android'
     gitUrl = 'https://github.com/DWAplatform/fintech-platform-sdk-android.git'
 
-    libraryVersion = '1.4.9'
+    libraryVersion = '1.4.10'
 
 
     developerId = 'developerId'
@@ -77,7 +77,7 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-v7'
         exclude module: 'recyclerview-v7'
     })
-    implementation 'com.android.volley:volley:1.0.0'
+    implementation 'com.android.volley:volley:1.1.0'
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
 }

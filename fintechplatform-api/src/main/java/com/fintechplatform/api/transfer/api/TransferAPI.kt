@@ -181,7 +181,7 @@ class TransferAPI constructor(internal val hostName: String,
                 val fullName = joAccountRefDetail.optString("name")?.run {
                     this
                 }.plus(joAccountRefDetail.optString("surname")?.run{
-                            " " + this
+                    " $this"
                         })
                 val transferAcc = TransferAccountModel(
                         joAccountRefDetail.getString("ownerId"),
