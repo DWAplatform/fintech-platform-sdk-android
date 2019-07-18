@@ -130,7 +130,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="2dp"
                 android:layout_below="@id/insertPage"
-                android:background="@color/gray_btn_bg_color"
+                android:background="@color/gray_bg_color"
                 />
         </RelativeLayout>
 

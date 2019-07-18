@@ -15,6 +15,7 @@
     <color name="textcolor">#595959</color>
     <color name="textcolorWhite">#FFFFFF</color>
     <color name="half_grey">#b2b2b2</color>
+    <color name="gray_bg_color">#D0D0D0</color>
 
     <color name="backgroundcolor">#cecece</color>
 
