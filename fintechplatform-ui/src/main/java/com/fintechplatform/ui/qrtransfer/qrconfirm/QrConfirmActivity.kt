@@ -144,7 +144,7 @@ class QrConfirmActivity : FragmentActivity(), QrConfirmContract.View {
     }
 
     override fun goToMain() {
-        // TODO gotomain
+        finish()
     }
 
 //    override fun goToAuth(userid: String, completion: (String) -> Unit) {

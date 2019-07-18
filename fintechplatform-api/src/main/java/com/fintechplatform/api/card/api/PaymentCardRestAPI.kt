@@ -4,7 +4,6 @@ import com.android.volley.Request
 import com.fintechplatform.api.card.helpers.DateTimeConversion
 import com.fintechplatform.api.card.models.PaymentCardIssuer
 import com.fintechplatform.api.card.models.PaymentCardItem
-import com.fintechplatform.api.card.models.PaymentCardStatus
 import com.fintechplatform.api.log.Log
 import com.fintechplatform.api.net.IRequest
 import com.fintechplatform.api.net.IRequestProvider
@@ -46,9 +45,6 @@ class PaymentCardRestAPI constructor(internal val hostName: String,
      */
 
     private fun toPaymentCardItem(reply: JSONObject): PaymentCardItem {
-        val status = reply.optString("status").let {
-            PaymentCardStatus.valueOf(it)
-        }
 
         val issuer = reply.optString("issuer").let {
             PaymentCardIssuer.valueOf(it)
@@ -67,7 +63,7 @@ class PaymentCardRestAPI constructor(internal val hostName: String,
                 reply.optString("expiration"),
                 reply.optString("currency"),
                 reply.optBoolean("defaultCard"),
-                status,
+                reply.optString("status"),
                 issuer, created, updated)
     }
 

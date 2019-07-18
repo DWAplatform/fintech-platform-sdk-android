@@ -4,7 +4,6 @@ import android.support.test.InstrumentationRegistry
 import android.support.test.runner.AndroidJUnit4
 import com.fintechplatform.api.FintechPlatformAPI
 import com.fintechplatform.api.card.models.PaymentCardItem
-import com.fintechplatform.api.card.models.PaymentCardStatus
 import com.fintechplatform.api.net.ErrorCode
 import com.fintechplatform.api.net.NetHelper
 import org.junit.Assert
@@ -43,10 +42,10 @@ class PaymentCardApiIntegrationTest {
         accountId = ""
 */
         hostName = "http://192.168.1.73:9000"
-        accessToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJleHAiOjE1MjY3MjQ4NzQsImlhdCI6MTUyNjYzODQ3NCwidGVuYW50SWQiOiJiMDQ1NmNjNC01NTc0LTQ4M2UtYjRmOS1lODg2Y2MzZmVkZmUiLCJhY2NvdW50VHlwZSI6IlBFUlNPTkFMIiwib3duZXJJZCI6IjJkNDFlNzA1LWE1YTctNDNiNy1iNGMxLTY4Njk4NTg2NTQxYiIsImFjY291bnRJZCI6IjJkY2I5OThkLTE5OGYtNDllZi05OTZjLTI3YmI3OWNkYzMzZCIsImp3dFR5cGUiOiJBQ0NPVU5UIiwic2NvcGUiOlsiTElOS0VEX0NBUkQiLCJMSU5LRURfQ0FSRF9DQVNIX0lOIl19.oEh8pQiarQ84SPmxS6fjyV2VFN8LFiGEfX4dkohky3LWgRsliHNoZIUhvC7Xm0eNZl8QXgZf29Gc49b36n3JDQ"
+        accessToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJleHAiOjE1MjYzNzA3MzYsImlhdCI6MTUyNjI4NDMzNiwidGVuYW50SWQiOiJiMDQ1NmNjNC01NTc0LTQ4M2UtYjRmOS1lODg2Y2MzZmVkZmUiLCJhY2NvdW50VHlwZSI6IlBFUlNPTkFMIiwib3duZXJJZCI6IjQyN2M5ODQwLWIxMTktNDJjYS04MGYxLTNhM2E4YmY2ODQyMSIsImFjY291bnRJZCI6ImMzZmQxOWViLTY3ZDQtNDI1MS1hZWZkLTRkNDc0NTA5MzM3ZSIsImp3dFR5cGUiOiJBQ0NPVU5UIiwic2NvcGUiOlsiTElOS0VEX0NBUkQiLCJMSU5LRURfQ0FSRF9DQVNIX0lOIl19.Xp-HEM46llMdrEfZUHAtjoJ_ffdeJm1WLMsF5_YWLvQLXo3KU0JW0EBwEZvwaSpNJVrzGhu86EYKmPJn4o1MPQ"
         tenantId = "b0456cc4-5574-483e-b4f9-e886cc3fedfe"
-        userId = "2d41e705-a5a7-43b7-b4c1-68698586541b"
-        accountId = "2dcb998d-198f-49ef-996c-27bb79cdc33d"
+        userId = "427c9840-b119-42ca-80f1-3a3a8bf68421"
+        accountId = "c3fd19eb-67d4-4251-aefd-4d474509337e"
     }
 
 
@@ -96,7 +95,6 @@ class PaymentCardApiIntegrationTest {
         
         Assert.assertNull(paymentCard1OptError)
         Assert.assertNotNull(paymentCard1)
-        Assert.assertEquals(paymentCard1?.status, PaymentCardStatus.CREATED)
 
         
         // getPaymentCards, expect only the First Card created
@@ -277,14 +275,14 @@ class PaymentCardApiIntegrationTest {
         val paymentCard1NotDefault = PaymentCardItem(
                 paymentCard1!!.id,
                 paymentCard1!!.accountId,
-                paymentCard1!!.alias,
-                paymentCard1!!.expiration,
+        paymentCard1!!.alias,
+        paymentCard1!!.expiration,
                 paymentCard1!!.currency,
                 false,
                 paymentCard1!!.status,
-                paymentCard1!!.issuer,
-                paymentCard1!!.created,
-                setDefaultCard2!!.updated)
+        paymentCard1!!.issuer,
+        paymentCard1!!.created,
+        setDefaultCard2!!.updated)
 
         Assert.assertTrue(cardsList!!.contains(paymentCard1NotDefault))
         Assert.assertTrue(cardsList!!.contains(paymentCard2Default))
