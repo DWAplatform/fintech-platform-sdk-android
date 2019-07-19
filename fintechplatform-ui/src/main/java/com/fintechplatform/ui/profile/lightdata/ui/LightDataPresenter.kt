@@ -1,10 +1,10 @@
 package com.fintechplatform.ui.profile.lightdata.ui
 
-import com.fintechplatform.ui.models.DataAccount
 import com.fintechplatform.api.net.NetHelper
 import com.fintechplatform.api.profile.api.ProfileAPI
-import com.fintechplatform.ui.profile.db.user.UsersPersistanceDB
 import com.fintechplatform.api.profile.models.UserLightData
+import com.fintechplatform.ui.models.DataAccount
+import com.fintechplatform.ui.profile.db.user.UsersPersistanceDB
 import com.mukesh.countrypicker.Country
 import java.text.SimpleDateFormat
 import java.util.*
@@ -62,6 +62,7 @@ class LightDataPresenter @Inject constructor(val view: LightDataContract.View,
 
             val userLightDataProfile = UserLightData(
                     configuration.ownerId,
+                    configuration.tenantId,
                     view.getNameText(),
                     view.getSurnameText(),
                     birthdayDate,
@@ -160,12 +161,12 @@ class LightDataPresenter @Inject constructor(val view: LightDataContract.View,
     private fun convertBirthday(birthday: String?): String? {
         val sdf = SimpleDateFormat("yyyy-MM-dd")
         sdf.timeZone = TimeZone.getTimeZone("UTC")
-        if (birthday.isNullOrBlank()) {
-            return ""
+        return if (birthday.isNullOrBlank()) {
+            ""
         } else {
             val d = sdf.parse(birthday)
             val formatter = SimpleDateFormat("dd/MM/yyyy")
-            return formatter.format(d)
+            formatter.format(d)
         }
     }
 

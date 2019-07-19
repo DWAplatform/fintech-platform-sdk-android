@@ -12,6 +12,7 @@ import com.fintechplatform.ui.R
 import com.fintechplatform.ui.alert.AlertHelpers
 import com.mukesh.countrypicker.CountryPicker
 import kotlinx.android.synthetic.main.activity_lightdata.*
+import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
 
@@ -66,10 +67,7 @@ class LightDataActivity : AppCompatActivity(), LightDataContract.View {
         }
 
         birthdayText.setOnClickListener {
-            val date = Calendar.getInstance()
-            date.add(Calendar.YEAR, -18)
-
-            showCalendar(date, dateListener)
+            showCalendar(dateListener)
         }
 
         abortButton.setOnClickListener { presenter.onAbortClick() }
@@ -131,9 +129,19 @@ class LightDataActivity : AppCompatActivity(), LightDataContract.View {
         nationalityText.setText(nationality)
     }
 
-    fun showCalendar(date: Calendar, dateListener: DatePickerDialog.OnDateSetListener) {
-        DatePickerDialog(this, dateListener, date
-                .get(Calendar.YEAR), date.get(Calendar.MONTH),
+    private fun showCalendar(dateListener: DatePickerDialog.OnDateSetListener) {
+
+        val date = Calendar.getInstance()
+        if(getDateOfBirthText().isBlank()) {
+            date.add(Calendar.YEAR, -18)
+        } else {
+            val sdf = SimpleDateFormat("dd/MM/yyyy")
+            val datef = sdf.parse(getDateOfBirthText())
+            date.time = datef
+        }
+
+        DatePickerDialog(this, dateListener,
+                date.get(Calendar.YEAR), date.get(Calendar.MONTH),
                 date.get(Calendar.DAY_OF_MONTH)).show()
     }
 
@@ -142,9 +150,9 @@ class LightDataActivity : AppCompatActivity(), LightDataContract.View {
     }
 
     override fun showTokenExpired() {
-        alertHelper.tokenExpired(this, { _,_ ->
+        alertHelper.tokenExpired(this) { _, _ ->
             finish()
-        })
+        }
     }
 
     override fun showWaiting() {
