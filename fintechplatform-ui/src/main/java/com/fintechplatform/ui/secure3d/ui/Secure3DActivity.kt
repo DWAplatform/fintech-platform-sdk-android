@@ -2,10 +2,10 @@ package com.fintechplatform.ui.secure3d.ui
 
 import android.graphics.Bitmap
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import androidx.appcompat.app.AppCompatActivity
 import com.fintechplatform.ui.R
 import kotlinx.android.synthetic.main.activity_secure3_d.*
 import javax.inject.Inject

@@ -2,7 +2,6 @@ package com.fintechplatform.ui.qrtransfer.creditui
 
 import android.content.Context
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
@@ -17,7 +16,7 @@ import javax.inject.Inject
 /**
  * Requests to the user the amount to create a qrcode receive
  */
-class QrReceiveAmountFragment: Fragment(), QrReceiveAmountContract.View {
+class QrReceiveAmountFragment: androidx.fragment.app.Fragment(), QrReceiveAmountContract.View {
 
     @Inject lateinit var presenter: QrReceiveAmountContract.Presenter
     @Inject lateinit var alertHelpers: AlertHelpers

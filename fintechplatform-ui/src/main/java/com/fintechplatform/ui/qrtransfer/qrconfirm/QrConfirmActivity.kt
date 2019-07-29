@@ -3,7 +3,6 @@ package com.fintechplatform.ui.qrtransfer.qrconfirm
 import android.content.Context
 import android.media.RingtoneManager
 import android.os.Bundle
-import android.support.v4.app.FragmentActivity
 import android.view.View
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
@@ -18,7 +17,7 @@ import javax.inject.Inject
 /**
  * Requires to Confirm a Payment based on qrcode
  */
-class QrConfirmActivity : FragmentActivity(), QrConfirmContract.View {
+class QrConfirmActivity : androidx.fragment.app.FragmentActivity(), QrConfirmContract.View {
 
     @Inject lateinit var alertHelpers: AlertHelpers
     @Inject lateinit var imageHelper: ImageHelper

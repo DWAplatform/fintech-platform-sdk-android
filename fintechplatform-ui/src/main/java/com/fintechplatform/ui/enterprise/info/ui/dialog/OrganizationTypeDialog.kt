@@ -6,12 +6,11 @@ import android.app.Dialog
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.support.v4.app.DialogFragment
 import com.fintechplatform.ui.R
 import com.fintechplatform.ui.enterprise.info.ui.EnterpriseInfoActivity
 
 
-class OrganizationTypeDialog: DialogFragment() {
+class OrganizationTypeDialog: androidx.fragment.app.DialogFragment() {
 
     var listener : BusinessTypePicker?=null
 

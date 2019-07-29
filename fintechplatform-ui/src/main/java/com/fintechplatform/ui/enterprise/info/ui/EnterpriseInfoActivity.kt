@@ -2,11 +2,11 @@ package com.fintechplatform.ui.enterprise.info.ui
 
 import android.content.Context
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import android.view.WindowManager
+import androidx.appcompat.app.AppCompatActivity
 import com.fintechplatform.ui.R
 import com.fintechplatform.ui.alert.AlertHelpers
 import com.fintechplatform.ui.enterprise.info.ui.dialog.OrganizationTypeDialog

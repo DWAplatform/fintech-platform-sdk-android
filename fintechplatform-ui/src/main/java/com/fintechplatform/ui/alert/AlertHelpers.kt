@@ -66,7 +66,7 @@ open class AlertHelpers {
     }
 
     fun warningGeneric(context: Context, title: String, message: String) {
-        val builder = android.support.v7.app.AlertDialog.Builder(context)
+        val builder = androidx.appcompat.app.AlertDialog.Builder(context)
                 .setTitle(title)
                 .setMessage(message)
                 .setPositiveButton(
@@ -77,7 +77,7 @@ open class AlertHelpers {
     }
 
     fun successGeneric(context: Context, title: String, handlerOk: (DialogInterface, Int) -> Unit){
-        val builder = android.support.v7.app.AlertDialog.Builder(context)
+        val builder = androidx.appcompat.app.AlertDialog.Builder(context)
                 // FIXME commented due to sdk refactor
                 // .setView(R.layout.dialog_success)
                 .setTitle(title)
@@ -89,7 +89,7 @@ open class AlertHelpers {
     }
 
     fun qrCodeError(context: Context, handlerOk: (DialogInterface, Int) -> Unit){
-        val builder = android.support.v7.app.AlertDialog.Builder(context)
+        val builder = androidx.appcompat.app.AlertDialog.Builder(context)
                 .setTitle("Verificare che il qrcode sia stato emesso da Fintech Platform")
                 // FIXME commented due to sdk refactor
                 // .setIcon(R.drawable.ic_warning_black_24dp)
@@ -100,7 +100,7 @@ open class AlertHelpers {
     }
 
     fun tokenExpired(context: Context, handlerOk: (DialogInterface, Int) -> Unit) {
-        val builder = android.support.v7.app.AlertDialog.Builder(context)
+        val builder = androidx.appcompat.app.AlertDialog.Builder(context)
                 .setTitle("Sessione scaduta")
                 .setMessage("rifare l'accesso")
                 .setPositiveButton("Ok", handlerOk)

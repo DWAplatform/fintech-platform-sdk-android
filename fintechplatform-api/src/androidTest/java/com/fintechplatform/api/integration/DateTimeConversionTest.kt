@@ -1,6 +1,6 @@
 package com.fintechplatform.api.integration
 
-import android.support.test.runner.AndroidJUnit4
+import androidx.test.runner.AndroidJUnit4
 import com.fintechplatform.api.card.helpers.DateTimeConversion
 import org.junit.Assert
 import org.junit.Test

@@ -1,7 +1,6 @@
 package com.fintechplatform.ui.transactions.ui
 
 import android.content.Context
-import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.fintechplatform.ui.R
@@ -14,7 +13,7 @@ import com.fintechplatform.ui.transactions.models.TransactionsManager
 class TransactionsAdapter(val context: Context,
                           val manager: TransactionsManager,
                           val tuserClick: (TransactionItem) -> Unit)
-    : RecyclerView.Adapter<TransactionItemViewHolder>() {
+    : androidx.recyclerview.widget.RecyclerView.Adapter<TransactionItemViewHolder>() {
 
     override fun getItemCount(): Int {
         return manager.count()

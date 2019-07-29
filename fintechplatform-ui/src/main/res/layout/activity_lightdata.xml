@@ -77,7 +77,7 @@
         android:layout_marginTop="32dp"
         android:background="@color/white">
 
-        <android.support.design.widget.TextInputLayout
+        <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/nameTextLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -85,7 +85,7 @@
             app:hintEnabled="true"
             android:layout_marginTop="1dp"
             android:theme="@style/TextLabel">
-            <android.support.design.widget.TextInputEditText
+            <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/nameText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -96,9 +96,9 @@
                 android:singleLine="true"
                 android:textSize="20dp"
                 android:layout_marginLeft="10dp"/>
-        </android.support.design.widget.TextInputLayout>
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <android.support.design.widget.TextInputLayout
+        <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/surnameTextLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -107,7 +107,7 @@
             app:hintEnabled="true"
             android:layout_marginTop="1dp"
             android:theme="@style/TextLabel">
-            <android.support.design.widget.TextInputEditText
+            <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/surnameText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -118,9 +118,9 @@
                 android:singleLine="true"
                 android:layout_marginLeft="10dp"
                 android:textSize="20dp" />
-        </android.support.design.widget.TextInputLayout>
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <android.support.design.widget.TextInputLayout
+        <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/birthdayTextLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -129,7 +129,7 @@
             app:hintEnabled="true"
             android:layout_marginTop="1dp"
             android:theme="@style/TextLabel">
-            <android.support.design.widget.TextInputEditText
+            <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/birthdayText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -141,9 +141,9 @@
                 android:layout_marginLeft="10dp"
                 android:focusable="false"
                 android:textSize="20dp" />
-        </android.support.design.widget.TextInputLayout>
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <android.support.design.widget.TextInputLayout
+        <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/nationalityTextLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -152,7 +152,7 @@
             app:hintEnabled="true"
             android:layout_marginTop="1dp"
             android:theme="@style/TextLabel">
-            <android.support.design.widget.TextInputEditText
+            <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/nationalityText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -164,7 +164,7 @@
                 android:focusable="false"
                 android:layout_marginLeft="10dp"
                 android:textSize="20dp" />
-        </android.support.design.widget.TextInputLayout>
+        </com.google.android.material.textfield.TextInputLayout>
 
     </RelativeLayout>
 

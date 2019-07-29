@@ -4,7 +4,6 @@ import android.content.Context
 import android.graphics.Color
 import android.media.RingtoneManager
 import android.os.Bundle
-import android.support.v4.app.FragmentActivity
 import android.text.Editable
 import android.text.InputFilter
 import android.text.TextWatcher
@@ -21,7 +20,7 @@ import javax.inject.Inject
 /**
  * Peer to Peer transfer, based on p2p user selected
  */
-class TransferActivity: FragmentActivity(), TransferContract.View {
+class TransferActivity: androidx.fragment.app.FragmentActivity(), TransferContract.View {
     @Inject lateinit var alertHelpers: AlertHelpers
     @Inject lateinit var imageHelper: ImageHelper
     @Inject lateinit var presenter: TransferContract.Presenter

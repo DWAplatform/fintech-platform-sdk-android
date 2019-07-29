@@ -6,8 +6,6 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.os.Bundle
-import android.support.v4.app.FragmentActivity
-import android.support.v7.widget.LinearLayoutManager
 import com.fintechplatform.ui.R
 import com.fintechplatform.ui.alert.AlertHelpers
 import com.fintechplatform.ui.transactions.models.TransactionItem
@@ -19,7 +17,7 @@ import javax.inject.Inject
 /**
  * Transactions list view fragment
  */
-class TransactionsActivity : FragmentActivity(), TransactionsContract.View {
+class TransactionsActivity : androidx.fragment.app.FragmentActivity(), TransactionsContract.View {
 
     @Inject lateinit var manager: TransactionsManager
     @Inject lateinit var presenter: TransactionsContract.Presenter
@@ -45,7 +43,7 @@ class TransactionsActivity : FragmentActivity(), TransactionsContract.View {
 
         swipeLayout.setOnRefreshListener { presenter.refreshTransactions() }
 
-        listView.layoutManager = LinearLayoutManager(this)
+        listView.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(this)
         listView.adapter = TransactionsAdapter(this, manager) { transaction ->
             presenter.transactionClick(transaction)
         }
@@ -75,9 +73,9 @@ class TransactionsActivity : FragmentActivity(), TransactionsContract.View {
 //    }
 
     override fun showTokenExpired() {
-        alerthelper.tokenExpired(this, { _,_ ->
+        alerthelper.tokenExpired(this) { _, _ ->
             finish()
-        })
+        }
     }
 
     override fun showErrors(message: String?) {
@@ -87,7 +85,7 @@ class TransactionsActivity : FragmentActivity(), TransactionsContract.View {
     override fun showTransactions(trs: List<TransactionItem>) {
         swipeLayout.isRefreshing = false
         manager.initAll(trs)
-        listView.adapter.notifyDataSetChanged()
+        listView.adapter?.notifyDataSetChanged()
     }
 
     override fun showTransactionDetail(transaction: TransactionItem) {

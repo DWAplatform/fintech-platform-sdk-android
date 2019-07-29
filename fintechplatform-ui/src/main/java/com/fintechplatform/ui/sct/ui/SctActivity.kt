@@ -5,13 +5,13 @@ import android.content.Context
 import android.graphics.Color
 import android.media.RingtoneManager
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
 import android.text.Editable
 import android.text.InputFilter
 import android.text.TextWatcher
 import android.view.View
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
+import androidx.appcompat.app.AppCompatActivity
 import com.fintechplatform.ui.R
 import com.fintechplatform.ui.alert.AlertHelpers
 import com.fintechplatform.ui.money.MoneyValueInputFilter

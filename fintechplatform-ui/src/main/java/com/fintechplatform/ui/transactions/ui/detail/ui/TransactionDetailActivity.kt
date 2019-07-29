@@ -1,7 +1,6 @@
 package com.fintechplatform.ui.transactions.ui.detail.ui
 
 import android.os.Bundle
-import android.support.v4.app.FragmentActivity
 import android.view.View
 import com.fintechplatform.ui.R
 import com.fintechplatform.ui.email.SendEmailHelper
@@ -12,7 +11,7 @@ import javax.inject.Inject
 /**
  * Show transaction details and allows to send an email issue case.
  */
-class TransactionDetailActivity: FragmentActivity(), TransactionDetailContract.View {
+class TransactionDetailActivity: androidx.fragment.app.FragmentActivity(), TransactionDetailContract.View {
 
     @Inject lateinit var emailHelper: SendEmailHelper
     @Inject lateinit var presenter: TransactionDetailContract.Presenter

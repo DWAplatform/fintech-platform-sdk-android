@@ -1,7 +1,6 @@
 package com.fintechplatform.ui.account.financialdata.payinpayout
 
 import android.os.Bundle
-import android.support.v4.app.FragmentActivity
 import android.view.View
 import com.fintechplatform.ui.R
 import com.fintechplatform.ui.alert.AlertHelpers
@@ -14,7 +13,7 @@ import javax.inject.Inject
 /**
  * Menu for Credit card and IBAN CRUD operations
  */
-open class FinancialDataActivity : FragmentActivity() , FinancialDataContract.View {
+open class FinancialDataActivity : androidx.fragment.app.FragmentActivity() , FinancialDataContract.View {
 
     @Inject lateinit var alertHelpers: AlertHelpers
     @Inject lateinit var presenter: FinancialDataContract.Presenter

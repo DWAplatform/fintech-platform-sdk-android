@@ -4,10 +4,9 @@ import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
-import android.support.v4.app.DialogFragment
 import com.fintechplatform.ui.R
 
-class IncomePickerDialog: DialogFragment() {
+class IncomePickerDialog: androidx.fragment.app.DialogFragment() {
 
     interface OnPickSalaryIncome {
         fun salaryPicked(income: String)

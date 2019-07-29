@@ -3,7 +3,6 @@ package com.fintechplatform.ui.payout.ui
 import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
-import android.support.v4.app.FragmentActivity
 import android.text.Editable
 import android.text.InputFilter
 import android.text.TextWatcher
@@ -20,7 +19,7 @@ import javax.inject.Inject
 /**
  * Payment from user emoney to registered bank account
  */
-class PayOutActivity: FragmentActivity(), PayOutContract.View {
+class PayOutActivity: androidx.fragment.app.FragmentActivity(), PayOutContract.View {
 
     @Inject lateinit var alertHelpers: AlertHelpers
     @Inject lateinit var presenter: PayOutContract.Presenter

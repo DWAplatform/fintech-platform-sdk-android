@@ -1,9 +1,9 @@
 package com.fintechplatform.ui.newibancontact.ui
 
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
 import android.text.Editable
 import android.text.TextWatcher
+import androidx.appcompat.app.AppCompatActivity
 import com.fintechplatform.ui.R
 import kotlinx.android.synthetic.main.activity_newibancontact.*
 import javax.inject.Inject

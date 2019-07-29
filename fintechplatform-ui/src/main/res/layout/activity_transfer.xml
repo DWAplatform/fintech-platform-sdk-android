@@ -141,7 +141,7 @@
 
         </RelativeLayout>
 
-        <android.support.design.widget.TextInputLayout
+        <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/messageTextLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -151,7 +151,7 @@
             app:hintEnabled="true">
 
 
-            <android.support.design.widget.TextInputEditText
+            <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/messageText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -169,9 +169,9 @@
                 android:singleLine="true"
                 android:textSize="15sp" />
 
-        </android.support.design.widget.TextInputLayout>
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <android.support.design.widget.TextInputLayout
+        <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/executionDateTextLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -179,7 +179,7 @@
             android:layout_below="@id/messageTextLayout"
             app:hintEnabled="true"
             android:layout_marginTop="2dp">
-            <android.support.design.widget.TextInputEditText
+            <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/executionDateText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -196,7 +196,7 @@
                 android:layout_marginBottom="5dp"
                 android:layout_marginRight="10dp"
                 android:focusable="false"/>
-        </android.support.design.widget.TextInputLayout>
+        </com.google.android.material.textfield.TextInputLayout>
 
 <RelativeLayout
     android:layout_width="wrap_content"

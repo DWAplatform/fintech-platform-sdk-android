@@ -2,7 +2,6 @@ package com.fintechplatform.ui.qrtransfer.creditui
 
 import android.graphics.Bitmap
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,7 +12,7 @@ import javax.inject.Inject
 /**
  * Shows the qrcode receive
  */
-class QrReceiveShowFragment: Fragment(), QrReceiveShowContract.View {
+class QrReceiveShowFragment: androidx.fragment.app.Fragment(), QrReceiveShowContract.View {
 
     private var transactionId: String? = null
     @Inject lateinit var presenter : QrReceiveShowContract.Presenter

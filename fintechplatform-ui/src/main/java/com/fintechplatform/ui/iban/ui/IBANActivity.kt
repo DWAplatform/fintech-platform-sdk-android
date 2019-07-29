@@ -2,7 +2,6 @@ package com.fintechplatform.ui.iban.ui
 
 import android.content.Context
 import android.os.Bundle
-import android.support.v4.app.FragmentActivity
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
@@ -12,13 +11,12 @@ import com.fintechplatform.ui.R
 import com.fintechplatform.ui.alert.AlertHelpers
 import com.mukesh.countrypicker.CountryPicker
 import kotlinx.android.synthetic.main.activity_iban.*
-
 import javax.inject.Inject
 
 /**
  * UI for IBAN account number and mandatory personal data linked to.
  */
-class IBANActivity: FragmentActivity(), IBANContract.View{
+class IBANActivity: androidx.fragment.app.FragmentActivity(), IBANContract.View{
     @Inject lateinit var alertHelpers: AlertHelpers
     @Inject lateinit var presenter: IBANContract.Presenter
 

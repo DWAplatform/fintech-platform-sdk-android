@@ -1,14 +1,13 @@
 package com.fintechplatform.ui.qrtransfer.creditui
 
 import android.os.Bundle
-import android.support.v4.app.FragmentActivity
 import com.fintechplatform.ui.R
 import javax.inject.Inject
 
 /**
  * Manage Qrcode Receive feature, with the help of qrreceive amount and show fragments
  */
-class QrReceiveActivity : FragmentActivity(), QrReceiveActivityContract.View {
+class QrReceiveActivity : androidx.fragment.app.FragmentActivity(), QrReceiveActivityContract.View {
 
     @Inject lateinit var presenter: QrReceiveActivityContract.Presenter
 

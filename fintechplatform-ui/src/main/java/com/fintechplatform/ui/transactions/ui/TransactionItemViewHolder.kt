@@ -3,9 +3,8 @@ package com.fintechplatform.ui.transactions.ui
 import android.annotation.TargetApi
 import android.graphics.Color
 import android.graphics.drawable.TransitionDrawable
-import android.support.v4.content.ContextCompat
-import android.support.v7.widget.RecyclerView
 import android.view.View
+import androidx.core.content.ContextCompat
 import com.fintechplatform.ui.R
 import com.fintechplatform.ui.transactions.models.TransactionItem
 import com.fintechplatform.ui.transactions.ui.itemview.TransactionItemContract
@@ -17,7 +16,7 @@ import javax.inject.Inject
  */
 class TransactionItemViewHolder @Inject constructor(val view: View,
                     val tUserClick: (TransactionItem) -> Unit)
-    : RecyclerView.ViewHolder(view), TransactionItemContract.View {
+    : androidx.recyclerview.widget.RecyclerView.ViewHolder(view), TransactionItemContract.View {
 
     @Inject lateinit var presenter: TransactionItemContract.Presenter
 

@@ -8,9 +8,9 @@ import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.os.Bundle
 import android.provider.MediaStore
-import android.support.v4.app.ActivityCompat
-import android.support.v7.app.AppCompatActivity
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
 import com.fintechplatform.ui.R
 import com.fintechplatform.ui.alert.AlertHelpers
 import kotlinx.android.synthetic.main.activity_profile_ids.*

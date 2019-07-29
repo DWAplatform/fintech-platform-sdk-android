@@ -1,8 +1,8 @@
 package com.fintechplatform.ui.email
 
 import android.content.Context
-import android.support.v4.content.ContextCompat
 import android.text.Html
+import androidx.core.content.ContextCompat
 import com.fintechplatform.ui.transactions.models.TransactionItem
 import javax.inject.Inject
 
