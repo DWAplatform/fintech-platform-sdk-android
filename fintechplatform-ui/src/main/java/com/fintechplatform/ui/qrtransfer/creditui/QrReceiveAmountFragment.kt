@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
+import androidx.fragment.app.Fragment
 import com.fintechplatform.ui.R
 import com.fintechplatform.ui.alert.AlertHelpers
 import kotlinx.android.synthetic.main.fragment_qr_receive_amount.*
@@ -16,16 +17,14 @@ import javax.inject.Inject
 /**
  * Requests to the user the amount to create a qrcode receive
  */
-class QrReceiveAmountFragment: androidx.fragment.app.Fragment(), QrReceiveAmountContract.View {
+class QrReceiveAmountFragment: Fragment(), QrReceiveAmountContract.View {
 
     @Inject lateinit var presenter: QrReceiveAmountContract.Presenter
     @Inject lateinit var alertHelpers: AlertHelpers
     var onAttachDelegate: QrReceiveAmountFragmentPresenter.QrReceiveFragmentListener? = null
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
-
-        val view = inflater?.inflate(R.layout.fragment_qr_receive_amount, container, false)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        val view = inflater.inflate(R.layout.fragment_qr_receive_amount, container, false)
         QrCreditTransferUI.instance.buildQrAmountComponent(activity, this).inject(this)
         onAttachDelegate?.let { delegate ->
             presenter.setListener(delegate)
@@ -33,7 +32,7 @@ class QrReceiveAmountFragment: androidx.fragment.app.Fragment(), QrReceiveAmount
         return view
     }
 
-    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         presenter.refreshConfirmButton()
         amountText.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(p0: Editable?) {}
@@ -78,24 +77,28 @@ class QrReceiveAmountFragment: androidx.fragment.app.Fragment(), QrReceiveAmount
     }
 
     override fun showCommunicationInternalError() {
-        alertHelpers.internalError(activity).show()
+        context?.let {
+            alertHelpers.internalError(it).show()
+        }
     }
 
     override fun hideKeyboard() {
-        (activity.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager)
+        (activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager)
                 .hideSoftInputFromWindow(view?.windowToken, 0)
     }
 
     override fun showTokenExpiredWarning() {
-        alertHelpers.tokenExpired(activity) { _,_ ->
-            activity.finish()
+        context?.let {
+            alertHelpers.tokenExpired(it) { _,_ ->
+                activity?.finish()
+            }
         }
     }
 
     override fun showKeyboardAmount() {
         amountText.postDelayed({
             val keyboard =
-                    context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                    context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             keyboard.showSoftInput(amountText, 0)
         }, 300)
     }

@@ -20,18 +20,18 @@ class QrReceiveShowFragment: androidx.fragment.app.Fragment(), QrReceiveShowCont
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         transactionId = arguments?.let {
-            arguments.getString(TRANSACTION_ID_PARAM)
+            arguments?.getString(TRANSACTION_ID_PARAM)
         }
     }
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        val view = inflater?.inflate(R.layout.fragment_qr_receive_show, container, false)
+        val view = inflater.inflate(R.layout.fragment_qr_receive_show, container, false)
         QrCreditTransferUI.instance.buildQrShowComponent(activity,this).inject(this)
         return view
     }
 
-    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         presenter.generateQrCode(transactionId)
     }
 

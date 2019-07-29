@@ -19,12 +19,12 @@ class TransactionsAdapter(val context: Context,
         return manager.count()
     }
 
-    override fun onBindViewHolder(holder: TransactionItemViewHolder?, position: Int) {
-        holder?.bindForecast(manager.item(position))
+    override fun onBindViewHolder(holder: TransactionItemViewHolder, position: Int) {
+        holder.bindForecast(manager.item(position))
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): TransactionItemViewHolder {
-        val view = LayoutInflater.from(parent?.context).inflate(R.layout.transaction_minimalui_item, parent, false)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TransactionItemViewHolder {
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.transaction_minimalui_item, parent, false)
         val tiviewholder = TransactionItemViewHolder(view, tuserClick)
         return tiviewholder
     }

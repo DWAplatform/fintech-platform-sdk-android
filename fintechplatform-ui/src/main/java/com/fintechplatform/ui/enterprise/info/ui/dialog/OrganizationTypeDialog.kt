@@ -22,16 +22,16 @@ class OrganizationTypeDialog: androidx.fragment.app.DialogFragment() {
 
         val builder = AlertDialog.Builder(activity)
         builder.setTitle("Tipo di organizzazione")
-                .setItems(R.array.organization_types, { _, id ->
+                .setItems(R.array.organization_types) { _, id ->
 
                     val resArray = resources.getStringArray(R.array.organization_types)
                     listener?.onPickBusinessType(resArray[id])
                     val intent = Intent()
                     intent.putExtra("organizationType", resArray[id])
-                    activity.setResult(RESULT_OK, intent)
+                    activity?.setResult(RESULT_OK, intent)
                     targetFragment?.onActivityResult(targetRequestCode, RESULT_OK, intent)
                     dismiss()
-                })
+                }
 
         return builder.show()
     }
