@@ -5,7 +5,7 @@ import com.fintechplatform.api.cashin.api.CashInAPI;
 import com.fintechplatform.ui.account.balance.helpers.BalanceHelper;
 import com.fintechplatform.ui.card.db.PaymentCardPersistenceDB;
 import com.fintechplatform.ui.cashin.CashInContract;
-import com.fintechplatform.ui.cashin.CashInPresenter;
+import com.fintechplatform.ui.cashin.TopUpPresenter;
 import com.fintechplatform.ui.models.DataAccount;
 import com.fintechplatform.ui.money.FeeHelper;
 import com.fintechplatform.ui.money.MoneyHelper;
@@ -35,6 +35,6 @@ public class CashInPresenterModule {
                                                    BalanceHelper balanceHelper,
                                                    FeeHelper feeHelper,
                                                    PaymentCardPersistenceDB persistenceDB) {
-        return new CashInPresenter(configuration, view, api, apiCard, moneyHelper, balanceHelper, feeHelper, persistenceDB);
+        return new TopUpPresenter(configuration, view, api, apiCard, moneyHelper, balanceHelper, feeHelper, persistenceDB);
     }
 }

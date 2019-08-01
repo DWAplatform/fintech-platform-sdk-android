@@ -18,14 +18,13 @@ import com.fintechplatform.ui.secure3d.ui.Secure3DUI
 import kotlinx.android.synthetic.main.activity_payin.*
 import javax.inject.Inject
 
-class CashInActivity : AppCompatActivity(), CashInContract.View {
+class TopUpActivity : AppCompatActivity(), CashInContract.View {
 
     @Inject lateinit var alertHelpers: AlertHelpers
     @Inject lateinit var presenter: CashInContract.Presenter
     @Inject lateinit var secure3DUI: Secure3DUI
     @Inject lateinit var paymentCard: PaymentCardUI
 
-    var token: String?=null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         CashInUI.createPayInViewComponent(this as Context, this).inject(this)
@@ -116,9 +115,9 @@ class CashInActivity : AppCompatActivity(), CashInContract.View {
     }
 
     override fun showTokenExpiredWarning() {
-        alertHelpers.tokenExpired(this, { _,_ ->
+        alertHelpers.tokenExpired(this) { _, _ ->
             finish()
-        })
+        }
     }
 
     override fun goToCreditCard() {

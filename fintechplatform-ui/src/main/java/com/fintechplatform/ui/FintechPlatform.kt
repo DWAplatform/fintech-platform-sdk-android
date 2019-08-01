@@ -6,6 +6,7 @@ import com.fintechplatform.ui.account.financialdata.FinancialDataBuilder
 import com.fintechplatform.ui.card.PaymentCardBuilder
 import com.fintechplatform.ui.cashin.CashInBuilder
 import com.fintechplatform.ui.db.PlatformDB
+import com.fintechplatform.ui.di.AppInjector
 import com.fintechplatform.ui.enterprise.EnterpriseBuilder
 import com.fintechplatform.ui.iban.IBANBuilder
 import com.fintechplatform.ui.payout.PayOutBuilder
@@ -16,6 +17,7 @@ import com.fintechplatform.ui.secure3d.Secure3DBuilder
 import com.fintechplatform.ui.transactions.TransactionsBuilder
 import com.fintechplatform.ui.transfer.TransferBuilder
 import com.raizlabs.android.dbflow.config.FlowManager
+import dagger.android.DaggerApplication
 
 class FintechPlatform {
 
@@ -24,9 +26,10 @@ class FintechPlatform {
         /**
          * Initialize FintechPlatform
          */
-        fun initialize(context: Context) {
+        fun initialize(context: Context, application: DaggerApplication) {
             FlowManager.init(context)
             PlatformDB.init()
+            AppInjector.init(application)
         }
 //
 //        fun deleteEverything() {

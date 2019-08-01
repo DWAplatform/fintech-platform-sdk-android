@@ -13,14 +13,14 @@ import com.fintechplatform.ui.money.MoneyHelper
 import java.util.*
 import javax.inject.Inject
 
-class CashInPresenter @Inject constructor(val configuration: DataAccount,
-                                          val view: CashInContract.View,
-                                          val api: CashInAPI,
-                                          val apiCardRest: PaymentCardAPI,
-                                          val moneyHelper: MoneyHelper,
-                                          val balanceHelper: BalanceHelper,
-                                          val feeHelper: FeeHelper,
-                                          val paymentCardpersistanceDB: PaymentCardPersistenceDB
+class TopUpPresenter @Inject constructor(val configuration: DataAccount,
+                                         val view: CashInContract.View,
+                                         val api: CashInAPI,
+                                         val apiCardRest: PaymentCardAPI,
+                                         val moneyHelper: MoneyHelper,
+                                         val balanceHelper: BalanceHelper,
+                                         val feeHelper: FeeHelper,
+                                         val paymentCardpersistanceDB: PaymentCardPersistenceDB
 )
     : CashInContract.Presenter {
 

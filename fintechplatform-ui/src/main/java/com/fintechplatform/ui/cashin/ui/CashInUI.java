@@ -9,8 +9,8 @@ import com.fintechplatform.api.card.api.PaymentCardAPIModule;
 import com.fintechplatform.api.cashin.api.CashInAPIModule;
 import com.fintechplatform.api.net.NetModule;
 import com.fintechplatform.ui.card.ui.PaymentCardUI;
-import com.fintechplatform.ui.cashin.CashInActivity;
 import com.fintechplatform.ui.cashin.CashInContract;
+import com.fintechplatform.ui.cashin.TopUpActivity;
 import com.fintechplatform.ui.models.DataAccount;
 import com.fintechplatform.ui.secure3d.ui.Secure3DUI;
 
@@ -54,14 +54,14 @@ public class CashInUI {
 
     public void start(Context context, Long amount) {
         instance = this;
-        Intent intent = new Intent(context, CashInActivity.class);
+        Intent intent = new Intent(context, TopUpActivity.class);
         intent.putExtra("initialAmount", amount);
         context.startActivity(intent);
     }
 
     public void start(Context context) {
         instance = this;
-        Intent intent = new Intent(context, CashInActivity.class);
+        Intent intent = new Intent(context, TopUpActivity.class);
         context.startActivity(intent);
     }
 }

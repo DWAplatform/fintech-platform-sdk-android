@@ -77,6 +77,7 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-v7'
         exclude module: 'recyclerview-v7'
     })
+    implementation 'androidx.appcompat:appcompat:1.0.0'
     implementation 'com.android.volley:volley:1.1.0'
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
@@ -97,9 +98,11 @@ dependencies {
 
     //dagger
     // apt command comes from the android-apt plugin
-    implementation "com.google.dagger:dagger:2.16"
+    implementation "com.google.dagger:dagger:2.21"
+    implementation 'com.google.dagger:dagger-android-support:2.21'
     annotationProcessor "com.google.dagger:dagger-compiler:2.9"
     androidTestAnnotationProcessor "com.google.dagger:dagger-compiler:2.9"
+    implementation 'com.google.dagger:dagger-android:2.21'
     compileOnly 'javax.annotation:jsr250-api:1.0'
 }
 
