@@ -1,14 +1,14 @@
 package com.fintechplatform.ui.iban.ui;
 
 
-import com.fintechplatform.ui.alert.AlertHelpersModule;
 import com.fintechplatform.api.enterprise.api.EnterpriseAPIModule;
-import com.fintechplatform.ui.enterprise.db.enterprise.EnterprisePersistanceDBModule;
 import com.fintechplatform.api.iban.api.IbanAPIModule;
-import com.fintechplatform.ui.iban.db.IbanPersistanceDBModule;
 import com.fintechplatform.api.log.LogModule;
 import com.fintechplatform.api.net.NetModule;
 import com.fintechplatform.api.profile.api.ProfileAPIModule;
+import com.fintechplatform.ui.alert.AlertHelpersModule;
+import com.fintechplatform.ui.enterprise.db.enterprise.EnterprisePersistanceDBModule;
+import com.fintechplatform.ui.iban.db.IbanPersistanceDBModule;
 import com.fintechplatform.ui.profile.db.user.UsersPersistanceDBModule;
 
 import javax.inject.Singleton;
@@ -31,5 +31,5 @@ import dagger.Component;
         IbanPersistanceDBModule.class
 })
 public interface IBANViewComponent {
-    void inject(IBANActivity activity);
+    void inject(IBANFragment frag);
 }
