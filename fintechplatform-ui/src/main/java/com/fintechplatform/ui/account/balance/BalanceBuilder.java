@@ -17,7 +17,7 @@ public class BalanceBuilder {
     public BalanceHelperComponent createBalanceHelperComponent(String hostName, Context context) {
         return DaggerBalanceHelperComponent.builder()
                 .balanceAPIModule(new BalanceAPIModule(hostName))
-                .netModule(new NetModule(Volley.newRequestQueue(context), hostName))
+                .netModule(new NetModule(new NetData(Volley.newRequestQueue(context), hostname)))
                 .build();
     }
 }

@@ -15,9 +15,9 @@ public class NetModule {
     private RequestQueue requestQueue;
     private String hostName;
 
-    public NetModule(RequestQueue requestQueue, String hostName) {
-        this.requestQueue = requestQueue;
-        this.hostName = hostName;
+    public NetModule(NetData data) {
+        this.requestQueue = data.getRequestQueue();
+        this.hostName = data.getHostName();
     }
 
     @Provides

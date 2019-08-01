@@ -5,8 +5,8 @@ import android.content.Intent;
 
 import com.android.volley.toolbox.Volley;
 import com.fintechplatform.api.card.api.PaymentCardAPIModule;
-import com.fintechplatform.ui.models.DataAccount;
 import com.fintechplatform.api.net.NetModule;
+import com.fintechplatform.ui.models.DataAccount;
 
 public class PaymentCardUI {
 
@@ -26,7 +26,7 @@ public class PaymentCardUI {
         return DaggerPaymentCardViewComponent.builder()
                 .paymentCardPresenterModule(new PaymentCardPresenterModule(view, dataAccount))
                 .paymentCardAPIModule(new PaymentCardAPIModule(instance.hostname, instance.sandbox))
-                .netModule(new NetModule(Volley.newRequestQueue(context), hostname))
+                .netModule(new NetModule(new NetData(Volley.newRequestQueue(context), hostname)))
                 .build();
     }
 

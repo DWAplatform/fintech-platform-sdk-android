@@ -12,21 +12,27 @@ import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import com.fintechplatform.ui.R
 import com.fintechplatform.ui.alert.AlertHelpers
+import com.fintechplatform.ui.di.Injectable
 import com.mukesh.countrypicker.CountryPicker
+import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.fragment_iban.view.*
 import javax.inject.Inject
 
 
-class IBANFragment: Fragment(), IBANContract.View {
+class IBANFragment: Fragment(), IBANContract.View, Injectable {
     @Inject lateinit var alertHelpers: AlertHelpers
     @Inject lateinit var presenter: IBANContract.Presenter
 
     var picker: CountryPicker? = null
 
+    override fun onAttach(context: Context?) {
+        AndroidSupportInjection.inject(this)
+        super.onAttach(context)
+    }
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_iban, container, false)
 
-        IbanUI.createIBANViewComponent(activity, this).inject(this)
+        //IbanUI.createIBANViewComponent(activity, this).inject(this)
 
         presenter.init()
 

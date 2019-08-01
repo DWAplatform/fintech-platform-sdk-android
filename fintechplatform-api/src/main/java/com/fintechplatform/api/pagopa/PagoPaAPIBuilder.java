@@ -3,6 +3,7 @@ package com.fintechplatform.api.pagopa;
 import android.content.Context;
 
 import com.android.volley.toolbox.Volley;
+import com.fintechplatform.api.net.NetData;
 import com.fintechplatform.api.net.NetModule;
 import com.fintechplatform.api.pagopa.api.PagoPaAPIModule;
 
@@ -14,7 +15,7 @@ public class PagoPaAPIBuilder {
     public PagoPaAPIComponent createCashInAPIComponent(String hostName, Context context) {
         return DaggerPagoPaAPIComponent.builder()
                 .pagoPaAPIModule(new PagoPaAPIModule(hostName))
-                .netModule(new NetModule(Volley.newRequestQueue(context), hostName))
+                .netModule(new NetModule(new NetData(Volley.newRequestQueue(context), hostName)))
                 .build();
     }
 }
