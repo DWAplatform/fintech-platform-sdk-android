@@ -1,7 +1,7 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
-apply plugin: 'kotlin-kapt'
+
 apply plugin: 'com.jfrog.bintray'
 
 ext {
@@ -107,11 +107,11 @@ dependencies {
     //dagger
     // apt command comes from the android-apt plugin
     implementation 'com.google.dagger:dagger:2.21'
-    kapt 'com.google.dagger:dagger-compiler:2.21'
+    annotationProcessor 'com.google.dagger:dagger-compiler:2.21'
     compileOnly 'javax.annotation:jsr250-api:1.0'
     implementation 'com.google.dagger:dagger-android:2.21'
     implementation 'com.google.dagger:dagger-android-support:2.21'
-    kapt 'com.google.dagger:dagger-android-processor:2.21'
+    annotationProcessor 'com.google.dagger:dagger-android-processor:2.21'
 }
 def dbflow_version = "4.1.2"
 dependencies {
