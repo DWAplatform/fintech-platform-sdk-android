@@ -6,6 +6,7 @@ import android.content.Intent;
 import com.android.volley.toolbox.Volley;
 import com.fintechplatform.api.card.api.PaymentCardAPIModule;
 import com.fintechplatform.api.iban.api.IbanAPIModule;
+import com.fintechplatform.api.net.NetData;
 import com.fintechplatform.api.net.NetModule;
 import com.fintechplatform.ui.account.financialdata.payinpayout.FinancialDataContract;
 import com.fintechplatform.ui.card.ui.PaymentCardUI;
@@ -37,7 +38,7 @@ public class BankFinancialDataUI {
                 .bankFinancialDataPresenterModule(new BankFinancialDataPresenterModule(view,instance.configuration))
                 .ibanUIModule(new IbanUIModule(ibanUI))
                 .paymentCardUIModule(new PaymentCardUIModule(paymentCardUI))
-                .netModule(new NetModule(Volley.newRequestQueue(context), instance.hostName))
+                .netModule(new NetModule(new NetData(Volley.newRequestQueue(context), instance.hostName)))
                 .paymentCardAPIModule(new PaymentCardAPIModule(instance.hostName, instance.isSandbox))
                 .ibanAPIModule(new IbanAPIModule(instance.hostName))
                 .build();

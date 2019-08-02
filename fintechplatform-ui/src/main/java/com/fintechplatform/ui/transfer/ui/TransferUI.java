@@ -6,9 +6,10 @@ import android.os.Bundle;
 
 import com.android.volley.toolbox.Volley;
 import com.fintechplatform.api.account.balance.api.BalanceAPIModule;
-import com.fintechplatform.ui.models.DataAccount;
+import com.fintechplatform.api.net.NetData;
 import com.fintechplatform.api.net.NetModule;
 import com.fintechplatform.api.transfer.api.TransferAPIModule;
+import com.fintechplatform.ui.models.DataAccount;
 
 import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
 
@@ -27,7 +28,7 @@ public class TransferUI {
     protected TransferComponent createTransferComponent(Context context, TransferContract.View view){
         return DaggerTransferComponent.builder()
                 .balanceAPIModule(new BalanceAPIModule(instance.hostName))
-                .netModule(new NetModule(Volley.newRequestQueue(context), instance.hostName))
+                .netModule(new NetModule(new NetData(Volley.newRequestQueue(context), instance.hostName)))
                 .transferPresenterModule(new TransferPresenterModule(view, instance.dataAccount))
                 .transferAPIModule(new TransferAPIModule(instance.hostName))
                 .build();

@@ -25,13 +25,13 @@ public class IBANPresenterModule {
 
     @Singleton
     @Provides
-    IBANContract.Presenter providesIBanPresenter(IBANContract.View view,
+    IBANContract.Presenter providesIBanPresenter(
                                                  IbanAPI api,
                                                  ProfileAPI profileAPI,
                                                  EnterpriseAPI enterpriseAPI,
                                                  IbanPersistanceDB ibanPersistanceDB,
                                                  UsersPersistanceDB usersPersistanceDB,
                                                  EnterprisePersistanceDB enterprisePersistanceDB){
-        return new IBANPresenter(view, api, profileAPI, enterpriseAPI, configuration, ibanPersistanceDB, usersPersistanceDB, enterprisePersistanceDB);
+        return new IBANPresenter(api, profileAPI, enterpriseAPI, configuration, ibanPersistanceDB, usersPersistanceDB, enterprisePersistanceDB);
     }
 }

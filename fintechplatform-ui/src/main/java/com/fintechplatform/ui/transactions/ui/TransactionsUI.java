@@ -5,9 +5,10 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.android.volley.toolbox.Volley;
-import com.fintechplatform.ui.models.DataAccount;
+import com.fintechplatform.api.net.NetData;
 import com.fintechplatform.api.net.NetModule;
 import com.fintechplatform.api.transactions.api.TransactionsAPIModule;
+import com.fintechplatform.ui.models.DataAccount;
 import com.fintechplatform.ui.transactions.ui.detail.ui.TransactionDetailUI;
 import com.fintechplatform.ui.transactions.ui.itemview.DaggerTransactionItemComponent;
 import com.fintechplatform.ui.transactions.ui.itemview.TransactionItemComponent;
@@ -33,7 +34,7 @@ public class TransactionsUI {
 
     protected TransactionsViewComponent buildTransactionsViewComponent(Context context, TransactionsContract.View view) {
         return DaggerTransactionsViewComponent.builder()
-                .netModule(new NetModule(Volley.newRequestQueue(context), instance.hostname))
+                .netModule(new NetModule(new NetData(Volley.newRequestQueue(context), instance.hostname)))
                 .transactionsPresenterModule(new TransactionsPresenterModule(view, instance.configuration))
                 .transactionsAPIModule(new TransactionsAPIModule(instance.hostname))
                 .transactionDetailUIModule(new TransactionDetailUIModule(detailUI))

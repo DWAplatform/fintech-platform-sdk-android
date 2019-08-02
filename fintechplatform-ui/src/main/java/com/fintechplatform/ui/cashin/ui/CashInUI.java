@@ -7,6 +7,7 @@ import com.android.volley.toolbox.Volley;
 import com.fintechplatform.api.account.balance.api.BalanceAPIModule;
 import com.fintechplatform.api.card.api.PaymentCardAPIModule;
 import com.fintechplatform.api.cashin.api.CashInAPIModule;
+import com.fintechplatform.api.net.NetData;
 import com.fintechplatform.api.net.NetModule;
 import com.fintechplatform.ui.card.ui.PaymentCardUI;
 import com.fintechplatform.ui.cashin.CashInActivity;
@@ -40,7 +41,7 @@ public class CashInUI {
         return DaggerCashInViewComponent.builder()
                 .cashInPresenterModule(new CashInPresenterModule(v, instance.configuration))
                 .cashInAPIModule(new CashInAPIModule(instance.hostName))
-                .netModule(new NetModule(Volley.newRequestQueue(context), instance.hostName))
+                .netModule(new NetModule(new NetData(Volley.newRequestQueue(context), instance.hostName)))
                 .balanceAPIModule(new BalanceAPIModule(instance.hostName))
                 .secure3DUIHelperModule(new Secure3DUIHelperModule(secure3DUI))
                 .paymentCardUIModule(new PaymentCardUIModule(paymentCardUI))

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.android.volley.toolbox.Volley;
+import com.fintechplatform.api.net.NetData;
 import com.fintechplatform.api.net.NetModule;
 import com.fintechplatform.api.profile.api.ProfileAPIModule;
 import com.fintechplatform.ui.models.DataAccount;
@@ -22,7 +23,7 @@ public class JobInfoUI {
 
     protected JobInfoViewComponent buildJobInfoComponent(Context context, JobInfoContract.View view){
         return DaggerJobInfoViewComponent.builder()
-                .netModule(new NetModule(Volley.newRequestQueue(context), instance.hostName))
+                .netModule(new NetModule(new NetData(Volley.newRequestQueue(context), instance.hostName)))
                 .jobInfoPresenterModule(new JobInfoPresenterModule(view, instance.configuration))
                 .profileAPIModule(new ProfileAPIModule(instance.hostName))
                 .build();

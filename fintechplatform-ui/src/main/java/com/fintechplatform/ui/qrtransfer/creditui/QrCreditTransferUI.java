@@ -4,9 +4,10 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.android.volley.toolbox.Volley;
-import com.fintechplatform.ui.models.DataAccount;
+import com.fintechplatform.api.net.NetData;
 import com.fintechplatform.api.net.NetModule;
 import com.fintechplatform.api.transfer.api.TransferAPIModule;
+import com.fintechplatform.ui.models.DataAccount;
 
 /**
  * Created by ingrid on 28/02/18.
@@ -25,7 +26,7 @@ public class QrCreditTransferUI {
 
     protected QrCreditTransferComponent createTransferComponent(Context context, QrReceiveActivityContract.View view, QrReceiveAmountContract.View amountView, QrReceiveShowContract.View showView){
         return DaggerQrCreditTransferComponent.builder()
-                .netModule(new NetModule(Volley.newRequestQueue(context), instance.hostName))
+                .netModule(new NetModule(new NetData(Volley.newRequestQueue(context), instance.hostName)))
                 .transferAPIModule(new TransferAPIModule(instance.hostName))
                 .qrReceivePresenterModule(new QrReceivePresenterModule(view, amountView, showView, dataAccount))
                 .build();

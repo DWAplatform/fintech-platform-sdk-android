@@ -6,8 +6,9 @@ import android.os.Bundle;
 
 import com.android.volley.toolbox.Volley;
 import com.fintechplatform.api.account.balance.api.BalanceAPIModule;
-import com.fintechplatform.ui.models.DataAccount;
+import com.fintechplatform.api.net.NetData;
 import com.fintechplatform.api.net.NetModule;
+import com.fintechplatform.ui.models.DataAccount;
 
 import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
 
@@ -26,7 +27,7 @@ public class SctUI {
     protected SctComponent createSctComponent(Context context, SctContract.View view){
         return DaggerSctComponent.builder()
                 .balanceAPIModule(new BalanceAPIModule(instance.hostName))
-                .netModule(new NetModule(Volley.newRequestQueue(context), instance.hostName))
+                .netModule(new NetModule(new NetData(Volley.newRequestQueue(context), instance.hostName)))
                 .sctPresenterModule(new SctPresenterModule(view, instance.dataAccount))
                 .build();
     }

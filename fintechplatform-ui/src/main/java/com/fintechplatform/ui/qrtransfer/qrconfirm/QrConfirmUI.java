@@ -5,6 +5,7 @@ import android.content.Intent;
 
 import com.android.volley.toolbox.Volley;
 import com.fintechplatform.api.account.balance.api.BalanceAPIModule;
+import com.fintechplatform.api.net.NetData;
 import com.fintechplatform.api.net.NetModule;
 import com.fintechplatform.api.transfer.api.TransferAPIModule;
 import com.fintechplatform.ui.card.ui.PaymentCardUI;
@@ -44,7 +45,7 @@ public class QrConfirmUI {
         return DaggerQrConfirmComponent.builder()
                 .qrConfirmPresenterModule(new QrConfirmPresenterModule(v, configuration))
                 .cashInUIModule(new CashInUIModule(instance.hostName, configuration, sandbox))
-                .netModule(new NetModule(Volley.newRequestQueue(context), instance.hostName))
+                .netModule(new NetModule(new NetData(Volley.newRequestQueue(context), instance.hostName)))
                 .transferAPIModule(new TransferAPIModule(hostName))
                 .balanceAPIModule(new BalanceAPIModule(instance.hostName))
                 .secure3DUIHelperModule(new Secure3DUIHelperModule(secure3DUI))

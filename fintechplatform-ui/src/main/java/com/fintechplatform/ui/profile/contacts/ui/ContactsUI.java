@@ -4,9 +4,10 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.android.volley.toolbox.Volley;
-import com.fintechplatform.ui.models.DataAccount;
+import com.fintechplatform.api.net.NetData;
 import com.fintechplatform.api.net.NetModule;
 import com.fintechplatform.api.profile.api.ProfileAPIModule;
+import com.fintechplatform.ui.models.DataAccount;
 
 public class ContactsUI {
     private String hostName;
@@ -21,7 +22,7 @@ public class ContactsUI {
 
     private ContactsViewComponent buildContactsViewComponet(Context context, ContactsContract.View view) {
         return DaggerContactsViewComponent.builder()
-                .netModule(new NetModule(Volley.newRequestQueue(context), instance.hostName))
+                .netModule(new NetModule(new NetData(Volley.newRequestQueue(context), instance.hostName)))
                 .contactsPresenterModule(new ContactsPresenterModule(view, instance.configuration))
                 .profileAPIModule(new ProfileAPIModule(instance.hostName))
                 .build();
