@@ -8,6 +8,8 @@ import com.fintechplatform.ui.cashin.CashInBuilder
 import com.fintechplatform.ui.db.PlatformDB
 import com.fintechplatform.ui.enterprise.EnterpriseBuilder
 import com.fintechplatform.ui.iban.IBANBuilder
+import com.fintechplatform.ui.iban.ui.IbanUI
+import com.fintechplatform.ui.models.DataAccount
 import com.fintechplatform.ui.payout.PayOutBuilder
 import com.fintechplatform.ui.profile.ProfileBuilder
 import com.fintechplatform.ui.qrtransfer.QrTransferBuilder
@@ -20,21 +22,30 @@ import com.raizlabs.android.dbflow.config.FlowManager
 class FintechPlatform {
 
     companion object {
-
+        lateinit var hostName: String
+        lateinit var dataAccount: DataAccount
         /**
          * Initialize FintechPlatform
          */
-        fun initialize(context: Context) {
+        fun initialize(context: Context, hostName: String, dataAccount: DataAccount) {
             FlowManager.init(context)
             PlatformDB.init()
+            Companion.dataAccount = dataAccount
+            Companion.hostName = hostName
         }
+
+        fun buildIBAN(): IbanUI {
+            return IBANBuilder().createIBANUI().ibanUI
+        }
+
 //
 //        fun deleteEverything() {
 //            PlatformDB.deleteEverything()
 //        }
 
+
         /**
-         * Factory method to get ClientCardAPI object
+         * Factory method to get ClientUI object
          */
 
         fun buildCashIn() : CashInBuilder {
@@ -57,9 +68,7 @@ class FintechPlatform {
             return PaymentCardBuilder()
         }
 
-        fun buildIBAN(): IBANBuilder {
-            return IBANBuilder()
-        }
+
 
         fun buildTransactions(): TransactionsBuilder {
             return TransactionsBuilder()
@@ -88,6 +97,7 @@ class FintechPlatform {
         fun buildQr(): QrTransferBuilder {
             return QrTransferBuilder()
         }
+
     }
 
 }

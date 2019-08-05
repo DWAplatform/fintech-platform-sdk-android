@@ -17,15 +17,17 @@ import dagger.Provides;
 @Module
 public class IBANPresenterModule {
 
+    private IBANContract.View view;
     private DataAccount configuration;
 
-    public IBANPresenterModule(DataAccount configuration){
+    public IBANPresenterModule(/*IBANContract.View view,*/ DataAccount configuration){
+        //this.view = view;
         this.configuration = configuration;
     }
 
     @Singleton
     @Provides
-    IBANContract.Presenter providesIBanPresenter(
+    IBANContract.Presenter providesIBanPresenter(//IBANContract.View view,
                                                  IbanAPI api,
                                                  ProfileAPI profileAPI,
                                                  EnterpriseAPI enterpriseAPI,

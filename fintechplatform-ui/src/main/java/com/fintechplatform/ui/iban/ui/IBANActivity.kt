@@ -2,7 +2,6 @@ package com.fintechplatform.ui.iban.ui
 
 import android.content.Context
 import android.os.Bundle
-import android.os.PersistableBundle
 import android.support.v4.app.FragmentActivity
 import android.text.Editable
 import android.text.TextWatcher
@@ -12,27 +11,24 @@ import android.view.inputmethod.InputMethodManager
 import com.fintechplatform.ui.R
 import com.fintechplatform.ui.alert.AlertHelpers
 import com.mukesh.countrypicker.CountryPicker
-import dagger.android.AndroidInjection
 import kotlinx.android.synthetic.main.fragment_iban.*
-import javax.inject.Inject
 
 /**
  * UI for IBAN account number and mandatory personal data linked to.
  */
 class IBANActivity: FragmentActivity(), IBANContract.View {
 
-    @Inject lateinit var alertHelpers: AlertHelpers
-    @Inject lateinit var presenter: IBANContract.Presenter
+    val alertHelpers = AlertHelpers()
+    lateinit var presenter: IBANContract.Presenter
 
     var picker: CountryPicker? = null
 
 
-    override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
-        AndroidInjection.inject(this)
-        super.onCreate(savedInstanceState, persistentState)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.fragment_iban)
 
-        //IbanUI.createIBANViewComponent(activity, this).inject(this)
-
+        presenter = IbanUI.getIbanPresenter( this)
         presenter.init(this)
 
         numberText.addTextChangedListener(object : TextWatcher {

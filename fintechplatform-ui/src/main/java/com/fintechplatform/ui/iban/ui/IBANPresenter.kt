@@ -15,7 +15,7 @@ import com.mukesh.countrypicker.Country
 import java.util.*
 import javax.inject.Inject
 
-class IBANPresenter @Inject constructor(
+class IBANPresenter @Inject constructor(//val view: IBANContract.View,
                                         val api: IbanAPI,
                                         val apiProfile: ProfileAPI,
                                         val apiEnterprise: EnterpriseAPI,
@@ -30,7 +30,7 @@ class IBANPresenter @Inject constructor(
     private var residentialServerCalled: Boolean = false
     private var idempotencyCashOut: String? = null
 
-    lateinit var view: IBANContract.View
+   lateinit var view: IBANContract.View
 
     override fun init(view: IBANContract.View) {
         this.view = view
