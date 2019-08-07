@@ -1,14 +1,12 @@
 package com.fintechplatform.ui.iban;
 
-import com.fintechplatform.ui.iban.ui.IbanUIModule;
-import com.fintechplatform.ui.models.DataAccount;
+import com.fintechplatform.ui.iban.ui.IbanUI;
 
 
 public class IBANBuilder {
 
-    public IbanUIComponent createIBANUIComponent(String hostname, DataAccount configuration) {
+    public IbanUI createIBANUI() {
         return DaggerIbanUIComponent.builder()
-                .ibanUIModule(new IbanUIModule(hostname, configuration))
-                .build();
+                .build().getIbanUI();
     }
 }
