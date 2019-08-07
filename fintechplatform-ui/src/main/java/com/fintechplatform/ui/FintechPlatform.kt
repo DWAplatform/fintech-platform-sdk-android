@@ -58,8 +58,8 @@ class FintechPlatform {
             return PaymentCardBuilder()
         }
 
-        fun buildIBAN(): IBANBuilder {
-            return IBANBuilder()
+        fun buildIBAN(): IbanUI {
+            return IbanUI()
         }
 
         fun buildTransactions(): TransactionsBuilder {
