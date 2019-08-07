@@ -7,7 +7,7 @@ import com.fintechplatform.ui.card.PaymentCardBuilder
 import com.fintechplatform.ui.cashin.CashInBuilder
 import com.fintechplatform.ui.db.PlatformDB
 import com.fintechplatform.ui.enterprise.EnterpriseBuilder
-import com.fintechplatform.ui.iban.IBANBuilder
+import com.fintechplatform.ui.iban.ui.IbanUI
 import com.fintechplatform.ui.payout.PayOutBuilder
 import com.fintechplatform.ui.profile.ProfileBuilder
 import com.fintechplatform.ui.qrtransfer.QrTransferBuilder
@@ -33,8 +33,9 @@ class FintechPlatform {
 //            PlatformDB.deleteEverything()
 //        }
 
+
         /**
-         * Factory method to get ClientCardAPI object
+         * Factory method to get ClientU)Iobject
          */
 
         fun buildCashIn() : CashInBuilder {
@@ -88,6 +89,7 @@ class FintechPlatform {
         fun buildQr(): QrTransferBuilder {
             return QrTransferBuilder()
         }
+
     }
 
 }

@@ -47,7 +47,8 @@ open class FinancialDataActivity : FragmentActivity() , FinancialDataContract.Vi
         }
 
         ibancontainer.setOnClickListener {
-            bankAccountUI.start(this)
+            // TODO fix hostname dataAccount
+            //bankAccountUI.startActivity(this, hostname, dataAccount)
         }
 
         backwardButton.setOnClickListener { presenter.onBackwardClicked() }

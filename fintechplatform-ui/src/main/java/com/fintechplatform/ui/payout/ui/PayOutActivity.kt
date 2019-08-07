@@ -101,7 +101,8 @@ class PayOutActivity: FragmentActivity(), PayOutContract.View {
     }
 
     override fun startIBANActivity() {
-        ibanUI.start(this)
+        // TODO fix hostname and data account obj
+       // ibanUI.startActivity(this, hostName, dataAccount)
     }
 
     override fun showKeyboardAmount() {
