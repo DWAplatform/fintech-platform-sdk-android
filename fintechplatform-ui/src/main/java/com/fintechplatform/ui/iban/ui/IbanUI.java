@@ -2,6 +2,8 @@ package com.fintechplatform.ui.iban.ui;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 
 import com.android.volley.toolbox.Volley;
 import com.fintechplatform.api.enterprise.api.EnterpriseAPIModule;
@@ -9,20 +11,18 @@ import com.fintechplatform.api.iban.api.IbanAPIModule;
 import com.fintechplatform.api.net.NetData;
 import com.fintechplatform.api.net.NetModule;
 import com.fintechplatform.api.profile.api.ProfileAPIModule;
-import com.fintechplatform.ui.FintechPlatform;
+import com.fintechplatform.ui.R;
+import com.fintechplatform.ui.models.DataAccount;
 
 public class IbanUI {
 
-    protected IbanUI() {
-    }
-
-    public static IBANContract.Presenter getIbanPresenter(Context context) {
+    public IBANContract.Presenter getIbanPresenter(Context context, IBANContract.View view, String hostname, DataAccount dataAccount) {
         return DaggerIBANPrensenterComponent.builder()
-                .netModule(new NetModule(new NetData(Volley.newRequestQueue(context), FintechPlatform.hostName)))
-                .iBANPresenterModule(new IBANPresenterModule(FintechPlatform.dataAccount))
-                .ibanAPIModule(new IbanAPIModule(FintechPlatform.hostName))
-                .profileAPIModule(new ProfileAPIModule(FintechPlatform.hostName))
-                .enterpriseAPIModule(new EnterpriseAPIModule(FintechPlatform.hostName))
+                .netModule(new NetModule(new NetData(Volley.newRequestQueue(context), hostname)))
+                .iBANPresenterModule(new IBANPresenterModule(view, dataAccount))
+                .ibanAPIModule(new IbanAPIModule(hostname))
+                .profileAPIModule(new ProfileAPIModule(hostname))
+                .enterpriseAPIModule(new EnterpriseAPIModule(hostname))
                 .build().getPresenter();
     }
 /*
@@ -41,9 +41,20 @@ public class IbanUI {
                 .build();
     }
 */
-    public void start(Context context){
+    public void startActivity(Context context, String hostname, DataAccount dataAccount){
         Intent intent = new Intent(context, IBANActivity.class);
+        Bundle args = new Bundle();
+        args.putString("hostname", hostname);
+        args.putParcelable("dataAccount", dataAccount);
+        intent.putExtras(args);
         context.startActivity(intent);
     }
 
+    public void startFragment(FragmentActivity activity, String hostname, DataAccount dataAccount) {
+        IBANFragment frag = IBANFragment.Companion.newInstance(hostname, dataAccount);
+        activity.getSupportFragmentManager()
+                .beginTransaction()
+                .add(R.id.contentContainer, frag)
+                .commit();
+    }
 }

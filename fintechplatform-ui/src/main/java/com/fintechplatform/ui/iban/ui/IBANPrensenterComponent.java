@@ -5,6 +5,7 @@ import com.fintechplatform.api.iban.api.IbanAPIModule;
 import com.fintechplatform.api.log.LogModule;
 import com.fintechplatform.api.net.NetModule;
 import com.fintechplatform.api.profile.api.ProfileAPIModule;
+import com.fintechplatform.ui.alert.AlertHelpersModule;
 import com.fintechplatform.ui.enterprise.db.enterprise.EnterprisePersistanceDBModule;
 import com.fintechplatform.ui.iban.db.IbanPersistanceDBModule;
 import com.fintechplatform.ui.profile.db.user.UsersPersistanceDBModule;
@@ -23,7 +24,8 @@ import dagger.Component;
         LogModule.class,
         UsersPersistanceDBModule.class,
         EnterprisePersistanceDBModule.class,
-        IbanPersistanceDBModule.class
+        IbanPersistanceDBModule.class,
+        AlertHelpersModule.class
 })
 public interface IBANPrensenterComponent {
     IBANContract.Presenter getPresenter();

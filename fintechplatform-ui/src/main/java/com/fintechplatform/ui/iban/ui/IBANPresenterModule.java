@@ -20,20 +20,19 @@ public class IBANPresenterModule {
     private IBANContract.View view;
     private DataAccount configuration;
 
-    public IBANPresenterModule(/*IBANContract.View view,*/ DataAccount configuration){
-        //this.view = view;
+    public IBANPresenterModule(IBANContract.View view, DataAccount configuration){
+        this.view = view;
         this.configuration = configuration;
     }
 
     @Singleton
     @Provides
-    IBANContract.Presenter providesIBanPresenter(//IBANContract.View view,
-                                                 IbanAPI api,
+    IBANContract.Presenter providesIBanPresenter(IbanAPI api,
                                                  ProfileAPI profileAPI,
                                                  EnterpriseAPI enterpriseAPI,
                                                  IbanPersistanceDB ibanPersistanceDB,
                                                  UsersPersistanceDB usersPersistanceDB,
                                                  EnterprisePersistanceDB enterprisePersistanceDB){
-        return new IBANPresenter(api, profileAPI, enterpriseAPI, configuration, ibanPersistanceDB, usersPersistanceDB, enterprisePersistanceDB);
+        return new IBANPresenter(view, api, profileAPI, enterpriseAPI, configuration, ibanPersistanceDB, usersPersistanceDB, enterprisePersistanceDB);
     }
 }
