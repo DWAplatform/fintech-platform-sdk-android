@@ -37,7 +37,7 @@ interface IBANContract {
 
     interface Presenter{
         fun refreshConfirmButton()
-        fun init(view: IBANContract.View)
+        fun init()
 
         fun onCountryOfResidenceClick()
         fun onCountrySelected(name: String, code: String)

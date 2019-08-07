@@ -14,13 +14,10 @@ import com.fintechplatform.ui.profile.db.user.UsersPersistanceDBModule;
 import javax.inject.Singleton;
 
 import dagger.Component;
-import dagger.android.AndroidInjectionModule;
 
 
 @Singleton
 @Component(modules = {
-        AndroidInjectionModule.class,
-        IBANActivityModule.class,
         IBANPresenterModule.class,
         IbanAPIModule.class,
         IbanUIModule.class,
