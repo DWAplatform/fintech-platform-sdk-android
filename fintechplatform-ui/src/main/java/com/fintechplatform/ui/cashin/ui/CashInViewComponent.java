@@ -8,7 +8,6 @@ import com.fintechplatform.api.net.NetModule;
 import com.fintechplatform.ui.account.balance.helpers.BalanceHelperModule;
 import com.fintechplatform.ui.alert.AlertHelpersModule;
 import com.fintechplatform.ui.card.db.PaymentCardPersistanceModule;
-import com.fintechplatform.ui.cashin.CashInActivity;
 import com.fintechplatform.ui.money.FeeHelperModule;
 import com.fintechplatform.ui.money.MoneyHelperModule;
 
@@ -33,9 +32,9 @@ import dagger.Component;
         PaymentCardAPIModule.class,
         FeeHelperModule.class,
         NetModule.class,
-        Secure3DUIHelperModule.class,
-        PaymentCardUIModule.class
+        //Secure3DUIHelperModule.class,
+        //PaymentCardUIModule.class
 })
 public interface CashInViewComponent {
-    void inject(CashInActivity activity);
+    void inject(CashInFragment fragment);
 }

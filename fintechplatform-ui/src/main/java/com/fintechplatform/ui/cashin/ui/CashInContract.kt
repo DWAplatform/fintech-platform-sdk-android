@@ -29,11 +29,11 @@ interface CashInContract {
         fun showTokenExpiredWarning()
         fun showIdempotencyError()
 
-        fun goToCreditCard()
+        fun goToPaymentCard()
 
         fun goBack()
 
-        fun goToSecure3D(redirecturl: String)
+        fun goTo3dSecure(redirecturl: String)
 
         fun showKeyboardAmount()
 
@@ -52,5 +52,8 @@ interface CashInContract {
         fun refresh()
     }
 
-
+    interface Navigation {
+        fun goToPaymentCard()
+        fun goTo3dSecure(redirecturl: String)
+    }
 }

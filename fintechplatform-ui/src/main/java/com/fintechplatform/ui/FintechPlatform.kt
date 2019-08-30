@@ -3,16 +3,17 @@ package com.fintechplatform.ui
 import android.content.Context
 import com.fintechplatform.ui.account.balance.BalanceBuilder
 import com.fintechplatform.ui.account.financialdata.FinancialDataBuilder
-import com.fintechplatform.ui.card.PaymentCardBuilder
-import com.fintechplatform.ui.cashin.CashInBuilder
+import com.fintechplatform.ui.card.ui.PaymentCardUI
+import com.fintechplatform.ui.cashin.ui.CashInUI
 import com.fintechplatform.ui.db.PlatformDB
 import com.fintechplatform.ui.enterprise.EnterpriseBuilder
 import com.fintechplatform.ui.iban.ui.IbanUI
+import com.fintechplatform.ui.models.DataAccount
 import com.fintechplatform.ui.payout.PayOutBuilder
 import com.fintechplatform.ui.profile.ProfileBuilder
 import com.fintechplatform.ui.qrtransfer.QrTransferBuilder
 import com.fintechplatform.ui.sct.SctBuilder
-import com.fintechplatform.ui.secure3d.Secure3DBuilder
+import com.fintechplatform.ui.secure3d.ui.Secure3DUI
 import com.fintechplatform.ui.transactions.TransactionsBuilder
 import com.fintechplatform.ui.transfer.TransferBuilder
 import com.raizlabs.android.dbflow.config.FlowManager
@@ -38,24 +39,24 @@ class FintechPlatform {
          * Factory method to get ClientU)Iobject
          */
 
-        fun buildCashIn() : CashInBuilder {
-            return CashInBuilder()
+        fun buildCashInUI(hostName: String, dataAccount: DataAccount, isSandbox: Boolean) : CashInUI {
+            return CashInUI(hostName, dataAccount, isSandbox)
         }
 
         fun buildBalance(): BalanceBuilder {
             return BalanceBuilder()
         }
 
-        fun build3DSecure(): Secure3DBuilder {
-            return Secure3DBuilder()
+        fun build3DSecureUI(): Secure3DUI {
+            return Secure3DUI()
         }
 
         fun buildPayOut(): PayOutBuilder {
             return PayOutBuilder()
         }
 
-        fun buildPaymentCardBuilder(): PaymentCardBuilder {
-            return PaymentCardBuilder()
+        fun buildPaymentCardUI(hostName: String, dataAccount: DataAccount, isSandbox: Boolean): PaymentCardUI {
+            return PaymentCardUI(hostName, dataAccount, isSandbox)
         }
 
         fun buildIBAN(): IbanUI {

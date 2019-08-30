@@ -16,7 +16,7 @@ class Secure3DActivity: AppCompatActivity(), Secure3DContract.View {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Secure3DUI.create3DComponent(this).inject(this)
+        (application as Secure3DUIFactory).create3DComponent(this).inject(this)
         setContentView(R.layout.activity_secure3_d)
 
         val secureCodeUrl = intent.getStringExtra("redirecturl")

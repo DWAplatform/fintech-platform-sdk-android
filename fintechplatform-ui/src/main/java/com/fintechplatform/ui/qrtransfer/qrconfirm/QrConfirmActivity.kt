@@ -84,7 +84,7 @@ class QrConfirmActivity : FragmentActivity(), QrConfirmContract.View {
     }
 
     override fun goToPayIn(amount: Long) {
-        cashInUI.start(this, amount)
+        cashInUI.startActivity(this, amount)
     }
 
     override fun setForwardButtonPayIn() {

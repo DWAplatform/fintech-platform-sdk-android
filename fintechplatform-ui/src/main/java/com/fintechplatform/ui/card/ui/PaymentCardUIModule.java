@@ -23,6 +23,6 @@ public class PaymentCardUIModule {
     @Provides
     @Singleton
     PaymentCardUI providesPaymentCardUI() {
-        return new PaymentCardUI(hostname, sandbox, dataAccount);
+        return new PaymentCardUI(hostname, dataAccount, sandbox);
     }
 }

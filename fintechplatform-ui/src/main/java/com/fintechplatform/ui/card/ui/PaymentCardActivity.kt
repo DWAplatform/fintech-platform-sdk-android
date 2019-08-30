@@ -10,6 +10,7 @@ import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import com.fintechplatform.ui.R
 import com.fintechplatform.ui.alert.AlertHelpers
+import com.fintechplatform.ui.models.DataAccount
 import kotlinx.android.synthetic.main.activity_paymentcard.*
 import javax.inject.Inject
 
@@ -23,7 +24,14 @@ class PaymentCardActivity: AppCompatActivity(), PaymentCardContract.View {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
        // App.buildCreditCard(this as Context, this).inject(this)
-        PaymentCardUI.createPaymentCardComponent(this, this).inject(this)
+
+        intent.extras?.getString("hostname")?.let { hostname ->
+            intent.extras?.getParcelable<DataAccount>("dataAccount")?.let { dataAccount ->
+                intent.extras?.getBoolean("isSandbox")?.let {isSandbox ->
+                    (application as PaymentCardUIFactory).createPaymentCardComponent(this, this, dataAccount, hostname, isSandbox).inject(this)
+                }
+            }
+        }
         setContentView(R.layout.activity_paymentcard)
 
         presenter.initPaymentCard()

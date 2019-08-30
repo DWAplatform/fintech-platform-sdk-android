@@ -35,7 +35,7 @@ class CashInPresenter @Inject constructor(val configuration: DataAccount,
             view.setAmount(strmoney)
         }
 
-        paymentCardpersistanceDB.deletePaymentCard() //TODO
+        paymentCardpersistanceDB.deletePaymentCard()
         refreshConfirmButton()
         refreshData()
     }
@@ -43,7 +43,7 @@ class CashInPresenter @Inject constructor(val configuration: DataAccount,
     override fun refresh() {
         view.showKeyboardAmount()
         reloadBalance()
-        loadPaymentCard()
+        loadPaymentCard() //FIXME comment this method for test using
     }
 
     override fun onEditingChanged() {
@@ -55,7 +55,7 @@ class CashInPresenter @Inject constructor(val configuration: DataAccount,
         val paycard = paymentCardpersistanceDB.paymentCardId(configuration.accountId)
         if (paycard == null) {
             view.setForward("")
-            view.goToCreditCard()
+            view.goToPaymentCard()
             return
         }
         val idempPayin = this.idempotencyPayin ?: return
@@ -88,7 +88,7 @@ class CashInPresenter @Inject constructor(val configuration: DataAccount,
             }
             val payinreply = optpayinreply
             if (payinreply.securecodeneeded) {
-                view.goToSecure3D(payinreply.redirecturl ?: "")
+                view.goTo3dSecure(payinreply.redirecturl ?: "")
             } else {
                 view.goBack()
             }

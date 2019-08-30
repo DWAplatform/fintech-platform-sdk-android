@@ -1,8 +1,6 @@
 package com.fintechplatform.ui.cashin.ui;
 
-import com.fintechplatform.ui.card.ui.PaymentCardUI;
 import com.fintechplatform.ui.models.DataAccount;
-import com.fintechplatform.ui.secure3d.ui.Secure3DUI;
 
 import javax.inject.Singleton;
 
@@ -27,8 +25,8 @@ public class CashInUIModule {
 
     @Provides
     @Singleton
-    CashInUI providePayInUI(Secure3DUI secure3DUI, PaymentCardUI paymentCardUI) {
-        return new CashInUI(hostName, configuration, secure3DUI, paymentCardUI, isSandbox);
+    CashInUI providePayInUI() {
+        return new CashInUI(hostName, configuration, isSandbox);
     }
 
 }
