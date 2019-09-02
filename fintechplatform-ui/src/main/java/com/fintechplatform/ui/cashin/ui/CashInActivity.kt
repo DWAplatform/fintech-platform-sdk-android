@@ -7,7 +7,7 @@ import com.fintechplatform.ui.R
 import com.fintechplatform.ui.cashin.ui.CashInFragment
 import com.fintechplatform.ui.models.DataAccount
 
-class CashInActivity : AppCompatActivity(), CashInContract.Navigation {
+class CashInActivity : AppCompatActivity(), CashInContract.Navigation{
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,6 +43,10 @@ class CashInActivity : AppCompatActivity(), CashInContract.Navigation {
 
     override fun goTo3dSecure(redirecturl: String) {
         FintechPlatform.build3DSecureUI().start(this, redirecturl)
+    }
+
+    override fun goBackwardFromCashIn() {
+        finish()
     }
 }
 

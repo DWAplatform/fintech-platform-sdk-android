@@ -26,4 +26,8 @@ interface PaymentCardContract {
         fun onAbortClick()
         fun refresh()
     }
+
+    interface Navigator {
+        fun goBackwardFromPaymentCard()
+    }
 }

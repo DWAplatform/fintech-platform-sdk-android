@@ -55,5 +55,6 @@ interface CashInContract {
     interface Navigation {
         fun goToPaymentCard()
         fun goTo3dSecure(redirecturl: String)
+        fun goBackwardFromCashIn()
     }
 }

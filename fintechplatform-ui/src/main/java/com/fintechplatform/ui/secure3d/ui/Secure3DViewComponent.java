@@ -9,5 +9,5 @@ import dagger.Component;
         Secure3DPresenterModule.class }
 )
 public interface Secure3DViewComponent {
-    void inject(Secure3DActivity activity);
+    void inject(Secure3DFragment fragment);
 }

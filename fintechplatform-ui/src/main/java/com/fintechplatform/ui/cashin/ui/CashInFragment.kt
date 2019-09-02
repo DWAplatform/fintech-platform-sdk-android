@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment
 import android.text.Editable
 import android.text.InputFilter
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,7 +22,7 @@ import kotlinx.android.synthetic.main.fragment_cashin.view.*
 import javax.inject.Inject
 
 
-class CashInFragment: Fragment(), CashInContract.View  {
+class CashInFragment: Fragment(), CashInContract.View {
     @Inject
     lateinit var alertHelpers: AlertHelpers
     @Inject
@@ -71,7 +72,7 @@ class CashInFragment: Fragment(), CashInContract.View  {
         if(context is CashInContract.Navigation) {
             navigation = context
         } else {
-           //alertHelpers.genericError(activity, "Errore di implementazione", "Controlla di aver implementato CashInContract.Navigation nella tua Activity")
+            Log.d(this.toString(), "Be care Navigation Interface is implemented in your Activity!!")
         }
     }
 
@@ -144,7 +145,7 @@ class CashInFragment: Fragment(), CashInContract.View  {
     }
 
     override fun goBack(){
-        activity.finish()
+        navigation?.goBackwardFromCashIn()
     }
 
     override fun goToPaymentCard() {

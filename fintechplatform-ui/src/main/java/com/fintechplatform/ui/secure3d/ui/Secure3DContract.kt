@@ -19,4 +19,8 @@ interface Secure3DContract {
 
         fun onPageFinished(url: String)
     }
+
+    interface Navigator {
+        fun goBackwardFrom3dSecure()
+    }
 }

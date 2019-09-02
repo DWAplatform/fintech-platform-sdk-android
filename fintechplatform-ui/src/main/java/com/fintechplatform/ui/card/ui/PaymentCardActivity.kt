@@ -8,7 +8,7 @@ import com.fintechplatform.ui.models.DataAccount
 /**
  * UI for Credit card number, data, ccv
  */
-class PaymentCardActivity: AppCompatActivity() {
+class PaymentCardActivity: AppCompatActivity(), PaymentCardContract.Navigator {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,5 +26,9 @@ class PaymentCardActivity: AppCompatActivity() {
         }
 
         setContentView(R.layout.activity_with_fragment)
+    }
+
+    override fun goBackwardFromPaymentCard() {
+        finish()
     }
 }

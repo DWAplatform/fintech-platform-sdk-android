@@ -43,7 +43,7 @@ class CashInPresenter @Inject constructor(val configuration: DataAccount,
     override fun refresh() {
         view.showKeyboardAmount()
         reloadBalance()
-        //loadPaymentCard() //FIXME comment this method for test using
+        loadPaymentCard()
     }
 
     override fun onEditingChanged() {

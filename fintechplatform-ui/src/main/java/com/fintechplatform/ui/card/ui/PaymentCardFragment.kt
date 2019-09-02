@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,6 +23,8 @@ class PaymentCardFragment: Fragment(), PaymentCardContract.View {
     lateinit var alertHelpers: AlertHelpers
     @Inject
     lateinit var presenter: PaymentCardContract.Presenter
+
+    var navigation: PaymentCardContract.Navigator?=null
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater?.inflate(R.layout.fragment_paymentcard, container, false)
@@ -74,6 +77,20 @@ class PaymentCardFragment: Fragment(), PaymentCardContract.View {
     override fun onResume() {
         super.onResume()
         presenter.refresh()
+    }
+
+    override fun onAttach(context: Context?) {
+        super.onAttach(context)
+        if(context is PaymentCardContract.Navigator) {
+            navigation = context
+        } else {
+            Log.d(this.toString(), "Be care Navigation Interface is implemented in your Activity!!")
+        }
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        navigation = null
     }
 
     override fun getNumberTextLength(): Int {
@@ -135,7 +152,7 @@ class PaymentCardFragment: Fragment(), PaymentCardContract.View {
     }
 
     override fun goBack() {
-        activity.finish()
+        navigation?.goBackwardFromPaymentCard()
     }
 
     companion object {
