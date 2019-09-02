@@ -1,11 +1,11 @@
 package com.fintechplatform.ui.card.ui;
 
-import com.fintechplatform.ui.alert.AlertHelpersModule;
 import com.fintechplatform.api.card.api.PaymentCardAPIModule;
-import com.fintechplatform.ui.card.db.PaymentCardPersistanceModule;
 import com.fintechplatform.api.card.helpers.PaymentCardHelperModule;
 import com.fintechplatform.api.log.LogModule;
 import com.fintechplatform.api.net.NetModule;
+import com.fintechplatform.ui.alert.AlertHelpersModule;
+import com.fintechplatform.ui.card.db.PaymentCardPersistanceModule;
 
 import javax.inject.Singleton;
 
@@ -20,5 +20,5 @@ import dagger.Component;
         NetModule.class,
         PaymentCardPersistanceModule.class})
 public interface PaymentCardViewComponent {
-    void inject(PaymentCardActivity activity);
+    void inject(PaymentCardFragment fragment);
 }

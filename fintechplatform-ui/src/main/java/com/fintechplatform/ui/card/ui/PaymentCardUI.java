@@ -27,12 +27,13 @@ public class PaymentCardUI {
         args.putString("hostname", hostname);
         args.putParcelable("dataAccount", dataAccount);
         args.putBoolean("isSandbox", sandbox);
+        intent.putExtras(args);
         context.startActivity(intent);
     }
-    /*
-    public PaymentCardFragment createFragment(String hostName, DataAccount dataAccount, Boolean isSandbox) {
-        return PaymentCardFragment.newInstance(hostName, dataAccount, isSandbox);
-    }*/
+
+    public PaymentCardFragment createFragment(String hostname, DataAccount dataAccount, boolean sandbox) {
+        return PaymentCardFragment.Companion.newInstance(hostname, dataAccount, sandbox);
+    }
 
     public static class Builder {
         public static PaymentCardViewComponent buildPaymentCardComponent(Context context, PaymentCardContract.View view, String hostname, DataAccount dataAccount, boolean sandbox) {

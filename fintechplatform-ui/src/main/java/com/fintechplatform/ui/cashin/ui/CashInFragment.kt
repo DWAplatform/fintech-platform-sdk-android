@@ -42,7 +42,6 @@ class CashInFragment: Fragment(), CashInContract.View  {
             }
         }
 
-
         view.amountText.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(p0: Editable?) {}
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
@@ -72,7 +71,7 @@ class CashInFragment: Fragment(), CashInContract.View  {
         if(context is CashInContract.Navigation) {
             navigation = context
         } else {
-            alertHelpers.genericError(activity, "Errore di implementazione", "Controlla di aver implementato CashInContract.Navigation nella tua Activity")
+           //alertHelpers.genericError(activity, "Errore di implementazione", "Controlla di aver implementato CashInContract.Navigation nella tua Activity")
         }
     }
 
