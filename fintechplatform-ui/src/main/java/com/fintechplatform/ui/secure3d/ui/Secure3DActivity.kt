@@ -15,7 +15,7 @@ class Secure3DActivity: AppCompatActivity(), Secure3DContract.Navigator {
         val frag = FintechPlatform.build3DSecureUI().createFragment(secureCodeUrl)
         supportFragmentManager
                 .beginTransaction()
-                .add(R.id.contentContainer, frag, "3D")
+                .add(R.id.contentContainer, frag, Secure3DFragment.toString())
                 .commit()
 
     }

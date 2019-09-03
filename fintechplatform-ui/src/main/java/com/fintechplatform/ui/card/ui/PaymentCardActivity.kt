@@ -19,7 +19,7 @@ class PaymentCardActivity: AppCompatActivity(), PaymentCardContract.Navigator {
                     val frag = PaymentCardFragment.newInstance(hostname, dataAccount, isSandbox)
                     supportFragmentManager
                             .beginTransaction()
-                            .add(R.id.contentContainer, frag)
+                            .add(R.id.contentContainer, frag, PaymentCardFragment.toString())
                             .commit()
                 }
             }

@@ -14,6 +14,7 @@ import android.view.inputmethod.InputMethodManager
 import com.fintechplatform.ui.R
 import com.fintechplatform.ui.alert.AlertHelpers
 import com.fintechplatform.ui.models.DataAccount
+import kotlinx.android.synthetic.main.fragment_paymentcard.*
 import kotlinx.android.synthetic.main.fragment_paymentcard.view.*
 import javax.inject.Inject
 
@@ -25,9 +26,9 @@ class PaymentCardFragment: Fragment(), PaymentCardContract.View {
     lateinit var presenter: PaymentCardContract.Presenter
 
     var navigation: PaymentCardContract.Navigator?=null
-
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater?.inflate(R.layout.fragment_paymentcard, container, false)
+    
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        val view = inflater.inflate(R.layout.fragment_paymentcard, container, false)
 
 
         arguments.getString("hostname")?.let { hostname ->
@@ -40,7 +41,7 @@ class PaymentCardFragment: Fragment(), PaymentCardContract.View {
 
         presenter.initPaymentCard()
 
-        view?.numberText?.addTextChangedListener(object : TextWatcher {
+        view.numberText.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(p0: Editable?) {}
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
@@ -48,7 +49,7 @@ class PaymentCardFragment: Fragment(), PaymentCardContract.View {
             }
         })
 
-        view?.dateText?.addTextChangedListener(object : TextWatcher {
+        view.dateText.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(p0: Editable?) {}
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
@@ -56,7 +57,7 @@ class PaymentCardFragment: Fragment(), PaymentCardContract.View {
             }
         })
 
-        view?.ccvText?.addTextChangedListener(object : TextWatcher {
+        view.ccvText.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(p0: Editable?) {}
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
@@ -64,11 +65,11 @@ class PaymentCardFragment: Fragment(), PaymentCardContract.View {
             }
         })
 
-        view?.confirmButton?.setOnClickListener {
+        view.confirmButton.setOnClickListener {
             presenter.onConfirm()
         }
 
-        view?.backwardButton?.setOnClickListener {
+        view.backwardButton.setOnClickListener {
             presenter.onAbortClick()
         }
         return view
@@ -84,7 +85,7 @@ class PaymentCardFragment: Fragment(), PaymentCardContract.View {
         if(context is PaymentCardContract.Navigator) {
             navigation = context
         } else {
-            Log.d(this.toString(), "Be care Navigation Interface is implemented in your Activity!!")
+            Log.e(this.toString(), "Be care Navigation Interface is implemented in your Activity!!")
         }
     }
 
@@ -94,39 +95,39 @@ class PaymentCardFragment: Fragment(), PaymentCardContract.View {
     }
 
     override fun getNumberTextLength(): Int {
-        return view?.numberText?.length()?: 0
+        return numberText.length()
     }
 
     override fun getDateTextLength(): Int {
-        return view?.dateText?.length()?: 0
+        return dateText.length()
     }
 
     override fun getCCvTextLength(): Int {
-        return view?.ccvText?.length()?: 0
+        return ccvText.length()
     }
 
     override fun getNumberText(): String {
-        return view?.numberText?.text.toString()
+        return numberText.text.toString()
     }
 
     override fun getDAteText(): String {
-        return view?.dateText?.text.toString()
+        return dateText?.text.toString()
     }
 
     override fun getCCvText(): String {
-        return view?.ccvText?.text.toString()
+        return ccvText?.text.toString()
     }
 
     override fun confirmButtonEnable(isEnabled: Boolean) {
-        view?.confirmButton?.isEnabled = isEnabled
+        confirmButton?.isEnabled = isEnabled
     }
 
     override fun showCommunicationWait() {
-        view?.activityIndicator?.visibility = View.VISIBLE
+        activityIndicator?.visibility = View.VISIBLE
     }
 
     override fun hideCommunicationWait() {
-        view?.activityIndicator?.visibility = View.GONE
+        activityIndicator?.visibility = View.GONE
     }
 
     override fun showCommunicationInternalError() {
@@ -144,10 +145,10 @@ class PaymentCardFragment: Fragment(), PaymentCardContract.View {
     }
 
     override fun showKeyboard() {
-        view?.numberText?.postDelayed({
-            view?.numberText?.requestFocus()
+        numberText?.postDelayed({
+            numberText?.requestFocus()
             val keyboard = activity.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-            keyboard.showSoftInput(view?.numberText, 0)
+            keyboard.showSoftInput(numberText, 0)
         }, 300)
     }
 

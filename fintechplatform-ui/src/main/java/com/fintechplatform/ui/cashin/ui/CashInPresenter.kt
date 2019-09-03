@@ -43,7 +43,7 @@ class CashInPresenter @Inject constructor(val configuration: DataAccount,
         idempotencyPayin = UUID.randomUUID().toString()
         view.showKeyboardAmount()
         reloadBalance()
-        loadPaymentCard()
+        //loadPaymentCard()
     }
 
     override fun onEditingChanged() {
