@@ -60,6 +60,11 @@ class Secure3DFragment: Fragment(), Secure3DContract.View {
         }
     }
 
+    override fun onDetach() {
+        super.onDetach()
+        navigation = null
+    }
+
     override fun loadUrl(url: String) {
         // Q: why use webview.post?
         //webview.post({

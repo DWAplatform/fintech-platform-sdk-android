@@ -24,7 +24,8 @@ class CashInActivity : AppCompatActivity(),
                 intent.extras?.getBoolean("isSandbox")?.let { isSandbox ->
                     val frag = CashInFragment.newInstance(hostname, dataAccount, isSandbox, initialAmount)
                     supportFragmentManager.beginTransaction()
-                            .add(R.id.contentContainer, frag)
+                            .replace(R.id.contentContainer, frag, CashInFragment.toString())
+
                             .commit()
                 }
             }
@@ -48,7 +49,8 @@ class CashInActivity : AppCompatActivity(),
         val frag = FintechPlatform.build3DSecureUI().createFragment(redirecturl)
         supportFragmentManager
                 .beginTransaction()
-                .add(R.id.contentContainer, frag, "3D")
+                .replace(R.id.contentContainer, frag, "3D")
+                .addToBackStack(null)
                 .commit()
     }
 
@@ -58,7 +60,11 @@ class CashInActivity : AppCompatActivity(),
 
     override fun goBackwardFrom3dSecure() {
         val fragWithtag = supportFragmentManager.findFragmentByTag("3D")
-        supportFragmentManager.beginTransaction().remove(fragWithtag).commit()
+        supportFragmentManager
+                .beginTransaction()
+                .remove(fragWithtag)
+                .commit()
+        supportFragmentManager.popBackStack()
     }
 }
 

@@ -27,7 +27,6 @@ class CashInPresenter @Inject constructor(val configuration: DataAccount,
     var idempotencyPayin: String? = null
 
     override fun initialize(initialAmount: Long?) {
-        idempotencyPayin = UUID.randomUUID().toString()
 
         initialAmount?.let {
             val money = Money(initialAmount)
@@ -41,6 +40,7 @@ class CashInPresenter @Inject constructor(val configuration: DataAccount,
     }
 
     override fun refresh() {
+        idempotencyPayin = UUID.randomUUID().toString()
         view.showKeyboardAmount()
         reloadBalance()
         loadPaymentCard()
@@ -62,6 +62,7 @@ class CashInPresenter @Inject constructor(val configuration: DataAccount,
 
         view.forwardDisable()
         view.showCommunicationWait()
+        view.hideKeyboard()
 
         val money = Money.valueOf(view.getAmount())
 
