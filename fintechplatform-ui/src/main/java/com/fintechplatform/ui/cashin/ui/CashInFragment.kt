@@ -32,10 +32,9 @@ class CashInFragment: Fragment(), CashInContract.View {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_cashin, container, false)
 
-        val initialAmount = arguments.getLong("initialAmount")?: null
-            arguments.getString("hostname")?.let { hostname ->
-                arguments.getParcelable<DataAccount>("dataAccount")?.let { dataAccount ->
-                    arguments.getBoolean("isSandbox")?.let { isSandbox ->
+        arguments.getString("hostname")?.let { hostname ->
+            arguments.getParcelable<DataAccount>("dataAccount")?.let { dataAccount ->
+                arguments.getBoolean("isSandbox").let { isSandbox ->
                     val x = (activity.application as CashInUIFactory).createPayInViewComponent(context, this, dataAccount, hostname, isSandbox)
                     x.inject(this)
                 }
@@ -59,11 +58,13 @@ class CashInFragment: Fragment(), CashInContract.View {
         view.backwardButton.setOnClickListener {
             presenter.onAbortClick()
         }
-
-        presenter.initialize(initialAmount)
-
         return view
+    }
 
+    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        val initialAmount = arguments.getLong("initialAmount")
+        presenter.initialize(initialAmount)
     }
 
     override fun onAttach(context: Context?) {
@@ -86,47 +87,47 @@ class CashInFragment: Fragment(), CashInContract.View {
     }
 
     override fun setForwardTextConfirm() {
-        view?.forwardButton?.text = resources.getString(R.string.confirm)
+        forwardButton?.text = resources.getString(R.string.confirm)
     }
 
     override fun setForwardButtonPayInCC() {
-        view?.forwardButton?.text = resources.getString(R.string.payin_cc)
+        forwardButton?.text = resources.getString(R.string.payin_cc)
     }
 
     override fun setAmount(amount: String) {
-        view?.amountText?.setText(amount)
+        amountText.setText(amount)
     }
 
     override fun getAmount() : String {
-        return view?.amountText?.text.toString()
+        return amountText?.text.toString()
     }
 
     override fun setForward(title: String) {
-        view?.forwardButton?.text = title
+        forwardButton?.text = title
     }
 
     override fun forwardEnable() {
-        view?.forwardButton?.isEnabled = true
+        forwardButton?.isEnabled = true
     }
 
     override fun forwardDisable() {
-        view?.forwardButton?.isEnabled = false
+        forwardButton?.isEnabled = false
     }
 
     override fun setNewBalanceAmount(title: String) {
-        view?.newBalanceAmountLabel?.text = title
+        newBalanceAmountLabel?.text = title
     }
 
     override fun setFeeAmount(title: String) {
-        view?.feeAmountLabel?.text = title
+        feeAmountLabel?.text = title
     }
 
     override fun showCommunicationWait() {
-        view?.activityIndicator?.visibility = View.VISIBLE
+        activityIndicator?.visibility = View.VISIBLE
     }
 
     override fun hideCommunicationWait() {
-        view?.activityIndicator?.visibility = View.GONE
+        activityIndicator?.visibility = View.GONE
     }
 
     override fun showCommunicationInternalError() {

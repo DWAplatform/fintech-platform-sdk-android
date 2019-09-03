@@ -19,18 +19,30 @@ class CashInActivity : AppCompatActivity(),
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        var frag : CashInFragment ?= null
+
         val initialAmount =
                 if (intent.hasExtra("initialAmount"))
                     intent.getLongExtra("initialAmount", 0L)
                 else null
 
+        savedInstanceState?.let{ extras ->
+            frag = supportFragmentManager.findFragmentByTag(CashInFragment.toString()) as CashInFragment
+        }
+
         intent.extras?.getString("hostname")?.let { hostname ->
             intent.extras?.getParcelable<DataAccount>("dataAccount")?.let { dataAccount ->
                 intent.extras?.getBoolean("isSandbox")?.let { isSandbox ->
-                    val frag = CashInFragment.newInstance(hostname, dataAccount, isSandbox, initialAmount)
+
+                    frag?.let {
+                        supportFragmentManager.beginTransaction()
+                                .replace(R.id.contentContainer, it, CashInFragment.toString())
+                                .commit()
+                    }?:
                     supportFragmentManager.beginTransaction()
-                            .replace(R.id.contentContainer, frag, CashInFragment.toString())
+                            .replace(R.id.contentContainer, CashInFragment.newInstance(hostname, dataAccount, isSandbox, initialAmount), CashInFragment.toString())
                             .commit()
+
                 }
             }
         }
@@ -48,11 +60,9 @@ class CashInActivity : AppCompatActivity(),
                             .add(R.id.contentContainer, frag, PaymentCardFragment.toString())
                             .addToBackStack(null)
                             .commit()
-
                 }
             }
         }
-
     }
 
     override fun goBackwardFromPaymentCard() {

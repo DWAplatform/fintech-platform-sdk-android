@@ -29,9 +29,13 @@ class CashInPresenter @Inject constructor(val configuration: DataAccount,
     override fun initialize(initialAmount: Long?) {
 
         initialAmount?.let {
-            val money = Money(initialAmount)
-            val strmoney = moneyHelper.toStringNoCurrency(money)
-            view.setAmount(strmoney)
+            if(it == 0L)
+                return@let
+            else {
+                val money = Money(initialAmount)
+                val strmoney = moneyHelper.toStringNoCurrency(money)
+                view.setAmount(strmoney)
+            }
         }
 
         paymentCardpersistanceDB.deletePaymentCard()
@@ -43,7 +47,7 @@ class CashInPresenter @Inject constructor(val configuration: DataAccount,
         idempotencyPayin = UUID.randomUUID().toString()
         view.showKeyboardAmount()
         reloadBalance()
-        //loadPaymentCard()
+        loadPaymentCard()
     }
 
     override fun onEditingChanged() {

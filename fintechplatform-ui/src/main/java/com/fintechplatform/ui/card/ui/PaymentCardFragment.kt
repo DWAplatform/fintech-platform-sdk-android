@@ -30,7 +30,6 @@ class PaymentCardFragment: Fragment(), PaymentCardContract.View {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_paymentcard, container, false)
 
-
         arguments.getString("hostname")?.let { hostname ->
             arguments.getParcelable<DataAccount>("dataAccount")?.let { dataAccount ->
                 arguments.getBoolean("isSandbox")?.let { isSandbox ->
