@@ -2,6 +2,7 @@ package com.fintechplatform.ui.secure3d.ui
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import com.fintechplatform.ui.FintechPlatform
 import com.fintechplatform.ui.R
 
 class Secure3DActivity: AppCompatActivity(), Secure3DContract.Navigator {
@@ -11,7 +12,11 @@ class Secure3DActivity: AppCompatActivity(), Secure3DContract.Navigator {
         setContentView(R.layout.activity_with_fragment)
 
         val secureCodeUrl = intent.getStringExtra("redirecturl")
-
+        val frag = FintechPlatform.build3DSecureUI().createFragment(secureCodeUrl)
+        supportFragmentManager
+                .beginTransaction()
+                .add(R.id.contentContainer, frag, "3D")
+                .commit()
 
     }
 

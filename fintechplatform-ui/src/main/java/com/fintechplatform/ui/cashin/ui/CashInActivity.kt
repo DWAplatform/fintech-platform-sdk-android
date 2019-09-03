@@ -6,8 +6,11 @@ import com.fintechplatform.ui.FintechPlatform
 import com.fintechplatform.ui.R
 import com.fintechplatform.ui.cashin.ui.CashInFragment
 import com.fintechplatform.ui.models.DataAccount
+import com.fintechplatform.ui.secure3d.ui.Secure3DContract
 
-class CashInActivity : AppCompatActivity(), CashInContract.Navigation{
+class CashInActivity : AppCompatActivity(), 
+        CashInContract.Navigation,
+        Secure3DContract.Navigator{
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,11 +45,20 @@ class CashInActivity : AppCompatActivity(), CashInContract.Navigation{
     }
 
     override fun goTo3dSecure(redirecturl: String) {
-        FintechPlatform.build3DSecureUI().start(this, redirecturl)
+        val frag = FintechPlatform.build3DSecureUI().createFragment(redirecturl)
+        supportFragmentManager
+                .beginTransaction()
+                .add(R.id.contentContainer, frag, "3D")
+                .commit()
     }
 
     override fun goBackwardFromCashIn() {
         finish()
+    }
+
+    override fun goBackwardFrom3dSecure() {
+        val fragWithtag = supportFragmentManager.findFragmentByTag("3D")
+        supportFragmentManager.beginTransaction().remove(fragWithtag).commit()
     }
 }
 

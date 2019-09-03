@@ -21,7 +21,6 @@ import kotlinx.android.synthetic.main.fragment_cashin.*
 import kotlinx.android.synthetic.main.fragment_cashin.view.*
 import javax.inject.Inject
 
-
 class CashInFragment: Fragment(), CashInContract.View {
     @Inject
     lateinit var alertHelpers: AlertHelpers
