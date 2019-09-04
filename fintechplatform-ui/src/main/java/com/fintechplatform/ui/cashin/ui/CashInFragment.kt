@@ -27,7 +27,7 @@ class CashInFragment: Fragment(), CashInContract.View {
     @Inject
     lateinit var presenter: CashInContract.Presenter
 
-    var navigation: CashInContract.Navigation?= null
+    var navigation: CashInContract.Navigation? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_cashin, container, false)
@@ -35,8 +35,9 @@ class CashInFragment: Fragment(), CashInContract.View {
         arguments.getString("hostname")?.let { hostname ->
             arguments.getParcelable<DataAccount>("dataAccount")?.let { dataAccount ->
                 arguments.getBoolean("isSandbox").let { isSandbox ->
-                    val x = (activity.application as CashInUIFactory).createPayInViewComponent(context, this, dataAccount, hostname, isSandbox)
-                    x.inject(this)
+                    (activity.application as? CashInUIFactory)?.let {
+                        it.createPayInViewComponent(context, this, dataAccount, hostname, isSandbox).inject(this)
+                    }?: Log.e(CashInFragment::class.java.canonicalName, "CashInFactory interface must be implemented in your Application")
                 }
             }
         }
@@ -69,11 +70,9 @@ class CashInFragment: Fragment(), CashInContract.View {
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
-        if(context is CashInContract.Navigation) {
-            navigation = context
-        } else {
-            Log.d(this.toString(), "Be care Navigation Interface is implemented in your Activity!!")
-        }
+        (context as? CashInContract.Navigation)?.let {
+            navigation = it
+        }?: Log.e(CashInFragment::class.java.canonicalName, "CashInContract.Navigation interface must be implemented in your Activity!!")
     }
 
     override fun onDetach() {

@@ -1,5 +1,6 @@
 package com.fintechplatform.ui.cashin
 
+import android.util.Log
 import com.fintechplatform.api.account.balance.models.BalanceItem
 import com.fintechplatform.api.card.api.PaymentCardAPI
 import com.fintechplatform.api.cashin.api.CashInAPI
@@ -64,6 +65,7 @@ class CashInPresenter @Inject constructor(val configuration: DataAccount,
         }
         val idempPayin = this.idempotencyPayin ?: return
 
+        Log.d("IDEMPOTENT", idempPayin)
         view.forwardDisable()
         view.showCommunicationWait()
         view.hideKeyboard()
@@ -93,6 +95,7 @@ class CashInPresenter @Inject constructor(val configuration: DataAccount,
             }
             val payinreply = optpayinreply
             if (payinreply.securecodeneeded) {
+                Log.d("URL", payinreply.redirecturl)
                 view.goTo3dSecure(payinreply.redirecturl ?: "")
             } else {
                 view.goBack()
