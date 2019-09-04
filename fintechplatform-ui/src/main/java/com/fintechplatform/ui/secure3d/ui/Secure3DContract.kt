@@ -20,7 +20,7 @@ interface Secure3DContract {
         fun onPageFinished(url: String)
     }
 
-    interface Navigator {
+    interface Navigation {
         fun goBackwardFrom3dSecure()
     }
 }

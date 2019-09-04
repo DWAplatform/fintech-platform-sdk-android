@@ -19,7 +19,7 @@ class Secure3DFragment: Fragment(), Secure3DContract.View {
     @Inject
     lateinit var presenter: Secure3DContract.Presenter
 
-    var navigation: Secure3DContract.Navigator?=null
+    var navigation: Secure3DContract.Navigation?=null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_secure3_d, container, false)
@@ -37,6 +37,7 @@ class Secure3DFragment: Fragment(), Secure3DContract.View {
             }
 
             override fun onPageFinished(view: WebView, url: String) {
+                Log.d("URL_pagefinished", url)
                 presenter.onPageFinished(url)
             }
         }
@@ -53,10 +54,10 @@ class Secure3DFragment: Fragment(), Secure3DContract.View {
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
-        if(context is Secure3DContract.Navigator) {
+        if(context is Secure3DContract.Navigation) {
             navigation = context
         } else {
-            Log.e(this.toString(), "Be care Navigation Interface is implemented in your Activity!!")
+            Log.e(Secure3DFragment::class.java.canonicalName, "Secure3DContract.Navigation Interface not implemented in your Activity!!")
         }
     }
 

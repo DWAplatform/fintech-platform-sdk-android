@@ -5,7 +5,7 @@ import android.support.v7.app.AppCompatActivity
 import com.fintechplatform.ui.FintechPlatform
 import com.fintechplatform.ui.R
 
-class Secure3DActivity: AppCompatActivity(), Secure3DContract.Navigator {
+class Secure3DActivity: AppCompatActivity(), Secure3DContract.Navigation {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
