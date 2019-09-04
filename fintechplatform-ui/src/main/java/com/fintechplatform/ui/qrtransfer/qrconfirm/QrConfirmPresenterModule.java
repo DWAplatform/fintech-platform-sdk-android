@@ -1,11 +1,11 @@
 package com.fintechplatform.ui.qrtransfer.qrconfirm;
 
+import com.fintechplatform.api.net.NetHelper;
+import com.fintechplatform.api.transfer.api.TransferAPI;
 import com.fintechplatform.ui.account.balance.helpers.BalanceHelper;
 import com.fintechplatform.ui.models.DataAccount;
 import com.fintechplatform.ui.money.FeeHelper;
 import com.fintechplatform.ui.money.MoneyHelper;
-import com.fintechplatform.api.net.NetHelper;
-import com.fintechplatform.api.transfer.api.TransferAPI;
 
 import javax.inject.Singleton;
 

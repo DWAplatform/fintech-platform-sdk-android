@@ -2,10 +2,10 @@ package com.fintechplatform.ui.payout.ui;
 
 
 import com.fintechplatform.api.account.balance.api.BalanceAPIModule;
+import com.fintechplatform.api.cashout.api.CashOutAPIModule;
 import com.fintechplatform.api.iban.api.IbanAPIModule;
 import com.fintechplatform.api.log.LogModule;
 import com.fintechplatform.api.net.NetModule;
-import com.fintechplatform.api.cashout.api.CashOutAPIModule;
 import com.fintechplatform.ui.account.balance.helpers.BalanceHelperModule;
 import com.fintechplatform.ui.alert.AlertHelpersModule;
 import com.fintechplatform.ui.iban.db.IbanPersistanceDBModule;

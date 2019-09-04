@@ -2,13 +2,13 @@ package com.fintechplatform.ui.profile.idcards.ui
 
 import android.content.Intent
 import android.graphics.Bitmap
-import com.fintechplatform.ui.images.ImageHelper
-import com.fintechplatform.ui.models.DataAccount
 import com.fintechplatform.api.net.NetHelper
 import com.fintechplatform.api.profile.api.ProfileAPI
+import com.fintechplatform.api.profile.models.UserDocuments
+import com.fintechplatform.ui.images.ImageHelper
+import com.fintechplatform.ui.models.DataAccount
 import com.fintechplatform.ui.profile.db.documents.DocumentsPersistanceDB
 import com.fintechplatform.ui.profile.db.user.UsersPersistanceDB
-import com.fintechplatform.api.profile.models.UserDocuments
 import java.util.*
 import javax.inject.Inject
 

@@ -2,12 +2,12 @@ package com.fintechplatform.ui.account.financialdata.bank
 
 import com.fintechplatform.api.card.api.PaymentCardRestAPI
 import com.fintechplatform.api.iban.api.IbanAPI
+import com.fintechplatform.api.iban.models.BankAccount
+import com.fintechplatform.api.net.NetHelper
 import com.fintechplatform.ui.account.financialdata.payinpayout.FinancialDataContract
 import com.fintechplatform.ui.card.db.PaymentCardPersistenceDB
 import com.fintechplatform.ui.iban.db.IbanPersistanceDB
-import com.fintechplatform.api.iban.models.BankAccount
 import com.fintechplatform.ui.models.DataAccount
-import com.fintechplatform.api.net.NetHelper
 
 
 class BankFinancialDataPresenter constructor(private val view: FinancialDataContract.View,

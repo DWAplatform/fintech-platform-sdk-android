@@ -5,6 +5,7 @@ import com.fintechplatform.api.log.LogModule;
 import com.fintechplatform.api.net.NetModule;
 import com.fintechplatform.ui.account.balance.helpers.BalanceHelper;
 import com.fintechplatform.ui.account.balance.helpers.BalanceHelperModule;
+
 import javax.inject.Singleton;
 
 import dagger.Component;

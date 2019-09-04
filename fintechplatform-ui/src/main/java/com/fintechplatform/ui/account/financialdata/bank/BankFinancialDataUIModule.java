@@ -1,6 +1,5 @@
 package com.fintechplatform.ui.account.financialdata.bank;
 
-import com.fintechplatform.ui.card.ui.PaymentCardUI;
 import com.fintechplatform.ui.iban.ui.IbanUI;
 import com.fintechplatform.ui.models.DataAccount;
 
@@ -23,8 +22,8 @@ public class BankFinancialDataUIModule {
 
     @Provides
     @Singleton
-    BankFinancialDataUI providesFinancialDataUI(IbanUI ibanUI, PaymentCardUI paymentCardUI) {
-        return new BankFinancialDataUI(configuration, hostName, isSandbox, ibanUI, paymentCardUI);
+    BankFinancialDataUI providesFinancialDataUI(IbanUI ibanUI) {
+        return new BankFinancialDataUI(configuration, hostName, isSandbox, ibanUI);
     }
 
 }

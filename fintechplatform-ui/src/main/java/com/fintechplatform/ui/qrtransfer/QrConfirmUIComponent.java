@@ -1,10 +1,7 @@
 package com.fintechplatform.ui.qrtransfer;
 
-import com.fintechplatform.ui.card.ui.PaymentCardUIModule;
-import com.fintechplatform.ui.cashin.ui.CashInUIModule;
 import com.fintechplatform.ui.qrtransfer.qrconfirm.QrConfirmUI;
 import com.fintechplatform.ui.qrtransfer.qrconfirm.QrConfirmUIModule;
-import com.fintechplatform.ui.secure3d.ui.Secure3DUIModule;
 
 import javax.inject.Singleton;
 
@@ -15,10 +12,7 @@ import dagger.Component;
  */
 @Singleton
 @Component (modules = {
-        QrConfirmUIModule.class,
-        CashInUIModule.class,
-        PaymentCardUIModule.class,
-        Secure3DUIModule.class
+        QrConfirmUIModule.class
 })
 public interface QrConfirmUIComponent {
     QrConfirmUI getPaymentConfirmUI();

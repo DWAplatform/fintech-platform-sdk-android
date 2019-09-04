@@ -1,8 +1,8 @@
 package com.fintechplatform.ui.profile.idcards.ui;
 
+import com.fintechplatform.api.profile.api.ProfileAPI;
 import com.fintechplatform.ui.images.ImageHelper;
 import com.fintechplatform.ui.models.DataAccount;
-import com.fintechplatform.api.profile.api.ProfileAPI;
 import com.fintechplatform.ui.profile.db.documents.DocumentsPersistanceDB;
 import com.fintechplatform.ui.profile.db.user.UsersPersistanceDB;
 

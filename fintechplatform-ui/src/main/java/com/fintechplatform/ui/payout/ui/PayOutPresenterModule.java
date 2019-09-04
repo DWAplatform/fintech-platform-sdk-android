@@ -1,13 +1,13 @@
 package com.fintechplatform.ui.payout.ui;
 
 
-import com.fintechplatform.ui.account.balance.helpers.BalanceHelper;
+import com.fintechplatform.api.cashout.api.CashOutAPI;
 import com.fintechplatform.api.iban.api.IbanAPI;
+import com.fintechplatform.ui.account.balance.helpers.BalanceHelper;
 import com.fintechplatform.ui.iban.db.IbanPersistanceDB;
 import com.fintechplatform.ui.models.DataAccount;
 import com.fintechplatform.ui.money.FeeHelper;
 import com.fintechplatform.ui.money.MoneyHelper;
-import com.fintechplatform.api.cashout.api.CashOutAPI;
 
 import javax.inject.Singleton;
 

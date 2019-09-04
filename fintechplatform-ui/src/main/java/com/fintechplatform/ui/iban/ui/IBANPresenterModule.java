@@ -2,11 +2,11 @@ package com.fintechplatform.ui.iban.ui;
 
 
 import com.fintechplatform.api.enterprise.api.EnterpriseAPI;
-import com.fintechplatform.ui.enterprise.db.enterprise.EnterprisePersistanceDB;
 import com.fintechplatform.api.iban.api.IbanAPI;
+import com.fintechplatform.api.profile.api.ProfileAPI;
+import com.fintechplatform.ui.enterprise.db.enterprise.EnterprisePersistanceDB;
 import com.fintechplatform.ui.iban.db.IbanPersistanceDB;
 import com.fintechplatform.ui.models.DataAccount;
-import com.fintechplatform.api.profile.api.ProfileAPI;
 import com.fintechplatform.ui.profile.db.user.UsersPersistanceDB;
 
 import javax.inject.Singleton;

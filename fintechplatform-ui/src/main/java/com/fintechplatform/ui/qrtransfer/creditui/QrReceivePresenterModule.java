@@ -1,8 +1,8 @@
 package com.fintechplatform.ui.qrtransfer.creditui;
 
 import com.fintechplatform.api.log.Log;
-import com.fintechplatform.ui.models.DataAccount;
 import com.fintechplatform.api.transfer.api.TransferAPI;
+import com.fintechplatform.ui.models.DataAccount;
 
 import javax.inject.Singleton;
 

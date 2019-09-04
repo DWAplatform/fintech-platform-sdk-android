@@ -1,11 +1,11 @@
 package com.fintechplatform.ui.sct.ui;
 
 import com.fintechplatform.api.account.balance.api.BalanceAPI;
+import com.fintechplatform.api.sct.api.SctAPI;
 import com.fintechplatform.ui.account.balance.helpers.BalancePersistence;
 import com.fintechplatform.ui.models.DataAccount;
 import com.fintechplatform.ui.money.FeeHelper;
 import com.fintechplatform.ui.money.MoneyHelper;
-import com.fintechplatform.api.sct.api.SctAPI;
 
 import javax.inject.Singleton;
 

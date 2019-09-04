@@ -1,9 +1,9 @@
 package com.fintechplatform.ui.account.financialdata.bank;
 
-import com.fintechplatform.ui.account.financialdata.payinpayout.FinancialDataContract;
 import com.fintechplatform.api.card.api.PaymentCardRestAPI;
-import com.fintechplatform.ui.card.db.PaymentCardPersistenceDB;
 import com.fintechplatform.api.iban.api.IbanAPI;
+import com.fintechplatform.ui.account.financialdata.payinpayout.FinancialDataContract;
+import com.fintechplatform.ui.card.db.PaymentCardPersistenceDB;
 import com.fintechplatform.ui.iban.db.IbanPersistanceDB;
 import com.fintechplatform.ui.models.DataAccount;
 

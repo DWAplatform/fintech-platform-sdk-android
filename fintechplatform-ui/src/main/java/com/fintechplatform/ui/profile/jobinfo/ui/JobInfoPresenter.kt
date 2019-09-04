@@ -1,10 +1,10 @@
 package com.fintechplatform.ui.profile.jobinfo.ui
 
-import com.fintechplatform.ui.models.DataAccount
 import com.fintechplatform.api.net.NetHelper
 import com.fintechplatform.api.profile.api.ProfileAPI
-import com.fintechplatform.ui.profile.db.user.UsersPersistanceDB
 import com.fintechplatform.api.profile.models.UserJobInfo
+import com.fintechplatform.ui.models.DataAccount
+import com.fintechplatform.ui.profile.db.user.UsersPersistanceDB
 import javax.inject.Inject
 
 class JobInfoPresenter @Inject constructor(val view: JobInfoContract.View,

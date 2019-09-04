@@ -1,7 +1,7 @@
 package com.fintechplatform.ui.transactions.ui;
 
-import com.fintechplatform.ui.models.DataAccount;
 import com.fintechplatform.api.transactions.api.TransactionsAPI;
+import com.fintechplatform.ui.models.DataAccount;
 import com.fintechplatform.ui.transactions.db.TransactionPersistanceDB;
 
 import javax.inject.Singleton;

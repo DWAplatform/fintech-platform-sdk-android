@@ -1,8 +1,8 @@
 package com.fintechplatform.ui.transactions.ui
 
-import com.fintechplatform.ui.models.DataAccount
 import com.fintechplatform.api.net.NetHelper
 import com.fintechplatform.api.transactions.api.TransactionsAPI
+import com.fintechplatform.ui.models.DataAccount
 import com.fintechplatform.ui.transactions.db.TransactionPersistanceDB
 import com.fintechplatform.ui.transactions.models.TransactionItem
 import javax.inject.Inject

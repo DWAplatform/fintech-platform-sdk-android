@@ -1,10 +1,10 @@
 package com.fintechplatform.ui.enterprise.info.ui
 
 import com.fintechplatform.api.enterprise.api.EnterpriseAPI
-import com.fintechplatform.ui.enterprise.db.enterprise.EnterprisePersistanceDB
 import com.fintechplatform.api.enterprise.models.EnterpriseInfo
-import com.fintechplatform.ui.models.DataAccount
 import com.fintechplatform.api.net.NetHelper
+import com.fintechplatform.ui.enterprise.db.enterprise.EnterprisePersistanceDB
+import com.fintechplatform.ui.models.DataAccount
 import javax.inject.Inject
 
 class EnterpriseInfoPresenter @Inject constructor(val view: EnterpriseInfoContract.View,

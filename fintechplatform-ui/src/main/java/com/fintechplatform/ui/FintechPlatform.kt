@@ -4,7 +4,6 @@ import android.content.Context
 import com.fintechplatform.ui.account.balance.BalanceBuilder
 import com.fintechplatform.ui.account.financialdata.FinancialDataBuilder
 import com.fintechplatform.ui.card.ui.PaymentCardUI
-import com.fintechplatform.ui.cashin.ui.CashInUI
 import com.fintechplatform.ui.db.PlatformDB
 import com.fintechplatform.ui.enterprise.EnterpriseBuilder
 import com.fintechplatform.ui.iban.ui.IbanUI
@@ -39,8 +38,8 @@ class FintechPlatform {
          * Factory method to get ClientU)Iobject
          */
 
-        fun buildCashInUI(hostName: String, dataAccount: DataAccount, isSandbox: Boolean) : CashInUI {
-            return CashInUI(hostName, dataAccount, isSandbox)
+        fun buildCashInUI(hostName: String, dataAccount: DataAccount, isSandbox: Boolean) : com.fintechplatform.ui.cashin.CashInUI {
+            return com.fintechplatform.ui.cashin.CashInUI(hostName, dataAccount, isSandbox)
         }
 
         fun buildBalance(): BalanceBuilder {

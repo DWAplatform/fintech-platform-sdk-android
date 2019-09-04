@@ -1,9 +1,6 @@
 package com.fintechplatform.ui.qrtransfer.qrconfirm;
 
-import com.fintechplatform.ui.card.ui.PaymentCardUI;
-import com.fintechplatform.ui.cashin.ui.CashInUI;
 import com.fintechplatform.ui.models.DataAccount;
-import com.fintechplatform.ui.secure3d.ui.Secure3DUI;
 
 import javax.inject.Singleton;
 
@@ -27,7 +24,7 @@ public class QrConfirmUIModule {
 
     @Provides
     @Singleton
-    QrConfirmUI providesQrConfirmUI(CashInUI cashInUI, Secure3DUI secure3DUI, PaymentCardUI paymentCardUI) {
-        return new QrConfirmUI(hostName, configuration, cashInUI, secure3DUI, paymentCardUI, isSandbox);
+    QrConfirmUI providesQrConfirmUI() {
+        return new QrConfirmUI(hostName, configuration, isSandbox);
     }
 }

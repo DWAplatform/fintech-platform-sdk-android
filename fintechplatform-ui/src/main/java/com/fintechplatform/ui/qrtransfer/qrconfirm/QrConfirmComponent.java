@@ -6,9 +6,6 @@ import com.fintechplatform.api.net.NetModule;
 import com.fintechplatform.api.transfer.api.TransferAPIModule;
 import com.fintechplatform.ui.account.balance.helpers.BalanceHelperModule;
 import com.fintechplatform.ui.alert.AlertHelpersModule;
-import com.fintechplatform.ui.cashin.ui.CashInUIModule;
-import com.fintechplatform.ui.cashin.ui.PaymentCardUIModule;
-import com.fintechplatform.ui.cashin.ui.Secure3DUIHelperModule;
 import com.fintechplatform.ui.images.ImageHelperModule;
 import com.fintechplatform.ui.money.FeeHelperModule;
 import com.fintechplatform.ui.money.MoneyHelperModule;
@@ -24,7 +21,6 @@ import dagger.Component;
 @Component(modules = {
         QrConfirmPresenterModule.class,
         TransferAPIModule.class,
-        CashInUIModule.class,
         AlertHelpersModule.class,
         ImageHelperModule.class,
         BalanceHelperModule.class,
@@ -32,9 +28,7 @@ import dagger.Component;
         NetModule.class,
         LogModule.class,
         MoneyHelperModule.class,
-        FeeHelperModule.class,
-        Secure3DUIHelperModule.class,
-        PaymentCardUIModule.class
+        FeeHelperModule.class
 })
 public interface QrConfirmComponent {
     void inject(QrConfirmActivity activity);

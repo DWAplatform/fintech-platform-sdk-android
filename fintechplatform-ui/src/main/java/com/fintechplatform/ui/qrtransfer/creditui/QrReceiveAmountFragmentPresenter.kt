@@ -1,9 +1,9 @@
 package com.fintechplatform.ui.qrtransfer.creditui
 
-import com.fintechplatform.ui.models.DataAccount
 import com.fintechplatform.api.money.Money
 import com.fintechplatform.api.net.NetHelper
 import com.fintechplatform.api.transfer.api.TransferAPI
+import com.fintechplatform.ui.models.DataAccount
 import java.util.*
 
 /**

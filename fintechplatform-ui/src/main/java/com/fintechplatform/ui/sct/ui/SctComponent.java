@@ -1,13 +1,13 @@
 package com.fintechplatform.ui.sct.ui;
 
 import com.fintechplatform.api.account.balance.api.BalanceAPIModule;
-import com.fintechplatform.ui.account.balance.helpers.BalanceHelperModule;
-import com.fintechplatform.ui.alert.AlertHelpersModule;
 import com.fintechplatform.api.log.LogModule;
-import com.fintechplatform.ui.money.FeeHelperModule;
-import com.fintechplatform.ui.money.MoneyHelperModule;
 import com.fintechplatform.api.net.NetModule;
 import com.fintechplatform.api.sct.api.SctAPIModule;
+import com.fintechplatform.ui.account.balance.helpers.BalanceHelperModule;
+import com.fintechplatform.ui.alert.AlertHelpersModule;
+import com.fintechplatform.ui.money.FeeHelperModule;
+import com.fintechplatform.ui.money.MoneyHelperModule;
 
 import javax.inject.Singleton;
 

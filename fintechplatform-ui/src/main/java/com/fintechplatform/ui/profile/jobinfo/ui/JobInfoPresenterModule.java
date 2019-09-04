@@ -1,7 +1,7 @@
 package com.fintechplatform.ui.profile.jobinfo.ui;
 
-import com.fintechplatform.ui.models.DataAccount;
 import com.fintechplatform.api.profile.api.ProfileAPI;
+import com.fintechplatform.ui.models.DataAccount;
 import com.fintechplatform.ui.profile.db.user.UsersPersistanceDB;
 
 import javax.inject.Singleton;

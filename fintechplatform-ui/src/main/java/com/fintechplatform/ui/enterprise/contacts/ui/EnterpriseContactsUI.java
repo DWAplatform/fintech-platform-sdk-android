@@ -5,8 +5,8 @@ import android.content.Intent;
 
 import com.android.volley.toolbox.Volley;
 import com.fintechplatform.api.enterprise.api.EnterpriseAPIModule;
-import com.fintechplatform.ui.models.DataAccount;
 import com.fintechplatform.api.net.NetModule;
+import com.fintechplatform.ui.models.DataAccount;
 
 public class EnterpriseContactsUI {
     private String hostName;

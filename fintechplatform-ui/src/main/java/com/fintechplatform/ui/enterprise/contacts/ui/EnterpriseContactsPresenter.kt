@@ -1,11 +1,11 @@
 package com.fintechplatform.ui.enterprise.contacts.ui
 
-import com.fintechplatform.ui.email.EmailHelper
 import com.fintechplatform.api.enterprise.api.EnterpriseAPI
-import com.fintechplatform.ui.enterprise.db.enterprise.EnterprisePersistanceDB
 import com.fintechplatform.api.enterprise.models.EnterpriseContacts
-import com.fintechplatform.ui.models.DataAccount
 import com.fintechplatform.api.net.NetHelper
+import com.fintechplatform.ui.email.EmailHelper
+import com.fintechplatform.ui.enterprise.db.enterprise.EnterprisePersistanceDB
+import com.fintechplatform.ui.models.DataAccount
 import javax.inject.Inject
 
 class EnterpriseContactsPresenter @Inject constructor(val view: EnterpriseContactsContract.View,

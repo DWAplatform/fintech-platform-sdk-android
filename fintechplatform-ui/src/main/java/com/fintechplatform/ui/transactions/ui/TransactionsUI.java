@@ -5,9 +5,9 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.android.volley.toolbox.Volley;
-import com.fintechplatform.ui.models.DataAccount;
 import com.fintechplatform.api.net.NetModule;
 import com.fintechplatform.api.transactions.api.TransactionsAPIModule;
+import com.fintechplatform.ui.models.DataAccount;
 import com.fintechplatform.ui.transactions.ui.detail.ui.TransactionDetailUI;
 import com.fintechplatform.ui.transactions.ui.itemview.DaggerTransactionItemComponent;
 import com.fintechplatform.ui.transactions.ui.itemview.TransactionItemComponent;

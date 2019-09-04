@@ -3,11 +3,11 @@ package com.fintechplatform.ui.enterprise.documents.ui
 import android.content.Intent
 import android.graphics.Bitmap
 import com.fintechplatform.api.enterprise.api.EnterpriseAPI
-import com.fintechplatform.ui.enterprise.db.documents.EnterpriseDocumentsPersistanceDB
 import com.fintechplatform.api.enterprise.models.EnterpriseDocs
+import com.fintechplatform.api.net.NetHelper
+import com.fintechplatform.ui.enterprise.db.documents.EnterpriseDocumentsPersistanceDB
 import com.fintechplatform.ui.images.ImageHelper
 import com.fintechplatform.ui.models.DataAccount
-import com.fintechplatform.api.net.NetHelper
 import java.util.*
 import kotlin.collections.ArrayList
 

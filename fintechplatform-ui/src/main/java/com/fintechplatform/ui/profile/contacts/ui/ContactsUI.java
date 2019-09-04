@@ -4,9 +4,9 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.android.volley.toolbox.Volley;
-import com.fintechplatform.ui.models.DataAccount;
 import com.fintechplatform.api.net.NetModule;
 import com.fintechplatform.api.profile.api.ProfileAPIModule;
+import com.fintechplatform.ui.models.DataAccount;
 
 public class ContactsUI {
     private String hostName;

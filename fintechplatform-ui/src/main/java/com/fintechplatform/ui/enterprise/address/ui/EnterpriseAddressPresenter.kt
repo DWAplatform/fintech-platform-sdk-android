@@ -1,10 +1,10 @@
 package com.fintechplatform.ui.enterprise.address.ui
 
 import com.fintechplatform.api.enterprise.api.EnterpriseAPI
-import com.fintechplatform.ui.enterprise.db.enterprise.EnterprisePersistanceDB
 import com.fintechplatform.api.enterprise.models.EnterpriseAddress
-import com.fintechplatform.ui.models.DataAccount
 import com.fintechplatform.api.net.NetHelper
+import com.fintechplatform.ui.enterprise.db.enterprise.EnterprisePersistanceDB
+import com.fintechplatform.ui.models.DataAccount
 import com.mukesh.countrypicker.Country
 import javax.inject.Inject
 

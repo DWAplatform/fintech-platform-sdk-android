@@ -6,8 +6,8 @@ import android.os.Bundle;
 
 import com.android.volley.toolbox.Volley;
 import com.fintechplatform.api.account.balance.api.BalanceAPIModule;
-import com.fintechplatform.ui.models.DataAccount;
 import com.fintechplatform.api.net.NetModule;
+import com.fintechplatform.ui.models.DataAccount;
 
 import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
 

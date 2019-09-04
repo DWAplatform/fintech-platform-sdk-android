@@ -1,7 +1,5 @@
 package com.fintechplatform.ui.qrtransfer;
 
-import com.fintechplatform.ui.card.ui.PaymentCardUIModule;
-import com.fintechplatform.ui.cashin.ui.CashInUIModule;
 import com.fintechplatform.ui.models.DataAccount;
 import com.fintechplatform.ui.qrtransfer.creditui.QrCreditTransferUIModule;
 import com.fintechplatform.ui.qrtransfer.qrconfirm.QrConfirmUIModule;
@@ -20,8 +18,8 @@ public class QrTransferBuilder {
     public QrConfirmUIComponent createPaymentConfirmUI(String hostName, DataAccount dataAccount, boolean isSandbox) {
         return DaggerQrConfirmUIComponent.builder()
                 .qrConfirmUIModule(new QrConfirmUIModule(dataAccount, hostName, isSandbox))
-                .paymentCardUIModule(new PaymentCardUIModule(hostName, isSandbox, dataAccount))
-                .cashInUIModule(new CashInUIModule(hostName, dataAccount, isSandbox))
+                //.paymentCardUIModule(new PaymentCardUIModule(hostName, isSandbox, dataAccount))
+                //.cashInUIModule(new CashInUIModule(hostName, dataAccount, isSandbox))
                 .build();
     }
 }

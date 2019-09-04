@@ -5,7 +5,6 @@ import android.support.v4.app.FragmentActivity
 import android.view.View
 import com.fintechplatform.ui.R
 import com.fintechplatform.ui.alert.AlertHelpers
-import com.fintechplatform.ui.card.ui.PaymentCardUI
 import com.fintechplatform.ui.iban.ui.IbanUI
 import kotlinx.android.synthetic.main.activity_financialdata.*
 import javax.inject.Inject
@@ -19,7 +18,6 @@ open class FinancialDataActivity : FragmentActivity() , FinancialDataContract.Vi
     @Inject lateinit var alertHelpers: AlertHelpers
     @Inject lateinit var presenter: FinancialDataContract.Presenter
     @Inject lateinit var bankAccountUI: IbanUI
-    @Inject lateinit var paymentCardUI: PaymentCardUI
 
     open fun injectAll() {
         PayInPayOutFinancialDataUI.instance?.buildFinancialDataViewComponent(this, this)?.inject(this)
@@ -42,7 +40,7 @@ open class FinancialDataActivity : FragmentActivity() , FinancialDataContract.Vi
                             "è necessario effettuare una ricarica entro 30 minuti massimo. " +
                             "Si vuole continuare?",
                     { d, i ->
-                        paymentCardUI.start(this)
+                       //todo  paymentCardUI.start(this)
                     }, { d, i -> }).show()
         }
 
