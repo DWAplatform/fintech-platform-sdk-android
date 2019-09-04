@@ -6,7 +6,7 @@ import com.fintechplatform.ui.FintechPlatform
 import com.fintechplatform.ui.R
 import com.fintechplatform.ui.card.ui.PaymentCardContract
 import com.fintechplatform.ui.card.ui.PaymentCardFragment
-import com.fintechplatform.ui.cashin.ui.CashInFragment
+import com.fintechplatform.ui.cashin.di.CashInFragment
 import com.fintechplatform.ui.models.DataAccount
 import com.fintechplatform.ui.secure3d.ui.Secure3DContract
 import com.fintechplatform.ui.secure3d.ui.Secure3DFragment

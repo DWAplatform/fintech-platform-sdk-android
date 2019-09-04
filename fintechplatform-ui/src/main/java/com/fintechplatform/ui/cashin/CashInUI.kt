@@ -26,8 +26,8 @@ class CashInUI(private val hostName: String,
         context.startActivity(intent)
     }
 
-    fun createFragment(amount: Long?): com.fintechplatform.ui.cashin.ui.CashInFragment {
-        return com.fintechplatform.ui.cashin.ui.CashInFragment.Companion.newInstance(hostName, configuration, sandbox, amount)
+    fun createFragment(amount: Long?): com.fintechplatform.ui.cashin.di.CashInFragment {
+        return com.fintechplatform.ui.cashin.di.CashInFragment.Companion.newInstance(hostName, configuration, sandbox, amount)
     }
 
     object Builder {

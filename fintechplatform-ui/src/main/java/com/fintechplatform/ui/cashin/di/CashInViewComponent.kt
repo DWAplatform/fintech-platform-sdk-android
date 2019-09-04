@@ -8,7 +8,7 @@ import com.fintechplatform.api.net.NetModule
 import com.fintechplatform.ui.account.balance.helpers.BalanceHelperModule
 import com.fintechplatform.ui.alert.AlertHelpersModule
 import com.fintechplatform.ui.card.db.PaymentCardPersistanceModule
-import com.fintechplatform.ui.cashin.ui.CashInFragment
+import com.fintechplatform.ui.cashin.di.CashInFragment
 import com.fintechplatform.ui.money.FeeHelperModule
 import com.fintechplatform.ui.money.MoneyHelperModule
 import dagger.Component

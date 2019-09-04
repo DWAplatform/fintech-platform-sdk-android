@@ -1,4 +1,4 @@
-package com.fintechplatform.ui.cashin.ui
+package com.fintechplatform.ui.cashin.di
 
 import android.content.Context
 import com.fintechplatform.ui.card.ui.PaymentCardUIFactory
