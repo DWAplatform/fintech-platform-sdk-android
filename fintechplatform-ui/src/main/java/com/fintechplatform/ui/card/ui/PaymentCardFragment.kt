@@ -25,7 +25,7 @@ class PaymentCardFragment: Fragment(), PaymentCardContract.View {
     @Inject
     lateinit var presenter: PaymentCardContract.Presenter
 
-    var navigation: PaymentCardContract.Navigator?=null
+    var navigation: PaymentCardContract.Navigation?=null
     
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_paymentcard, container, false)
@@ -81,11 +81,9 @@ class PaymentCardFragment: Fragment(), PaymentCardContract.View {
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
-        if(context is PaymentCardContract.Navigator) {
-            navigation = context
-        } else {
-            Log.e(this.toString(), "Be care Navigation Interface is implemented in your Activity!!")
-        }
+        (context as? PaymentCardContract.Navigation)?.let {
+            navigation = it
+        } ?: Log.e(PaymentCardFragment::class.java.canonicalName, "PaymentCardContract.Navigation interface must be implemented in your Activity!!")
     }
 
     override fun onDetach() {

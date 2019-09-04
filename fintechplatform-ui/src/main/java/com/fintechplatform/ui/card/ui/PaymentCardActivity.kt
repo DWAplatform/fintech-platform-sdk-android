@@ -8,7 +8,7 @@ import com.fintechplatform.ui.models.DataAccount
 /**
  * UI for Credit card number, data, ccv
  */
-class PaymentCardActivity: AppCompatActivity(), PaymentCardContract.Navigator {
+class PaymentCardActivity: AppCompatActivity(), PaymentCardContract.Navigation {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

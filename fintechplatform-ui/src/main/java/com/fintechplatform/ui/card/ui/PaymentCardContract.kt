@@ -27,7 +27,7 @@ interface PaymentCardContract {
         fun refresh()
     }
 
-    interface Navigator {
+    interface Navigation {
         fun goBackwardFromPaymentCard()
     }
 }
