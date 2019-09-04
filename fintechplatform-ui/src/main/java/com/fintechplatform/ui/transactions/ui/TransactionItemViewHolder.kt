@@ -62,6 +62,13 @@ class TransactionItemViewHolder @Inject constructor(val view: View,
                 ContextCompat.getColor(itemView.context, R.color.moneyRed))
     }
 
+    override fun setTemporaryValue(amount: String) {
+        itemView.listitem_amount.text = amount
+        itemView.listitem_amount.setTextColor(
+                ContextCompat.getColor(itemView.context, R.color.moneyTemp)
+        )
+    }
+
     override fun setErrorAmount(amount: String) {
         itemView.listitem_amount.text = amount
         itemView.listitem_amount.setTextColor(

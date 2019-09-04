@@ -12,6 +12,7 @@ interface TransactionItemContract {
         fun setTextWhat(w: String)
         fun newItemVisible()
         fun newItemHide()
+        fun setTemporaryValue(amount: String)
         fun setPositiveAmount(amount: String)
         fun setNegativeAmount(amount: String)
         fun setErrorAmount(amount: String)

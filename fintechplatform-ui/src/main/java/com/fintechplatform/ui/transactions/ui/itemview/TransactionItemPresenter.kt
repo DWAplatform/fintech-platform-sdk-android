@@ -17,6 +17,9 @@ class TransactionItemPresenter @Inject constructor(val view: TransactionItemCont
         if (item.status != "SUCCEEDED" && item.status != "CREATED") {
             view.setErrorAmount(item.amount)
             view.showError()
+        } else if(item.status == "CREATED") {
+            view.hideError()
+            view.setTemporaryValue(item.amount)
         } else {
             view.hideError()
             //FIXME need amount value here, not its string format
