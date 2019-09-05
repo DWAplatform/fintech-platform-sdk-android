@@ -165,14 +165,13 @@ Sample usage PayIn UI Component in Kotlin
       
     val dataAccount = DataAccount(userId, accountId, accountType, tenantId, accessToken)
 
-    //
+    // Feel free now to use our default Fragments or Activities:
     
     val activity = FintechPlatform.buildPayInUI(hostName, dataAccount, true)
                                       .startActivity(this)
 
     val frag = FintechPlatform.buildPayInUI(hostName, dataAccount, true)
                                       .createFragment()
-
     supportFragmentManager
             .beginTransaction()
             .add(R.id.container, frag)
