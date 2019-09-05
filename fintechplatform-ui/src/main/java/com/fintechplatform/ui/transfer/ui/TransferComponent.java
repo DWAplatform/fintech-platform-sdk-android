@@ -19,7 +19,6 @@ import dagger.Component;
         TransferAPIModule.class,
         BalanceAPIModule.class,
         AlertHelpersModule.class,
-        //NetworkUsersPersistanceModule.class,
         BalanceHelperModule.class,
         MoneyHelperModule.class,
         FeeHelperModule.class,

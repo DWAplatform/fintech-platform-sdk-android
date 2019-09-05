@@ -8,13 +8,12 @@ class DBBalancePersistence constructor(val dbBalance: DBBalance): BalancePersist
 
     override fun getBalanceItem(accountId: String): BalanceItem? {
         val optobj = dbBalance.findBalance(accountId)
-
-        if (optobj == null || optobj.amount == null) {
-            return null
+        optobj?.amount?.let { amount ->
+            optobj.availableBalance?.let{ availableBalance ->
+                return BalanceItem(Money(amount, optobj.currency), Money(availableBalance, optobj.currency))
+            }
         }
-
-        return BalanceItem(Money(optobj.amount, optobj.currency), Money(optobj.availableBalance, optobj.currency))
-
+        return null
     }
 
     override fun saveBalance(balance: BalanceItem, accountId: String) {
