@@ -13,28 +13,31 @@ import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import com.fintechplatform.ui.R
 import com.fintechplatform.ui.alert.AlertHelpers
-import com.fintechplatform.ui.card.di.PaymentCardUIFactory
+import com.fintechplatform.ui.card.di.PaymentCardViewComponent
 import com.fintechplatform.ui.models.DataAccount
 import kotlinx.android.synthetic.main.fragment_paymentcard.*
 import kotlinx.android.synthetic.main.fragment_paymentcard.view.*
 import javax.inject.Inject
 
 
-class PaymentCardFragment: Fragment(), PaymentCardContract.View {
+open class PaymentCardFragment: Fragment(), PaymentCardContract.View {
     @Inject
     lateinit var alertHelpers: AlertHelpers
     @Inject
     lateinit var presenter: PaymentCardContract.Presenter
 
     var navigation: PaymentCardContract.Navigation?=null
-    
+
+    open fun createPaymentCardViewComponent(context: Context, v: PaymentCardContract.View, dataAccount: DataAccount, hostName: String, isSandbox: Boolean): PaymentCardViewComponent {
+        return PaymentCardUI.Builder.buildPaymentCardComponent(context, v, hostName, dataAccount, isSandbox)
+    }
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_paymentcard, container, false)
 
         arguments.getString("hostname")?.let { hostname ->
             arguments.getParcelable<DataAccount>("dataAccount")?.let { dataAccount ->
                 arguments.getBoolean("isSandbox")?.let { isSandbox ->
-                    (activity.application as PaymentCardUIFactory).createPaymentCardComponent(activity, this, dataAccount, hostname, isSandbox).inject(this)
+                    createPaymentCardViewComponent(context, this, dataAccount, hostname, isSandbox)
                 }
             }
         }

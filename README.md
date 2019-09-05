@@ -138,10 +138,10 @@ Sample usage PayIn UI Component in Kotlin
     import com.fintechplatform.android.FintechPlatform
     import com.fintechplatform.android.models.DataAccount
     
-    // Initialize Fintech Platform Application onCreate, and give it Context params.
-    // Every UI module needs to resolve his own dependence due to Dagger2 implementations using client application context:
+    // Initialize Fintech Platform at the Application or Activity onCreate, and give it Context params.
 
-    class SampleApp: Application(), CashInUIFactory {
+    class SampleApp: Application(), PayInUIFactory {
+
         override fun onCreate() {
             super.onCreate()
 
@@ -149,36 +149,32 @@ Sample usage PayIn UI Component in Kotlin
 
             FintechPlatform.initialize(this)
         }
-
-        override fun createPayInViewComponent(context: Context, v: CashInContract.View, dataAccount: DataAccount, hostName: String, isSandbox: Boolean): CashInViewComponent {
-            return CashInUI.Builder.buildPayInViewComponent(context, v, dataAccount, hostName, isSandbox)
-        }
-
-        override fun createPaymentCardComponent(context: Context, view: PaymentCardContract.View, dataAccount: DataAccount, hostName: String, isSandbox: Boolean): PaymentCardViewComponent {
-            return PaymentCardUI.Builder.buildPaymentCardComponent(context, view, hostName, dataAccount, isSandbox)
-        }
-
-        override fun create3DComponent(view: Secure3DContract.View): Secure3DViewComponent {
-            return Secure3DUI.Builder.build3DsecureComponent(view)
-        }
     }
 
-    // Components needs to have your own configuration as params (hostname, userid, accountid and token access to the platform)
+    // Components needs to have your own configuration as params (hostname, dataAccount and token access to the platform)
     // accessToken is the key that you received from server after authentication process.
+    // DataAccount object includes every ids and information in order to use the platform (userId, accountId, tenantId and accountType)
      
     val hostName = "FINTECH_PLATFORM_SANDBOX_URL"
     val userId = "asd34vfs-poc05098ncoij-aspdl"
     val accountId = "oijfvsoeij42309uvoije-oijbsf"
+    val accountType = "PERSONAL"
     val accessToken = "jmcjaspjdas023ucv9-2108-vjodawdBOIyhdfa0shPASo384-dcpaos-2edas"
     
     val isSandbox = true
       
-    val dataAccount = DataAccount(userId, accountId, accessToken)
+    val dataAccount = DataAccount(userId, accountId, accountType, tenantId, accessToken)
+
+    //
     
-    val payInUI = FintechPlatform.buildPayIn()
-                    .createPayInUIComponent(hostName, isSandbox, dataAccount)
-                    .payInUI
-                    
-    payInUI.start(context)
-    
+    val activity = FintechPlatform.buildPayInUI(hostName, dataAccount, true)
+                                      .startActivity(this)
+
+    val frag = FintechPlatform.buildPayInUI(hostName, dataAccount, true)
+                                      .createFragment()
+
+    supportFragmentManager
+            .beginTransaction()
+            .add(R.id.container, frag)
+            .commit()
 ```

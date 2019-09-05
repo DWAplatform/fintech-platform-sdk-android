@@ -17,11 +17,13 @@ import com.fintechplatform.ui.alert.AlertHelpers
 import com.fintechplatform.ui.models.DataAccount
 import com.fintechplatform.ui.money.MoneyValueInputFilter
 import com.fintechplatform.ui.payin.PayInContract
+import com.fintechplatform.ui.payin.PayInUI
+import com.fintechplatform.ui.payin.PayInViewComponent
 import kotlinx.android.synthetic.main.fragment_payin.*
 import kotlinx.android.synthetic.main.fragment_payin.view.*
 import javax.inject.Inject
 
-class PayInFragment: Fragment(), PayInContract.View {
+open class PayInFragment: Fragment(), PayInContract.View {
     @Inject
     lateinit var alertHelpers: AlertHelpers
     @Inject
@@ -29,15 +31,19 @@ class PayInFragment: Fragment(), PayInContract.View {
 
     var navigation: PayInContract.Navigation? = null
 
+    open fun createPayInViewComponent(context: Context, v: PayInContract.View, dataAccount: DataAccount, hostName: String, isSandbox: Boolean): PayInViewComponent {
+        return PayInUI.Builder.buildPayInViewComponent(context, v, dataAccount, hostName, isSandbox)
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_payin, container, false)
 
         arguments.getString("hostname")?.let { hostname ->
             arguments.getParcelable<DataAccount>("dataAccount")?.let { dataAccount ->
                 arguments.getBoolean("isSandbox").let { isSandbox ->
-                    (activity.application as? PayInUIFactory)?.let {
-                        it.createPayInViewComponent(context, this, dataAccount, hostname, isSandbox).inject(this)
-                    }?: Log.e(PayInFragment::class.java.canonicalName, "PayInFactory interface must be implemented in your Application")
+
+                    createPayInViewComponent(context, this, dataAccount, hostname, isSandbox).inject(this)
+
                 }
             }
         }

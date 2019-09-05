@@ -15,16 +15,20 @@ import kotlinx.android.synthetic.main.fragment_secure3_d.view.*
 import javax.inject.Inject
 
 
-class Secure3DFragment: Fragment(), Secure3DContract.View {
+open class Secure3DFragment: Fragment(), Secure3DContract.View {
     @Inject
     lateinit var presenter: Secure3DContract.Presenter
 
     var navigation: Secure3DContract.Navigation?=null
 
+    open fun create3DComponent(view: Secure3DContract.View): Secure3DViewComponent {
+        return Secure3DUI.Builder.build3DsecureComponent(view)
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_secure3_d, container, false)
 
-        (activity.application as Secure3DUIFactory).create3DComponent(this).inject(this)
+        create3DComponent(this).inject(this)
 
         view.webview.settings.javaScriptEnabled = true
 

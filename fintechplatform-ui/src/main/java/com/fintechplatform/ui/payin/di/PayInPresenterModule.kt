@@ -12,12 +12,12 @@ import dagger.Provides
 import javax.inject.Singleton
 
 @Module
-class PayInPresenterModule(private val view: PayInContract.View,
-                           private val configuration: DataAccount) {
+open class PayInPresenterModule(private val view: PayInContract.View,
+                                private val configuration: DataAccount) {
 
     @Provides
     @Singleton
-    internal fun providePayInPresenter(api: PayInAPI,
+    fun providePayInPresenter(api: PayInAPI,
                                         apiCard: PaymentCardAPI,
                                         moneyHelper: MoneyHelper,
                                         balanceHelper: BalanceHelper,
