@@ -15,7 +15,7 @@ class CashInUI(private val hostName: String,
                private val configuration: DataAccount,
                private val sandbox: Boolean) {
 
-    fun startActivity(context: Context, amount: Long?) {
+    fun startActivity(context: Context, amount: Long?=null) {
         val intent = Intent(context, CashInActivity::class.java)
         val args = Bundle()
         args.putString("hostname", hostName)
