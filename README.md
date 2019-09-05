@@ -132,48 +132,67 @@ Fintech Account (accountId) is credited with 20,00 € using a card (cardId) own
         }
     }
 ```
-Sample usage PayIn UI Component in Kotlin
+Sample usage PayIn UI in Kotlin
 -------------------------------------------------
 ```kotlin
     import com.fintechplatform.android.FintechPlatform
     import com.fintechplatform.android.models.DataAccount
-    
-    // Initialize Fintech Platform at the Application or Activity onCreate, and give it Context params.
 
-    class SampleApp: Application(), PayInUIFactory {
+    class MyActivity: AppCompatActivity(),
+                      PayInContract.Navigation {
 
-        override fun onCreate() {
-            super.onCreate()
+        override fun onCreate(savedInstanceState: Bundle?) {
+            super.onCreate(savedInstanceState)
 
-            ...
+        // Initialize Fintech Platform at the Application or Activity onCreate, and give it the Context param.
 
             FintechPlatform.initialize(this)
-        }
+
+        // Components needs to have your own configuration as params (hostname, dataAccount and token access to the platform)
+        // accessToken is the key that you received from server after authentication process.
+        // DataAccount object includes every ids and information in order to use the platform (userId, accountId, tenantId and accountType)
+
+            val hostName = "FINTECH_PLATFORM_SANDBOX_URL"
+            val tenantId = "87e4ff86-18b6-44cf-87af-af2411ab68c5"
+            val userId = "08ad02e8-89fb-44b8-ab65-87eea175adc2"
+            val accountId = "f0c84dbc-5d1d-4973-b212-1ac2cd34e5c3"
+            val accountType = "PERSONAL"
+            val accessToken = "jmcjaspjdas023ucv9-2108-vjodawdBOIyhdfa0shPASo384-dcpaos-2edas"
+
+            val isSandbox = true
+
+            val dataAccount = DataAccount(userId, accountId, accountType, tenantId, accessToken)
+
+        // Feel free now to use our default Fragments or Activities,
+        // TODO: remember to implements {Component}Contract.Navigation interfaces if you use Fragments.
+        // Navigation interfaces let you routing views for each situation
+
+            val frag = FintechPlatform.buildPayInUI(hostName, dataAccount, isSandbox)
+                                              .createFragment()
+            supportFragmentManager
+                    .beginTransaction()
+                    .add(R.id.container, frag)
+                    .commit()
     }
 
-    // Components needs to have your own configuration as params (hostname, dataAccount and token access to the platform)
-    // accessToken is the key that you received from server after authentication process.
-    // DataAccount object includes every ids and information in order to use the platform (userId, accountId, tenantId and accountType)
-     
-    val hostName = "FINTECH_PLATFORM_SANDBOX_URL"
-    val userId = "asd34vfs-poc05098ncoij-aspdl"
-    val accountId = "oijfvsoeij42309uvoije-oijbsf"
-    val accountType = "PERSONAL"
-    val accessToken = "jmcjaspjdas023ucv9-2108-vjodawdBOIyhdfa0shPASo384-dcpaos-2edas"
-    
-    val isSandbox = true
-      
-    val dataAccount = DataAccount(userId, accountId, accountType, tenantId, accessToken)
+    override fun goToPaymentCard() {
+        ....
+    }
 
-    // Feel free now to use our default Fragments or Activities:
-    
-    val activity = FintechPlatform.buildPayInUI(hostName, dataAccount, true)
-                                      .startActivity(this)
+    override fun goBackwardFromPaymentCard() {
+        ....
+    }
 
-    val frag = FintechPlatform.buildPayInUI(hostName, dataAccount, true)
-                                      .createFragment()
-    supportFragmentManager
-            .beginTransaction()
-            .add(R.id.container, frag)
-            .commit()
+    override fun goTo3dSecure(redirecturl: String) {
+        ....
+    }
+
+    override fun goBackwardFromPayIn() {
+        ....
+    }
+
+    override fun goBackwardFrom3dSecure() {
+        ....
+    }
+
 ```
