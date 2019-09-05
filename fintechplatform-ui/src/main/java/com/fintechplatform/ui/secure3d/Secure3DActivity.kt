@@ -1,4 +1,4 @@
-package com.fintechplatform.ui.secure3d.ui
+package com.fintechplatform.ui.secure3d
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity

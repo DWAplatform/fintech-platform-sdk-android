@@ -1,4 +1,4 @@
-package com.fintechplatform.ui.secure3d.ui
+package com.fintechplatform.ui.secure3d
 
 import android.content.Context
 import android.graphics.Bitmap
@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import com.fintechplatform.ui.R
+import com.fintechplatform.ui.secure3d.di.Secure3DViewComponent
 import kotlinx.android.synthetic.main.fragment_secure3_d.view.*
 import javax.inject.Inject
 

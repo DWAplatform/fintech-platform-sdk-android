@@ -13,7 +13,7 @@ import com.fintechplatform.ui.payout.PayOutBuilder
 import com.fintechplatform.ui.profile.ProfileBuilder
 import com.fintechplatform.ui.qrtransfer.QrTransferBuilder
 import com.fintechplatform.ui.sct.SctBuilder
-import com.fintechplatform.ui.secure3d.ui.Secure3DUI
+import com.fintechplatform.ui.secure3d.Secure3DUI
 import com.fintechplatform.ui.transactions.TransactionsBuilder
 import com.fintechplatform.ui.transfer.TransferBuilder
 import com.raizlabs.android.dbflow.config.FlowManager

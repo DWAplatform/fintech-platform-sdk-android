@@ -1,4 +1,4 @@
-package com.fintechplatform.ui.secure3d.ui
+package com.fintechplatform.ui.secure3d
 
 interface Secure3DContract {
 

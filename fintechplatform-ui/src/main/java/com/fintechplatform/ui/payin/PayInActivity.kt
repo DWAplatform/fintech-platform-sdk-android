@@ -8,8 +8,8 @@ import com.fintechplatform.ui.card.PaymentCardContract
 import com.fintechplatform.ui.card.PaymentCardFragment
 import com.fintechplatform.ui.models.DataAccount
 import com.fintechplatform.ui.payin.di.PayInFragment
-import com.fintechplatform.ui.secure3d.ui.Secure3DContract
-import com.fintechplatform.ui.secure3d.ui.Secure3DFragment
+import com.fintechplatform.ui.secure3d.Secure3DContract
+import com.fintechplatform.ui.secure3d.Secure3DFragment
 
 class PayInActivity : AppCompatActivity(), 
         PayInContract.Navigation,
