@@ -4,8 +4,8 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import com.fintechplatform.ui.FintechPlatform
 import com.fintechplatform.ui.R
-import com.fintechplatform.ui.card.ui.PaymentCardContract
-import com.fintechplatform.ui.card.ui.PaymentCardFragment
+import com.fintechplatform.ui.card.PaymentCardContract
+import com.fintechplatform.ui.card.PaymentCardFragment
 import com.fintechplatform.ui.cashin.di.CashInFragment
 import com.fintechplatform.ui.models.DataAccount
 import com.fintechplatform.ui.secure3d.ui.Secure3DContract

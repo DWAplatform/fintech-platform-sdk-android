@@ -3,7 +3,7 @@ package com.fintechplatform.ui
 import android.content.Context
 import com.fintechplatform.ui.account.balance.BalanceBuilder
 import com.fintechplatform.ui.account.financialdata.FinancialDataBuilder
-import com.fintechplatform.ui.card.ui.PaymentCardUI
+import com.fintechplatform.ui.card.PaymentCardUI
 import com.fintechplatform.ui.db.PlatformDB
 import com.fintechplatform.ui.enterprise.EnterpriseBuilder
 import com.fintechplatform.ui.iban.ui.IbanUI

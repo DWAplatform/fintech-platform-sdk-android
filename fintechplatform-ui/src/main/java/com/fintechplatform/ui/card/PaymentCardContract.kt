@@ -1,4 +1,4 @@
-package com.fintechplatform.ui.card.ui
+package com.fintechplatform.ui.card
 
 interface PaymentCardContract {
     interface View {

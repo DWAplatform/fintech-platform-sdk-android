@@ -1,4 +1,4 @@
-package com.fintechplatform.ui.card.ui
+package com.fintechplatform.ui.card
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity

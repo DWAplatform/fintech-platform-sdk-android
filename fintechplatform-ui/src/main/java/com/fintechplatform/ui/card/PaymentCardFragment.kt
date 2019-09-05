@@ -1,4 +1,4 @@
-package com.fintechplatform.ui.card.ui
+package com.fintechplatform.ui.card
 
 import android.content.Context
 import android.os.Bundle
@@ -13,6 +13,7 @@ import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import com.fintechplatform.ui.R
 import com.fintechplatform.ui.alert.AlertHelpers
+import com.fintechplatform.ui.card.di.PaymentCardUIFactory
 import com.fintechplatform.ui.models.DataAccount
 import kotlinx.android.synthetic.main.fragment_paymentcard.*
 import kotlinx.android.synthetic.main.fragment_paymentcard.view.*

@@ -11,7 +11,7 @@ public class IbanDB {
     public Iban findBankAccount(String accountId) {
         return SQLite.select()
                 .from(Iban.class)
-//                .where(Iban_Table.id.eq(accountId))
+                //.where(Iban_Table.id.eq(accountId))
                 .querySingle();
     }
 

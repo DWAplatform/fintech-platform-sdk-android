@@ -1,9 +1,9 @@
-package com.fintechplatform.ui.card.ui
+package com.fintechplatform.ui.card
 
 import com.fintechplatform.api.card.api.PaymentCardAPI
+import com.fintechplatform.api.net.NetHelper
 import com.fintechplatform.ui.card.db.PaymentCardPersistenceDB
 import com.fintechplatform.ui.models.DataAccount
-import com.fintechplatform.api.net.NetHelper
 import javax.inject.Inject
 
 class PaymentCardPresenter @Inject constructor(var view: PaymentCardContract.View,

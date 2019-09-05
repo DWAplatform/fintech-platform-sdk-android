@@ -8,7 +8,7 @@
         <activity
             android:name="com.fintechplatform.ui.cashin.CashInActivity"/>
         <activity android:name="com.fintechplatform.ui.secure3d.ui.Secure3DActivity" />
-        <activity android:name="com.fintechplatform.ui.card.ui.PaymentCardActivity" />
+        <activity android:name="com.fintechplatform.ui.card.PaymentCardActivity" />
         <activity android:name="com.fintechplatform.ui.payout.ui.PayOutActivity" />
         <activity android:name="com.fintechplatform.ui.iban.ui.IBANActivity" />
         <activity android:name="com.fintechplatform.ui.account.financialdata.payinpayout.FinancialDataActivity" />

@@ -1,7 +1,7 @@
 package com.fintechplatform.ui.cashin.di
 
 import android.content.Context
-import com.fintechplatform.ui.card.ui.PaymentCardUIFactory
+import com.fintechplatform.ui.card.di.PaymentCardUIFactory
 import com.fintechplatform.ui.cashin.CashInContract
 import com.fintechplatform.ui.cashin.CashInViewComponent
 import com.fintechplatform.ui.models.DataAccount
