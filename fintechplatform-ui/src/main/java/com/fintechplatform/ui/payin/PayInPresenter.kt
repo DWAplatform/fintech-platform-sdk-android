@@ -207,9 +207,6 @@ class PayInPresenter @Inject constructor(val configuration: DataAccount,
                 return@getPaymentCards
             }
             val cards = optcards
-//            cards.forEach { c ->
-//                paymentCardpersistanceDB.replace(c)
-//            }
             // todo use default payment card
             if(cards.isNotEmpty()) {
                 paymentCardpersistanceDB.replace(cards[0])

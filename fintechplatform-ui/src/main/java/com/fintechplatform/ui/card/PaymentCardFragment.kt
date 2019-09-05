@@ -37,7 +37,7 @@ open class PaymentCardFragment: Fragment(), PaymentCardContract.View {
         arguments.getString("hostname")?.let { hostname ->
             arguments.getParcelable<DataAccount>("dataAccount")?.let { dataAccount ->
                 arguments.getBoolean("isSandbox")?.let { isSandbox ->
-                    createPaymentCardViewComponent(context, this, dataAccount, hostname, isSandbox)
+                    createPaymentCardViewComponent(context, this, dataAccount, hostname, isSandbox).inject(this)
                 }
             }
         }

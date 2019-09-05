@@ -113,19 +113,21 @@ dependencies {
 }
 def dbflow_version = "4.1.2"
 dependencies {
+
+    annotationProcessor "com.github.Raizlabs.DBFlow:dbflow-processor:${dbflow_version}"
+
+    // use kapt for kotlin apt if you're a Kotlin user
     kapt "com.github.Raizlabs.DBFlow:dbflow-processor:${dbflow_version}"
-    // use kapt for kotlin apt
 
     implementation "com.github.Raizlabs.DBFlow:dbflow-core:${dbflow_version}"
     implementation "com.github.Raizlabs.DBFlow:dbflow:${dbflow_version}"
 
-    // sql-cipher database encyrption (optional)
-    implementation "com.github.Raizlabs.DBFlow:dbflow-sqlcipher:${dbflow_version}@aar"
-    implementation "net.zetetic:android-database-sqlcipher:3.5.1"
+    // sql-cipher database encryption (optional)
+    implementation "com.github.Raizlabs.DBFlow:dbflow-sqlcipher:${dbflow_version}"
+    implementation "net.zetetic:android-database-sqlcipher:4.2.0@aar"
 
     // kotlin extensions
     implementation "com.github.Raizlabs.DBFlow:dbflow-kotlinextensions:${dbflow_version}@aar"
-    implementation "me.tatarka:gradle-retrolambda:3.4.0"
 }
 
 repositories {
