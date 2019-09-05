@@ -1,6 +1,6 @@
-package com.fintechplatform.ui.cashin
+package com.fintechplatform.ui.payin
 
-interface CashInContract {
+interface PayInContract {
 
     interface View {
         fun setForwardTextConfirm()
@@ -55,6 +55,6 @@ interface CashInContract {
     interface Navigation {
         fun goToPaymentCard()
         fun goTo3dSecure(redirecturl: String)
-        fun goBackwardFromCashIn()
+        fun goBackwardFromPayIn()
     }
 }

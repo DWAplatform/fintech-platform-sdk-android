@@ -86,7 +86,7 @@ class TransactionItemViewHolder @Inject constructor(val view: View,
         itemView.listitem_error.visibility = View.GONE
     }
 
-    override fun setIconCashIn() {
+    override fun setIconPayIn() {
         itemView.listitem_icon_image.setImageResource(R.drawable.cashin)
     }
 

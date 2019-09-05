@@ -1,4 +1,4 @@
-package com.fintechplatform.ui.cashin
+package com.fintechplatform.ui.payin
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
@@ -6,13 +6,13 @@ import com.fintechplatform.ui.FintechPlatform
 import com.fintechplatform.ui.R
 import com.fintechplatform.ui.card.PaymentCardContract
 import com.fintechplatform.ui.card.PaymentCardFragment
-import com.fintechplatform.ui.cashin.di.CashInFragment
 import com.fintechplatform.ui.models.DataAccount
+import com.fintechplatform.ui.payin.di.PayInFragment
 import com.fintechplatform.ui.secure3d.ui.Secure3DContract
 import com.fintechplatform.ui.secure3d.ui.Secure3DFragment
 
-class CashInActivity : AppCompatActivity(), 
-        CashInContract.Navigation,
+class PayInActivity : AppCompatActivity(), 
+        PayInContract.Navigation,
         PaymentCardContract.Navigation,
         Secure3DContract.Navigation {
 
@@ -23,7 +23,7 @@ class CashInActivity : AppCompatActivity(),
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        var frag : CashInFragment ?= null
+        var frag : PayInFragment ?= null
 
         val initialAmount =
                 if (intent.hasExtra("initialAmount"))
@@ -31,17 +31,17 @@ class CashInActivity : AppCompatActivity(),
                 else null
 
         savedInstanceState?.let{ extras ->
-            frag = supportFragmentManager.findFragmentByTag(CashInFragment.toString()) as CashInFragment
+            frag = supportFragmentManager.findFragmentByTag(PayInFragment.toString()) as PayInFragment
         }
 
         getExtras()?.let {intent ->
             frag?.let {
                 supportFragmentManager.beginTransaction()
-                        .replace(R.id.contentContainer, it, CashInFragment.toString())
+                        .replace(R.id.contentContainer, it, PayInFragment.toString())
                         .commit()
             }?:
             supportFragmentManager.beginTransaction()
-                    .replace(R.id.contentContainer, CashInFragment.newInstance(intent.hostName, intent.dataAccount, intent.isSandbox, initialAmount), CashInFragment.toString())
+                    .replace(R.id.contentContainer, PayInFragment.newInstance(intent.hostName, intent.dataAccount, intent.isSandbox, initialAmount), PayInFragment.toString())
                     .commit()
         }
 
@@ -82,7 +82,7 @@ class CashInActivity : AppCompatActivity(),
                 .commit()
     }
 
-    override fun goBackwardFromCashIn() {
+    override fun goBackwardFromPayIn() {
         finish()
     }
 

@@ -18,7 +18,7 @@ interface TransactionItemContract {
         fun setErrorAmount(amount: String)
         fun showError()
         fun hideError()
-        fun setIconCashIn()
+        fun setIconPayIn()
         fun setIconCashOut()
         fun setIconP2P()
     }

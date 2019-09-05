@@ -33,7 +33,7 @@ class TransactionItemPresenter @Inject constructor(val view: TransactionItemCont
         if (item.newitem) view.newItemVisible() else view.newItemHide()
 
         if (item.what.contains("Ricarica")) {
-            view.setIconCashIn()
+            view.setIconPayIn()
         }
 
         if (item.what.contains("Prelievo")) {

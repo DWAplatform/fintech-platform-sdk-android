@@ -8,6 +8,7 @@ import com.fintechplatform.ui.db.PlatformDB
 import com.fintechplatform.ui.enterprise.EnterpriseBuilder
 import com.fintechplatform.ui.iban.ui.IbanUI
 import com.fintechplatform.ui.models.DataAccount
+import com.fintechplatform.ui.payin.PayInUI
 import com.fintechplatform.ui.payout.PayOutBuilder
 import com.fintechplatform.ui.profile.ProfileBuilder
 import com.fintechplatform.ui.qrtransfer.QrTransferBuilder
@@ -28,7 +29,7 @@ class FintechPlatform {
             FlowManager.init(context)
             PlatformDB.init()
         }
-//
+
 //        fun deleteEverything() {
 //            PlatformDB.deleteEverything()
 //        }
@@ -38,8 +39,8 @@ class FintechPlatform {
          * Factory method to get ClientU)Iobject
          */
 
-        fun buildCashInUI(hostName: String, dataAccount: DataAccount, isSandbox: Boolean) : com.fintechplatform.ui.cashin.CashInUI {
-            return com.fintechplatform.ui.cashin.CashInUI(hostName, dataAccount, isSandbox)
+        fun buildPayInUI(hostName: String, dataAccount: DataAccount, isSandbox: Boolean) : com.fintechplatform.ui.payin.PayInUI {
+            return PayInUI(hostName, dataAccount, isSandbox)
         }
 
         fun buildBalance(): BalanceBuilder {

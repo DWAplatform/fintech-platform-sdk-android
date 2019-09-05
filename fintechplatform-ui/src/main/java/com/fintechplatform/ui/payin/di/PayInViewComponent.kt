@@ -1,25 +1,25 @@
-package com.fintechplatform.ui.cashin
+package com.fintechplatform.ui.payin
 
 import com.fintechplatform.api.account.balance.api.BalanceAPIModule
 import com.fintechplatform.api.card.api.PaymentCardAPIModule
-import com.fintechplatform.api.cashin.api.CashInAPIModule
 import com.fintechplatform.api.log.LogModule
 import com.fintechplatform.api.net.NetModule
+import com.fintechplatform.api.payin.api.PayInAPIModule
 import com.fintechplatform.ui.account.balance.helpers.BalanceHelperModule
 import com.fintechplatform.ui.alert.AlertHelpersModule
 import com.fintechplatform.ui.card.db.PaymentCardPersistanceModule
-import com.fintechplatform.ui.cashin.di.CashInFragment
 import com.fintechplatform.ui.money.FeeHelperModule
 import com.fintechplatform.ui.money.MoneyHelperModule
+import com.fintechplatform.ui.payin.di.PayInFragment
 import dagger.Component
 import javax.inject.Singleton
 
 @Singleton
 @Component(modules = [
-    CashInPresenterModule::class,
+    PayInPresenterModule::class,
     AlertHelpersModule::class,
     LogModule::class,
-    CashInAPIModule::class,
+    PayInAPIModule::class,
     MoneyHelperModule::class,
     BalanceAPIModule::class,
     BalanceHelperModule::class,
@@ -28,6 +28,6 @@ import javax.inject.Singleton
     FeeHelperModule::class,
     NetModule::class
 ])
-interface CashInViewComponent {
-    fun inject(fragment: CashInFragment)
+interface PayInViewComponent {
+    fun inject(fragment: PayInFragment)
 }

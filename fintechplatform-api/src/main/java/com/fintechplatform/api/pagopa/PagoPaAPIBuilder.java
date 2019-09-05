@@ -11,7 +11,7 @@ import com.fintechplatform.api.pagopa.api.PagoPaAPIModule;
  */
 
 public class PagoPaAPIBuilder {
-    public PagoPaAPIComponent createCashInAPIComponent(String hostName, Context context) {
+    public PagoPaAPIComponent createPayInAPIComponent(String hostName, Context context) {
         return DaggerPagoPaAPIComponent.builder()
                 .pagoPaAPIModule(new PagoPaAPIModule(hostName))
                 .netModule(new NetModule(Volley.newRequestQueue(context), hostName))

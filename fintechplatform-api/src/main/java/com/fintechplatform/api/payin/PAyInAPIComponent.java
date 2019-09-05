@@ -1,9 +1,9 @@
-package com.fintechplatform.api.cashin;
+package com.fintechplatform.api.payin;
 
-import com.fintechplatform.api.cashin.api.CashInAPI;
-import com.fintechplatform.api.cashin.api.CashInAPIModule;
 import com.fintechplatform.api.log.LogModule;
 import com.fintechplatform.api.net.NetModule;
+import com.fintechplatform.api.payin.api.PayInAPI;
+import com.fintechplatform.api.payin.api.PayInAPIModule;
 
 import javax.inject.Singleton;
 
@@ -16,9 +16,9 @@ import dagger.Component;
 @Singleton
 @Component(modules= {
         NetModule.class,
-        CashInAPIModule.class,
+        PayInAPIModule.class,
         LogModule.class
 })
-public interface CashInAPIComponent {
-    CashInAPI getPayInAPI();
+public interface PAyInAPIComponent {
+    PayInAPI getPayInAPI();
 }

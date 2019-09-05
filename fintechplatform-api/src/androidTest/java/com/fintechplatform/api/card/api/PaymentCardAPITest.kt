@@ -4,10 +4,10 @@ import android.support.test.InstrumentationRegistry
 import android.support.test.runner.AndroidJUnit4
 import com.fintechplatform.api.FintechPlatformAPI
 import com.fintechplatform.api.card.models.PaymentCardItem
-import com.fintechplatform.api.cashin.models.CashInReply
 import com.fintechplatform.api.money.Money
 import com.fintechplatform.api.net.ErrorCode
 import com.fintechplatform.api.net.NetHelper
+import com.fintechplatform.api.payin.models.PayInReply
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
@@ -45,7 +45,7 @@ class PaymentCardAPITest {
     fun testInactiveCards() {
         val context = InstrumentationRegistry.getTargetContext()
         val paymentCardAPI = FintechPlatformAPI.getPaymentCard(hostName, context, true)
-        val cashInAPI = FintechPlatformAPI.getPayIn(hostName, context)
+        val payInAPI = FintechPlatformAPI.getPayIn(hostName, context)
 
         // get initial payment card for account user
         // getPaymentCard NOT_ACTIVE, expect two Cards
@@ -65,23 +65,23 @@ class PaymentCardAPITest {
         Assert.assertNull(cardsListOptError)
         Assert.assertNotNull(card)
 
-        // cashIn with invalid card
-        var cashIn1 : CashInReply? = null
-        var cashInError1 : Exception? = null
-        val expectationCashIn1 = CountDownLatch(1)
+        // payIn with invalid card
+        var payIn1 : PayInReply? = null
+        var payInError1 : Exception? = null
+        val expectationPayIn1 = CountDownLatch(1)
         val idempotency10eur = UUID.randomUUID().toString()
 
-        cashInAPI.cashIn(accessToken, userId, accountId, "PERSONAL", tenantId, card?.id!!, Money(33300000L, "EUR"), idempotency10eur) { optCashIn, optError ->
-            cashIn1 = optCashIn
-            cashInError1 = optError
-            expectationCashIn1.countDown()
+        payInAPI.payIn(accessToken, userId, accountId, "PERSONAL", tenantId, card?.id!!, Money(33300000L, "EUR"), idempotency10eur) { optPayIn, optError ->
+            payIn1 = optPayIn
+            payInError1 = optError
+            expectationPayIn1.countDown()
         }
 
-        expectationCashIn1.await(600, TimeUnit.SECONDS)
-        Assert.assertNotNull(cashInError1)
-        Assert.assertNull(cashIn1)
-        Assert.assertTrue(cashInError1 is NetHelper.APIResponseError)
-        (cashInError1 as NetHelper.APIResponseError?)?.let {
+        expectationPayIn1.await(600, TimeUnit.SECONDS)
+        Assert.assertNotNull(payInError1)
+        Assert.assertNull(payIn1)
+        Assert.assertTrue(payInError1 is NetHelper.APIResponseError)
+        (payInError1 as NetHelper.APIResponseError?)?.let {
             Assert.assertEquals(it.errors?.get(0)?.code, ErrorCode.asp_transaction_amount_is_higher_than_maximum_permitted_amount)
         }
 

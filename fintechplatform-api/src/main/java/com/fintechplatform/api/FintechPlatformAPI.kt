@@ -5,16 +5,16 @@ import com.fintechplatform.api.account.balance.BalanceAPIBuilder
 import com.fintechplatform.api.account.balance.api.BalanceAPI
 import com.fintechplatform.api.card.PaymentCardAPIBuilder
 import com.fintechplatform.api.card.api.PaymentCardAPI
-import com.fintechplatform.api.cashin.CashInAPIBuilder
-import com.fintechplatform.api.cashin.api.CashInAPI
+import com.fintechplatform.api.cashout.CashOutAPIBuilder
+import com.fintechplatform.api.cashout.api.CashOutAPI
 import com.fintechplatform.api.enterprise.EnterpriseAPIBuilder
 import com.fintechplatform.api.enterprise.api.EnterpriseAPI
 import com.fintechplatform.api.iban.IBANAPIBuilder
 import com.fintechplatform.api.iban.api.IbanAPI
-import com.fintechplatform.api.cashout.CashOutAPIBuilder
-import com.fintechplatform.api.cashout.api.CashOutAPI
 import com.fintechplatform.api.pagopa.PagoPaAPIBuilder
 import com.fintechplatform.api.pagopa.api.PagoPaAPI
+import com.fintechplatform.api.payin.PayInAPIBuilder
+import com.fintechplatform.api.payin.api.PayInAPI
 import com.fintechplatform.api.profile.ProfileAPIBuilder
 import com.fintechplatform.api.profile.api.ProfileAPI
 import com.fintechplatform.api.sct.SctAPIBuilder
@@ -45,8 +45,8 @@ class FintechPlatformAPI {
             return IBANAPIBuilder().createIbanAPIComponent(context, hostName).ibanAPI
         }
 
-        fun getPayIn(hostName: String, context: Context) : CashInAPI {
-            return CashInAPIBuilder().createCashInAPIComponent(hostName, context).payInAPI
+        fun getPayIn(hostName: String, context: Context) : PayInAPI {
+            return PayInAPIBuilder().createPayInAPIComponent(hostName, context).payInAPI
         }
 
         fun getTransactions(hostName: String, context: Context): TransactionsAPI {
@@ -70,7 +70,7 @@ class FintechPlatformAPI {
         }
 
         fun getPagoPA(hostName: String, context: Context) : PagoPaAPI {
-            return PagoPaAPIBuilder().createCashInAPIComponent(hostName, context).pagoPaAPI
+            return PagoPaAPIBuilder().createPayInAPIComponent(hostName, context).pagoPaAPI
         }
 
     }

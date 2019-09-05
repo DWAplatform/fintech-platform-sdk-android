@@ -4,11 +4,11 @@ import android.support.test.InstrumentationRegistry
 import android.support.test.runner.AndroidJUnit4
 import com.fintechplatform.api.FintechPlatformAPI
 import com.fintechplatform.api.card.models.PaymentCardItem
-import com.fintechplatform.api.cashin.models.CashInReply
-import com.fintechplatform.api.cashin.models.CashInStatus
 import com.fintechplatform.api.money.Money
 import com.fintechplatform.api.net.ErrorCode
 import com.fintechplatform.api.net.NetHelper
+import com.fintechplatform.api.payin.models.PayInReply
+import com.fintechplatform.api.payin.models.PayInStatus
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
@@ -21,7 +21,7 @@ import java.util.concurrent.TimeUnit
  * Created by ingrid on 08/05/18.
  */
 @RunWith(AndroidJUnit4::class)
-class CashInApiIntegrationTest {
+class PayInApiIntegrationTest {
     lateinit var hostName: String
     lateinit var accessToken: String
     lateinit var tenantId: String
@@ -45,7 +45,7 @@ class CashInApiIntegrationTest {
     }
 
     @Test
-    fun cashIn() {
+    fun payIn() {
         val context = InstrumentationRegistry.getTargetContext()
 
         // creo carta prima del cashin.
@@ -64,80 +64,80 @@ class CashInApiIntegrationTest {
         Assert.assertNull(paymentCardError)
         Assert.assertNotNull(paymentCard)
 
-        val cashInAPI = FintechPlatformAPI.getPayIn(hostName, context)
+        val payInAPI = FintechPlatformAPI.getPayIn(hostName, context)
 
 
         // calcolo le Fee
-        var cashInFee : Money? = null
-        var cashInErrorFee : Exception? = null
-        val expectationCashInFee = CountDownLatch(1)
+        var payInFee : Money? = null
+        var payInErrorFee : Exception? = null
+        val expectationPayInFee = CountDownLatch(1)
 
-        cashInAPI.cashInFee(accessToken, tenantId, accountId, userId, "PERSONAL", paymentCard!!.id!!, Money(1000L, "EUR")) { optCashInFee, optError ->
-            cashInFee = optCashInFee
-            cashInErrorFee = optError
-            expectationCashInFee.countDown()
+        payInAPI.payInFee(accessToken, tenantId, accountId, userId, "PERSONAL", paymentCard!!.id!!, Money(1000L, "EUR")) { optPayInFee, optError ->
+            payInFee = optPayInFee
+            payInErrorFee = optError
+            expectationPayInFee.countDown()
         }
 
-        expectationCashInFee.await(600, TimeUnit.SECONDS)
-        Assert.assertNotNull(cashInFee)
-        Assert.assertNull(cashInErrorFee)
-        Assert.assertEquals(0L, cashInFee?.value)
+        expectationPayInFee.await(600, TimeUnit.SECONDS)
+        Assert.assertNotNull(payInFee)
+        Assert.assertNull(payInErrorFee)
+        Assert.assertEquals(0L, payInFee?.value)
 
-        // calcolo cashIn no needs 3D Secure
-        var cashIn1 : CashInReply? = null
-        var cashInError1 : Exception? = null
-        val expectationCashIn1 = CountDownLatch(1)
+        // calcolo payIn no needs 3D Secure
+        var payIn1 : PayInReply? = null
+        var payInError1 : Exception? = null
+        val expectationPayIn1 = CountDownLatch(1)
         val idempotency10eur = UUID.randomUUID().toString()
 
-        cashInAPI.cashIn(accessToken, userId, accountId, "PERSONAL", tenantId, paymentCard!!.id!!, Money(1000L, "EUR"), idempotency10eur) { optCashIn, optError ->
-            cashIn1 = optCashIn
-            cashInError1 = optError
-            expectationCashIn1.countDown()
+        payInAPI.payIn(accessToken, userId, accountId, "PERSONAL", tenantId, paymentCard!!.id!!, Money(1000L, "EUR"), idempotency10eur) { optPayIn, optError ->
+            payIn1 = optPayIn
+            payInError1 = optError
+            expectationPayIn1.countDown()
         }
 
-        expectationCashIn1.await(600, TimeUnit.SECONDS)
-        Assert.assertNull(cashInError1)
-        Assert.assertNotNull(cashIn1)
-        Assert.assertFalse(cashIn1?.securecodeneeded!!)
-        Assert.assertEquals(CashInStatus.SUCCEEDED, cashIn1?.status)
+        expectationPayIn1.await(600, TimeUnit.SECONDS)
+        Assert.assertNull(payInError1)
+        Assert.assertNotNull(payIn1)
+        Assert.assertFalse(payIn1?.securecodeneeded!!)
+        Assert.assertEquals(PayInStatus.SUCCEEDED, payIn1?.status)
 
 
-        // calcolo cashIn needs 3D Secure
-        var cashIn2 : CashInReply? = null
-        var cashInError2 : Exception? = null
-        val expectationCashIn2 = CountDownLatch(1)
+        // calcolo payIn needs 3D Secure
+        var payIn2 : PayInReply? = null
+        var payInError2 : Exception? = null
+        val expectationPayIn2 = CountDownLatch(1)
         val idempotency100eur = UUID.randomUUID().toString()
 
-        cashInAPI.cashIn(accessToken, userId, accountId, "PERSONAL", tenantId, paymentCard!!.id!!, Money(10000L, "EUR"), idempotency100eur) { optCashIn, optError ->
-            cashIn2 = optCashIn
-            cashInError2 = optError
-            expectationCashIn2.countDown()
+        payInAPI.payIn(accessToken, userId, accountId, "PERSONAL", tenantId, paymentCard!!.id!!, Money(10000L, "EUR"), idempotency100eur) { optPayIn, optError ->
+            payIn2 = optPayIn
+            payInError2 = optError
+            expectationPayIn2.countDown()
         }
 
-        expectationCashIn2.await(600, TimeUnit.SECONDS)
-        Assert.assertNull(cashInError2)
-        Assert.assertNotNull(cashIn2)
-        Assert.assertTrue(cashIn2?.securecodeneeded!!)
-        Assert.assertEquals(CashInStatus.CREATED, cashIn2?.status)
+        expectationPayIn2.await(600, TimeUnit.SECONDS)
+        Assert.assertNull(payInError2)
+        Assert.assertNotNull(payIn2)
+        Assert.assertTrue(payIn2?.securecodeneeded!!)
+        Assert.assertEquals(PayInStatus.CREATED, payIn2?.status)
 
-        // calcolo cashIn Failed
-        var cashInFailed : CashInReply? = null
-        var cashInErrorFailed : Exception? = null
-        val expectationCashInFailed = CountDownLatch(1)
+        // calcolo payIn Failed
+        var payInFailed : PayInReply? = null
+        var payInErrorFailed : Exception? = null
+        val expectationPayInFailed = CountDownLatch(1)
         val idempotencyFailed = UUID.randomUUID().toString()
 
-        cashInAPI.cashIn(accessToken, userId, accountId, "PERSONAL", tenantId, paymentCard!!.id!!, Money(-10L, "EUR"), idempotencyFailed) { optCashIn, optError ->
-            cashInFailed = optCashIn
-            cashInErrorFailed = optError
-            expectationCashInFailed.countDown()
+        payInAPI.payIn(accessToken, userId, accountId, "PERSONAL", tenantId, paymentCard!!.id!!, Money(-10L, "EUR"), idempotencyFailed) { optPayIn, optError ->
+            payInFailed = optPayIn
+            payInErrorFailed = optError
+            expectationPayInFailed.countDown()
         }
 
-        expectationCashInFailed.await(600, TimeUnit.SECONDS)
+        expectationPayInFailed.await(600, TimeUnit.SECONDS)
 
-        Assert.assertNull(cashInFailed)
-        Assert.assertNotNull(cashInErrorFailed)
-        Assert.assertTrue(cashInErrorFailed is NetHelper.APIResponseError)
-        (cashInErrorFailed as NetHelper.APIResponseError?)?.let {
+        Assert.assertNull(payInFailed)
+        Assert.assertNotNull(payInErrorFailed)
+        Assert.assertTrue(payInErrorFailed is NetHelper.APIResponseError)
+        (payInErrorFailed as NetHelper.APIResponseError?)?.let {
             Assert.assertEquals(it.errors?.get(0)?.code, ErrorCode.asp_generic_error)
             it.message?.let {
                 print(it)
@@ -145,24 +145,24 @@ class CashInApiIntegrationTest {
         }
 
 
-        // calcolo cashIn Exception
-        var cashInExc : CashInReply? = null
-        var cashInErrorExc : Exception? = null
-        val expectationCashInExc = CountDownLatch(1)
+        // calcolo payIn Exception
+        var payInExc : PayInReply? = null
+        var payInErrorExc : Exception? = null
+        val expectationPayInExc = CountDownLatch(1)
         val idempotencyExc = UUID.randomUUID().toString()
 
-        cashInAPI.cashIn(accessToken, userId, UUID.randomUUID().toString(), "PERSONAL", tenantId, paymentCard!!.id!!, Money(100L, "EUR"), idempotencyExc) { optCashIn, optError ->
-            cashInExc = optCashIn
-            cashInErrorExc = optError
-            expectationCashInExc.countDown()
+        payInAPI.payIn(accessToken, userId, UUID.randomUUID().toString(), "PERSONAL", tenantId, paymentCard!!.id!!, Money(100L, "EUR"), idempotencyExc) { optPayIn, optError ->
+            payInExc = optPayIn
+            payInErrorExc = optError
+            expectationPayInExc.countDown()
         }
 
-        expectationCashInExc.await(600, TimeUnit.SECONDS)
+        expectationPayInExc.await(600, TimeUnit.SECONDS)
 
-        Assert.assertNull(cashInExc)
-        Assert.assertNotNull(cashInErrorExc)
-        Assert.assertTrue(cashInErrorExc is NetHelper.APIResponseError)
-        (cashInErrorExc as NetHelper.APIResponseError?)?.let {
+        Assert.assertNull(payInExc)
+        Assert.assertNotNull(payInErrorExc)
+        Assert.assertTrue(payInErrorExc is NetHelper.APIResponseError)
+        (payInErrorExc as NetHelper.APIResponseError?)?.let {
             Assert.assertEquals(it.errors?.get(0)?.code, ErrorCode.authentication_error)
         }
     }

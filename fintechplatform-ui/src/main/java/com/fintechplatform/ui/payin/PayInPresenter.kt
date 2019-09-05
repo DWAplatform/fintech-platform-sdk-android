@@ -1,11 +1,11 @@
-package com.fintechplatform.ui.cashin
+package com.fintechplatform.ui.payin
 
 import android.util.Log
 import com.fintechplatform.api.account.balance.models.BalanceItem
 import com.fintechplatform.api.card.api.PaymentCardAPI
-import com.fintechplatform.api.cashin.api.CashInAPI
 import com.fintechplatform.api.money.Money
 import com.fintechplatform.api.net.NetHelper
+import com.fintechplatform.api.payin.api.PayInAPI
 import com.fintechplatform.ui.account.balance.helpers.BalanceHelper
 import com.fintechplatform.ui.card.db.PaymentCardPersistenceDB
 import com.fintechplatform.ui.models.DataAccount
@@ -14,16 +14,16 @@ import com.fintechplatform.ui.money.MoneyHelper
 import java.util.*
 import javax.inject.Inject
 
-class CashInPresenter @Inject constructor(val configuration: DataAccount,
-                                          val view: CashInContract.View,
-                                          val api: CashInAPI,
-                                          val apiCardRest: PaymentCardAPI,
-                                          val moneyHelper: MoneyHelper,
-                                          val balanceHelper: BalanceHelper,
-                                          val feeHelper: FeeHelper,
-                                          val paymentCardpersistanceDB: PaymentCardPersistenceDB
+class PayInPresenter @Inject constructor(val configuration: DataAccount,
+                                         val view: PayInContract.View,
+                                         val api: PayInAPI,
+                                         val apiCardRest: PaymentCardAPI,
+                                         val moneyHelper: MoneyHelper,
+                                         val balanceHelper: BalanceHelper,
+                                         val feeHelper: FeeHelper,
+                                         val paymentCardpersistanceDB: PaymentCardPersistenceDB
 )
-    : CashInContract.Presenter {
+    : PayInContract.Presenter {
 
     var idempotencyPayin: String? = null
 
@@ -72,7 +72,7 @@ class CashInPresenter @Inject constructor(val configuration: DataAccount,
 
         val money = Money.valueOf(view.getAmount())
 
-        api.cashIn(configuration.accessToken,
+        api.payIn(configuration.accessToken,
                 configuration.ownerId,
                 configuration.accountId,
                 configuration.accountType,
@@ -86,12 +86,12 @@ class CashInPresenter @Inject constructor(val configuration: DataAccount,
 
             if (opterror != null) {
                 handleErrors(opterror)
-                return@cashIn
+                return@payIn
             }
 
             if (optpayinreply == null) {
                 view.showCommunicationInternalError()
-                return@cashIn
+                return@payIn
             }
             val payinreply = optpayinreply
             if (payinreply.securecodeneeded) {
@@ -189,7 +189,7 @@ class CashInPresenter @Inject constructor(val configuration: DataAccount,
         } else {
 //            val fee = feeHelper.calcPayInFee(amountmoney.value)
 //            moneyFee = Money(fee)
-            calcCashInFee(amountmoney)
+            calcPayInFee(amountmoney)
 
         }
 
@@ -218,9 +218,9 @@ class CashInPresenter @Inject constructor(val configuration: DataAccount,
         }
     }
 
-    fun calcCashInFee(amount: Money) {
+    fun calcPayInFee(amount: Money) {
         val paycard = paymentCardpersistanceDB.paymentCardId(configuration.accountId) ?: return
-        api.cashInFee(configuration.accessToken,
+        api.payInFee(configuration.accessToken,
                 configuration.tenantId,
                 configuration.accountId,
                 configuration.ownerId,
@@ -229,10 +229,10 @@ class CashInPresenter @Inject constructor(val configuration: DataAccount,
                 amount) { optfee, optexception ->
             if (optexception != null) {
                 handleErrors(optexception)
-                return@cashInFee
+                return@payInFee
             }
             if (optfee == null) {
-                return@cashInFee
+                return@payInFee
             }
 
             view.setFeeAmount(moneyHelper.toString(optfee))

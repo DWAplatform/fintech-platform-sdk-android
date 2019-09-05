@@ -18,8 +18,6 @@ public class QrTransferBuilder {
     public QrConfirmUIComponent createPaymentConfirmUI(String hostName, DataAccount dataAccount, boolean isSandbox) {
         return DaggerQrConfirmUIComponent.builder()
                 .qrConfirmUIModule(new QrConfirmUIModule(dataAccount, hostName, isSandbox))
-                //.paymentCardUIModule(new PaymentCardUIModule(hostName, isSandbox, dataAccount))
-                //.cashInUIModule(new CashInUIModule(hostName, dataAccount, isSandbox))
                 .build();
     }
 }

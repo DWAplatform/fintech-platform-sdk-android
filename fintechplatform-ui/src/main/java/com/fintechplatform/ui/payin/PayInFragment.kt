@@ -1,4 +1,4 @@
-package com.fintechplatform.ui.cashin.di
+package com.fintechplatform.ui.payin.di
 
 import android.content.Context
 import android.os.Bundle
@@ -14,30 +14,30 @@ import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import com.fintechplatform.ui.R
 import com.fintechplatform.ui.alert.AlertHelpers
-import com.fintechplatform.ui.cashin.CashInContract
 import com.fintechplatform.ui.models.DataAccount
 import com.fintechplatform.ui.money.MoneyValueInputFilter
-import kotlinx.android.synthetic.main.fragment_cashin.*
-import kotlinx.android.synthetic.main.fragment_cashin.view.*
+import com.fintechplatform.ui.payin.PayInContract
+import kotlinx.android.synthetic.main.fragment_payin.*
+import kotlinx.android.synthetic.main.fragment_payin.view.*
 import javax.inject.Inject
 
-class CashInFragment: Fragment(), CashInContract.View {
+class PayInFragment: Fragment(), PayInContract.View {
     @Inject
     lateinit var alertHelpers: AlertHelpers
     @Inject
-    lateinit var presenter: CashInContract.Presenter
+    lateinit var presenter: PayInContract.Presenter
 
-    var navigation: CashInContract.Navigation? = null
+    var navigation: PayInContract.Navigation? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.fragment_cashin, container, false)
+        val view = inflater.inflate(R.layout.fragment_payin, container, false)
 
         arguments.getString("hostname")?.let { hostname ->
             arguments.getParcelable<DataAccount>("dataAccount")?.let { dataAccount ->
                 arguments.getBoolean("isSandbox").let { isSandbox ->
-                    (activity.application as? CashInUIFactory)?.let {
+                    (activity.application as? PayInUIFactory)?.let {
                         it.createPayInViewComponent(context, this, dataAccount, hostname, isSandbox).inject(this)
-                    }?: Log.e(CashInFragment::class.java.canonicalName, "CashInFactory interface must be implemented in your Application")
+                    }?: Log.e(PayInFragment::class.java.canonicalName, "PayInFactory interface must be implemented in your Application")
                 }
             }
         }
@@ -70,9 +70,9 @@ class CashInFragment: Fragment(), CashInContract.View {
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
-        (context as? CashInContract.Navigation)?.let {
+        (context as? PayInContract.Navigation)?.let {
             navigation = it
-        }?: Log.e(CashInFragment::class.java.canonicalName, "CashInContract.Navigation interface must be implemented in your Activity!!")
+        }?: Log.e(PayInFragment::class.java.canonicalName, "PayInContract.Navigation interface must be implemented in your Activity!!")
     }
 
     override fun onDetach() {
@@ -144,7 +144,7 @@ class CashInFragment: Fragment(), CashInContract.View {
     }
 
     override fun goBack(){
-        navigation?.goBackwardFromCashIn()
+        navigation?.goBackwardFromPayIn()
     }
 
     override fun goToPaymentCard() {
@@ -168,8 +168,8 @@ class CashInFragment: Fragment(), CashInContract.View {
     }
 
     companion object {
-        fun newInstance(hostname: String, dataAccount: DataAccount, isSandbox: Boolean, amount: Long?) : CashInFragment {
-            val frag = CashInFragment()
+        fun newInstance(hostname: String, dataAccount: DataAccount, isSandbox: Boolean, amount: Long?) : PayInFragment {
+            val frag = PayInFragment()
             val args = Bundle()
             args.putString("hostname", hostname)
             args.putParcelable("dataAccount", dataAccount)

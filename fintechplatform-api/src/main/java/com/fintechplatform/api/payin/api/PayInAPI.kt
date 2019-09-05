@@ -1,37 +1,37 @@
-package com.fintechplatform.api.cashin.api
+package com.fintechplatform.api.payin.api
 
 import com.android.volley.Request
 import com.fintechplatform.api.card.helpers.DateTimeConversion
-import com.fintechplatform.api.cashin.models.CashInReply
-import com.fintechplatform.api.cashin.models.CashInStatus
 import com.fintechplatform.api.log.Log
 import com.fintechplatform.api.money.Money
 import com.fintechplatform.api.net.*
+import com.fintechplatform.api.payin.models.PayInReply
+import com.fintechplatform.api.payin.models.PayInStatus
 import org.json.JSONObject
 import java.util.*
 import javax.inject.Inject
 
 /**
- * CashIn API class performs a cashIn request to Fintech Platform.
+ * PayIn API class performs a payIn request to Fintech Platform.
  */
-open class CashInAPI @Inject constructor(
+open class PayInAPI @Inject constructor(
         internal val hostName: String,
         internal val queue: IRequestQueue,
         internal val requestProvider: IRequestProvider,
         internal val log: Log,
         val netHelper: NetHelper) {
 
-    private val TAG = "CashInAPI"
+    private val TAG = "PayInAPI"
 
     /**
-     * cashIn transfers money from Linked Card [cardId] to the Fintech Account, identified from [tenantId] [ownerId] [accountType] and [accountId] params.
+     * payIn transfers money from Linked Card [cardId] to the Fintech Account, identified from [tenantId] [ownerId] [accountType] and [accountId] params.
      * You have to set the amount and currency to transfer, both to set into [amount] param.
      * Use [token] got from "Create User token" request.
      * Use [idempotency] parameter to avoid multiple inserts.
      * [completion] callback contains transactionId. Check if the Card issuer requires to perform a Secure3D procedure.
      * Whether secure3D is required, you will find the specific redirect URL.
      */
-    open fun cashIn(token: String,
+    open fun payIn(token: String,
                     ownerId: String,
                     accountId: String,
                     accountType: String,
@@ -39,7 +39,7 @@ open class CashInAPI @Inject constructor(
                     cardId: String,
                     amount: Money,
                     idempotency: String,
-                    completion: (CashInReply?, Exception?) -> Unit): IRequest<*>? {
+                    completion: (PayInReply?, Exception?) -> Unit): IRequest<*>? {
         val url = netHelper.getURL("/rest/v1/fintech/tenants/$tenantId/${netHelper.getPathFromAccountType(accountType)}/$ownerId/accounts/$accountId/linkedCards/$cardId/cashIns")
 
         var request: IRequest<*>?
@@ -59,7 +59,7 @@ open class CashInAPI @Inject constructor(
                 val securecodeneeded = response.getBoolean("secure3D")
                 val redirecturl = response.optString("redirectURL")
                 val status = response.optString("status")
-                if (CashInStatus.valueOf(status) == CashInStatus.FAILED) {
+                if (PayInStatus.valueOf(status) == PayInStatus.FAILED) {
                     val error = response.getJSONObject("error")
 
                     val rep =
@@ -79,7 +79,7 @@ open class CashInAPI @Inject constructor(
                     DateTimeConversion.convertFromRFC3339(it)
                 }
 
-                completion(CashInReply(transactionid, securecodeneeded, redirecturl, CashInStatus.valueOf(status), created, updated), null)
+                completion(PayInReply(transactionid, securecodeneeded, redirecturl, PayInStatus.valueOf(status), created, updated), null)
             }) { error ->
                 completion(null, netHelper.createRequestError(error))
             }
@@ -87,7 +87,7 @@ open class CashInAPI @Inject constructor(
             queue.add(r)
             request = r
         } catch (e: Exception) {
-            log.error(TAG, "cashIn", e)
+            log.error(TAG, "payIn", e)
             request = null
         }
 
@@ -100,7 +100,7 @@ open class CashInAPI @Inject constructor(
      * Set the [amount] in which [completion] fee will be estimate of.
      * Use [token] got from "Create User token" request.
      */
-    fun cashInFee(token: String,
+    fun payInFee(token: String,
                   tenantId: String,
                   accountId: String,
                   ownerId: String,
@@ -132,7 +132,7 @@ open class CashInAPI @Inject constructor(
             queue.add(r)
             request = r
         } catch (e: Exception) {
-            log.error(TAG, "cashInFee", e)
+            log.error(TAG, "payInFee", e)
             request = null
         }
 

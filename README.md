@@ -38,7 +38,7 @@ We supply the following modules:
 
 ###### fintechplatform-api
 
-1. Cash in 
+1. Pay in
 2. Cash out
 3. Balance
 4. Payment card registration
@@ -68,7 +68,7 @@ We supply the following modules:
     * documents
 
 
-Sample usage CashIn API Component in Kotlin
+Sample usage PayIn API Component in Kotlin
 -------------------------------------------------
 
 Fintech Account (accountId) is credited with 20,00 € using a card (cardId) owned by the user (userId)
@@ -132,19 +132,39 @@ Fintech Account (accountId) is credited with 20,00 € using a card (cardId) own
         }
     }
 ```
-Sample usage CashIn UI Component in Kotlin
+Sample usage PayIn UI Component in Kotlin
 -------------------------------------------------
 ```kotlin
     import com.fintechplatform.android.FintechPlatform
     import com.fintechplatform.android.models.DataAccount
     
-    // Initialize Fintech Platform in your MainActivity or in your Application onCreate, and give it Context params
-    val context = this as Context
-    
-    FintechPlatform.initialize(context)
-    
+    // Initialize Fintech Platform Application onCreate, and give it Context params.
+    // Every UI module needs to resolve his own dependence due to Dagger2 implementations using client application context:
+
+    class SampleApp: Application(), CashInUIFactory {
+        override fun onCreate() {
+            super.onCreate()
+
+            ...
+
+            FintechPlatform.initialize(this)
+        }
+
+        override fun createPayInViewComponent(context: Context, v: CashInContract.View, dataAccount: DataAccount, hostName: String, isSandbox: Boolean): CashInViewComponent {
+            return CashInUI.Builder.buildPayInViewComponent(context, v, dataAccount, hostName, isSandbox)
+        }
+
+        override fun createPaymentCardComponent(context: Context, view: PaymentCardContract.View, dataAccount: DataAccount, hostName: String, isSandbox: Boolean): PaymentCardViewComponent {
+            return PaymentCardUI.Builder.buildPaymentCardComponent(context, view, hostName, dataAccount, isSandbox)
+        }
+
+        override fun create3DComponent(view: Secure3DContract.View): Secure3DViewComponent {
+            return Secure3DUI.Builder.build3DsecureComponent(view)
+        }
+    }
+
     // Components needs to have your own configuration as params (hostname, userid, accountid and token access to the platform)
-    // accessToken is the key that you received from server after PIN authentication process.
+    // accessToken is the key that you received from server after authentication process.
      
     val hostName = "FINTECH_PLATFORM_SANDBOX_URL"
     val userId = "asd34vfs-poc05098ncoij-aspdl"
@@ -155,10 +175,10 @@ Sample usage CashIn UI Component in Kotlin
       
     val dataAccount = DataAccount(userId, accountId, accessToken)
     
-    val cashInUI = FintechPlatform.buildCashIn()
-                    .createCashInUIComponent(hostName, isSandbox, dataAccount)
-                    .cashInUI
+    val payInUI = FintechPlatform.buildPayIn()
+                    .createPayInUIComponent(hostName, isSandbox, dataAccount)
+                    .payInUI
                     
-    cashInUI.start(context)
+    payInUI.start(context)
     
 ```
