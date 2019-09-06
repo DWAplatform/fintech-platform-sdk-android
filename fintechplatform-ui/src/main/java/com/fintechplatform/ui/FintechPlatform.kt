@@ -6,7 +6,7 @@ import com.fintechplatform.ui.account.financialdata.FinancialDataBuilder
 import com.fintechplatform.ui.card.PaymentCardUI
 import com.fintechplatform.ui.db.PlatformDB
 import com.fintechplatform.ui.enterprise.EnterpriseBuilder
-import com.fintechplatform.ui.iban.ui.IbanUI
+import com.fintechplatform.ui.iban.IbanUI
 import com.fintechplatform.ui.models.DataAccount
 import com.fintechplatform.ui.payin.PayInUI
 import com.fintechplatform.ui.payout.PayOutUI

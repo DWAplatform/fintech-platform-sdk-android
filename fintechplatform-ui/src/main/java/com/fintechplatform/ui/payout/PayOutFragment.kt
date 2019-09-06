@@ -133,7 +133,7 @@ open class PayOutFragment: Fragment(), PayOutContract.View {
     }
 
     override fun goBack() {
-        navigation?.backforwardFromPayOut()
+        navigation?.backwardFromPayOut()
     }
 
     override fun showKeyboardAmount() {

@@ -10,7 +10,7 @@
         <activity android:name="com.fintechplatform.ui.secure3d.Secure3DActivity" />
         <activity android:name="com.fintechplatform.ui.card.PaymentCardActivity" />
         <activity android:name="com.fintechplatform.ui.payout.PayOutActivity" />
-        <activity android:name="com.fintechplatform.ui.iban.ui.IBANActivity" />
+        <activity android:name="com.fintechplatform.ui.iban.IBANActivity" />
         <activity android:name="com.fintechplatform.ui.account.financialdata.payinpayout.FinancialDataActivity" />
         <activity android:name="com.fintechplatform.ui.account.financialdata.bank.BankFinancialDataActivity" />
         <activity

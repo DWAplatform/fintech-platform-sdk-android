@@ -32,7 +32,7 @@ interface PayOutContract {
     }
 
     interface Navigation {
-        fun backforwardFromPayOut()
+        fun backwardFromPayOut()
         fun goToIBANAddress()
     }
 }

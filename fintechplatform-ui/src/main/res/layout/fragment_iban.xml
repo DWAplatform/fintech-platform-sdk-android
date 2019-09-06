@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:background="@color/background"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context="com.fintechplatform.ui.iban.ui.IBANActivity">
+    tools:context="com.fintechplatform.ui.iban.IBANActivity">
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">

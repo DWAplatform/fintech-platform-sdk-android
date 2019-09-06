@@ -1,10 +1,11 @@
-package com.fintechplatform.ui.iban.ui
+package com.fintechplatform.ui.iban
 
 import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,25 +13,31 @@ import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import com.fintechplatform.ui.R
 import com.fintechplatform.ui.alert.AlertHelpers
+import com.fintechplatform.ui.iban.di.IBANViewComponent
 import com.fintechplatform.ui.models.DataAccount
 import com.mukesh.countrypicker.CountryPicker
 import kotlinx.android.synthetic.main.fragment_iban.view.*
 
 
-class IBANFragment: Fragment(), IBANContract.View {
+open class IBANFragment: Fragment(), IBANContract.View {
 
     val alertHelpers = AlertHelpers()
     var presenter: IBANContract.Presenter?=null
 
     var picker: CountryPicker? = null
+    
+    var navigation: IBANContract.Navigation? = null
 
+    open fun createIbanViewComponent(context: Context, view: IBANContract.View, hostname: String, dataAccount: DataAccount) : IBANViewComponent {
+        return IbanUI.Builder.buildIbanViewComponent(context, view, hostname, dataAccount)
+    }
+    
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_iban, container, false)
 
         arguments.getString("hostname")?.let { hostname ->
             arguments.getParcelable<DataAccount>("dataAccount")?.let { dataAccount ->
-                presenter = IbanUI().getIbanPresenter(context, this, hostname, dataAccount)
-                presenter?.init()
+                createIbanViewComponent(context, this, hostname, dataAccount).inject(this)
             }
         }
 
@@ -72,6 +79,11 @@ class IBANFragment: Fragment(), IBANContract.View {
         return view
     }
 
+    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        presenter?.init()
+    }
+
     override fun onResume() {
         super.onResume()
         setBackwardText()
@@ -80,6 +92,18 @@ class IBANFragment: Fragment(), IBANContract.View {
             val keyboard = activity.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             keyboard.showSoftInput(view?.numberText, 0)
         }, 300)
+    }
+
+    override fun onAttach(context: Context?) {
+        super.onAttach(context)
+        (context as? IBANContract.Navigation)?.let {
+            navigation = it
+        }?: Log.e(IBANFragment::class.java.canonicalName, "IBANContract.Navigation interface must be implemented in your Activity!!")
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        navigation = null
     }
 
     override fun setAbortText() {
@@ -203,7 +227,7 @@ class IBANFragment: Fragment(), IBANContract.View {
     }
 
     override fun goBack() {
-        activity.finish()
+        navigation?.backwardFromIBAN()
     }
 
     companion object {

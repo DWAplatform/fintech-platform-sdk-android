@@ -1,4 +1,4 @@
-package com.fintechplatform.ui.iban.ui
+package com.fintechplatform.ui.iban
 
 import com.fintechplatform.api.enterprise.api.EnterpriseAPI
 import com.fintechplatform.api.enterprise.models.EnterpriseAddress

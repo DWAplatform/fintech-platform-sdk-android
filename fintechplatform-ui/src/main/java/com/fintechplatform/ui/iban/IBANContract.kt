@@ -1,4 +1,4 @@
-package com.fintechplatform.ui.iban.ui
+package com.fintechplatform.ui.iban
 
 interface IBANContract {
     interface View{
@@ -43,5 +43,9 @@ interface IBANContract {
         fun onCountrySelected(name: String, code: String)
         fun onConfirm()
         fun onAbortClick()
+    }
+    
+    interface Navigation {
+        fun backwardFromIBAN()
     }
 }

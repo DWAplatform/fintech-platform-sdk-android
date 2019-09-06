@@ -1,4 +1,4 @@
-package com.fintechplatform.ui.payout
+package com.fintechplatform.ui.iban
 
 import android.os.Bundle
 import android.support.v4.app.FragmentActivity
@@ -6,46 +6,40 @@ import com.fintechplatform.ui.R
 import com.fintechplatform.ui.models.DataAccount
 
 /**
- * Payment from user emoney to registered bank account
+ * UI for IBAN account number and mandatory personal data linked to.
  */
-class PayOutActivity: FragmentActivity(), PayOutContract.Navigation {
-
+class IBANActivity: FragmentActivity(), IBANContract.Navigation {
     private data class IntentContent(val hostName: String, val dataAccount: DataAccount)
+    
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_with_fragment)
 
-        var frag: PayOutFragment? = null
+        var frag: IBANFragment? = null
 
         savedInstanceState?.let{ extras ->
-            frag = supportFragmentManager.findFragmentByTag(PayOutFragment::class.java.canonicalName) as PayOutFragment
+            frag = supportFragmentManager.findFragmentByTag(IBANFragment::class.java.canonicalName) as IBANFragment
         }
 
         getExtras()?.let {intent ->
             frag?.let {
                 supportFragmentManager.beginTransaction()
-                        .replace(R.id.contentContainer, it, PayOutFragment::class.java.canonicalName)
+                        .replace(R.id.contentContainer, it, IBANFragment::class.java.canonicalName)
                         .commit()
             }?:
             supportFragmentManager.beginTransaction()
-                    .replace(R.id.contentContainer, PayOutFragment.newInstance(intent.hostName, intent.dataAccount), PayOutFragment::class.java.canonicalName)
+                    .replace(R.id.contentContainer, IBANFragment.newInstance(intent.hostName, intent.dataAccount), IBANFragment::class.java.canonicalName)
                     .commit()
         }
-        
-        setContentView(R.layout.activity_with_fragment)
-
     }
 
     private fun getExtras(): IntentContent? = intent.extras?.getString("hostname")?.let { hostname ->
         intent.extras?.getParcelable<DataAccount>("dataAccount")?.let { dataAccount ->
-                IntentContent(hostname, dataAccount)
+            IntentContent(hostname, dataAccount)
         }
     }
 
-    override fun backwardFromPayOut() {
-        finish()
-    }
-
-    override fun goToIBANAddress() {
-        // TODO goToIBanFragment
+    override fun backwardFromIBAN() {
+         finish()
     }
 }
