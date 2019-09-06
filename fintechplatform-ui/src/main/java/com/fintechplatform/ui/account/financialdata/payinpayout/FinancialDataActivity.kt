@@ -5,7 +5,6 @@ import android.support.v4.app.FragmentActivity
 import android.view.View
 import com.fintechplatform.ui.R
 import com.fintechplatform.ui.alert.AlertHelpers
-import com.fintechplatform.ui.iban.ui.IbanUI
 import kotlinx.android.synthetic.main.activity_financialdata.*
 import javax.inject.Inject
 
@@ -17,7 +16,6 @@ open class FinancialDataActivity : FragmentActivity() , FinancialDataContract.Vi
 
     @Inject lateinit var alertHelpers: AlertHelpers
     @Inject lateinit var presenter: FinancialDataContract.Presenter
-    @Inject lateinit var bankAccountUI: IbanUI
 
     open fun injectAll() {
         PayInPayOutFinancialDataUI.instance?.buildFinancialDataViewComponent(this, this)?.inject(this)

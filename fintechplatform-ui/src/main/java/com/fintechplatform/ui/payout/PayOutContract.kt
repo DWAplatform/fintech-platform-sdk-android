@@ -1,4 +1,4 @@
-package com.fintechplatform.ui.payout.ui
+package com.fintechplatform.ui.payout
 
 interface PayOutContract {
     interface View{
@@ -29,6 +29,10 @@ interface PayOutContract {
         fun onEditingChanged()
         fun onConfirm()
         fun onAbortClick()
+    }
 
+    interface Navigation {
+        fun backforwardFromPayOut()
+        fun goToIBANAddress()
     }
 }

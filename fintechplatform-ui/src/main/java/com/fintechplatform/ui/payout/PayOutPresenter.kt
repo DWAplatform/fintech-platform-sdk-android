@@ -1,4 +1,4 @@
-package com.fintechplatform.ui.payout.ui
+package com.fintechplatform.ui.payout
 
 import com.fintechplatform.api.account.balance.models.BalanceItem
 import com.fintechplatform.api.cashout.api.CashOutAPI

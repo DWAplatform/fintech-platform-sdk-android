@@ -9,7 +9,7 @@ import com.fintechplatform.ui.enterprise.EnterpriseBuilder
 import com.fintechplatform.ui.iban.ui.IbanUI
 import com.fintechplatform.ui.models.DataAccount
 import com.fintechplatform.ui.payin.PayInUI
-import com.fintechplatform.ui.payout.PayOutBuilder
+import com.fintechplatform.ui.payout.PayOutUI
 import com.fintechplatform.ui.profile.ProfileBuilder
 import com.fintechplatform.ui.qrtransfer.QrTransferBuilder
 import com.fintechplatform.ui.sct.SctBuilder
@@ -39,7 +39,7 @@ class FintechPlatform {
          * Factory method to get ClientU)Iobject
          */
 
-        fun buildPayInUI(hostName: String, dataAccount: DataAccount, isSandbox: Boolean) : com.fintechplatform.ui.payin.PayInUI {
+        fun buildPayInUI(hostName: String, dataAccount: DataAccount, isSandbox: Boolean) : PayInUI {
             return PayInUI(hostName, dataAccount, isSandbox)
         }
 
@@ -51,8 +51,8 @@ class FintechPlatform {
             return Secure3DUI()
         }
 
-        fun buildPayOut(): PayOutBuilder {
-            return PayOutBuilder()
+        fun buildPayOut(hostName: String, dataAccount: DataAccount): PayOutUI {
+            return PayOutUI(hostName, dataAccount)
         }
 
         fun buildPaymentCardUI(hostName: String, dataAccount: DataAccount, isSandbox: Boolean): PaymentCardUI {

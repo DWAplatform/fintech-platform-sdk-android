@@ -1,6 +1,5 @@
 package com.fintechplatform.ui.account.financialdata.payinpayout;
 
-import com.fintechplatform.ui.iban.ui.IbanUI;
 import com.fintechplatform.ui.models.DataAccount;
 
 import javax.inject.Singleton;
@@ -23,7 +22,7 @@ public class PayInPayOutFinancialDataUIModule {
 
     @Provides
     @Singleton
-    PayInPayOutFinancialDataUI providesFinancialDataUI(IbanUI ibanUI) {
-        return new PayInPayOutFinancialDataUI(configuration, hostName, isSandbox, ibanUI);
+    PayInPayOutFinancialDataUI providesFinancialDataUI() {
+        return new PayInPayOutFinancialDataUI(configuration, hostName, isSandbox);
     }
 }

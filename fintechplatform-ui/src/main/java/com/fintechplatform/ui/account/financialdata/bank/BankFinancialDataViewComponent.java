@@ -7,7 +7,6 @@ import com.fintechplatform.api.net.NetModule;
 import com.fintechplatform.ui.alert.AlertHelpersModule;
 import com.fintechplatform.ui.card.db.PaymentCardPersistanceModule;
 import com.fintechplatform.ui.iban.db.IbanPersistanceDBModule;
-import com.fintechplatform.ui.payout.ui.IbanUIModule;
 
 import javax.inject.Singleton;
 
@@ -19,7 +18,6 @@ import dagger.Component;
         PaymentCardPersistanceModule.class,
         IbanPersistanceDBModule.class,
         AlertHelpersModule.class,
-        IbanUIModule.class,
         NetModule.class,
         PaymentCardAPIModule.class,
         IbanAPIModule.class,

@@ -27,13 +27,13 @@ class PayInUI(private val hostName: String,
         context.startActivity(intent)
     }
 
-    fun createFragment(amount: Long?): com.fintechplatform.ui.payin.di.PayInFragment {
+    fun createFragment(amount: Long?): PayInFragment {
         return PayInFragment.newInstance(hostName, configuration, sandbox, amount)
     }
 
     object Builder {
         /**
-         * Resolve with default dependencies for cash in view component
+         * Resolve with default dependencies for pay in view component
          */
 
         fun buildPayInViewComponent(context: Context, v: PayInContract.View, dataAccount: DataAccount, hostName: String, isSandbox: Boolean?): PayInViewComponent {
