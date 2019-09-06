@@ -15,7 +15,7 @@ import com.fintechplatform.ui.qrtransfer.QrTransferBuilder
 import com.fintechplatform.ui.sct.SctBuilder
 import com.fintechplatform.ui.secure3d.Secure3DUI
 import com.fintechplatform.ui.transactions.TransactionsBuilder
-import com.fintechplatform.ui.transfer.TransferBuilder
+import com.fintechplatform.ui.transfer.TransferUI
 import com.raizlabs.android.dbflow.config.FlowManager
 
 class FintechPlatform {
@@ -79,8 +79,8 @@ class FintechPlatform {
             return FinancialDataBuilder()
         }
 
-        fun buildTransfer(): TransferBuilder {
-            return TransferBuilder()
+        fun buildTransfer(hostName: String, dataAccount: DataAccount): TransferUI {
+            return TransferUI(hostName, dataAccount)
         }
 
         fun buildSct(): SctBuilder {

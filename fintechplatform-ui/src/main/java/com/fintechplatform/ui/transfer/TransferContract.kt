@@ -1,4 +1,4 @@
-package com.fintechplatform.ui.transfer.ui
+package com.fintechplatform.ui.transfer
 
 /**
  * Created by ingrid on 15/09/17.
@@ -31,5 +31,9 @@ interface TransferContract {
         fun onConfirm()
         fun onAbortClick()
         fun refresh()
+    }
+
+    interface Navigation {
+        fun backwardFromTransfer()
     }
 }

@@ -3,7 +3,6 @@ package com.fintechplatform.ui.iban
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.support.v4.app.FragmentActivity
 import com.android.volley.toolbox.Volley
 import com.fintechplatform.api.enterprise.api.EnterpriseAPIModule
 import com.fintechplatform.api.iban.api.IbanAPIModule
@@ -26,7 +25,7 @@ class IbanUI {
         context.startActivity(intent)
     }
 
-    fun startFragment(activity: FragmentActivity, hostname: String, dataAccount: DataAccount): IBANFragment {
+    fun startFragment(hostname: String, dataAccount: DataAccount): IBANFragment {
         return IBANFragment.newInstance(hostname, dataAccount)
     }
 

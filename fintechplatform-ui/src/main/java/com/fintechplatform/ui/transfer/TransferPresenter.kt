@@ -1,4 +1,4 @@
-package com.fintechplatform.ui.transfer.ui
+package com.fintechplatform.ui.transfer
 
 import com.fintechplatform.api.account.balance.api.BalanceAPI
 import com.fintechplatform.api.account.balance.models.BalanceItem

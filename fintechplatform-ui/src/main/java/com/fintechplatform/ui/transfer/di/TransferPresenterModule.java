@@ -1,4 +1,4 @@
-package com.fintechplatform.ui.transfer.ui;
+package com.fintechplatform.ui.transfer.di;
 
 import com.fintechplatform.api.account.balance.api.BalanceAPI;
 import com.fintechplatform.api.transfer.api.TransferAPI;
@@ -6,6 +6,8 @@ import com.fintechplatform.ui.account.balance.helpers.BalancePersistence;
 import com.fintechplatform.ui.models.DataAccount;
 import com.fintechplatform.ui.money.FeeHelper;
 import com.fintechplatform.ui.money.MoneyHelper;
+import com.fintechplatform.ui.transfer.TransferContract;
+import com.fintechplatform.ui.transfer.TransferPresenter;
 
 import javax.inject.Singleton;
 
