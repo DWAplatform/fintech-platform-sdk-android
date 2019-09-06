@@ -1,4 +1,4 @@
-package com.fintechplatform.api.cashout.api
+package com.fintechplatform.api.payout.api
 
 import com.android.volley.Request
 import com.fintechplatform.api.log.Log
@@ -12,23 +12,23 @@ import java.util.*
 import javax.inject.Inject
 
 /**
- * CashOut API class performs a cashOut request to Fintech Platform.
+ * PayOut API class performs a payOut request to Fintech Platform.
  */
-class CashOutAPI @Inject constructor(internal val hostName: String,
-                                     internal val queue: IRequestQueue,
-                                     internal val requestProvider: IRequestProvider,
-                                     internal val log: Log,
-                                     val netHelper: NetHelper) {
+class PayOutAPI @Inject constructor(internal val hostName: String,
+                                    internal val queue: IRequestQueue,
+                                    internal val requestProvider: IRequestProvider,
+                                    internal val log: Log,
+                                    val netHelper: NetHelper) {
 
-    private val TAG = "CashOutAPI"
+    private val TAG = "PayOutAPI"
 
     /**
-     * CashOut transfers money from Fintech Account, identified from [tenantId] [ownerId] [accountType] and [accountId] params, to linked bank account [linkedBankId]
+     * PayOut transfers money from Fintech Account, identified from [tenantId] [ownerId] [accountType] and [accountId] params, to linked bank account [linkedBankId]
      * You have to set the [amount] to transfer.
      * Use [token] got from "Create User token" request.
      * Use [idempotency] parameter to avoid multiple inserts.
      */
-    fun cashOut(token: String,
+    fun payOut(token: String,
                 ownerId: String,
                 accountId: String,
                 accountType: String,
@@ -69,7 +69,7 @@ class CashOutAPI @Inject constructor(internal val hostName: String,
             queue.add(r)
             request = r
         } catch (e: Exception) {
-            log.error(TAG, "cashOut", e)
+            log.error(TAG, "payOut", e)
             request = null
         }
 
@@ -81,7 +81,7 @@ class CashOutAPI @Inject constructor(internal val hostName: String,
      * Set the [amount] in which [completion] fee will be estimate of.
      * Use [token] got from "Create User token" request.
      */
-    fun cashOutFee(token: String,
+    fun payOutFee(token: String,
                    tenantId: String,
                    accountId: String,
                    ownerId: String,
@@ -126,7 +126,7 @@ class CashOutAPI @Inject constructor(internal val hostName: String,
             queue.add(r)
             request = r
         } catch (e: Exception) {
-            log.error(TAG, "cashOut", e)
+            log.error(TAG, "PayOut", e)
             request = null
         }
 

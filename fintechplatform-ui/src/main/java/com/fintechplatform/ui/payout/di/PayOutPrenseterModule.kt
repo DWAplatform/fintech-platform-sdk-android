@@ -1,7 +1,7 @@
 package com.fintechplatform.ui.payout.di
 
-import com.fintechplatform.api.cashout.api.CashOutAPI
 import com.fintechplatform.api.iban.api.IbanAPI
+import com.fintechplatform.api.payout.api.PayOutAPI
 import com.fintechplatform.ui.account.balance.helpers.BalanceHelper
 import com.fintechplatform.ui.iban.db.IbanPersistanceDB
 import com.fintechplatform.ui.models.DataAccount
@@ -18,7 +18,7 @@ class PayOutPresenterModule(private val view: PayOutContract.View, private val c
 
     @Provides
     @Singleton
-    internal fun providePayOutPresenter(api: CashOutAPI,
+    internal fun providePayOutPresenter(api: PayOutAPI,
                                         ibanAPI: IbanAPI,
                                         moneyHelper: MoneyHelper,
                                         balanceHelper: BalanceHelper,

@@ -1,11 +1,11 @@
 package com.fintechplatform.ui.payout
 
 import com.fintechplatform.api.account.balance.models.BalanceItem
-import com.fintechplatform.api.cashout.api.CashOutAPI
 import com.fintechplatform.api.iban.api.IbanAPI
 import com.fintechplatform.api.iban.models.BankAccount
 import com.fintechplatform.api.money.Money
 import com.fintechplatform.api.net.NetHelper
+import com.fintechplatform.api.payout.api.PayOutAPI
 import com.fintechplatform.ui.account.balance.helpers.BalanceHelper
 import com.fintechplatform.ui.iban.db.IbanPersistanceDB
 import com.fintechplatform.ui.models.DataAccount
@@ -16,7 +16,7 @@ import javax.inject.Inject
 
 class PayOutPresenter @Inject constructor(val configuration: DataAccount,
                                           val view: PayOutContract.View,
-                                          val api: CashOutAPI,
+                                          val api: PayOutAPI,
                                           val linkedBankAPI: IbanAPI,
                                           val moneyHelper: MoneyHelper,
                                           val balanceHelper: BalanceHelper,
@@ -58,7 +58,7 @@ class PayOutPresenter @Inject constructor(val configuration: DataAccount,
 
         val money = Money.valueOf(view.getAmount())
 
-        api.cashOut(configuration.accessToken,
+        api.payOut(configuration.accessToken,
                 configuration.ownerId,
                 configuration.accountId,
                 configuration.accountType,
@@ -72,7 +72,7 @@ class PayOutPresenter @Inject constructor(val configuration: DataAccount,
 
             if (opterror != null) {
                 handleErrors(opterror)
-                return@cashOut
+                return@payOut
             }
 
             view.goBack()
@@ -201,7 +201,7 @@ class PayOutPresenter @Inject constructor(val configuration: DataAccount,
     fun calcCashOutFee(amount: Money) {
         val bankAccountId = ibanPersistanceDB.bankAccountId(configuration.accountId)?: return
 
-        api.cashOutFee(configuration.accessToken,
+        api.payOutFee(configuration.accessToken,
                 configuration.tenantId,
                 configuration.accountId,
                 configuration.ownerId,
@@ -210,10 +210,10 @@ class PayOutPresenter @Inject constructor(val configuration: DataAccount,
                 amount) { optfee, optexception ->
             if (optexception != null) {
                 handleErrors(optexception)
-                return@cashOutFee
+                return@payOutFee
             }
             if (optfee == null) {
-                return@cashOutFee
+                return@payOutFee
             }
 
             view.setFeeAmountLabel(moneyHelper.toString(optfee))
