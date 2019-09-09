@@ -193,7 +193,7 @@ open class IBANFragment: Fragment(), IBANContract.View {
     override fun showCountryPicker(){
         picker = CountryPicker.newInstance("Seleziona stato di residenza")
 
-        picker?.setListener { name, code, dialCode, flagDrawableResID ->
+        picker?.setListener { name, code, _, _ ->
             presenter?.onCountrySelected(name, code)
         }
         picker?.show(activity.supportFragmentManager, "COUNTRY_PICKER")

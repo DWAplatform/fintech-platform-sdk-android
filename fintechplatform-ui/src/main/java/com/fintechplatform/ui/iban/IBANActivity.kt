@@ -17,7 +17,7 @@ class IBANActivity: FragmentActivity(), IBANContract.Navigation {
 
         var frag: IBANFragment? = null
 
-        savedInstanceState?.let{ extras ->
+        savedInstanceState?.let{ _ ->
             frag = supportFragmentManager.findFragmentByTag(IBANFragment::class.java.canonicalName) as IBANFragment
         }
 

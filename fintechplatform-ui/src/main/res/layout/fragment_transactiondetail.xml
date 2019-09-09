@@ -98,7 +98,7 @@
                         android:layout_marginLeft="10dp" />
 
                     <TextView
-                        android:id="@+id/who"
+                        android:id="@+id/whois"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="18dp"
@@ -111,7 +111,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="1px"
                         android:background="@android:color/darker_gray"
-                        android:layout_below="@id/who"
+                        android:layout_below="@id/whois"
                         android:layout_marginLeft="5dp"
                         android:layout_marginRight="5dp"
                         android:layout_marginTop="5dp"/>

@@ -14,7 +14,7 @@ import com.fintechplatform.ui.profile.ProfileBuilder
 import com.fintechplatform.ui.qrtransfer.QrTransferBuilder
 import com.fintechplatform.ui.sct.SctBuilder
 import com.fintechplatform.ui.secure3d.Secure3DUI
-import com.fintechplatform.ui.transactions.TransactionsBuilder
+import com.fintechplatform.ui.transactions.ui.TransactionsUI
 import com.fintechplatform.ui.transfer.TransferUI
 import com.raizlabs.android.dbflow.config.FlowManager
 
@@ -51,7 +51,7 @@ class FintechPlatform {
             return Secure3DUI()
         }
 
-        fun buildPayOut(hostName: String, dataAccount: DataAccount): PayOutUI {
+        fun buildPayOutUI(hostName: String, dataAccount: DataAccount): PayOutUI {
             return PayOutUI(hostName, dataAccount)
         }
 
@@ -63,8 +63,8 @@ class FintechPlatform {
             return IbanUI()
         }
 
-        fun buildTransactions(): TransactionsBuilder {
-            return TransactionsBuilder()
+        fun buildTransactionsUI(hostName: String, dataAccount: DataAccount): TransactionsUI {
+            return TransactionsUI(hostName, dataAccount)
         }
 
         fun buildProfile(): ProfileBuilder {
@@ -79,7 +79,7 @@ class FintechPlatform {
             return FinancialDataBuilder()
         }
 
-        fun buildTransfer(hostName: String, dataAccount: DataAccount): TransferUI {
+        fun buildTransferUI(hostName: String, dataAccount: DataAccount): TransferUI {
             return TransferUI(hostName, dataAccount)
         }
 

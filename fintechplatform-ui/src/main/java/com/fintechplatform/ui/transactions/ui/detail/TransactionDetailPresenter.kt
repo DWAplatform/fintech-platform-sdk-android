@@ -1,4 +1,4 @@
-package com.fintechplatform.ui.transactions.ui.detail.ui
+package com.fintechplatform.ui.transactions.ui.detail
 
 import com.fintechplatform.ui.transactions.models.TransactionDetailHelper
 import com.fintechplatform.ui.transactions.models.TransactionItem

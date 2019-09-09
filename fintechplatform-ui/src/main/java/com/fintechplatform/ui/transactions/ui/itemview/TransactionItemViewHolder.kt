@@ -1,4 +1,4 @@
-package com.fintechplatform.ui.transactions.ui
+package com.fintechplatform.ui.transactions.ui.itemview
 
 import android.annotation.TargetApi
 import android.graphics.Color
@@ -8,7 +8,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.View
 import com.fintechplatform.ui.R
 import com.fintechplatform.ui.transactions.models.TransactionItem
-import com.fintechplatform.ui.transactions.ui.itemview.TransactionItemContract
+import com.fintechplatform.ui.transactions.ui.TransactionsUI
 import kotlinx.android.synthetic.main.transaction_minimalui_item.view.*
 import javax.inject.Inject
 
@@ -22,7 +22,7 @@ class TransactionItemViewHolder @Inject constructor(val view: View,
     @Inject lateinit var presenter: TransactionItemContract.Presenter
 
     init {
-        TransactionsUI.instance.buildTransactionItemComponent(this).inject(this)
+        TransactionsUI.Builder.buildTransactionItemComponent(this).inject(this)
     }
 
     fun bindForecast(item: TransactionItem) {

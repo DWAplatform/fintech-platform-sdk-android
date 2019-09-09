@@ -16,7 +16,7 @@
         <activity
             android:name="com.fintechplatform.ui.transactions.ui.TransactionsActivity"
             android:theme="@style/noAnimTheme" />
-        <activity android:name="com.fintechplatform.ui.transactions.ui.detail.ui.TransactionDetailActivity" />
+        <activity android:name="com.fintechplatform.ui.transactions.ui.detail.TransactionDetailActivity" />
         <activity android:name="com.fintechplatform.ui.profile.lightdata.ui.LightDataActivity" />
         <activity android:name="com.fintechplatform.ui.profile.contacts.ui.ContactsActivity" />
         <activity android:name="com.fintechplatform.ui.profile.address.ui.AddressActivity" />

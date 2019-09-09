@@ -20,8 +20,8 @@ open class AlertHelpers {
         // FIXME commented due to sdk refactor
         //builder.setIcon(R.drawable.ic_warning_black_24dp)
         builder.setPositiveButton(
-                "OK",
-                { dialog, id -> dialog.cancel() })
+                "OK"
+        ) { dialog, _ -> dialog.cancel() }
         return builder
     }
 
@@ -32,8 +32,8 @@ open class AlertHelpers {
         // FIXME commented due to sdk refactor
         //builder.setIcon(R.drawable.ic_warning_black_24dp)
         builder.setPositiveButton(
-                "OK",
-                { dialog, id -> dialog.cancel() })
+                "OK"
+        ) { dialog, _ -> dialog.cancel() }
         return builder
     }
 
@@ -44,8 +44,8 @@ open class AlertHelpers {
         // FIXME commented due to sdk refactor
         //builder.setIcon(R.drawable.ic_warning_black_24dp)
         builder.setPositiveButton(
-                "OK",
-                { dialog, id -> dialog.cancel() })
+                "OK"
+        ) { dialog, _ -> dialog.cancel() }
         return builder
     }
 
@@ -70,8 +70,8 @@ open class AlertHelpers {
                 .setTitle(title)
                 .setMessage(message)
                 .setPositiveButton(
-                        "OK",
-                        { dialog, id -> dialog.cancel() })
+                        "OK"
+                ) { dialog, _ -> dialog.cancel() }
 
         builder.show()
     }

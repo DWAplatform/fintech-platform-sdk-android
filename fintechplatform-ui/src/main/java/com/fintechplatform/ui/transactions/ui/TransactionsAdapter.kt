@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import com.fintechplatform.ui.R
 import com.fintechplatform.ui.transactions.models.TransactionItem
 import com.fintechplatform.ui.transactions.models.TransactionsManager
+import com.fintechplatform.ui.transactions.ui.itemview.TransactionItemViewHolder
 
 /**
  * Transactions List Adapter for visualize transaction items

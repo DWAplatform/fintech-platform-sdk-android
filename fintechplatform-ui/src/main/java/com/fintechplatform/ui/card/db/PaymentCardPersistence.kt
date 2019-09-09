@@ -4,7 +4,7 @@ import com.fintechplatform.api.card.models.PaymentCardItem
 
 interface PaymentCardPersistence {
 
-    open fun getPaymentCardItem(accountId: String): PaymentCardItem?
+    fun getPaymentCardItem(accountId: String): PaymentCardItem?
 
     fun savePaymentCard(paymentcard: PaymentCardItem)
 

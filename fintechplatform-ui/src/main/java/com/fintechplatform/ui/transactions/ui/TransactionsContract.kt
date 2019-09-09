@@ -20,4 +20,8 @@ interface TransactionsContract {
         fun transactionClick(transaction: TransactionItem)
         fun currentTransactions()
     }
+
+    interface Navigation {
+        fun goToTransactionsDetail(transaction: TransactionItem)
+    }
 }

@@ -9,10 +9,10 @@ import com.raizlabs.android.dbflow.structure.BaseModel
 
 @Table(database = PlatformDB::class)
 data class PaymentCard(
-        @PrimaryKey var id: String? = "",
-        @Column var numberAlias: String? = "",
-        @Column var state: String? = "",
-        @Column var expiration: String? = "",
-        @Column var accountId: String? = "",
+        @PrimaryKey var id: String? = null,
+        @Column var numberAlias: String? = null,
+        @Column var state: String? = null,
+        @Column var expiration: String? = null,
+        @Column var accountId: String? = null,
         @Column var isDefault: Boolean = false
 ) : BaseModel()

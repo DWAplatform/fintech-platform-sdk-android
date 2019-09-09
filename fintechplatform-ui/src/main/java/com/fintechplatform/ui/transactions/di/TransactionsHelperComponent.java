@@ -1,8 +1,7 @@
-package com.fintechplatform.ui.transactions;
+package com.fintechplatform.ui.transactions.di;
 
 import com.fintechplatform.ui.money.MoneyHelperModule;
 import com.fintechplatform.ui.transactions.db.TransactionPersistanceDB;
-import com.fintechplatform.ui.transactions.db.TransactionPersistanceDBModule;
 
 import javax.inject.Singleton;
 

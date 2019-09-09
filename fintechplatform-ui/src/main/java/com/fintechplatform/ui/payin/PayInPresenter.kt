@@ -183,7 +183,7 @@ class PayInPresenter @Inject constructor(val configuration: DataAccount,
         val amount = view.getAmount()
         val amountmoney = Money.valueOf(amount)
 
-        val moneyFee: Money
+
         if (amountmoney.value == 0L) {
             view.setFeeAmount(moneyHelper.toString(Money(0L)))
         } else {

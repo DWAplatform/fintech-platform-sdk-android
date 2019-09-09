@@ -41,42 +41,42 @@ class TransferPresenter constructor(private var view: TransferContract.View,
         val idemp = this.idempotencyTransfer
 
         idemp?.let {
-            peerAccountModel?.let { p2pu ->
-                view.enableForwardButton(false)
-                view.showCommunicationWait()
-                val money = Money.valueOf(view.getAmountText())
 
-                apiTransfer.p2p(config.accessToken,
-                        config.ownerId,
-                        config.accountId,
-                        config.accountType,
-                        config.tenantId,
-                        p2pu.userid,
-                        p2pu.accountId,
-                        p2pu.accountType,
-                        p2pu.tenantId,
-                        view.getMessageText(),
-                        money.value,
-                        it) { opterror ->
+            view.enableForwardButton(false)
+            view.showCommunicationWait()
+            val money = Money.valueOf(view.getAmountText())
 
-                    view.hideCommunicationWait()
-                    refreshConfirmButton()
+            apiTransfer.p2p(config.accessToken,
+                    config.ownerId,
+                    config.accountId,
+                    config.accountType,
+                    config.tenantId,
+                    peerAccountModel.userid,
+                    peerAccountModel.accountId,
+                    peerAccountModel.accountType,
+                    peerAccountModel.tenantId,
+                    view.getMessageText(),
+                    money.value,
+                    it) { opterror ->
 
-                    if (opterror != null) {
-                        when (opterror) {
-                            is NetHelper.IdempotencyError ->
-                                    view.showIdempotencyError()
-                            is NetHelper.TokenError ->
-                                    view.showTokenExpiredWarning()
-                            else ->
-                                    view.showCommunicationInternalError()
-                        }
-                        return@p2p
+                view.hideCommunicationWait()
+                refreshConfirmButton()
+
+                if (opterror != null) {
+                    when (opterror) {
+                        is NetHelper.IdempotencyError ->
+                                view.showIdempotencyError()
+                        is NetHelper.TokenError ->
+                                view.showTokenExpiredWarning()
+                        else ->
+                                view.showCommunicationInternalError()
                     }
-
-                    view.playSound()
-                    view.showSuccessDialog()
+                    return@p2p
                 }
+
+                view.playSound()
+                view.showSuccessDialog()
+
             }
         }
     }

@@ -1,5 +1,6 @@
 package com.fintechplatform.ui.transactions.db
 
+import android.util.Log
 import com.fintechplatform.api.transactions.models.TransactionResponse
 import com.fintechplatform.ui.transactions.models.ExternalTransaction
 import com.fintechplatform.ui.transactions.models.TransactionHelper
@@ -58,11 +59,26 @@ class TransactionPersistanceDB @Inject constructor(val db: TransactionDB, val th
         }
     }
 
-    fun loadAll(accountId: String): List<TransactionItem> {
-        val ts = db.getTransactions(accountId)
-        return ts.map { t ->
-            TransactionItem(t.id, t.accountId, t.what, t.who, t.message, t.amount, t.twhen, t.order, t.status, t.error)
+    fun loadAll(accountId: String): List<TransactionItem> =
+
+        db.getTransactions(accountId).mapNotNull { t ->
+
+            try {
+                val id = t.id?: throw IllegalArgumentException("id parameter required")
+                val taccountId = t.accountId?: throw IllegalArgumentException("accountId parameter required")
+                val what = t.what?: throw IllegalArgumentException("what parameter required")
+                val who = t.who?: throw IllegalArgumentException("who parameter required")
+                val amount = t.amount?: throw IllegalArgumentException("amount parameter required")
+                val twhen = t.twhen?: throw IllegalArgumentException("when parameter required")
+                val order = t.order?: throw IllegalArgumentException("order parameter required")
+                val status = t.status?: throw IllegalArgumentException("status parameter required")
+
+                TransactionItem(id, taccountId, what, who, t.message, amount, twhen, order, status, t.error)
+
+            } catch (e: Throwable) {
+                Log.e("Transaction parsing", e.message)
+                null
+            }
         }
-    }
 
 }

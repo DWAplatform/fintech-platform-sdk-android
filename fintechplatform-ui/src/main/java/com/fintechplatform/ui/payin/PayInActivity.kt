@@ -30,7 +30,7 @@ class PayInActivity : AppCompatActivity(),
                     intent.getLongExtra("initialAmount", 0L)
                 else null
 
-        savedInstanceState?.let{ extras ->
+        savedInstanceState?.let{ _ ->
             frag = supportFragmentManager.findFragmentByTag(PayInFragment.toString()) as PayInFragment
         }
 

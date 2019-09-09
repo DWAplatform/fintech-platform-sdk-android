@@ -1,4 +1,4 @@
-package com.fintechplatform.ui.transactions.ui.detail.ui
+package com.fintechplatform.ui.transactions.ui.detail
 
 import com.fintechplatform.ui.transactions.models.TransactionItem
 
@@ -19,4 +19,5 @@ interface TransactionDetailContract {
         fun onHelp()
         fun initialize(transaction: TransactionItem?)
     }
+
 }

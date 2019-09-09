@@ -2,13 +2,18 @@ package com.fintechplatform.ui.payout
 
 import android.os.Bundle
 import android.support.v4.app.FragmentActivity
+import com.fintechplatform.ui.FintechPlatform
 import com.fintechplatform.ui.R
+import com.fintechplatform.ui.iban.IBANContract
+import com.fintechplatform.ui.iban.IBANFragment
 import com.fintechplatform.ui.models.DataAccount
 
 /**
  * Payment from user emoney to registered bank account
  */
-class PayOutActivity: FragmentActivity(), PayOutContract.Navigation {
+class PayOutActivity: FragmentActivity(),
+        PayOutContract.Navigation,
+        IBANContract.Navigation {
 
     private data class IntentContent(val hostName: String, val dataAccount: DataAccount)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -16,7 +21,7 @@ class PayOutActivity: FragmentActivity(), PayOutContract.Navigation {
 
         var frag: PayOutFragment? = null
 
-        savedInstanceState?.let{ extras ->
+        savedInstanceState?.let{
             frag = supportFragmentManager.findFragmentByTag(PayOutFragment::class.java.canonicalName) as PayOutFragment
         }
 
@@ -46,6 +51,22 @@ class PayOutActivity: FragmentActivity(), PayOutContract.Navigation {
     }
 
     override fun goToIBANAddress() {
-        // TODO goToIBanFragment
+        getExtras()?.let {
+            val ibanFrag = FintechPlatform.buildIBAN().startFragment(it.hostName, it.dataAccount)
+            supportFragmentManager.beginTransaction()
+                    .replace(R.id.contentContainer, ibanFrag, PayOutFragment::class.java.canonicalName)
+                    .addToBackStack(null)
+                    .commit()
+        }
+
+    }
+
+    override fun backwardFromIBAN() {
+        val ibanFrag = supportFragmentManager.findFragmentByTag(IBANFragment::class.java.canonicalName) as IBANFragment
+        supportFragmentManager
+                .beginTransaction()
+                .remove(ibanFrag)
+                .commit()
+        supportFragmentManager.popBackStack()
     }
 }
