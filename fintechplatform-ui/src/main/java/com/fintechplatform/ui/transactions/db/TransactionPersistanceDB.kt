@@ -10,17 +10,17 @@ import javax.inject.Inject
 class TransactionPersistanceDB @Inject constructor(val db: TransactionDB, val thelper: TransactionHelper){
 
     fun save(transaction: TransactionItem) {
-        val t = Transaction()
-        t.setWho(transaction.who)
-        t.setWhat(transaction.what)
-        t.setTwhen(transaction.twhen)
-        t.setAmount(transaction.amount)
-        t.setOrder(transaction.order)
-        t.setStatus(transaction.status)
-        t.setId(transaction.id)
-        t.setMessage(transaction.message)
-        t.setError(transaction.error)
-        t.accountId = transaction.accountId
+        val t = Transaction(transaction.id,
+                transaction.who,
+                transaction.what,
+                transaction.twhen,
+                transaction.amount,
+                transaction.order,
+                transaction.status,
+                "",
+                transaction.message,
+                transaction.error,
+                transaction.accountId)
 
         return db.saveTransaction(t)
     }
