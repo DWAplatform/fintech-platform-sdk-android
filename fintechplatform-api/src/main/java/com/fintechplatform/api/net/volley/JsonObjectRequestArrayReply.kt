@@ -1,6 +1,9 @@
 package com.fintechplatform.api.net.volley
 
-import com.android.volley.*
+import com.android.volley.NetworkResponse
+import com.android.volley.ParseError
+import com.android.volley.Response
+import com.android.volley.VolleyError
 import com.android.volley.toolbox.HttpHeaderParser
 import com.android.volley.toolbox.JsonRequest
 import org.json.JSONArray
@@ -25,7 +28,7 @@ open class JsonObjectRequestArrayReply : JsonRequest<JSONArray> {
     constructor(url: String,
                 listener: (JSONArray) -> Unit,
                 errorListener: (VolleyError) -> Unit)
-            : super(Request.Method.GET, url, null,
+            : super(Method.GET, url, null,
             Response.Listener(listener), Response.ErrorListener(errorListener))
 
     /**

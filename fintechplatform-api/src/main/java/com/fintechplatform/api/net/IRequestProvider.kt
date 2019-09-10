@@ -56,4 +56,11 @@ interface IRequestProvider {
                        header: Map<String, String>,
                        listener: (Nothing?) -> Unit,
                        errorListener: (VolleyError) -> Unit): VolleyNothingRequest
+
+    fun byteArrayRequest(method: Int,
+                         url: String,
+                         picture: ByteArray,
+                         header: Map<String, String>,
+                         listener: (String?) -> Unit,
+                         errorListener: (VolleyError) -> Unit): VolleyByteArrayRequest
 }

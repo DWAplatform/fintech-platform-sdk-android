@@ -99,4 +99,18 @@ class VolleyRequestProvider : IRequestProvider {
             }
         }
     }
+
+    override fun byteArrayRequest(method: Int,
+                                  url: String,
+                                  picture: ByteArray,
+                                  header: Map<String, String>,
+                                  listener: (String?) -> Unit,
+                                  errorListener: (VolleyError) -> Unit): VolleyByteArrayRequest {
+        return object : VolleyByteArrayRequest(method, url, picture, header, listener, errorListener) {
+            @Throws(AuthFailureError::class)
+            override fun getHeaders(): Map<String, String> {
+                return header
+            }
+        }
+    }
 }
