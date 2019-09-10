@@ -3,6 +3,8 @@ package com.fintechplatform.api
 import android.content.Context
 import com.fintechplatform.api.account.balance.BalanceAPIBuilder
 import com.fintechplatform.api.account.balance.api.BalanceAPI
+import com.fintechplatform.api.account.kyc.KycAPI
+import com.fintechplatform.api.account.kyc.di.KycAPIBuilder
 import com.fintechplatform.api.card.PaymentCardAPIBuilder
 import com.fintechplatform.api.card.api.PaymentCardAPI
 import com.fintechplatform.api.enterprise.EnterpriseAPIBuilder
@@ -72,6 +74,11 @@ class FintechPlatformAPI {
         fun getPagoPA(hostName: String, context: Context) : PagoPaAPI {
             return PagoPaAPIBuilder().createPayInAPIComponent(hostName, context).pagoPaAPI
         }
+
+        fun getKYC(hostName: String,context: Context): KycAPI? {
+            return KycAPIBuilder().createKycAPI(hostName, context).kycAPI
+        }
+
 
     }
 
