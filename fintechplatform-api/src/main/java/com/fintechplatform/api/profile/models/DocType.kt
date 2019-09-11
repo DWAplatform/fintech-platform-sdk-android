@@ -1,4 +1,4 @@
-package com.fintechplatform.api.user.models
+package com.fintechplatform.api.profile.models
 
 enum class DocType {
     IDENTITY_CARD, PASSPORT, DRIVING_LICENCE

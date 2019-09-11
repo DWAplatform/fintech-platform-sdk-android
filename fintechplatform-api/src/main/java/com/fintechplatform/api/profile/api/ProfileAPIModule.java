@@ -21,7 +21,7 @@ public class ProfileAPIModule {
 
     @Provides
     @Singleton
-    ProfileAPI providesProfileAPI(IRequestQueue queue, IRequestProvider requestProvider, Log log, NetHelper netHelper) {
-        return new ProfileAPI(hostName, queue, requestProvider, log, netHelper);
+    ProfileAPI providesProfileAPI(IdsDocumentsAPI restAPI, IRequestQueue queue, IRequestProvider requestProvider, Log log, NetHelper netHelper) {
+        return new ProfileAPI(restAPI, hostName, queue, requestProvider, log, netHelper);
     }
 }

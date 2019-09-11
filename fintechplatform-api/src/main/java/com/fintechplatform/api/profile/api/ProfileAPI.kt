@@ -17,6 +17,7 @@ import javax.inject.Inject
  * ProfileAPI class performs request to get and updates user profile informations
  */
 class ProfileAPI @Inject constructor(
+        val restAPI: IdsDocumentsAPI,
         internal val hostName: String,
         internal val queue: IRequestQueue,
         internal val requestProvider: IRequestProvider,
@@ -164,14 +165,19 @@ class ProfileAPI @Inject constructor(
                         for(i in 0 until response.length()){
 
                             val jo = response.getJSONObject(i)
-                            val pages = jo.optJSONArray("pages")
-
-                            val docs = mutableListOf<String?>()
-                            for (j in 0 until pages.length()) {
-                                docs.add(pages.getString(j))
+                            val ja = jo.optJSONArray("bucketObjectIdPages")
+                            val bucketObjectIdPages = ja?.run {
+                                val bucketObjIds = mutableListOf<String?>()
+                                for (j in 0 until this.length()) {
+                                    bucketObjIds.add(this.getString(j))
+                                }
+                                bucketObjIds.filterNotNull()
+                            }
+                            val docType = jo.optString("doctype")?.run{
+                                DocType.valueOf(this)
                             }
 
-                            val userdoc = UserDocuments(jo.getString("documentId"), jo.optString("doctype"), docs)
+                            val userdoc = UserDocuments(userId, jo.getString("documentId"), docType, bucketObjectIdPages)
                             documents.add(userdoc)
                         }
 
@@ -209,51 +215,38 @@ class ProfileAPI @Inject constructor(
     fun documents(token: String,
                   userId: String,
                   tenantId: String,
+                  fileName: String?=null,
                   doctype: String,
-                  documents: Array<String?>,
+                  documentPages: List<ByteArray>,
                   idempotency: String,
-                  completion: (String?, Exception?) -> Unit): IRequest<*>? {
+                  completion: (UserDocuments?, Exception?) -> Unit) {
 
-        val url = netHelper.getURL("/rest/v1/fintech/tenants/$tenantId/users/$userId/documents")
+        val objectIds = mutableListOf<String>()
 
-        var request : IRequest<*>?
-
-        try {
-            val ja = JSONArray()
-            for(i in 0 until documents.size){
-                ja.put(documents[i])
-            }
-
-            val jsonObject = JSONObject()
-            jsonObject.put("doctype", doctype)
-            jsonObject.put("pages", ja)
-
-            val r = requestProvider.jsonObjectRequest(Request.Method.POST, url, jsonObject, netHelper.getHeaderBuilder().authorizationToken(token).idempotency(idempotency).getHeaderMap(), { response ->
-                completion(response.getString("documentId"), null)
-            }) { error ->
-                val status = if (error.networkResponse != null)
-                    error.networkResponse.statusCode else -1
-                when (status) {
-                    409 -> {
-                        completion(null, netHelper.IdempotencyError(error))
+        documentPages.forEach { pageImage ->
+            restAPI.addBucketForUserDocuments(token, tenantId, userId, fileName) { optBucketObject, optError ->
+                optError?.let{ error -> completion(null, error); return@addBucketForUserDocuments}
+                optBucketObject?.let { bucketObject ->
+                    bucketObject.uploadPath?.let { path ->
+                        restAPI.uploadBucketObjectFile(token, path, pageImage) { optString, optError ->
+                            optError?.let{ error -> completion(null, error); return@uploadBucketObjectFile}
+                            optString?.let {
+                                objectIds.add(bucketObject.objectId)
+                            }
+                        }
                     }
-
-                    401 -> {
-                        completion(null, netHelper.TokenError(error))
-                    }
-                    else -> completion(null, netHelper.GenericCommunicationError(error))
                 }
             }
-
-            r.setIRetryPolicy(netHelper.defaultpolicy)
-            queue.add(r)
-            request = r
-        } catch (e: Exception){
-            log.error(TAG, "documents", e)
-            request = null
         }
 
-        return request
+        if(objectIds.isNotEmpty()) {
+            restAPI.createDocuments(token, userId, tenantId, doctype, objectIds, idempotency) { optUserDocuments, optError ->
+                optError?.let{ error -> completion(null, error); return@createDocuments}
+                optUserDocuments?.let{
+                    completion(it, null)
+                }
+            }
+        }
     }
 
     /**

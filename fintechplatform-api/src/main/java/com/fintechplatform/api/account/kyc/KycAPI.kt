@@ -7,7 +7,7 @@ import com.fintechplatform.api.account.models.KycStatus
 import com.fintechplatform.api.card.helpers.DateTimeConversion
 import com.fintechplatform.api.log.Log
 import com.fintechplatform.api.net.*
-import com.fintechplatform.api.user.models.DocType
+import com.fintechplatform.api.profile.models.DocType
 import org.json.JSONArray
 import org.json.JSONObject
 import java.util.*

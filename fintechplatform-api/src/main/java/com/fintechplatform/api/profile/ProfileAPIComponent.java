@@ -2,6 +2,7 @@ package com.fintechplatform.api.profile;
 
 import com.fintechplatform.api.log.LogModule;
 import com.fintechplatform.api.net.NetModule;
+import com.fintechplatform.api.profile.api.IdsDocumentsAPIModule;
 import com.fintechplatform.api.profile.api.ProfileAPI;
 import com.fintechplatform.api.profile.api.ProfileAPIModule;
 
@@ -15,6 +16,7 @@ import dagger.Component;
 @Singleton
 @Component (modules = {
         ProfileAPIModule.class,
+        IdsDocumentsAPIModule.class,
         NetModule.class,
         LogModule.class
 })

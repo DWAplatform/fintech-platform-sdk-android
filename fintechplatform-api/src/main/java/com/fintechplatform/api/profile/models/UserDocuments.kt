@@ -1,5 +1,6 @@
 package com.fintechplatform.api.profile.models
 
-data class UserDocuments(val docId: String?=null,
-                         val doctype: String?= null,
-                         val pages: List<String?>?= null)
+data class UserDocuments(val userId: String?,
+                         val documentId: String?,
+                         val docType: DocType?,
+                         val bucketObjectIdPages: List<String>?)
