@@ -55,4 +55,11 @@ class ImageHelper {
         val photoBase64 = Base64.encodeToString(byteArrayOutputStream.toByteArray(), Base64.NO_WRAP)
         return photoBase64
     }
+
+    fun bitmapToByteArray(bitmap: Bitmap): ByteArray {
+        val byteArrayOutputStream = ByteArrayOutputStream()
+        bitmap.compress(Bitmap.CompressFormat.PNG, 10, byteArrayOutputStream)
+        bitmap.recycle()
+        return byteArrayOutputStream.toByteArray()
+    }
 }

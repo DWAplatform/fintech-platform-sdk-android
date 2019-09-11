@@ -11,6 +11,7 @@ import com.fintechplatform.ui.profile.db.documents.DocumentsPersistanceDB
 import com.fintechplatform.ui.profile.db.user.UsersPersistanceDB
 import java.util.*
 import javax.inject.Inject
+import kotlin.collections.ArrayList
 
 class IdentityCardsPresenter @Inject constructor(val view: IdentityCardsContract.View,
                                                  val api: ProfileAPI,
@@ -19,7 +20,8 @@ class IdentityCardsPresenter @Inject constructor(val view: IdentityCardsContract
                                                  val usersPersistanceDB: UsersPersistanceDB,
                                                  val imageHelper: ImageHelper): IdentityCardsContract.Presenter {
 
-    var photosBase64 = arrayOfNulls<String?>(2)
+    var photosByteArray = arrayListOf<ByteArray>()
+    var imagesBase64 = arrayListOf<String?>()
     var index = -1
     var idempotencyIDcard: String? = null
     var token: String? = null
@@ -35,11 +37,10 @@ class IdentityCardsPresenter @Inject constructor(val view: IdentityCardsContract
 
     private fun loadFromDB(): Boolean {
         return dbDocumentsHelper.getDocuments()?.let {
-
-            it.pages?.let { docs ->
-                photosBase64 = docs.toTypedArray()
-                photosBase64[0]?.let { view.setFrontImage(imageHelper.bitmapImageView(it)) }
-                photosBase64[1]?.let { view.setBackImage(imageHelper.bitmapImageView(it)) }
+            it.imagesBase64?.let { docs ->
+                this.imagesBase64 = ArrayList(docs)
+                view.setFrontImage(imageHelper.bitmapImageView(docs[0]))
+                view.setBackImage(imageHelper.bitmapImageView(docs[1]))
                 return true
             }?: return false
 
@@ -48,8 +49,8 @@ class IdentityCardsPresenter @Inject constructor(val view: IdentityCardsContract
 
     override fun onRefresh() {
         if(index >= 0) {
-            photosBase64[0]?.let { view.setFrontImage(imageHelper.bitmapImageView(it)) }
-            photosBase64[1]?.let { view.setBackImage(imageHelper.bitmapImageView(it)) }
+            imagesBase64[0]?.let { view.setFrontImage(imageHelper.bitmapImageView(it)) }
+            imagesBase64[1]?.let { view.setBackImage(imageHelper.bitmapImageView(it)) }
         }
     }
 
@@ -66,8 +67,9 @@ class IdentityCardsPresenter @Inject constructor(val view: IdentityCardsContract
                 configuration.accessToken,
                 configuration.ownerId,
                 configuration.tenantId,
-                "IDENTITY_CARD",
-                photosBase64,
+                null, //todo decide which filename
+                "IDENTITY_CARD", //todo doctype must not be hard coded
+                photosByteArray,
                 idempDocs) { optDocs, opterror ->
 
             view.hideWaiting()
@@ -81,8 +83,8 @@ class IdentityCardsPresenter @Inject constructor(val view: IdentityCardsContract
                 return@documents
             }
 
-            val userDocuments = UserDocuments(optDocs,"IDENTITY_CARD", photosBase64.toList())
             view.enableConfirmButton(false)
+            val userDocuments = optDocs.copy(imagesBase64 = imagesBase64.filterNotNull())
             dbDocumentsHelper.replaceDocuments(userDocuments)
             view.goBack()
         }
@@ -90,7 +92,7 @@ class IdentityCardsPresenter @Inject constructor(val view: IdentityCardsContract
 
     override fun refreshConfirmButton() {
         view.setAbortText()
-        if(photosBase64.filterNotNull().size == 2){
+        if(photosByteArray.size == 2){
             view.enableConfirmButton(true)
         } else {
             view.enableConfirmButton(false)
@@ -108,8 +110,9 @@ class IdentityCardsPresenter @Inject constructor(val view: IdentityCardsContract
     override fun onPictureTaken(optData: Intent?, index: Int) {
         val data = optData?: return
         val bitmap = data.extras["data"] as Bitmap
-        val photoBase64 = imageHelper.resizeBitmapViewCardId(bitmap)
-        photosBase64[index] = photoBase64
+        val photoByteArray = imageHelper.bitmapToByteArray(bitmap)
+        photosByteArray[index] = photoByteArray
+        imagesBase64[index] = imageHelper.resizeBitmapViewCardId(bitmap)
         refreshConfirmButton()
         this.index = index
     }
