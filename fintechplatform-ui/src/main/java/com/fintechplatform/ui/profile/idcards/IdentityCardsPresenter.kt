@@ -2,8 +2,10 @@ package com.fintechplatform.ui.profile.idcards
 
 import android.content.Intent
 import android.graphics.Bitmap
+import com.fintechplatform.api.account.kyc.KycAPI
 import com.fintechplatform.api.net.NetHelper
 import com.fintechplatform.api.profile.api.ProfileAPI
+import com.fintechplatform.api.profile.models.DocType
 import com.fintechplatform.api.profile.models.UserDocuments
 import com.fintechplatform.ui.images.ImageHelper
 import com.fintechplatform.ui.models.DataAccount
@@ -15,6 +17,7 @@ import kotlin.collections.ArrayList
 
 class IdentityCardsPresenter @Inject constructor(val view: IdentityCardsContract.View,
                                                  val api: ProfileAPI,
+                                                 val kycAPI: KycAPI,
                                                  val configuration: DataAccount,
                                                  val dbDocumentsHelper: DocumentsPersistanceDB,
                                                  val usersPersistanceDB: UsersPersistanceDB,
@@ -24,10 +27,11 @@ class IdentityCardsPresenter @Inject constructor(val view: IdentityCardsContract
     var imagesBase64 = arrayListOf<String?>()
     var index = -1
     var idempotencyIDcard: String? = null
+    var docType: DocType? = null
 
     override fun initializate() {
         view.checkCameraPermission()
-
+        getDocTypes()
         loadFromDB()
         reloadFromServer()
 
@@ -61,13 +65,13 @@ class IdentityCardsPresenter @Inject constructor(val view: IdentityCardsContract
         view.showWaiting()
 
         val idempDocs = this.idempotencyIDcard ?: return
-
+        val docType = this.docType?: return
         api.documents(
                 configuration.accessToken,
                 configuration.ownerId,
                 configuration.tenantId,
                 null, //todo decide which filename
-                "IDENTITY_CARD", //todo doctype must not be hard coded
+                docType,
                 photosByteArray,
                 idempDocs) { optDocs, opterror ->
 
@@ -116,6 +120,15 @@ class IdentityCardsPresenter @Inject constructor(val view: IdentityCardsContract
         this.index = index
     }
 
+    override fun onDocTypeSelected(docType: DocType) {
+        this.docType = docType
+        when(docType) {
+            DocType.IDENTITY_CARD -> view.showFrontAndBack()
+            DocType.PASSPORT -> view.showFrontAndBack()
+            DocType.DRIVING_LICENCE -> view.showOnePicture()
+        }
+    }
+
     fun reloadFromServer() {
 
         api.getDocuments(configuration.accessToken, configuration.ownerId, configuration.tenantId) {
@@ -137,6 +150,23 @@ class IdentityCardsPresenter @Inject constructor(val view: IdentityCardsContract
             }
 
             loadFromDB()
+        }
+    }
+
+    fun getDocTypes() {
+        kycAPI.getKycRequired(configuration.accessToken,
+                configuration.ownerId,
+                configuration.accountId,
+                configuration.accountType,
+                configuration.tenantId) { optDocTypeList, optError ->
+            
+            optError?.let { handleErrors(it); return@getKycRequired }
+            
+            if (optDocTypeList == null) {
+                return@getKycRequired
+            }
+
+            view.addDocumentTypeSelectable(optDocTypeList)
         }
     }
 

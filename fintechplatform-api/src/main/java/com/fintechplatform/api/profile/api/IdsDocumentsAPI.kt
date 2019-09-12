@@ -105,7 +105,7 @@ class IdsDocumentsAPI @Inject constructor(internal val hostName: String,
     internal fun createDocuments(token: String,
                                  userId: String,
                                  tenantId: String,
-                                 doctype: String,
+                                 doctype: DocType,
                                  objectIds: List<String?>,
                                  idempotency: String,
                                  completion: (UserDocuments?, Exception?) -> Unit): IRequest<*>? {

@@ -1,5 +1,6 @@
 package com.fintechplatform.ui.profile.idcards.di
 
+import com.fintechplatform.api.account.kyc.KycAPI
 import com.fintechplatform.api.profile.api.ProfileAPI
 import com.fintechplatform.ui.images.ImageHelper
 import com.fintechplatform.ui.models.DataAccount
@@ -18,9 +19,10 @@ class IdentityCardsPresenterModule(private val view: IdentityCardsContract.View,
     @Provides
     @Singleton
     internal fun providesIdentityCardsPresenter(api: ProfileAPI,
+                                                kycAPI: KycAPI,
                                                 documents: DocumentsPersistanceDB,
                                                 users: UsersPersistanceDB,
                                                 imageHelper: ImageHelper): IdentityCardsContract.Presenter {
-        return IdentityCardsPresenter(view, api, configuration, documents, users, imageHelper)
+        return IdentityCardsPresenter(view, api, kycAPI, configuration, documents, users, imageHelper)
     }
 }

@@ -7,6 +7,7 @@ import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.os.Bundle
 import android.provider.MediaStore
+import android.support.design.widget.TabLayout
 import android.support.v4.app.ActivityCompat
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
@@ -14,6 +15,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.fintechplatform.api.profile.models.DocType
 import com.fintechplatform.ui.R
 import com.fintechplatform.ui.alert.AlertHelpers
 import com.fintechplatform.ui.models.DataAccount
@@ -48,6 +50,7 @@ open class IdentityCardsFragment: Fragment(), IdentityCardsContract.View {
                 createIdentityCardsViewComponent(context, this, hostname, dataAccount).inject(this)
             }
         }
+        presenter.initializate()
 
         view.backwardButton.setOnClickListener { presenter.onAbort() }
 
@@ -56,13 +59,21 @@ open class IdentityCardsFragment: Fragment(), IdentityCardsContract.View {
         view.identityCardFront.setOnClickListener { presenter.onCameraFrontClick() }
 
         view.identityCardBack.setOnClickListener { presenter.onCameraBackClick() }
-        return super.onCreateView(inflater, container, savedInstanceState)
+
+        view.documentChooser.addOnTabSelectedListener(object: TabLayout.OnTabSelectedListener {
+            override fun onTabSelected(tab: TabLayout.Tab) {
+                val docType = tab.tag as DocType
+                presenter.onDocTypeSelected(docType)
+            }
+            override fun onTabUnselected(tab: TabLayout.Tab) {
+            }
+            override fun onTabReselected(tab: TabLayout.Tab) {
+            }
+        })
+
+        return view
     }
 
-    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        presenter.initializate()
-    }
     override fun onResume() {
         super.onResume()
         presenter.onRefresh()
@@ -82,6 +93,15 @@ open class IdentityCardsFragment: Fragment(), IdentityCardsContract.View {
 
     /** Contract.View */
 
+    override fun addDocumentTypeSelectable(list: List<DocType>) {
+        list.forEach {
+            when(it){
+                DocType.IDENTITY_CARD -> documentChooser.addTab(documentChooser.newTab().setTag(it).setText(R.string.identity_card))
+                DocType.DRIVING_LICENCE -> documentChooser.addTab(documentChooser.newTab().setTag(it).setText(R.string.driving_licence))
+                DocType.PASSPORT -> documentChooser.addTab(documentChooser.newTab().setTag(it).setText(R.string.passport))
+            }
+        }
+    }
     override fun setAbortText() {
         backwardButton.text = resources.getString(R.string.abort)
     }
@@ -109,6 +129,16 @@ open class IdentityCardsFragment: Fragment(), IdentityCardsContract.View {
 
     override fun hideWaiting() {
         activityIndicator.visibility = View.GONE
+    }
+
+    override fun showFrontAndBack() {
+        frontLayout.visibility = View.VISIBLE
+        backLayout.visibility = View.VISIBLE
+    }
+
+    override fun showOnePicture() {
+        frontLayout.visibility = View.VISIBLE
+        backLayout.visibility = View.GONE
     }
 
     override fun showTokenExpiredWarning() {

@@ -216,7 +216,7 @@ class ProfileAPI @Inject constructor(
                   userId: String,
                   tenantId: String,
                   fileName: String?=null,
-                  doctype: String,
+                  doctype: DocType,
                   documentPages: ArrayList<ByteArray>,
                   idempotency: String,
                   completion: (UserDocuments?, Exception?) -> Unit) {

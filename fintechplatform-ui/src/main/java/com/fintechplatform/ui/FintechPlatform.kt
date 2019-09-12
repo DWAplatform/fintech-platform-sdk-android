@@ -10,6 +10,7 @@ import com.fintechplatform.ui.iban.IbanUI
 import com.fintechplatform.ui.models.DataAccount
 import com.fintechplatform.ui.payin.PayInUI
 import com.fintechplatform.ui.payout.PayOutUI
+import com.fintechplatform.ui.profile.idcards.IdentityCardsUI
 import com.fintechplatform.ui.qrtransfer.QrTransferBuilder
 import com.fintechplatform.ui.sct.SctBuilder
 import com.fintechplatform.ui.secure3d.Secure3DUI
@@ -84,6 +85,10 @@ class FintechPlatform {
 
         fun buildQr(): QrTransferBuilder {
             return QrTransferBuilder()
+        }
+
+        fun buildIdentityCardsUI(hostName: String, dataAccount: DataAccount): IdentityCardsUI {
+            return IdentityCardsUI(hostName, dataAccount)
         }
 
     }

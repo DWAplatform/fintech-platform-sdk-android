@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/background"
     tools:context="com.fintechplatform.ui.profile.address.ui.AddressActivity">
 
@@ -81,9 +82,64 @@
             android:layout_marginLeft="24dp"
             android:background="@color/white"
             android:textColor="@android:color/secondary_text_light"
-            android:text="Carta d'identità"/>
+            android:text="Choose Document Type"
+            android:layout_marginStart="24dp" />
+
+        <!--<LinearLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:orientation="horizontal"-->
+            <!--android:id="@+id/registration_progress"-->
+            <!--android:layout_marginTop="12dp"-->
+            <!--android:layout_marginBottom="12dp"-->
+            <!--android:layout_marginStart="24dp"-->
+            <!--android:layout_marginEnd="24dp"-->
+            <!--android:weightSum="3">-->
+
+            <!--<Button-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_weight="1"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:layout_marginEnd="3dp"-->
+                <!--android:text="National \ncard id"-->
+                <!--style="@style/DocumentsChooser"-->
+                <!--android:id="@+id/nationalIdsButton"-->
+                <!--android:layout_marginRight="3dp" >-->
+            <!--</Button>-->
+
+            <!--<Button-->
+                <!--style="@style/DocumentsChooser"-->
+                <!--android:text="Driving Licence"-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_weight="1"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:layout_marginEnd="3dp"-->
+                <!--android:id="@+id/drivingLicenceButton"-->
+                <!--android:layout_marginRight="3dp" />-->
+            <!--<Button-->
+                <!--style="@style/DocumentsChooser"-->
+                <!--android:text="Passport"-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_weight="1"-->
+                <!--android:id="@+id/passportButton"-->
+                <!--android:layout_height="match_parent" />-->
+
+        <!--</LinearLayout>-->
+
+        <android.support.design.widget.TabLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginEnd="32dp"
+            style="@style/MyCustomTabLayout"
+            app:tabGravity="fill"
+            app:tabMode="fixed"
+            android:id="@+id/documentChooser">
+
+        </android.support.design.widget.TabLayout>
 
         <RelativeLayout
+            android:id="@+id/frontLayout"
             android:layout_width="match_parent"
             android:layout_height="62dp"
             android:layout_marginStart="24dp"
@@ -95,7 +151,8 @@
                 android:layout_height="60dp"
                 android:layout_width="60dp"
                 android:src="@drawable/ic_idcard_front"
-                android:layout_alignParentStart="true">
+                android:layout_alignParentStart="true"
+                android:layout_alignParentLeft="true">
             </ImageView>
 
             <TextView
@@ -107,7 +164,9 @@
                 android:layout_toEndOf="@+id/idcardFrontPic"
                 android:layout_centerVertical="true"
                 android:textColor="@color/half_black"
-                android:text="Fronte"/>
+                android:text="Fronte"
+                android:layout_marginLeft="7dp"
+                android:layout_toRightOf="@+id/idcardFrontPic" />
 
             <ImageButton
                 android:layout_width="wrap_content"
@@ -117,7 +176,8 @@
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
                 android:backgroundTint="@color/white"
-                android:src="@drawable/ic_camera"/>
+                android:src="@drawable/ic_camera"
+                android:layout_alignParentRight="true" />
             <View
                 android:layout_width="match_parent"
                 android:layout_height="2dp"
@@ -127,6 +187,7 @@
         </RelativeLayout>
 
         <RelativeLayout
+            android:id="@+id/backLayout"
             android:layout_width="match_parent"
             android:layout_height="62dp"
             android:layout_marginStart="24dp"
@@ -137,7 +198,8 @@
                 android:layout_height="60dp"
                 android:layout_width="60dp"
                 android:src="@drawable/ic_idcard_back"
-                android:layout_alignParentStart="true"/>
+                android:layout_alignParentStart="true"
+                android:layout_alignParentLeft="true" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -148,7 +210,9 @@
                 android:textColor="@color/half_black"
                 android:layout_toEndOf="@+id/idcardBackPic"
                 android:layout_centerVertical="true"
-                android:text="Retro" />
+                android:text="Retro"
+                android:layout_marginLeft="7dp"
+                android:layout_toRightOf="@+id/idcardBackPic" />
 
             <ImageButton
                 android:layout_width="wrap_content"
@@ -158,7 +222,8 @@
                 android:layout_centerVertical="true"
                 android:elevation="2dp"
                 android:backgroundTint="@color/white"
-                android:src="@drawable/ic_camera"/>
+                android:src="@drawable/ic_camera"
+                android:layout_alignParentRight="true" />
             <View
                 android:layout_width="match_parent"
                 android:layout_height="2dp"

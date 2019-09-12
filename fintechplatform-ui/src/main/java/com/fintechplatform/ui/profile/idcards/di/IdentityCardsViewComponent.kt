@@ -1,5 +1,6 @@
 package com.fintechplatform.ui.profile.idcards.di
 
+import com.fintechplatform.api.account.kyc.di.KycAPIModule
 import com.fintechplatform.api.log.LogModule
 import com.fintechplatform.api.net.NetModule
 import com.fintechplatform.api.profile.api.IdsDocumentsAPIModule
@@ -16,6 +17,7 @@ import javax.inject.Singleton
 @Component(modules = [
     IdentityCardsPresenterModule::class,
     ProfileAPIModule::class,
+    KycAPIModule::class,
     IdsDocumentsAPIModule::class,
     NetModule::class,
     LogModule::class,

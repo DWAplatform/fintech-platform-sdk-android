@@ -301,4 +301,8 @@
     <string name="choose_salary">Seleziona la tua retribuzione</string>
     <string name="title_activity_accountlist">AccountListActivity</string>
 
+    <!-- doctypes -->
+    <string name="identity_card">Carta d\'identità</string>
+    <string name="driving_licence">Patente</string>
+    <string name="passport">Passaporto</string>
 </resources>
