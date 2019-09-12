@@ -10,7 +10,6 @@ import com.fintechplatform.ui.iban.IbanUI
 import com.fintechplatform.ui.models.DataAccount
 import com.fintechplatform.ui.payin.PayInUI
 import com.fintechplatform.ui.payout.PayOutUI
-import com.fintechplatform.ui.profile.ProfileBuilder
 import com.fintechplatform.ui.qrtransfer.QrTransferBuilder
 import com.fintechplatform.ui.sct.SctBuilder
 import com.fintechplatform.ui.secure3d.Secure3DUI
@@ -65,10 +64,6 @@ class FintechPlatform {
 
         fun buildTransactionsUI(hostName: String, dataAccount: DataAccount): TransactionsUI {
             return TransactionsUI(hostName, dataAccount)
-        }
-
-        fun buildProfile(): ProfileBuilder {
-            return ProfileBuilder()
         }
 
         fun buildEnterpriseData(): EnterpriseBuilder {

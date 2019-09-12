@@ -1,4 +1,4 @@
-package com.fintechplatform.ui.profile.idcards.ui
+package com.fintechplatform.ui.profile.idcards
 
 import android.content.Intent
 import android.graphics.Bitmap
@@ -28,5 +28,9 @@ interface IdentityCardsContract {
         fun refreshConfirmButton()
         fun onCameraFrontClick()
         fun onCameraBackClick()
+    }
+
+    interface Navigation {
+        fun goBackFromIdCards()
     }
 }

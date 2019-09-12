@@ -1,4 +1,4 @@
-package com.fintechplatform.ui.profile.idcards.ui
+package com.fintechplatform.ui.profile.idcards
 
 import android.content.Intent
 import android.graphics.Bitmap
@@ -24,7 +24,6 @@ class IdentityCardsPresenter @Inject constructor(val view: IdentityCardsContract
     var imagesBase64 = arrayListOf<String?>()
     var index = -1
     var idempotencyIDcard: String? = null
-    var token: String? = null
 
     override fun initializate() {
         view.checkCameraPermission()

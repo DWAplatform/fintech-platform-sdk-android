@@ -21,7 +21,7 @@
         <activity android:name="com.fintechplatform.ui.profile.contacts.ui.ContactsActivity" />
         <activity android:name="com.fintechplatform.ui.profile.address.ui.AddressActivity" />
         <activity android:name="com.fintechplatform.ui.profile.jobinfo.ui.JobInfoActivity" />
-        <activity android:name="com.fintechplatform.ui.profile.idcards.ui.IdentityCardsActivity"
+        <activity android:name="com.fintechplatform.ui.profile.idcards.IdentityCardsActivity"
             android:screenOrientation="portrait"/>
         <activity android:name="com.fintechplatform.ui.enterprise.info.ui.EnterpriseInfoActivity" />
         <activity android:name="com.fintechplatform.ui.enterprise.contacts.ui.EnterpriseContactsActivity" />
