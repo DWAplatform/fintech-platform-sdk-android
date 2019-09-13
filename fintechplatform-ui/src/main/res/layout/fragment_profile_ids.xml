@@ -78,12 +78,14 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="20sp"
+            android:layout_marginStart="24dp"
             android:layout_marginLeft="24dp"
+            android:layout_marginTop="6dp"
             android:background="@color/white"
-            android:textColor="@android:color/secondary_text_light"
+            android:gravity="center"
             android:text="Choose Document Type"
-            android:layout_marginStart="24dp" />
+            android:textColor="@android:color/secondary_text_light"
+            android:textSize="20sp" />
 
         <!--<LinearLayout-->
             <!--android:layout_width="match_parent"-->
@@ -128,110 +130,100 @@
 
         <android.support.design.widget.TabLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="@android:dimen/app_icon_size"
             android:layout_marginStart="32dp"
             android:layout_marginEnd="32dp"
+            android:layout_marginTop="12dp"
+            app:tabBackground="@drawable/button_chooser"
             style="@style/MyCustomTabLayout"
-            app:tabGravity="fill"
-            app:tabMode="fixed"
             android:id="@+id/documentChooser">
 
         </android.support.design.widget.TabLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:layout_marginLeft="24dp"
+            android:layout_marginTop="12dp"
+            android:gravity="center"
+            android:background="@color/white"
+            android:textColor="@android:color/secondary_text_light"
+            android:text="Take Pictures"
+            android:layout_marginStart="24dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="2"
+            android:orientation="horizontal"
+            android:layout_gravity="center"
+            android:layout_marginTop="64dp"
+            >
 
         <RelativeLayout
             android:id="@+id/frontLayout"
-            android:layout_width="match_parent"
-            android:layout_height="62dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:layout_marginStart="24dp"
             android:layout_marginEnd="24dp"
             android:layout_marginTop="12dp">
 
-            <ImageView
-                android:id="@+id/idcardFrontPic"
-                android:layout_height="60dp"
-                android:layout_width="60dp"
-                android:src="@drawable/ic_idcard_front"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentLeft="true">
-            </ImageView>
-
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:id="@+id/labelFrontLayout"
                 android:textSize="18sp"
                 android:layout_marginStart="7dp"
+                android:gravity="center"
                 android:padding="5dp"
-                android:layout_toEndOf="@+id/idcardFrontPic"
-                android:layout_centerVertical="true"
                 android:textColor="@color/half_black"
+                android:layout_below="@+id/identityCardFront"
                 android:text="Fronte"
-                android:layout_marginLeft="7dp"
-                android:layout_toRightOf="@+id/idcardFrontPic" />
+                android:layout_marginLeft="7dp" />
 
             <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_width="128dp"
+                android:layout_height="128dp"
                 android:id="@+id/identityCardFront"
-                android:elevation="2dp"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
                 android:backgroundTint="@color/white"
-                android:src="@drawable/ic_camera"
-                android:layout_alignParentRight="true" />
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="2dp"
-                android:layout_below="@id/idcardFrontPic"
-                android:background="@color/gray_bg_color"
-                />
+                android:src="@drawable/ic_idcard_front" />
+
         </RelativeLayout>
 
         <RelativeLayout
             android:id="@+id/backLayout"
-            android:layout_width="match_parent"
-            android:layout_height="62dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:visibility="gone"
             android:layout_marginStart="24dp"
-            android:layout_marginEnd="24dp">
-
-            <ImageView
-                android:id="@+id/idcardBackPic"
-                android:layout_height="60dp"
-                android:layout_width="60dp"
-                android:src="@drawable/ic_idcard_back"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentLeft="true" />
+            android:layout_marginEnd="24dp"
+            android:layout_marginTop="12dp">
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="18sp"
                 android:padding="5dp"
+                android:gravity="center"
                 android:layout_marginStart="7dp"
+                android:layout_below="@id/identityCardBack"
                 android:textColor="@color/half_black"
-                android:layout_toEndOf="@+id/idcardBackPic"
-                android:layout_centerVertical="true"
                 android:text="Retro"
-                android:layout_marginLeft="7dp"
-                android:layout_toRightOf="@+id/idcardBackPic" />
+                android:layout_marginLeft="7dp" />
 
             <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_width="128dp"
+                android:layout_height="128dp"
                 android:id="@+id/identityCardBack"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:elevation="2dp"
                 android:backgroundTint="@color/white"
-                android:src="@drawable/ic_camera"
-                android:layout_alignParentRight="true" />
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="2dp"
-                android:layout_below="@id/idcardBackPic"
-                android:background="@color/gray_bg_color"
-                />
-        </RelativeLayout>
+                android:src="@drawable/ic_idcard_back"/>
 
+        </RelativeLayout>
+        </LinearLayout>
     </LinearLayout>
 
 </RelativeLayout>

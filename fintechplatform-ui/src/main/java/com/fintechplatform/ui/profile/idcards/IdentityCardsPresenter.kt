@@ -6,14 +6,12 @@ import com.fintechplatform.api.account.kyc.KycAPI
 import com.fintechplatform.api.net.NetHelper
 import com.fintechplatform.api.profile.api.ProfileAPI
 import com.fintechplatform.api.profile.models.DocType
-import com.fintechplatform.api.profile.models.UserDocuments
 import com.fintechplatform.ui.images.ImageHelper
 import com.fintechplatform.ui.models.DataAccount
 import com.fintechplatform.ui.profile.db.documents.DocumentsPersistanceDB
 import com.fintechplatform.ui.profile.db.user.UsersPersistanceDB
 import java.util.*
 import javax.inject.Inject
-import kotlin.collections.ArrayList
 
 class IdentityCardsPresenter @Inject constructor(val view: IdentityCardsContract.View,
                                                  val api: ProfileAPI,
@@ -23,9 +21,8 @@ class IdentityCardsPresenter @Inject constructor(val view: IdentityCardsContract
                                                  val usersPersistanceDB: UsersPersistanceDB,
                                                  val imageHelper: ImageHelper): IdentityCardsContract.Presenter {
 
-    var photosByteArray = arrayListOf<ByteArray>()
-    var imagesBase64 = arrayListOf<String?>()
-    var index = -1
+    var photosByteArray : Array<ByteArray?>? = null
+    var imagesBase64 : Array<String?>? = null
     var idempotencyIDcard: String? = null
     var docType: DocType? = null
 
@@ -33,7 +30,7 @@ class IdentityCardsPresenter @Inject constructor(val view: IdentityCardsContract
         view.checkCameraPermission()
         getDocTypes()
         loadFromDB()
-        reloadFromServer()
+        //reloadFromServer()
 
         idempotencyIDcard = UUID.randomUUID().toString()
     }
@@ -41,7 +38,7 @@ class IdentityCardsPresenter @Inject constructor(val view: IdentityCardsContract
     private fun loadFromDB(): Boolean {
         return dbDocumentsHelper.getDocuments()?.let {
             it.imagesBase64?.let { docs ->
-                this.imagesBase64 = ArrayList(docs)
+               // this.imagesBase64 = docs
                 view.setFrontImage(imageHelper.bitmapImageView(docs[0]))
                 view.setBackImage(imageHelper.bitmapImageView(docs[1]))
                 return true
@@ -51,10 +48,9 @@ class IdentityCardsPresenter @Inject constructor(val view: IdentityCardsContract
     }
 
     override fun onRefresh() {
-        if(index >= 0) {
-            imagesBase64[0]?.let { view.setFrontImage(imageHelper.bitmapImageView(it)) }
-            imagesBase64[1]?.let { view.setBackImage(imageHelper.bitmapImageView(it)) }
-        }
+        imagesBase64?.get(0)?.let { view.setFrontImage(imageHelper.bitmapImageView(it)) }
+        if (imagesBase64?.size == 2)
+            imagesBase64?.get(1)?.let { view.setBackImage(imageHelper.bitmapImageView(it)) }
     }
 
     override fun onAbort() {
@@ -66,13 +62,15 @@ class IdentityCardsPresenter @Inject constructor(val view: IdentityCardsContract
 
         val idempDocs = this.idempotencyIDcard ?: return
         val docType = this.docType?: return
+        val byteArrayList = photosByteArray?.toList()?.filterNotNull()?: return
+
         api.documents(
                 configuration.accessToken,
                 configuration.ownerId,
                 configuration.tenantId,
                 null, //todo decide which filename
                 docType,
-                photosByteArray,
+                byteArrayList,
                 idempDocs) { optDocs, opterror ->
 
             view.hideWaiting()
@@ -87,19 +85,14 @@ class IdentityCardsPresenter @Inject constructor(val view: IdentityCardsContract
             }
 
             view.enableConfirmButton(false)
-            val userDocuments = optDocs.copy(imagesBase64 = imagesBase64.filterNotNull())
-            dbDocumentsHelper.replaceDocuments(userDocuments)
+            dbDocumentsHelper.replaceDocuments(optDocs)
             view.goBack()
         }
     }
 
     override fun refreshConfirmButton() {
         view.setAbortText()
-        if(photosByteArray.size == 2){
-            view.enableConfirmButton(true)
-        } else {
-            view.enableConfirmButton(false)
-        }
+        photosByteArray?.filterNotNull()?.isNotEmpty()?.let(view::enableConfirmButton)
     }
 
     override fun onCameraFrontClick() {
@@ -114,42 +107,31 @@ class IdentityCardsPresenter @Inject constructor(val view: IdentityCardsContract
         val data = optData?: return
         val bitmap = data.extras["data"] as Bitmap
         val photoByteArray = imageHelper.bitmapToByteArray(bitmap)
-        photosByteArray[index] = photoByteArray
-        imagesBase64[index] = imageHelper.resizeBitmapViewCardId(bitmap)
+        photosByteArray?.set(index, photoByteArray)
+        imagesBase64?.set(index, imageHelper.resizeBitmapViewCardId(bitmap))
+        bitmap.recycle()
         refreshConfirmButton()
-        this.index = index
     }
 
     override fun onDocTypeSelected(docType: DocType) {
         this.docType = docType
+        refreshConfirmButton()
         when(docType) {
-            DocType.IDENTITY_CARD -> view.showFrontAndBack()
-            DocType.PASSPORT -> view.showFrontAndBack()
-            DocType.DRIVING_LICENCE -> view.showOnePicture()
-        }
-    }
-
-    fun reloadFromServer() {
-
-        api.getDocuments(configuration.accessToken, configuration.ownerId, configuration.tenantId) {
-            userDocs: List<UserDocuments?>?, opterror: Exception? ->
-
-            if (opterror != null) {
-                handleErrors(opterror)
-                return@getDocuments
+            DocType.IDENTITY_CARD -> {
+                view.showFrontAndBack()
+                photosByteArray = arrayOfNulls(2)
+                imagesBase64 = arrayOfNulls(2)
             }
-
-            if (userDocs == null) {
-                return@getDocuments
+            DocType.PASSPORT -> {
+                view.showOnePicture()
+                photosByteArray = arrayOfNulls(1)
+                imagesBase64 = arrayOfNulls(1)
             }
-
-            for (i in 0 until userDocs.size) {
-                userDocs[i]?.let {
-                    dbDocumentsHelper.saveDocuments(it)
-                }
+            DocType.DRIVING_LICENCE -> {
+                view.showFrontAndBack()
+                photosByteArray = arrayOfNulls(2)
+                imagesBase64 = arrayOfNulls(2)
             }
-
-            loadFromDB()
         }
     }
 

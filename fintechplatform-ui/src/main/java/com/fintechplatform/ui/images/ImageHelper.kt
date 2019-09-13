@@ -46,9 +46,6 @@ class ImageHelper {
         } else {
             Bitmap.createScaledBitmap(bitmap, (java.lang.Float.valueOf(bitmap.width.toFloat())!! / java.lang.Float.valueOf(bitmap.height.toFloat())!! * 512f).toInt(), 512,true)
         }
-
-        bitmap.recycle()
-
         val byteArrayOutputStream = ByteArrayOutputStream()
         resized.compress(Bitmap.CompressFormat.PNG, 10, byteArrayOutputStream)
         resized.recycle()
@@ -59,7 +56,6 @@ class ImageHelper {
     fun bitmapToByteArray(bitmap: Bitmap): ByteArray {
         val byteArrayOutputStream = ByteArrayOutputStream()
         bitmap.compress(Bitmap.CompressFormat.PNG, 10, byteArrayOutputStream)
-        bitmap.recycle()
         return byteArrayOutputStream.toByteArray()
     }
 }

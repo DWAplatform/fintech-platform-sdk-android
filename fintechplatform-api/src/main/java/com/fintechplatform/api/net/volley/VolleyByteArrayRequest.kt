@@ -14,7 +14,7 @@ open class VolleyByteArrayRequest(method: Int,
                              errorListener: (VolleyError) -> Unit)
     : ByteArrayRequestStringResponse(method, url, payload, Response.Listener(listener), errorListener), IRequest<String>{
     override fun setIRetryPolicy(retryPolicy: RetryPolicy): IRequest<String> {
-        setIRetryPolicy(retryPolicy)
+        setRetryPolicy(retryPolicy)
         return this
     }
 }

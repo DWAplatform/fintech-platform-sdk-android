@@ -190,7 +190,7 @@ class ProfileAPI @Inject constructor(
                     401 ->
                         completion(null, netHelper.TokenError(error))
                     else ->
-                        completion(null, netHelper.GenericCommunicationError(error))
+                        completion(null, netHelper.createRequestError(error))
                 }
             }
             r.setIRetryPolicy(netHelper.defaultpolicy)
@@ -217,7 +217,7 @@ class ProfileAPI @Inject constructor(
                   tenantId: String,
                   fileName: String?=null,
                   doctype: DocType,
-                  documentPages: ArrayList<ByteArray>,
+                  documentPages: List<ByteArray>,
                   idempotency: String,
                   completion: (UserDocuments?, Exception?) -> Unit) {
 
@@ -232,6 +232,7 @@ class ProfileAPI @Inject constructor(
                             optError?.let{ error -> completion(null, error); return@uploadBucketObjectFile}
                             optString?.let {
                                 objectIds.add(bucketObject.objectId)
+
                             }
                         }
                     }

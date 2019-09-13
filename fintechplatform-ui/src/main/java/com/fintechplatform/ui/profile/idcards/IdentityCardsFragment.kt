@@ -45,8 +45,8 @@ open class IdentityCardsFragment: Fragment(), IdentityCardsContract.View {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_profile_ids, container, false)
 
-        arguments.getString("hostname")?.let { hostname ->
-            arguments.getParcelable<DataAccount>("dataAccount")?.let { dataAccount ->
+        arguments?.getString("hostname")?.let { hostname ->
+            arguments?.getParcelable<DataAccount>("dataAccount")?.let { dataAccount ->
                 createIdentityCardsViewComponent(context, this, hostname, dataAccount).inject(this)
             }
         }
@@ -65,10 +65,8 @@ open class IdentityCardsFragment: Fragment(), IdentityCardsContract.View {
                 val docType = tab.tag as DocType
                 presenter.onDocTypeSelected(docType)
             }
-            override fun onTabUnselected(tab: TabLayout.Tab) {
-            }
-            override fun onTabReselected(tab: TabLayout.Tab) {
-            }
+            override fun onTabUnselected(tab: TabLayout.Tab) {}
+            override fun onTabReselected(tab: TabLayout.Tab) {}
         })
 
         return view
@@ -107,11 +105,11 @@ open class IdentityCardsFragment: Fragment(), IdentityCardsContract.View {
     }
 
     override fun setFrontImage(front: Bitmap?) {
-        front.let { idcardFrontPic.setImageBitmap(it) }
+        front.let { identityCardFront.setImageBitmap(it) }
     }
 
     override fun setBackImage(back: Bitmap?) {
-        back.let { idcardBackPic.setImageBitmap(it) }
+        back.let { identityCardBack.setImageBitmap(it) }
     }
 
     override fun enableButtons(isEnable: Boolean) {
@@ -134,11 +132,18 @@ open class IdentityCardsFragment: Fragment(), IdentityCardsContract.View {
     override fun showFrontAndBack() {
         frontLayout.visibility = View.VISIBLE
         backLayout.visibility = View.VISIBLE
+        frontLayout.layoutParams.width = 0
+        labelFrontLayout.visibility =View.VISIBLE
+        identityCardFront.setImageResource(R.drawable.ic_idcard_front)
+        identityCardBack.setImageResource(R.drawable.ic_idcard_back)
     }
 
     override fun showOnePicture() {
         frontLayout.visibility = View.VISIBLE
         backLayout.visibility = View.GONE
+        frontLayout.layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT
+        labelFrontLayout.visibility = View.GONE
+        identityCardFront.setImageResource(R.drawable.ic_idcard_front)
     }
 
     override fun showTokenExpiredWarning() {
