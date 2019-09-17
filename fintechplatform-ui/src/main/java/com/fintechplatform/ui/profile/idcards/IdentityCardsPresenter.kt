@@ -85,7 +85,7 @@ class IdentityCardsPresenter @Inject constructor(val view: IdentityCardsContract
             }
 
             view.enableConfirmButton(false)
-            dbDocumentsHelper.replaceDocuments(optDocs)
+            //dbDocumentsHelper.replaceDocuments(optDocs)
             view.goBack()
         }
     }

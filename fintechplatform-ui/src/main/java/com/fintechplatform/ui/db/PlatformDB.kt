@@ -1,6 +1,7 @@
 package com.fintechplatform.ui.db
 
 import com.fintechplatform.ui.card.db.PaymentCard
+import com.fintechplatform.ui.profile.db.documents.Documents
 import com.raizlabs.android.dbflow.annotation.Database
 import com.raizlabs.android.dbflow.annotation.Migration
 import com.raizlabs.android.dbflow.config.FlowManager
@@ -31,6 +32,21 @@ class PlatformDB {
 
             override fun onPreMigrate() {
                 addColumn(SQLiteType.INTEGER, "isDefault")
+            }
+        }
+
+
+        @Migration(version = 3, database = PlatformDB::class)
+        class Migration3(table: Class<Documents>) : AlterTableMigration<Documents>(table) {
+
+            override fun onPreMigrate() {
+                addColumn(SQLiteType.TEXT, "id")
+                addColumn(SQLiteType.TEXT, "userId")
+                addColumn(SQLiteType.TEXT, "docType")
+                addColumn(SQLiteType.TEXT, "frontPage")
+                addColumn(SQLiteType.TEXT, "backPage")
+                addColumn(SQLiteType.TEXT, "frontPageId")
+                addColumn(SQLiteType.TEXT, "backPageId")
             }
         }
     }

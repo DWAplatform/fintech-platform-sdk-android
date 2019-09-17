@@ -121,7 +121,7 @@ class IdsDocumentsAPI @Inject constructor(internal val hostName: String,
             }
 
             val jsonObject = JSONObject()
-            jsonObject.put("doctype", doctype)
+            jsonObject.put("docType", doctype.toString())
             jsonObject.put("bucketObjectIdPages", ja)
 
             val r = requestProvider.jsonObjectRequest(Request.Method.POST, url, jsonObject,

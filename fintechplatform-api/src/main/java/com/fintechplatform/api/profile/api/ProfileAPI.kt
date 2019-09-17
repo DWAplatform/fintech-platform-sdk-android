@@ -225,26 +225,27 @@ class ProfileAPI @Inject constructor(
 
         documentPages.forEach { pageImage ->
             restAPI.addBucketForUserDocuments(token, tenantId, userId, fileName) { optBucketObject, optError ->
+                log.debug("add Bucket", "1 " + pageImage.size)
                 optError?.let{ error -> completion(null, error); return@addBucketForUserDocuments}
                 optBucketObject?.let { bucketObject ->
                     bucketObject.uploadPath?.let { path ->
                         restAPI.uploadBucketObjectFile(token, path, pageImage) { optString, optError ->
+                            log.debug("Upload Bucket", "2 " + pageImage.size)
                             optError?.let{ error -> completion(null, error); return@uploadBucketObjectFile}
                             optString?.let {
                                 objectIds.add(bucketObject.objectId)
-
+                                if(objectIds.size == documentPages.size) {
+                                    log.debug("Create Documents", "3")
+                                    restAPI.createDocuments(token, userId, tenantId, doctype, objectIds, idempotency) { optUserDocuments, optError ->
+                                        optError?.let{ error -> completion(null, error); return@createDocuments}
+                                        optUserDocuments?.let{
+                                            completion(it, null)
+                                        }
+                                    }
+                                }
                             }
                         }
                     }
-                }
-            }
-        }
-
-        if(objectIds.isNotEmpty()) {
-            restAPI.createDocuments(token, userId, tenantId, doctype, objectIds, idempotency) { optUserDocuments, optError ->
-                optError?.let{ error -> completion(null, error); return@createDocuments}
-                optUserDocuments?.let{
-                    completion(it, null)
                 }
             }
         }
