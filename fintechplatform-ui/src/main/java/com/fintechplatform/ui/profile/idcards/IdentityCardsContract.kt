@@ -3,6 +3,7 @@ package com.fintechplatform.ui.profile.idcards
 import android.content.Intent
 import android.graphics.Bitmap
 import com.fintechplatform.api.profile.models.DocType
+import java.io.File
 
 interface IdentityCardsContract {
     interface View {
@@ -28,7 +29,7 @@ interface IdentityCardsContract {
         fun onRefresh()
         fun onAbort()
         fun onConfirm()
-        fun onPictureTaken(optData: Intent?, index: Int)
+        fun onPictureTaken(filePath: File, index: Int, thumbnail: Intent?)
         fun refreshConfirmButton()
         fun onCameraFrontClick()
         fun onCameraBackClick()

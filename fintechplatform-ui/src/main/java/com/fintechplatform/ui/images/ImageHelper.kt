@@ -3,6 +3,7 @@ package com.fintechplatform.ui.images
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.util.Base64
+import android.util.Log
 import android.widget.ImageView
 import com.fintechplatform.ui.R
 import java.io.ByteArrayOutputStream
@@ -54,6 +55,7 @@ class ImageHelper {
     }
 
     fun bitmapToByteArray(bitmap: Bitmap): ByteArray {
+        Log.d("Bitmap Metadata", "${bitmap.width} ${bitmap.height}")
         val byteArrayOutputStream = ByteArrayOutputStream()
         bitmap.compress(Bitmap.CompressFormat.PNG, 10, byteArrayOutputStream)
         return byteArrayOutputStream.toByteArray()

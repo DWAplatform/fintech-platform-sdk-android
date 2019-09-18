@@ -11,6 +11,7 @@ class IdentityCardsActivity: AppCompatActivity(), IdentityCardsContract.Navigati
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_with_fragment)
+        
         intent.extras?.getString("hostname")?.let { hostname ->
             intent.extras?.getParcelable<DataAccount>("dataAccount")?.let { dataAccount ->
                 val frag = IdentityCardsFragment.newInstance(hostname, dataAccount)

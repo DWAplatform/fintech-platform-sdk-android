@@ -1,7 +1,7 @@
 package com.fintechplatform.ui.profile.idcards
 
 import android.content.Intent
-import android.graphics.Bitmap
+import android.util.Log
 import com.fintechplatform.api.account.kyc.KycAPI
 import com.fintechplatform.api.net.NetHelper
 import com.fintechplatform.api.profile.api.ProfileAPI
@@ -10,8 +10,10 @@ import com.fintechplatform.ui.images.ImageHelper
 import com.fintechplatform.ui.models.DataAccount
 import com.fintechplatform.ui.profile.db.documents.DocumentsPersistanceDB
 import com.fintechplatform.ui.profile.db.user.UsersPersistanceDB
+import java.io.*
 import java.util.*
 import javax.inject.Inject
+
 
 class IdentityCardsPresenter @Inject constructor(val view: IdentityCardsContract.View,
                                                  val api: ProfileAPI,
@@ -103,13 +105,29 @@ class IdentityCardsPresenter @Inject constructor(val view: IdentityCardsContract
         view.goToCameraBack()
     }
 
-    override fun onPictureTaken(optData: Intent?, index: Int) {
-        val data = optData?: return
-        val bitmap = data.extras["data"] as Bitmap
-        val photoByteArray = imageHelper.bitmapToByteArray(bitmap)
+    override fun onPictureTaken(filePath: File, index: Int, thumbnail: Intent?) {
+
+        // create byte array
+        val size = filePath.length().toInt()
+        val photoByteArray = ByteArray(size)
+        try {
+            val buf = BufferedInputStream(FileInputStream(filePath))
+            buf.read(photoByteArray, 0, photoByteArray.size)
+            buf.close()
+        } catch (e: FileNotFoundException) {
+            e.printStackTrace()
+        } catch (e: IOException) {
+            e.printStackTrace()
+        }
         photosByteArray?.set(index, photoByteArray)
-        imagesBase64?.set(index, imageHelper.resizeBitmapViewCardId(bitmap))
-        bitmap.recycle()
+        Log.d("ByteArray size", "${photoByteArray.size}")
+
+        // set thumbnail
+//        val data = thumbnail?: return
+//        val bitmap = data.extras["data"] as Bitmap
+//        imagesBase64?.set(index, imageHelper.resizeBitmapViewCardId(bitmap))
+//        bitmap.recycle()
+
         refreshConfirmButton()
     }
 

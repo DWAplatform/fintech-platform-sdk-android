@@ -5,7 +5,10 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
+import android.net.Uri
 import android.os.Bundle
+import android.os.Environment
+import android.os.Environment.getExternalStoragePublicDirectory
 import android.provider.MediaStore
 import android.support.design.widget.TabLayout
 import android.support.v4.app.ActivityCompat
@@ -22,6 +25,10 @@ import com.fintechplatform.ui.models.DataAccount
 import com.fintechplatform.ui.profile.idcards.di.IdentityCardsViewComponent
 import kotlinx.android.synthetic.main.fragment_profile_ids.*
 import kotlinx.android.synthetic.main.fragment_profile_ids.view.*
+import java.io.File
+import java.io.IOException
+import java.text.SimpleDateFormat
+import java.util.*
 import javax.inject.Inject
 
 
@@ -164,15 +171,80 @@ open class IdentityCardsFragment: Fragment(), IdentityCardsContract.View {
             return
         }
     }
+    var frontPhotoPath: String? = null
+    var backPhotoPath: String? = null
 
     override fun goToCameraFront() {
-        val chooserIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-        startActivityForResult(chooserIntent, PICK_ID_CARD_FRONT)
+        Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
+            takePictureIntent.resolveActivity(activity.packageManager)?.also {
+                // Create the File where the photo should go
+                val photoFile = try {
+                    // Create an image file name
+                    val timeStamp: String = SimpleDateFormat("yyyyMMdd").format(Date())
+                    val storageDir = getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
+                    /** fixme
+                     * https://developer.android.com/reference/android/os/Environment.html#getExternalStoragePublicDirectory(java.lang.String)
+                     *
+                     * This method was deprecated in API level 29.
+                     * To improve user privacy, direct access to shared/external storage devices is deprecated.
+                     * When an app targets Build.VERSION_CODES.Q, the path returned from this method is no longer directly accessible to apps.
+                     * Apps can continue to access content stored on shared/external storage by migrating to alternatives such as Context#getExternalFilesDir(String), MediaStore, or Intent#ACTION_OPEN_DOCUMENT.
+                     */
+                    Log.d("File path created", storageDir.absolutePath)
+                    File.createTempFile(
+                            "IMG_${timeStamp}",
+                            ".jpg",
+                            storageDir
+                    ).apply {
+                        frontPhotoPath = absolutePath
+                        //galleryAddPic(absolutePath)
+                        Log.d("photo path:", frontPhotoPath)
+                    }
+
+                } catch (ex: IOException) {
+                    null
+                }
+                photoFile?.also {
+                    takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(it))
+                    startActivityForResult(takePictureIntent, PICK_ID_CARD_FRONT)
+                }
+            }
+        }
+    }
+
+    private fun galleryAddPic(path: String) {
+        Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE).also { mediaScanIntent ->
+            val f = File(path)
+            mediaScanIntent.data = Uri.fromFile(f)
+            activity.sendBroadcast(mediaScanIntent)
+        }
     }
 
     override fun goToCameraBack() {
-        val chooserIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-        startActivityForResult(chooserIntent, PICK_ID_CARD_BACK)
+        Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
+            takePictureIntent.resolveActivity(activity.packageManager)?.also {
+                val photoFile: File? = try {
+                    // Create an image file name
+                    val timeStamp: String = SimpleDateFormat("yyyyMMdd").format(Date())
+                    val storageDir: File? = activity.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+                    File.createTempFile(
+                            "IMG_${timeStamp}",
+                            ".jpg",
+                            storageDir
+                    ).apply {
+                        backPhotoPath = absolutePath
+                        Log.d("photo path:", backPhotoPath)
+                    }
+                } catch (ex: IOException) {
+                    null
+                }
+                photoFile?.also {
+                    val photoURI: Uri = Uri.fromFile(it)
+                    takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
+                    startActivityForResult(takePictureIntent, PICK_ID_CARD_BACK)
+                }
+            }
+        }
     }
 
     override fun goBack() {
@@ -183,14 +255,14 @@ open class IdentityCardsFragment: Fragment(), IdentityCardsContract.View {
         super.onActivityResult(requestCode, resultCode, optData)
 
         if(requestCode == PICK_ID_CARD_FRONT && resultCode == AppCompatActivity.RESULT_OK){
-            presenter.onPictureTaken(optData, 0)
+            presenter.onPictureTaken(File(frontPhotoPath), 0, optData)
+
         }
 
         if(requestCode == PICK_ID_CARD_BACK && resultCode == AppCompatActivity.RESULT_OK){
-            presenter.onPictureTaken(optData, 1)
+            presenter.onPictureTaken(File(backPhotoPath), 1, optData)
         }
     }
-
 
     override fun onRequestPermissionsResult(requestCode: Int,
                                             permissions: Array<String>, grantResults: IntArray) {
@@ -213,6 +285,7 @@ open class IdentityCardsFragment: Fragment(), IdentityCardsContract.View {
 //            permissionsOk = cameraok && externalstorage
         }
     }
+
 
     companion object {
         fun newInstance(hostname: String, dataAccount: DataAccount): IdentityCardsFragment {

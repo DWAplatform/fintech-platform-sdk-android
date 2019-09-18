@@ -131,8 +131,9 @@ class IdsDocumentsAPI @Inject constructor(internal val hostName: String,
                         val docType = response.optString("docType")?.run { DocType.valueOf(this) }
                         val bucketObjectIdPages = response.optJSONArray("bucketObjectIdPages")?.run {
                             val bucketObjIds = mutableListOf<String?>()
-                            for (j in 0 until this.length()) {
-                                bucketObjIds.add(this.getString(j))
+                            for (j in 0 until length()) {
+                                bucketObjIds.add(getString(j))
+                                log.debug("bucket ObjectId", getString(j))
                             }
                             bucketObjIds.filterNotNull()
                         }
