@@ -8,7 +8,6 @@ import com.fintechplatform.api.net.IRequestProvider
 import com.fintechplatform.api.net.IRequestQueue
 import com.fintechplatform.api.net.NetHelper
 import com.fintechplatform.api.profile.models.*
-import org.json.JSONArray
 import org.json.JSONObject
 import java.util.*
 import javax.inject.Inject
@@ -101,7 +100,7 @@ class ProfileAPI @Inject constructor(
             if (zipcode != null) jsonObject.put("postalCode", zipcode)
             if (city != null) jsonObject.put("cityOfResidence", city)
             if (email != null) jsonObject.put("email", email)
-            if (photo != null) jsonObject.put("photo", photo)
+            if (photo != null) jsonObject.put("picture", photo)
             if (telnum != null) jsonObject.put("telephone", telnum)
             if (jobinfo != null) jsonObject.put("occupation", jobinfo)
             if (income != null) jsonObject.put("incomeRange", income)
@@ -111,7 +110,7 @@ class ProfileAPI @Inject constructor(
                 hparams = netHelper.authorizationToken(token)
             } else {
                 val h = HashMap<String, String>()
-                h.put("Authorization", "Bearer " + token)
+                h.put("Authorization", "Bearer $token")
                 hparams = h
             }
 
@@ -120,7 +119,7 @@ class ProfileAPI @Inject constructor(
                     { response ->
 
                         val userprofile = UserProfileReply(
-                                response.getString("userId"),null)
+                                response.getString("userId"),null, response.optString("picture"))
 
                         completion(userprofile, null)
                     })
@@ -146,11 +145,73 @@ class ProfileAPI @Inject constructor(
         return request
     }
 
-    /**
+    fun uploadProfilePicture(token: String,
+                             userId: String,
+                             tenantId: String,
+                             fileName: String?=null,
+                             picture: ByteArray,
+                             completion: (UserProfileReply?, Exception?) -> Unit) {
+
+        restAPI.addBucketForUserDocuments(token, tenantId, userId, fileName) { optBucketObject, optError ->
+            optError?.let{ error -> completion(null, error); return@addBucketForUserDocuments}
+            optBucketObject?.let { bucketObject ->
+                bucketObject.uploadPath?.let { path ->
+                    restAPI.uploadBucketObjectFile(token, path, picture) { optString, optError ->
+                        optError?.let{ error -> completion(null, error); return@uploadBucketObjectFile}
+                        optString?.let {
+                            editProfile(token = token, userid = userId, tenantId = tenantId, photo = bucketObject.objectId) { userProfileReply, optError ->
+                                optError?.let{ error -> completion(null, error); return@editProfile}
+                                userProfileReply?.let { completion(it, null) }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    fun getProfilePictureFromBucket(token: String,
+                                    tenantId: String,
+                                    userId: String,
+                                    completion: (ByteArray?, Exception?) -> Unit): IRequest<*>? {
+
+        val url = "https://api.sandbox.lightbankingservices.com/rest/v1/bucket/tenants/f7569f0e-aaa7-11e7-b71f-ff13485d8836/bucketsName/3e6a8e4a-59fa-44ff-8bcb-d5bf260f9c8c/objects/b3fa0bda-79ec-4450-b7b0-50b36f9c3ecc/file"//netHelper.getURL("/rest/v1/fintech/tenants/$tenantId/users/$userId/picture")
+
+        var request: IRequest<*>?
+        try {
+
+            val r = requestProvider.byteArrayResponse(Request.Method.GET, url,
+                    netHelper.authorizationToken(token),
+                    {
+                        completion(it, null)
+                    })
+            {error ->
+                val status = if (error.networkResponse != null) error.networkResponse.statusCode
+                else -1
+                when (status) {
+                    401 ->
+                        completion(null, netHelper.TokenError(error))
+                    404 -> completion(null, netHelper.UserNotFound(error))
+                    else ->
+                        completion(null, netHelper.GenericCommunicationError(error))
+                }
+            }
+            r.setIRetryPolicy(netHelper.defaultpolicy)
+            queue.add(r)
+            request = r
+        } catch (e: Exception) {
+            log.error(TAG, "searchUser", e)
+            request = null
+        }
+
+        return request
+    }
+
+    /*
      * Get User [userId] documents form Fintech Platform [tenantId]
      * use [token] got from "Create User token" request.
      * [completion] returns list of documents uploaded to Fintech Platform
-     */
+
     fun getDocuments(token: String, userId: String, tenantId: String, completion: (List<UserDocuments?>?, Exception?) -> Unit): IRequest<*>? {
         val url = netHelper.getURL("/rest/v1/fintech/tenants/$tenantId/users/$userId/documents/")
 
@@ -203,7 +264,7 @@ class ProfileAPI @Inject constructor(
 
         return request
     }
-
+*/
     /**
      * Send User [userId] IDs document to Fintech Platform, identified from [tenantId].
      * use [token] got from "Create User token" request.

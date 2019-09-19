@@ -15,6 +15,15 @@ class ImageHelper {
         return decodedByte
     }
 
+    fun setImageViewUser(view: ImageView, optimageByteArray: ByteArray?) {
+        optimageByteArray?.let { imageBA ->
+            val optbiu = BitmapFactory.decodeByteArray(imageBA, 0, imageBA.size)
+            optbiu?.let { biu ->
+                view.setImageBitmap(biu)
+            }
+        } ?: view.setImageResource(R.drawable.ic_account_circle_black)
+    }
+
     fun setImageViewUser(view: ImageView, optimageBase64: String?) {
         optimageBase64?.let { imageBase64 ->
             val optbiu = bitmapImageView(imageBase64)
