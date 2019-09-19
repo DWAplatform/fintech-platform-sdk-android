@@ -29,7 +29,7 @@ class Users : BaseModel() {
     @Column
     var addressNumber: String? = null
     @Column
-    var ziPcode: String? = null
+    var ZIPcode: String? = null
     @Column
     var city: String? = null
     @Column

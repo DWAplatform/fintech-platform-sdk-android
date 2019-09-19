@@ -19,7 +19,7 @@
             android:theme="@style/noAnimTheme" />
         <activity android:name="com.fintechplatform.ui.transactions.ui.detail.TransactionDetailActivity" />
         <activity android:name="com.fintechplatform.ui.profile.lightdata.ui.LightDataActivity" />
-        <activity android:name="com.fintechplatform.ui.profile.contacts.ui.ContactsActivity" />
+        <activity android:name="com.fintechplatform.ui.profile.contacts.ContactsActivity" />
         <activity android:name="com.fintechplatform.ui.profile.address.AddressActivity" />
         <activity android:name="com.fintechplatform.ui.profile.jobinfo.ui.JobInfoActivity" />
         <activity android:name="com.fintechplatform.ui.profile.idcards.IdentityCardsActivity"

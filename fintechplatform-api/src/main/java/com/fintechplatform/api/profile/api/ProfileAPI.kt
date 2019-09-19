@@ -391,7 +391,7 @@ class ProfileAPI @Inject constructor(
                 response.optString("cityOfResidence"),
                 response.optString("telephone"),
                 response.optString("email"),
-                response.optString("photo"),
+                response.optString("picture"),
                 response.optString("countryOfResidence"),
                 response.optString("occupation"),
                 response.optString("incomeRange"),

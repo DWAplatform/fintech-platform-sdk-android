@@ -10,6 +10,8 @@ import com.fintechplatform.ui.iban.IbanUI
 import com.fintechplatform.ui.models.DataAccount
 import com.fintechplatform.ui.payin.PayInUI
 import com.fintechplatform.ui.payout.PayOutUI
+import com.fintechplatform.ui.profile.address.AddressUI
+import com.fintechplatform.ui.profile.contacts.ContactsUI
 import com.fintechplatform.ui.profile.idcards.IdentityCardsUI
 import com.fintechplatform.ui.qrtransfer.QrTransferBuilder
 import com.fintechplatform.ui.sct.SctBuilder
@@ -91,6 +93,13 @@ class FintechPlatform {
             return IdentityCardsUI(hostName, dataAccount)
         }
 
+        fun buildAddressUI(hostName: String, dataAccount: DataAccount): AddressUI {
+            return AddressUI(hostName, dataAccount)
+        }
+
+        fun buildContactsUI(hostName: String, dataAccount: DataAccount): ContactsUI {
+            return ContactsUI(hostName, dataAccount)
+        }
     }
 
 }

@@ -49,5 +49,6 @@ class PlatformDB {
                 addColumn(SQLiteType.TEXT, "backPageId")
             }
         }
+
     }
 }

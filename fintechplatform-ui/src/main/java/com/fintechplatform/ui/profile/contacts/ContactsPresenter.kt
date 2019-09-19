@@ -1,4 +1,4 @@
-package com.fintechplatform.ui.profile.contacts.ui
+package com.fintechplatform.ui.profile.contacts
 
 import com.fintechplatform.api.net.NetHelper
 import com.fintechplatform.api.profile.api.ProfileAPI

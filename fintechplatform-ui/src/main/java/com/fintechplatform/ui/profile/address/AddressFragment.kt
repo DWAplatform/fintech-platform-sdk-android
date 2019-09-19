@@ -16,6 +16,7 @@ import com.fintechplatform.ui.models.DataAccount
 import com.fintechplatform.ui.profile.address.di.AddressViewComponent
 import com.mukesh.countrypicker.CountryPicker
 import kotlinx.android.synthetic.main.activity_profile_address.*
+import kotlinx.android.synthetic.main.activity_profile_address.view.*
 import javax.inject.Inject
 
 
@@ -42,7 +43,7 @@ open class AddressFragment: Fragment(), AddressContract.View {
         }
 
 
-        addressText.addTextChangedListener(object : TextWatcher {
+        view.addressText.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(p0: Editable?) {}
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
@@ -50,7 +51,7 @@ open class AddressFragment: Fragment(), AddressContract.View {
             }
         })
 
-        zipcodeText.addTextChangedListener(object : TextWatcher {
+        view.zipcodeText.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(p0: Editable?) {}
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
@@ -58,7 +59,7 @@ open class AddressFragment: Fragment(), AddressContract.View {
             }
         })
 
-        cityText.addTextChangedListener(object : TextWatcher {
+        view.cityText.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(p0: Editable?) {}
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
@@ -66,7 +67,7 @@ open class AddressFragment: Fragment(), AddressContract.View {
             }
         })
 
-        countryofresidenceText.addTextChangedListener(object : TextWatcher {
+        view.countryofresidenceText.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(p0: Editable?) {}
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
@@ -74,11 +75,11 @@ open class AddressFragment: Fragment(), AddressContract.View {
             }
         })
 
-        countryofresidenceText.setOnClickListener { presenter.onCountryOfResidenceClick()}
+        view.countryofresidenceText.setOnClickListener { presenter.onCountryOfResidenceClick()}
 
-        backwardButton.setOnClickListener { presenter.onAbort() }
+        view.backwardButton.setOnClickListener { presenter.onAbort() }
 
-        confirmButton.setOnClickListener { presenter.onConfirm() }
+        view.confirmButton.setOnClickListener { presenter.onConfirm() }
 
         return view
     }
