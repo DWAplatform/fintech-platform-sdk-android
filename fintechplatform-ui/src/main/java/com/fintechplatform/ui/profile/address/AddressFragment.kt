@@ -1,32 +1,46 @@
-package com.fintechplatform.ui.profile.address.ui
+package com.fintechplatform.ui.profile.address
 
 import android.content.Context
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
+import android.support.v4.app.Fragment
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.view.WindowManager
 import com.fintechplatform.ui.R
 import com.fintechplatform.ui.alert.AlertHelpers
+import com.fintechplatform.ui.models.DataAccount
+import com.fintechplatform.ui.profile.address.di.AddressViewComponent
 import com.mukesh.countrypicker.CountryPicker
 import kotlinx.android.synthetic.main.activity_profile_address.*
 import javax.inject.Inject
 
 
-class AddressActivity: AppCompatActivity(), AddressContract.View {
+open class AddressFragment: Fragment(), AddressContract.View {
 
-    @Inject lateinit var presenter: AddressContract.Presenter
-    @Inject lateinit var alertHelper: AlertHelpers
+    @Inject
+    lateinit var presenter: AddressContract.Presenter
+    @Inject
+    lateinit var alertHelper: AlertHelpers
 
     var picker: CountryPicker? = null
+    var navigation: AddressContract.Navigation? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        AddressUI.instance.createAddressComponent(this as Context, this).inject(this)
-        setContentView(R.layout.activity_profile_address)
+    open fun createAddressComponent(context: Context, view: AddressContract.View, hostName: String, dataAccount: DataAccount): AddressViewComponent {
+        return AddressUI.Builder.buildAddressComponent(context, view, hostName, dataAccount)
+    }
 
-        presenter.initializate()
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        val view = inflater.inflate(R.layout.activity_profile_address, container, false)
+        arguments?.getString("hostname")?.let { hostname ->
+            arguments?.getParcelable<DataAccount>("dataAccount")?.let { dataAccount ->
+                createAddressComponent(context, this, hostname, dataAccount).inject(this)
+            }
+        }
+
 
         addressText.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(p0: Editable?) {}
@@ -65,15 +79,31 @@ class AddressActivity: AppCompatActivity(), AddressContract.View {
         backwardButton.setOnClickListener { presenter.onAbort() }
 
         confirmButton.setOnClickListener { presenter.onConfirm() }
+
+        return view
     }
 
-    override fun onBackPressed() {
-        presenter.onAbort()
+    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        presenter.initializate()
     }
 
     override fun onResume() {
         super.onResume()
         presenter.onRefresh()
+    }
+
+    override fun onAttach(context: Context?) {
+        super.onAttach(context)
+        (context as? AddressContract.Navigation)?.let {
+            navigation = it
+        }?: Log.e(AddressFragment::class.java.canonicalName, "AddressContract.Navigation must be implemented in your Activity!!")
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        navigation = null
     }
 
     override fun setBackwardText() {
@@ -122,7 +152,7 @@ class AddressActivity: AppCompatActivity(), AddressContract.View {
         picker?.setListener { name, code, dialCode, flagDrawableResID ->
             presenter.onCountrySelected(name, code)
         }
-        picker?.show(supportFragmentManager, "COUNTRY_PICKER")
+        picker?.show(activity.supportFragmentManager, "COUNTRY_PICKER")
     }
 
     override fun closeCountryPicker(){
@@ -149,21 +179,32 @@ class AddressActivity: AppCompatActivity(), AddressContract.View {
     }
 
     override fun showTokenExpiredWarning() {
-        alertHelper.tokenExpired(this, { _,_ ->
-            finish()
-        })
+        alertHelper.tokenExpired(context) { _,_ ->
+            navigation?.goBackFromAddress()
+        }
     }
 
     override fun showCommunicationInternalError() {
-        alertHelper.internalError(this).show()
+        alertHelper.internalError(context).show()
     }
 
     override fun hideKeyboard() {
-        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN)
+        activity.window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN)
     }
 
     override fun goBack() {
-        finish()
-        overridePendingTransition(R.anim.back_enter, R.anim.back_leave)
+        navigation?.goBackFromAddress()
+    }
+
+
+    companion object {
+        fun newInstance(hostname: String, dataAccount: DataAccount): AddressFragment {
+            val frag = AddressFragment()
+            val args = Bundle()
+            args.putString("hostname", hostname)
+            args.putParcelable("dataAccount", dataAccount)
+            frag.arguments = args
+            return frag
+        }
     }
 }

@@ -1,4 +1,4 @@
-package com.fintechplatform.ui.profile.address.ui
+package com.fintechplatform.ui.profile.address
 
 interface AddressContract {
     interface View {
@@ -32,5 +32,9 @@ interface AddressContract {
         fun refreshConfirmButton()
         fun onCountryOfResidenceClick()
         fun onCountrySelected(name: String, code: String)
+    }
+
+    interface Navigation {
+        fun goBackFromAddress()
     }
 }

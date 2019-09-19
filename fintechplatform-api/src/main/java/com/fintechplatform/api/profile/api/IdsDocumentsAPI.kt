@@ -127,6 +127,7 @@ class IdsDocumentsAPI @Inject constructor(internal val hostName: String,
             val r = requestProvider.jsonObjectRequest(Request.Method.POST, url, jsonObject,
                     netHelper.getHeaderBuilder().authorizationToken(token).idempotency(idempotency).getHeaderMap(),
                     { response ->
+                        log.debug("UserDocument", response.toString())
                         val documentId = response.optString("documentId")
                         val docType = response.optString("docType")?.run { DocType.valueOf(this) }
                         val bucketObjectIdPages = response.optJSONArray("bucketObjectIdPages")?.run {

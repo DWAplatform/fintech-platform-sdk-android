@@ -1,10 +1,11 @@
-package com.fintechplatform.ui.profile.address.ui
+package com.fintechplatform.ui.profile.address.di
 
 import com.fintechplatform.api.log.LogModule
 import com.fintechplatform.api.net.NetModule
 import com.fintechplatform.api.profile.api.IdsDocumentsAPIModule
 import com.fintechplatform.api.profile.api.ProfileAPIModule
 import com.fintechplatform.ui.alert.AlertHelpersModule
+import com.fintechplatform.ui.profile.address.AddressFragment
 import com.fintechplatform.ui.profile.db.user.UsersPersistanceDBModule
 import dagger.Component
 import javax.inject.Singleton
@@ -20,5 +21,5 @@ import javax.inject.Singleton
     UsersPersistanceDBModule::class
 ])
 interface AddressViewComponent {
-    fun inject(activity: AddressActivity)
+    fun inject(fragment: AddressFragment)
 }

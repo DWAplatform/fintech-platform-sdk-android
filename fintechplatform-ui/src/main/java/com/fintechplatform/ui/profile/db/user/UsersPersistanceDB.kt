@@ -19,7 +19,8 @@ class UsersPersistanceDB @Inject constructor(val dbUsers: UsersDB) {
     fun userProfile(userId: String): UserProfile? {
         val optuserobj = dbUsers.findUser(userId)
         return optuserobj?.let {
-            UserProfile(it.id,
+            val id = it.id?: ""
+            UserProfile(id,
                     it.myname,
                     it.surname,
                     it.nationality,
@@ -40,7 +41,7 @@ class UsersPersistanceDB @Inject constructor(val dbUsers: UsersDB) {
         val optuserobj = dbUsers.findUser(userId)
         return optuserobj?.let { userobj ->
             UserResidential(userId, "", userobj.address,
-                    userobj.ZIPcode, userobj.city, userobj.countryofresidence)
+                    userobj.ziPcode, userobj.city, userobj.countryofresidence)
             }
     }
 
@@ -62,7 +63,7 @@ class UsersPersistanceDB @Inject constructor(val dbUsers: UsersDB) {
             user.id = residential.userid
             user.address = residential.address
             user.city = residential.city
-            user.ZIPcode = residential.ZIPcode
+            user.ziPcode = residential.ZIPcode
             user.countryofresidence = residential.countryofresidence
         dbUsers.saveUser(user)
     }

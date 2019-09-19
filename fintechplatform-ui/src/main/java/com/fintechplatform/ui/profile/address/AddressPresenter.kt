@@ -1,4 +1,4 @@
-package com.fintechplatform.ui.profile.address.ui
+package com.fintechplatform.ui.profile.address
 
 import com.fintechplatform.api.iban.models.UserResidential
 import com.fintechplatform.api.net.NetHelper

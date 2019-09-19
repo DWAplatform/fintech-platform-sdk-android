@@ -52,7 +52,7 @@ class PayOutActivity: FragmentActivity(),
 
     override fun goToIBANAddress() {
         getExtras()?.let {
-            val ibanFrag = FintechPlatform.buildIBAN().startFragment(it.hostName, it.dataAccount)
+            val ibanFrag = FintechPlatform.buildIBANUI().startFragment(it.hostName, it.dataAccount)
             supportFragmentManager.beginTransaction()
                     .replace(R.id.contentContainer, ibanFrag, PayOutFragment::class.java.canonicalName)
                     .addToBackStack(null)

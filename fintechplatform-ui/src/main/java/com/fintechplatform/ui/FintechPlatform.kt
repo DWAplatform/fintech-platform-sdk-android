@@ -59,7 +59,7 @@ class FintechPlatform {
             return PaymentCardUI(hostName, dataAccount, isSandbox)
         }
 
-        fun buildIBAN(): IbanUI {
+        fun buildIBANUI(): IbanUI {
             return IbanUI()
         }
 
