@@ -1,4 +1,4 @@
-package com.fintechplatform.ui.profile.jobinfo.ui
+package com.fintechplatform.ui.profile.jobinfo
 
 import android.app.AlertDialog
 import android.app.Dialog
@@ -19,21 +19,22 @@ class IncomePickerDialog: DialogFragment() {
 
         val builder = AlertDialog.Builder(activity)
         builder.setTitle(getString(R.string.choose_salary))
-                .setItems(R.array.salaries, { dialog, id ->
+                .setItems(R.array.salaries) { dialog, id ->
 
                     val resArray = resources.getStringArray(R.array.salaries)
                     listener?.salaryPicked(resArray[id])
                     dismiss()
-                })
+                }
         return builder.show()
     }
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
         val act = context as JobInfoActivity
+        val frag = act.supportFragmentManager.findFragmentByTag(JobInfoFragment::class.java.canonicalName)
 
-        if (act.presenter is OnPickSalaryIncome){
-            listener = act.presenter as OnPickSalaryIncome
+        if ((frag as JobInfoFragment).presenter is OnPickSalaryIncome){
+            listener = frag.presenter as OnPickSalaryIncome
         }
     }
 

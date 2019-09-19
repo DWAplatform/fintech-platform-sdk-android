@@ -1,4 +1,4 @@
-package com.fintechplatform.ui.profile.jobinfo.ui
+package com.fintechplatform.ui.profile.jobinfo
 
 interface JobInfoContract {
     interface View {
@@ -26,5 +26,9 @@ interface JobInfoContract {
         fun onConfirm()
         fun refreshConfirmButton()
         fun onIncomeClick()
+    }
+
+    interface Navigation {
+        fun backFromJobInfo()
     }
 }

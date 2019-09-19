@@ -1,4 +1,4 @@
-package com.fintechplatform.ui.profile.jobinfo.ui
+package com.fintechplatform.ui.profile.jobinfo
 
 import com.fintechplatform.api.net.NetHelper
 import com.fintechplatform.api.profile.api.ProfileAPI

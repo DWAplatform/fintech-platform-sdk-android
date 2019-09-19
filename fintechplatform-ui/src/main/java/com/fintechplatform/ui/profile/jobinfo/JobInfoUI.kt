@@ -1,4 +1,4 @@
-package com.fintechplatform.ui.profile.contacts
+package com.fintechplatform.ui.profile.jobinfo
 
 import android.content.Context
 import android.content.Intent
@@ -8,14 +8,15 @@ import com.fintechplatform.api.net.NetModule
 import com.fintechplatform.api.profile.api.IdsDocumentsAPIModule
 import com.fintechplatform.api.profile.api.ProfileAPIModule
 import com.fintechplatform.ui.models.DataAccount
-import com.fintechplatform.ui.profile.contacts.di.ContactsPresenterModule
-import com.fintechplatform.ui.profile.contacts.di.ContactsViewComponent
-import com.fintechplatform.ui.profile.contacts.di.DaggerContactsViewComponent
+import com.fintechplatform.ui.profile.jobinfo.di.DaggerJobInfoViewComponent
+import com.fintechplatform.ui.profile.jobinfo.di.JobInfoPresenterModule
+import com.fintechplatform.ui.profile.jobinfo.di.JobInfoViewComponent
 
-class ContactsUI(private val hostName: String, private val configuration: DataAccount) {
+
+class JobInfoUI(private val hostName: String, private val configuration: DataAccount) {
 
     fun startActivity(context: Context) {
-        val intent = Intent(context, ContactsActivity::class.java)
+        val intent = Intent(context, JobInfoActivity::class.java)
         val args = Bundle()
         args.putString("hostname", hostName)
         args.putParcelable("dataAccount", configuration)
@@ -23,19 +24,19 @@ class ContactsUI(private val hostName: String, private val configuration: DataAc
         context.startActivity(intent)
     }
 
-    fun creatFragment(): ContactsFragment {
-        return ContactsFragment.newInstance(hostName, configuration)
+    fun createFragment(): JobInfoFragment {
+        return JobInfoFragment.newInstance(hostName, configuration)
     }
 
+
     object Builder {
-        fun buildContactsViewComponet(context: Context, view: ContactsContract.View, hostName: String, dataAccount: DataAccount): ContactsViewComponent {
-            return DaggerContactsViewComponent.builder()
+        fun buildJobInfoComponent(context: Context, view: JobInfoContract.View, hostName: String, dataAccount: DataAccount): JobInfoViewComponent {
+            return DaggerJobInfoViewComponent.builder()
                     .netModule(NetModule(Volley.newRequestQueue(context), hostName))
-                    .contactsPresenterModule(ContactsPresenterModule(view, dataAccount))
+                    .jobInfoPresenterModule(JobInfoPresenterModule(view, dataAccount))
                     .profileAPIModule(ProfileAPIModule(hostName))
                     .idsDocumentsAPIModule(IdsDocumentsAPIModule(hostName))
                     .build()
         }
-
     }
 }
