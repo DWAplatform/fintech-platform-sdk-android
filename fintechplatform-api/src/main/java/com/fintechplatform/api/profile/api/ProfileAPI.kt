@@ -175,7 +175,7 @@ class ProfileAPI @Inject constructor(
                                     userId: String,
                                     completion: (ByteArray?, Exception?) -> Unit): IRequest<*>? {
 
-        val url = "https://api.sandbox.lightbankingservices.com/rest/v1/bucket/tenants/f7569f0e-aaa7-11e7-b71f-ff13485d8836/bucketsName/3e6a8e4a-59fa-44ff-8bcb-d5bf260f9c8c/objects/b3fa0bda-79ec-4450-b7b0-50b36f9c3ecc/file"//netHelper.getURL("/rest/v1/fintech/tenants/$tenantId/users/$userId/picture")
+        val url = netHelper.getURL("/rest/v1/fintech/tenants/$tenantId/users/$userId/picture")
 
         var request: IRequest<*>?
         try {
