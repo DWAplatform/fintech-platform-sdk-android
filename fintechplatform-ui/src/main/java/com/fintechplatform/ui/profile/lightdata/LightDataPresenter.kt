@@ -1,4 +1,4 @@
-package com.fintechplatform.ui.profile.lightdata.ui
+package com.fintechplatform.ui.profile.lightdata
 
 import com.fintechplatform.api.net.NetHelper
 import com.fintechplatform.api.profile.api.ProfileAPI
@@ -17,7 +17,6 @@ class LightDataPresenter @Inject constructor(val view: LightDataContract.View,
 
 
     private var birthdayDate: String? = null
-    var token:String?=null
 
     override fun initialize() {
 

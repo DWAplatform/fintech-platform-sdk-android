@@ -14,6 +14,7 @@ import com.fintechplatform.ui.profile.address.AddressUI
 import com.fintechplatform.ui.profile.contacts.ContactsUI
 import com.fintechplatform.ui.profile.idcards.IdentityCardsUI
 import com.fintechplatform.ui.profile.jobinfo.JobInfoUI
+import com.fintechplatform.ui.profile.lightdata.LightDataUI
 import com.fintechplatform.ui.qrtransfer.QrTransferBuilder
 import com.fintechplatform.ui.sct.SctBuilder
 import com.fintechplatform.ui.secure3d.Secure3DUI
@@ -104,6 +105,10 @@ class FintechPlatform {
 
         fun buildJobInfoUI(hostName: String, dataAccount: DataAccount): JobInfoUI {
             return JobInfoUI(hostName, dataAccount)
+        }
+
+        fun buildLightDataUI(hostName: String, dataAccount: DataAccount): LightDataUI {
+            return LightDataUI(hostName, dataAccount)
         }
     }
 

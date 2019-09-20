@@ -1,37 +1,51 @@
-package com.fintechplatform.ui.profile.lightdata.ui
+package com.fintechplatform.ui.profile.lightdata
 
 import android.app.DatePickerDialog
 import android.content.Context
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
+import android.support.v4.app.Fragment
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.view.WindowManager
 import com.fintechplatform.ui.R
 import com.fintechplatform.ui.alert.AlertHelpers
+import com.fintechplatform.ui.models.DataAccount
+import com.fintechplatform.ui.profile.lightdata.di.LightDataViewComponent
 import com.mukesh.countrypicker.CountryPicker
 import kotlinx.android.synthetic.main.activity_lightdata.*
+import kotlinx.android.synthetic.main.activity_lightdata.view.*
 import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
 
-/**
- * Shows personal informations
- */
-class LightDataActivity : AppCompatActivity(), LightDataContract.View {
 
-    @Inject lateinit var presenter: LightDataContract.Presenter
-    @Inject lateinit var alertHelper: AlertHelpers
+open class LightDataFragment: Fragment(), LightDataContract.View {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        LightDataUI.instance.createLightDataViewComponent(this as Context, this).inject(this)
-        setContentView(R.layout.activity_lightdata)
+    @Inject
+    lateinit var presenter: LightDataContract.Presenter
+    @Inject
+    lateinit var alertHelper: AlertHelpers
 
-        presenter.initialize()
+    var navigation: LightDataContract.Navigation? = null
 
-        nameText.addTextChangedListener(object : TextWatcher {
+    open fun createLightDataViewComponent(context: Context, view: LightDataContract.View, hostname: String, dataAccount: DataAccount): LightDataViewComponent {
+        return LightDataUI.Builder.buildLightDataViewComponent(context, view, hostname, dataAccount)
+    }
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        val view = inflater.inflate(R.layout.activity_lightdata, container, false)
+
+        arguments?.getString("hostname")?.let { hostname ->
+            arguments?.getParcelable<DataAccount>("dataAccount")?.let { dataAccount ->
+                createLightDataViewComponent(context, this, hostname, dataAccount).inject(this)
+            }
+        }
+
+        view.nameText.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(p0: Editable?) {}
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
@@ -39,7 +53,7 @@ class LightDataActivity : AppCompatActivity(), LightDataContract.View {
             }
         })
 
-        surnameText.addTextChangedListener(object : TextWatcher {
+        view.surnameText.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(p0: Editable?) {}
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
@@ -47,11 +61,11 @@ class LightDataActivity : AppCompatActivity(), LightDataContract.View {
             }
         })
 
-        confirmButton.setOnClickListener {
+        view.confirmButton.setOnClickListener {
             presenter.onConfirm()
         }
 
-        nationalityText.setOnClickListener {
+        view.nationalityText.setOnClickListener {
             val picker = CountryPicker.newInstance("Seleziona nazionalità")
 
             picker.setListener { name, code, dialCode, flagDrawableResID ->
@@ -59,28 +73,44 @@ class LightDataActivity : AppCompatActivity(), LightDataContract.View {
                 picker.dismiss()
             }
 
-            picker.show(supportFragmentManager, "COUNTRY_PICKER")
+            picker.show(activity.supportFragmentManager, "COUNTRY_PICKER")
         }
 
         val dateListener = DatePickerDialog.OnDateSetListener { x, year, monthOfYear, dayOfMonth ->
             presenter.onPickBirthdayDate(year, monthOfYear, dayOfMonth)
         }
 
-        birthdayText.setOnClickListener {
+        view.birthdayText.setOnClickListener {
             showCalendar(dateListener)
         }
 
-        abortButton.setOnClickListener { presenter.onAbortClick() }
+        view.abortButton.setOnClickListener { presenter.onAbortClick() }
+        return view
     }
 
-    override fun onBackPressed() {
-        presenter.onAbortClick()
+    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        presenter.initialize()
     }
 
     override fun onResume() {
         super.onResume()
         presenter.onRefresh()
     }
+
+    override fun onAttach(context: Context?) {
+        super.onAttach(context)
+        (context as? LightDataContract.Navigation)?.let {
+            navigation = it
+        }?: Log.e(LightDataFragment::class.java.canonicalName, "LightDataContract.Navigation must be implemented in your Activity!!")
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        navigation = null
+    }
+
+    /** Contract.View */
 
     override fun setBackwardText() {
         abortButton.text = resources.getString(R.string.navheader_back)
@@ -140,7 +170,7 @@ class LightDataActivity : AppCompatActivity(), LightDataContract.View {
             date.time = datef
         }
 
-        DatePickerDialog(this, dateListener,
+        DatePickerDialog(context, dateListener,
                 date.get(Calendar.YEAR), date.get(Calendar.MONTH),
                 date.get(Calendar.DAY_OF_MONTH)).show()
     }
@@ -150,8 +180,8 @@ class LightDataActivity : AppCompatActivity(), LightDataContract.View {
     }
 
     override fun showTokenExpired() {
-        alertHelper.tokenExpired(this) { _, _ ->
-            finish()
+        alertHelper.tokenExpired(context) { _, _ ->
+            navigation?.backFromLightData()
         }
     }
 
@@ -164,11 +194,21 @@ class LightDataActivity : AppCompatActivity(), LightDataContract.View {
     }
 
     override fun goBack() {
-        finish()
-        overridePendingTransition(R.anim.back_enter, R.anim.back_leave)
+        navigation?.backFromLightData()
     }
 
     override fun hideKeyboard() {
-        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN)
+        activity.window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN)
+    }
+
+    companion object{
+        fun newInstance(hostName: String, dataAccount: DataAccount): LightDataFragment {
+            val frag = LightDataFragment()
+            val args = Bundle()
+            args.putString("hostname", hostName)
+            args.putParcelable("dataAccount", dataAccount)
+            frag.arguments = args
+            return frag
+        }
     }
 }

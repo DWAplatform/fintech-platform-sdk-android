@@ -1,4 +1,4 @@
-package com.fintechplatform.ui.profile.lightdata.ui
+package com.fintechplatform.ui.profile.lightdata
 
 interface LightDataContract {
     interface View {
@@ -29,5 +29,9 @@ interface LightDataContract {
         fun onPickBirthdayDate(year: Int, monthOfYear: Int, dayOfMonth: Int)
         fun onPickCountryNationality(name: String, code: String)
         fun onAbortClick()
+    }
+
+    interface Navigation {
+        fun backFromLightData()
     }
 }
