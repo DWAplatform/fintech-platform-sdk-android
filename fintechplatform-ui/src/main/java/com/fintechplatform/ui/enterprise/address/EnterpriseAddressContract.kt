@@ -1,4 +1,4 @@
-package com.fintechplatform.ui.enterprise.address.ui
+package com.fintechplatform.ui.enterprise.address
 
 interface EnterpriseAddressContract {
     interface View {
@@ -32,5 +32,9 @@ interface EnterpriseAddressContract {
         fun refreshConfirmButton()
         fun onCountryOfResidenceClick()
         fun onCountrySelected(name: String, code: String)
+    }
+
+    interface Navigation {
+        fun backFromEnterpriseAddress()
     }
 }

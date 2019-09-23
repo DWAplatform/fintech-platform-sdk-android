@@ -1,4 +1,4 @@
-package com.fintechplatform.ui.enterprise.address.ui
+package com.fintechplatform.ui.enterprise.address
 
 import com.fintechplatform.api.enterprise.api.EnterpriseAPI
 import com.fintechplatform.api.enterprise.models.EnterpriseAddress

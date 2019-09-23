@@ -6,6 +6,7 @@ import com.fintechplatform.ui.account.financialdata.FinancialDataBuilder
 import com.fintechplatform.ui.card.PaymentCardUI
 import com.fintechplatform.ui.db.PlatformDB
 import com.fintechplatform.ui.enterprise.EnterpriseBuilder
+import com.fintechplatform.ui.enterprise.address.EnterpriseAddressUI
 import com.fintechplatform.ui.iban.IbanUI
 import com.fintechplatform.ui.models.DataAccount
 import com.fintechplatform.ui.payin.PayInUI
@@ -109,6 +110,10 @@ class FintechPlatform {
 
         fun buildLightDataUI(hostName: String, dataAccount: DataAccount): LightDataUI {
             return LightDataUI(hostName, dataAccount)
+        }
+
+        fun buildEnterpriseAddressUI(hostName: String, dataAccount: DataAccount): EnterpriseAddressUI {
+            return EnterpriseAddressUI(hostName, dataAccount)
         }
     }
 

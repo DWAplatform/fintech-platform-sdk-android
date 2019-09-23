@@ -1,74 +1,90 @@
-package com.fintechplatform.ui.enterprise.address.ui
+package com.fintechplatform.ui.enterprise.address
 
 import android.content.Context
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
+import android.support.v4.app.Fragment
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.view.WindowManager
 import com.fintechplatform.ui.R
 import com.fintechplatform.ui.alert.AlertHelpers
+import com.fintechplatform.ui.enterprise.address.di.EnterpriseAddressViewComponent
+import com.fintechplatform.ui.models.DataAccount
 import com.mukesh.countrypicker.CountryPicker
 import kotlinx.android.synthetic.main.activity_profile_address.*
+import kotlinx.android.synthetic.main.fragment_enterprise_address.view.*
 import javax.inject.Inject
 
 
-class EnterpriseAddressActivity : AppCompatActivity(), EnterpriseAddressContract.View {
+open class EnterpriseAddressFragment: Fragment(), EnterpriseAddressContract.View {
 
-    @Inject lateinit var presenter: EnterpriseAddressContract.Presenter
-    @Inject lateinit var alertHelper: AlertHelpers
+    @Inject
+    lateinit var presenter: EnterpriseAddressContract.Presenter
+    @Inject
+    lateinit var alertHelper: AlertHelpers
 
     var picker: CountryPicker? = null
+    var navigation: EnterpriseAddressContract.Navigation? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        EnterpriseAddressUI.instance.createAddressComponent(this as Context, this).inject(this)
-        setContentView(R.layout.activity_enterprise_address)
-
-        presenter.initializate()
-
-        addressText.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(p0: Editable?) {}
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                presenter.refreshConfirmButton()
-            }
-        })
-
-        zipcodeText.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(p0: Editable?) {}
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                presenter.refreshConfirmButton()
-            }
-        })
-
-        cityText.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(p0: Editable?) {}
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                presenter.refreshConfirmButton()
-            }
-        })
-
-        countryofresidenceText.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(p0: Editable?) {}
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                presenter.refreshConfirmButton()
-            }
-        })
-
-        countryofresidenceText.setOnClickListener { presenter.onCountryOfResidenceClick()}
-
-        backwardButton.setOnClickListener { presenter.onAbort() }
-
-        confirmButton.setOnClickListener { presenter.onConfirm() }
+    open fun createEnterpriseAddressViewComponent(context: Context, view: EnterpriseAddressContract.View, hostName: String, dataAccount: DataAccount): EnterpriseAddressViewComponent {
+        return EnterpriseAddressUI.Builder.buildAddressComponent(context, view, hostName, dataAccount)
     }
 
-    override fun onBackPressed() {
-        presenter.onAbort()
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        val view = inflater.inflate(R.layout.fragment_enterprise_address, container, false)
+
+        arguments?.getString("hostname")?.let { hostname ->
+            arguments?.getParcelable<DataAccount>("dataAccount")?.let { dataAccount ->
+                createEnterpriseAddressViewComponent(context, this, hostname, dataAccount).inject(this)
+            }
+        }
+
+        view.addressText.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(p0: Editable?) {}
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                presenter.refreshConfirmButton()
+            }
+        })
+
+        view.zipcodeText.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(p0: Editable?) {}
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                presenter.refreshConfirmButton()
+            }
+        })
+
+        view.cityText.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(p0: Editable?) {}
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                presenter.refreshConfirmButton()
+            }
+        })
+
+        view.countryofresidenceText.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(p0: Editable?) {}
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                presenter.refreshConfirmButton()
+            }
+        })
+
+        view.countryofresidenceText.setOnClickListener { presenter.onCountryOfResidenceClick()}
+
+        view.backwardButton.setOnClickListener { presenter.onAbort() }
+
+        view.confirmButton.setOnClickListener { presenter.onConfirm() }
+        return view
+    }
+
+    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        presenter.initializate()
     }
 
     override fun onResume() {
@@ -122,7 +138,7 @@ class EnterpriseAddressActivity : AppCompatActivity(), EnterpriseAddressContract
         picker?.setListener { name, code, dialCode, flagDrawableResID ->
             presenter.onCountrySelected(name, code)
         }
-        picker?.show(supportFragmentManager, "COUNTRY_PICKER")
+        picker?.show(activity.supportFragmentManager, "COUNTRY_PICKER")
     }
 
     override fun closeCountryPicker(){
@@ -149,21 +165,31 @@ class EnterpriseAddressActivity : AppCompatActivity(), EnterpriseAddressContract
     }
 
     override fun showTokenExpiredWarning() {
-        alertHelper.tokenExpired(this, { _,_ ->
-            finish()
-        })
+        alertHelper.tokenExpired(context) { _,_ ->
+            navigation?.backFromEnterpriseAddress()
+        }
     }
 
     override fun showCommunicationInternalError() {
-        alertHelper.internalError(this).show()
+        alertHelper.internalError(context).show()
     }
 
     override fun hideKeyboard() {
-        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN)
+        activity.window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN)
     }
 
     override fun goBack() {
-        finish()
-        overridePendingTransition(R.anim.back_enter, R.anim.back_leave)
+        navigation?.backFromEnterpriseAddress()
+    }
+
+    companion object{
+        fun newInstance(hostName: String, dataAccount: DataAccount): EnterpriseAddressFragment {
+            val frag = EnterpriseAddressFragment()
+            val args = Bundle()
+            args.putString("hostname", hostName)
+            args.putParcelable("dataAccount", dataAccount)
+            frag.arguments = args
+            return frag
+        }
     }
 }

@@ -1,6 +1,8 @@
-package com.fintechplatform.ui.enterprise.address.ui;
+package com.fintechplatform.ui.enterprise.address.di;
 
 import com.fintechplatform.api.enterprise.api.EnterpriseAPI;
+import com.fintechplatform.ui.enterprise.address.EnterpriseAddressContract;
+import com.fintechplatform.ui.enterprise.address.EnterpriseAddressPresenter;
 import com.fintechplatform.ui.enterprise.db.enterprise.EnterprisePersistanceDB;
 import com.fintechplatform.ui.models.DataAccount;
 

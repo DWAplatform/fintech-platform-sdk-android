@@ -1,9 +1,10 @@
-package com.fintechplatform.ui.enterprise.address.ui;
+package com.fintechplatform.ui.enterprise.address.di;
 
 import com.fintechplatform.api.enterprise.api.EnterpriseAPIModule;
 import com.fintechplatform.api.log.LogModule;
 import com.fintechplatform.api.net.NetModule;
 import com.fintechplatform.ui.alert.AlertHelpersModule;
+import com.fintechplatform.ui.enterprise.address.EnterpriseAddressFragment;
 import com.fintechplatform.ui.enterprise.db.enterprise.EnterprisePersistanceDBModule;
 
 import javax.inject.Singleton;
@@ -20,5 +21,5 @@ import dagger.Component;
         EnterprisePersistanceDBModule.class
 })
 public interface EnterpriseAddressViewComponent {
-    void inject(EnterpriseAddressActivity activity);
+    void inject(EnterpriseAddressFragment fragment);
 }

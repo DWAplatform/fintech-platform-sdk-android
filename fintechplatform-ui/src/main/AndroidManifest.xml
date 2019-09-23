@@ -26,7 +26,7 @@
             android:screenOrientation="portrait"/>
         <activity android:name="com.fintechplatform.ui.enterprise.info.ui.EnterpriseInfoActivity" />
         <activity android:name="com.fintechplatform.ui.enterprise.contacts.ui.EnterpriseContactsActivity" />
-        <activity android:name="com.fintechplatform.ui.enterprise.address.ui.EnterpriseAddressActivity" />
+        <activity android:name="com.fintechplatform.ui.enterprise.address.EnterpriseAddressActivity" />
         <activity android:name="com.fintechplatform.ui.enterprise.documents.ui.EnterpriseDocumentsActivity" />
         <activity android:name="com.fintechplatform.ui.newibancontact.ui.NewIbanContactActivity" />
         <activity android:name="com.fintechplatform.ui.transfer.TransferActivity" />
