@@ -35,12 +35,12 @@ class EnterpriseAPI @Inject constructor(internal val hostName: String,
                 val status = if (error.networkResponse != null) error.networkResponse.statusCode
                 else -1
                 when (status) {
-                    401 ->
+                    403 ->
                         completion(null, netHelper.TokenError(error))
                     404 ->
                             completion(null, netHelper.EnterpriseNotFound(error))
                     else ->
-                        completion(null, netHelper.GenericCommunicationError(error))
+                        completion(null, netHelper.createRequestError(error))
                 }
             }
             r.setIRetryPolicy(netHelper.defaultpolicy)
@@ -97,7 +97,7 @@ class EnterpriseAPI @Inject constructor(internal val hostName: String,
                 val status = if (error.networkResponse != null) error.networkResponse.statusCode
                 else -1
                 when (status) {
-                    401 ->
+                    403 ->
                         completion(null, netHelper.TokenError(error))
                     404 ->
                         completion(null, netHelper.EnterpriseNotFound(error))
@@ -186,7 +186,7 @@ class EnterpriseAPI @Inject constructor(internal val hostName: String,
                 val status = if (error.networkResponse != null) error.networkResponse.statusCode
                 else -1
                 when (status) {
-                    401 ->
+                    403 ->
                         completion(null, netHelper.TokenError(error))
                     else ->
                         completion(null, netHelper.GenericCommunicationError(error))
@@ -232,7 +232,7 @@ class EnterpriseAPI @Inject constructor(internal val hostName: String,
                         completion(null, netHelper.IdempotencyError(error))
                     }
 
-                    401 -> {
+                    403 -> {
                         completion(null, netHelper.TokenError(error))
                     }
                     else -> completion(null, netHelper.GenericCommunicationError(error))

@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -85,6 +86,18 @@ open class EnterpriseAddressFragment: Fragment(), EnterpriseAddressContract.View
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         presenter.initializate()
+    }
+
+    override fun onAttach(context: Context?) {
+        super.onAttach(context)
+        (context as? EnterpriseAddressContract.Navigation)?.let {
+            navigation = it
+        }?: Log.e(EnterpriseAddressFragment::class.java.canonicalName, "EnterpriseAddressContract.Navigation must be implemented in your Activity!!")
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        navigation = null
     }
 
     override fun onResume() {
