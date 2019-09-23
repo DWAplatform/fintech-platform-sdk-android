@@ -1,4 +1,4 @@
-package com.fintechplatform.ui.enterprise.info.ui
+package com.fintechplatform.ui.enterprise.info
 
 interface EnterpriseInfoContract {
     interface View {
@@ -23,5 +23,9 @@ interface EnterpriseInfoContract {
         fun onRefresh()
         fun refreshConfirmButton()
         fun onAbortClick()
+    }
+
+    interface Navigation {
+        fun backFromBusinessInfo()
     }
 }

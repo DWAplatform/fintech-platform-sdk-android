@@ -8,6 +8,7 @@ import com.fintechplatform.ui.db.PlatformDB
 import com.fintechplatform.ui.enterprise.EnterpriseBuilder
 import com.fintechplatform.ui.enterprise.address.EnterpriseAddressUI
 import com.fintechplatform.ui.enterprise.contacts.EnterpriseContactsUI
+import com.fintechplatform.ui.enterprise.info.EnterpriseInfoUI
 import com.fintechplatform.ui.iban.IbanUI
 import com.fintechplatform.ui.models.DataAccount
 import com.fintechplatform.ui.payin.PayInUI
@@ -119,6 +120,10 @@ class FintechPlatform {
 
         fun buildEnterpriseContactsUI(hostName: String, dataAccount: DataAccount): EnterpriseContactsUI {
             return EnterpriseContactsUI(hostName, dataAccount)
+        }
+
+        fun buildEnterpriseInfoUI(hostName: String, dataAccount: DataAccount): EnterpriseInfoUI {
+            return EnterpriseInfoUI(hostName, dataAccount)
         }
     }
 

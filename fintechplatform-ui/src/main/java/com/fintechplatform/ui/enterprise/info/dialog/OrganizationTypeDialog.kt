@@ -1,4 +1,4 @@
-package com.fintechplatform.ui.enterprise.info.ui.dialog
+package com.fintechplatform.ui.enterprise.info.dialog
 
 import android.app.Activity.RESULT_OK
 import android.app.AlertDialog
@@ -8,7 +8,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.DialogFragment
 import com.fintechplatform.ui.R
-import com.fintechplatform.ui.enterprise.info.ui.EnterpriseInfoActivity
+import com.fintechplatform.ui.enterprise.info.EnterpriseInfoActivity
 
 
 class OrganizationTypeDialog: DialogFragment() {

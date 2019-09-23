@@ -1,4 +1,4 @@
-package com.fintechplatform.ui.enterprise.info.ui
+package com.fintechplatform.ui.enterprise.info
 
 import com.fintechplatform.api.enterprise.api.EnterpriseAPI
 import com.fintechplatform.api.enterprise.models.EnterpriseInfo
