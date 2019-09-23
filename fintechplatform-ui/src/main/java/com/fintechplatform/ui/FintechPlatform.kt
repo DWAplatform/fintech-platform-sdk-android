@@ -5,9 +5,9 @@ import com.fintechplatform.ui.account.balance.BalanceBuilder
 import com.fintechplatform.ui.account.financialdata.FinancialDataBuilder
 import com.fintechplatform.ui.card.PaymentCardUI
 import com.fintechplatform.ui.db.PlatformDB
-import com.fintechplatform.ui.enterprise.EnterpriseBuilder
 import com.fintechplatform.ui.enterprise.address.EnterpriseAddressUI
 import com.fintechplatform.ui.enterprise.contacts.EnterpriseContactsUI
+import com.fintechplatform.ui.enterprise.documents.EnterpriseDocumentsUI
 import com.fintechplatform.ui.enterprise.info.EnterpriseInfoUI
 import com.fintechplatform.ui.iban.IbanUI
 import com.fintechplatform.ui.models.DataAccount
@@ -74,10 +74,6 @@ class FintechPlatform {
             return TransactionsUI(hostName, dataAccount)
         }
 
-        fun buildEnterpriseData(): EnterpriseBuilder {
-            return EnterpriseBuilder()
-        }
-
         fun buildFinancialData(): FinancialDataBuilder {
             return FinancialDataBuilder()
         }
@@ -124,6 +120,10 @@ class FintechPlatform {
 
         fun buildEnterpriseInfoUI(hostName: String, dataAccount: DataAccount): EnterpriseInfoUI {
             return EnterpriseInfoUI(hostName, dataAccount)
+        }
+
+        fun buildEnterpriseDocumentsUI(hostName: String, dataAccount: DataAccount): EnterpriseDocumentsUI {
+            return EnterpriseDocumentsUI(hostName, dataAccount)
         }
     }
 

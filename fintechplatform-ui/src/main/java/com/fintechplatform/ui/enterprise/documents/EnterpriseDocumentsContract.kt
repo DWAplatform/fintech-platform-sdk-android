@@ -1,4 +1,4 @@
-package com.fintechplatform.ui.enterprise.documents.ui
+package com.fintechplatform.ui.enterprise.documents
 
 import android.content.Intent
 
@@ -24,5 +24,9 @@ interface EnterpriseDocumentsContract {
         fun onInsertPages()
         fun refreshConfirmButton()
         fun onPictureTaken(optData: Intent?, index: Int)
+    }
+
+    interface Navigation {
+        fun backFromEnterpriseDocuments()
     }
 }

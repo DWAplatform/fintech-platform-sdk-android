@@ -1,37 +1,61 @@
-package com.fintechplatform.ui.enterprise.documents.ui
+package com.fintechplatform.ui.enterprise.documents
 
 import android.Manifest
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.provider.MediaStore
 import android.support.v4.app.ActivityCompat
+import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import com.fintechplatform.ui.R
 import com.fintechplatform.ui.alert.AlertHelpers
+import com.fintechplatform.ui.enterprise.documents.di.EnterpriseDocumentsViewComponent
+import com.fintechplatform.ui.models.DataAccount
 import kotlinx.android.synthetic.main.activity_enterprise_documents.*
+import kotlinx.android.synthetic.main.activity_enterprise_documents.view.*
 import javax.inject.Inject
 
-class EnterpriseDocumentsActivity: AppCompatActivity(), EnterpriseDocumentsContract.View {
 
-    @Inject lateinit var presenter: EnterpriseDocumentsContract.Presenter
-    @Inject lateinit var alertHelper: AlertHelpers
+open class EnterpriseDocumentsFragment: Fragment(), EnterpriseDocumentsContract.View {
+
+    @Inject
+    lateinit var presenter: EnterpriseDocumentsContract.Presenter
+    @Inject
+    lateinit var alertHelper: AlertHelpers
 
     val PICK_DOCUMENT_PAGES = 110
+    var navigation: EnterpriseDocumentsContract.Navigation? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_enterprise_documents)
+    open fun createEnterpriseDocumentsViewComponent(context: Context, view: EnterpriseDocumentsContract.View, hostName: String, dataAccount: DataAccount) : EnterpriseDocumentsViewComponent {
+        return EnterpriseDocumentsUI.Builder.buildEnterpriseDocumentsViewComponent(context, view, hostName, dataAccount)
+    }
 
-        EnterpriseDocumentsUI.instance.createEnterpriseDocumentsViewComponent(this, this).inject(this)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        val view = inflater.inflate(R.layout.activity_enterprise_documents, container, false)
 
-        backwardButton.setOnClickListener { presenter.onAbort() }
 
-        confirmButton.setOnClickListener { presenter.onConfirm() }
+        arguments?.getString("hostname")?.let { hostname ->
+            arguments?.getParcelable<DataAccount>("dataAccount")?.let { dataAccount ->
+                createEnterpriseDocumentsViewComponent(context, this, hostname, dataAccount).inject(this)
+            }
+        }
 
-        insertPage.setOnClickListener { presenter.onInsertPages() }
+        view.backwardButton.setOnClickListener { presenter.onAbort() }
 
+        view.confirmButton.setOnClickListener { presenter.onConfirm() }
+
+        view.insertPage.setOnClickListener { presenter.onInsertPages() }
+
+        return view
+    }
+
+    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         presenter.initializate()
     }
 
@@ -42,10 +66,6 @@ class EnterpriseDocumentsActivity: AppCompatActivity(), EnterpriseDocumentsContr
 
     override fun setAbortText() {
         backwardButton.text = resources.getString(R.string.abort)
-    }
-
-    override fun onBackPressed() {
-        presenter.onAbort()
     }
 
     override fun enableConfirmButton(isEnable: Boolean) {
@@ -61,13 +81,13 @@ class EnterpriseDocumentsActivity: AppCompatActivity(), EnterpriseDocumentsContr
     }
 
     override fun showTokenExpiredWarning() {
-        alertHelper.tokenExpired(this, { _,_ ->
-            finish()
-        })
+        alertHelper.tokenExpired(context) { _, _ ->
+            navigation?.backFromEnterpriseDocuments()
+        }
     }
 
     override fun showGenericError() {
-        alertHelper.internalError(this).show()
+        alertHelper.internalError(context).show()
     }
 
     override fun setNumberPages(number: Int) {
@@ -81,17 +101,16 @@ class EnterpriseDocumentsActivity: AppCompatActivity(), EnterpriseDocumentsContr
     }
 
     override fun goBack() {
-        finish()
-        overridePendingTransition(R.anim.back_enter, R.anim.back_leave)
+        navigation?.backFromEnterpriseDocuments()
     }
 
     override fun checkCameraPermission() {
-        if (ActivityCompat.checkSelfPermission(this@EnterpriseDocumentsActivity,
-                Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED ||
-                ActivityCompat.checkSelfPermission(this@EnterpriseDocumentsActivity,
+        if (ActivityCompat.checkSelfPermission(context,
+                        Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED ||
+                ActivityCompat.checkSelfPermission(context,
                         Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
 
-            ActivityCompat.requestPermissions(this@EnterpriseDocumentsActivity,
+            ActivityCompat.requestPermissions(activity,
                     arrayOf(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE),
                     PICK_DOCUMENT_PAGES)
             return
@@ -101,7 +120,7 @@ class EnterpriseDocumentsActivity: AppCompatActivity(), EnterpriseDocumentsContr
     override fun onActivityResult(requestCode: Int, resultCode: Int, optData: Intent?) {
         super.onActivityResult(requestCode, resultCode, optData)
 
-        if(requestCode == PICK_DOCUMENT_PAGES && resultCode == RESULT_OK){
+        if(requestCode == PICK_DOCUMENT_PAGES && resultCode == AppCompatActivity.RESULT_OK){
             presenter.onPictureTaken(optData, 0)
         }
     }
@@ -125,6 +144,17 @@ class EnterpriseDocumentsActivity: AppCompatActivity(), EnterpriseDocumentsContr
             }
 //            fromPermissions = true
 //            permissionsOk = cameraok && externalstorage
+        }
+    }
+
+    companion object {
+        fun newInstance(hostName: String, dataAccount: DataAccount): EnterpriseDocumentsFragment{
+            val frag = EnterpriseDocumentsFragment()
+            val args = Bundle()
+            args.putString("hostname", hostName)
+            args.putParcelable("dataAccount", dataAccount)
+            frag.arguments = args
+            return frag
         }
     }
 }

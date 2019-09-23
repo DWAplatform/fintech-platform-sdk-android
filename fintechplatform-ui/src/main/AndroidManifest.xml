@@ -27,7 +27,7 @@
         <activity android:name="com.fintechplatform.ui.enterprise.info.EnterpriseInfoActivity" />
         <activity android:name="com.fintechplatform.ui.enterprise.contacts.EnterpriseContactsActivity" />
         <activity android:name="com.fintechplatform.ui.enterprise.address.EnterpriseAddressActivity" />
-        <activity android:name="com.fintechplatform.ui.enterprise.documents.ui.EnterpriseDocumentsActivity" />
+        <activity android:name="com.fintechplatform.ui.enterprise.documents.EnterpriseDocumentsActivity" />
         <activity android:name="com.fintechplatform.ui.newibancontact.ui.NewIbanContactActivity" />
         <activity android:name="com.fintechplatform.ui.transfer.TransferActivity" />
         <activity android:name="com.fintechplatform.ui.sct.ui.SctActivity" />

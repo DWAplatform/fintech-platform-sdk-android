@@ -1,4 +1,4 @@
-package com.fintechplatform.ui.enterprise.documents.ui
+package com.fintechplatform.ui.enterprise.documents
 
 import android.content.Intent
 import android.graphics.Bitmap

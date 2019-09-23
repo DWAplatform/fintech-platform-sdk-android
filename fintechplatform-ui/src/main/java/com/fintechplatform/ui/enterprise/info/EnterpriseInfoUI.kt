@@ -23,7 +23,7 @@ class EnterpriseInfoUI(private val hostName: String, private val configuration: 
         context.startActivity(intent)
     }
 
-    fun createFragmetn(): EnterpriseInfoFragment {
+    fun createFragment(): EnterpriseInfoFragment {
         return EnterpriseInfoFragment.newInstance(hostName, configuration)
     }
 
