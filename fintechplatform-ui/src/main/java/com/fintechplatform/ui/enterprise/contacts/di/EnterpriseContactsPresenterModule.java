@@ -1,6 +1,8 @@
-package com.fintechplatform.ui.enterprise.contacts.ui;
+package com.fintechplatform.ui.enterprise.contacts.di;
 
 import com.fintechplatform.api.enterprise.api.EnterpriseAPI;
+import com.fintechplatform.ui.enterprise.contacts.EnterpriseContactsContract;
+import com.fintechplatform.ui.enterprise.contacts.EnterpriseContactsPresenter;
 import com.fintechplatform.ui.enterprise.db.enterprise.EnterprisePersistanceDB;
 import com.fintechplatform.ui.models.DataAccount;
 

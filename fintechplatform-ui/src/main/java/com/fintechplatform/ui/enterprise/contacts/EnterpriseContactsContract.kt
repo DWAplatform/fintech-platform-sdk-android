@@ -1,4 +1,4 @@
-package com.fintechplatform.ui.enterprise.contacts.ui
+package com.fintechplatform.ui.enterprise.contacts
 
 interface EnterpriseContactsContract {
     interface View {
@@ -24,5 +24,9 @@ interface EnterpriseContactsContract {
         fun onAbort()
         fun onConfirm()
         fun refreshConfirmButton()
+    }
+
+    interface Navigation {
+        fun backFromEnterpriseContacts()
     }
 }

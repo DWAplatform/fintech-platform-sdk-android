@@ -7,6 +7,7 @@ import com.fintechplatform.ui.card.PaymentCardUI
 import com.fintechplatform.ui.db.PlatformDB
 import com.fintechplatform.ui.enterprise.EnterpriseBuilder
 import com.fintechplatform.ui.enterprise.address.EnterpriseAddressUI
+import com.fintechplatform.ui.enterprise.contacts.EnterpriseContactsUI
 import com.fintechplatform.ui.iban.IbanUI
 import com.fintechplatform.ui.models.DataAccount
 import com.fintechplatform.ui.payin.PayInUI
@@ -114,6 +115,10 @@ class FintechPlatform {
 
         fun buildEnterpriseAddressUI(hostName: String, dataAccount: DataAccount): EnterpriseAddressUI {
             return EnterpriseAddressUI(hostName, dataAccount)
+        }
+
+        fun buildEnterpriseContactsUI(hostName: String, dataAccount: DataAccount): EnterpriseContactsUI {
+            return EnterpriseContactsUI(hostName, dataAccount)
         }
     }
 

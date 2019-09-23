@@ -1,9 +1,10 @@
-package com.fintechplatform.ui.enterprise.contacts.ui;
+package com.fintechplatform.ui.enterprise.contacts.di;
 
 import com.fintechplatform.api.enterprise.api.EnterpriseAPIModule;
 import com.fintechplatform.api.log.LogModule;
 import com.fintechplatform.api.net.NetModule;
 import com.fintechplatform.ui.alert.AlertHelpersModule;
+import com.fintechplatform.ui.enterprise.contacts.EnterpriseContactsFragment;
 import com.fintechplatform.ui.enterprise.db.enterprise.EnterprisePersistanceDBModule;
 
 import javax.inject.Singleton;
@@ -20,5 +21,5 @@ import dagger.Component;
         LogModule.class
 })
 public interface EnterpriseContactsViewComponent {
-    void inject(EnterpriseContactsActivity activity);
+    void inject(EnterpriseContactsFragment fragment);
 }

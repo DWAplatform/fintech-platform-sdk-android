@@ -1,8 +1,5 @@
 package com.fintechplatform.ui.enterprise;
 
-import com.fintechplatform.ui.enterprise.contacts.DaggerEnterpriseContactsUIComponent;
-import com.fintechplatform.ui.enterprise.contacts.EnterpriseContactsUIComponent;
-import com.fintechplatform.ui.enterprise.contacts.ui.EnterpriseContactsUIModule;
 import com.fintechplatform.ui.enterprise.documents.DaggerEnterpriseDocumentsUIComponent;
 import com.fintechplatform.ui.enterprise.documents.EnterpriseDocumentsUIComponent;
 import com.fintechplatform.ui.enterprise.documents.ui.EnterpriseDocumentsUIModule;
@@ -16,12 +13,6 @@ public class EnterpriseBuilder {
     public EnterpriseInfoUIComponent buildEnterpriseInfoUIComponent(String hostName, DataAccount configuration) {
         return DaggerEnterpriseInfoUIComponent.builder()
                 .enterpriseInfoUIModule(new EnterpriseInfoUIModule(hostName, configuration))
-                .build();
-    }
-
-    public EnterpriseContactsUIComponent buildEnterpriseContactsUIComponent(String hostName, DataAccount configuration) {
-        return DaggerEnterpriseContactsUIComponent.builder()
-                .enterpriseContactsUIModule(new EnterpriseContactsUIModule(hostName, configuration))
                 .build();
     }
 

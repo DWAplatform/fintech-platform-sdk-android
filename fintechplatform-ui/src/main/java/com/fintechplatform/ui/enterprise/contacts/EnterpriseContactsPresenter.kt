@@ -1,4 +1,4 @@
-package com.fintechplatform.ui.enterprise.contacts.ui
+package com.fintechplatform.ui.enterprise.contacts
 
 import com.fintechplatform.api.enterprise.api.EnterpriseAPI
 import com.fintechplatform.api.enterprise.models.EnterpriseContacts
