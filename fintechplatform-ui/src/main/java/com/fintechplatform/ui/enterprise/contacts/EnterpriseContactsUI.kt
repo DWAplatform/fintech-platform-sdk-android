@@ -6,6 +6,7 @@ import android.os.Bundle
 import com.android.volley.toolbox.Volley
 import com.fintechplatform.api.enterprise.api.EnterpriseAPIModule
 import com.fintechplatform.api.net.NetModule
+import com.fintechplatform.api.profile.api.IdsDocumentsAPIModule
 import com.fintechplatform.ui.enterprise.contacts.di.DaggerEnterpriseContactsViewComponent
 import com.fintechplatform.ui.enterprise.contacts.di.EnterpriseContactsPresenterModule
 import com.fintechplatform.ui.enterprise.contacts.di.EnterpriseContactsViewComponent
@@ -32,6 +33,7 @@ class EnterpriseContactsUI(private val hostName: String, private val configurati
                     .netModule(NetModule(Volley.newRequestQueue(context), hostName))
                     .enterpriseContactsPresenterModule(EnterpriseContactsPresenterModule(view, dataAccount))
                     .enterpriseAPIModule(EnterpriseAPIModule(hostName))
+                    .idsDocumentsAPIModule(IdsDocumentsAPIModule(hostName))
                     .build()
         }
     }

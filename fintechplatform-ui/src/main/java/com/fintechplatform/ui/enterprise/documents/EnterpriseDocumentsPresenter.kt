@@ -1,35 +1,34 @@
 package com.fintechplatform.ui.enterprise.documents
 
-import android.content.Intent
-import android.graphics.Bitmap
+import android.util.Log
 import com.fintechplatform.api.enterprise.api.EnterpriseAPI
-import com.fintechplatform.api.enterprise.models.EnterpriseDocs
+import com.fintechplatform.api.enterprise.models.EnterpriseDocType
 import com.fintechplatform.api.net.NetHelper
 import com.fintechplatform.ui.enterprise.db.documents.EnterpriseDocumentsPersistanceDB
+import com.fintechplatform.ui.enterprise.documents.dialog.EnterpriseDocTypeDialog
 import com.fintechplatform.ui.images.ImageHelper
 import com.fintechplatform.ui.models.DataAccount
+import java.io.*
 import java.util.*
-import kotlin.collections.ArrayList
 
 class EnterpriseDocumentsPresenter constructor(val view: EnterpriseDocumentsContract.View,
                                                val api: EnterpriseAPI,
                                                val configuration: DataAccount,
                                                val dbDocuments: EnterpriseDocumentsPersistanceDB,
-                                               val imageHelper: ImageHelper): EnterpriseDocumentsContract.Presenter {
+                                               val imageHelper: ImageHelper): EnterpriseDocumentsContract.Presenter, EnterpriseDocTypeDialog.DocTypePicker  {
 
-    var photosBase64 = arrayListOf<String?>()
+    var photosByteArray = arrayListOf<ByteArray?>()
+    //var photosBase64 = arrayListOf<String?>()
     var idempotencyIDcard: String? = null
-    var token: String? = null
+    var docType: EnterpriseDocType? = null
+    var fileName: String? = null
 
     override fun initializate() {
         view.checkCameraPermission()
-
-        if(!loadFromDB()) {
-            reloadFromServer()
-        }
+        //loadFromDB()
         idempotencyIDcard = UUID.randomUUID().toString()
     }
-
+/*
     private fun loadFromDB(): Boolean {
         return dbDocuments.getDocuments(configuration.ownerId)?.let {
             it.pages?.let { pages ->
@@ -41,13 +40,19 @@ class EnterpriseDocumentsPresenter constructor(val view: EnterpriseDocumentsCont
             }?: return false
         }?: false
     }
-
+*/
     override fun onRefresh() {
-        view.setNumberPages(photosBase64.size)
+        view.setNumberPages(photosByteArray?.size)
     }
 
     override fun onAbort() {
         view.goBack()
+    }
+
+    override fun onPickDocType(docType: EnterpriseDocType) {
+        this.docType = docType
+        view.setDocTypeSelected(docType)
+        refreshConfirmButton()
     }
 
     override fun onConfirm() {
@@ -55,12 +60,16 @@ class EnterpriseDocumentsPresenter constructor(val view: EnterpriseDocumentsCont
 
         val idempDocs = this.idempotencyIDcard ?: return
 
+        val docType = this.docType?: return
+        val byteArrayList = photosByteArray.filterNotNull()
+        
         api.documents(
                 configuration.accessToken,
                 configuration.ownerId,
                 configuration.tenantId,
-                "IDENTITY_PROOF",
-                photosBase64,
+                fileName,
+                docType,
+                byteArrayList,
                 idempDocs) { optDocs, opterror ->
 
             view.hideWaiting()
@@ -74,62 +83,58 @@ class EnterpriseDocumentsPresenter constructor(val view: EnterpriseDocumentsCont
                 return@documents
             }
 
-
-            val pages = ArrayList<String?>()
-            for (i in 0 until photosBase64.size) {
-                photosBase64[i]?.let { pages.add(it) }
-            }
-
-            val documents = EnterpriseDocs(optDocs,"IDENTITY_PROOF", pages)
+            Log.d("onConfirm response", optDocs)
+//
+//            val pages = ArrayList<String?>()
+//            for (i in 0 until photosBase64.size) {
+//                photosBase64[i]?.let { pages.add(it) }
+//            }
+//
+//            val documents = EnterpriseDocs(optDocs,"IDENTITY_PROOF", pages)
             view.enableConfirmButton(false)
-            dbDocuments.replaceDocuments(documents)
+//            dbDocuments.replaceDocuments(documents)
             view.goBack()
         }
     }
 
     override fun refreshConfirmButton() {
         view.setAbortText()
-        if(photosBase64.isNotEmpty()){
-            view.enableConfirmButton(true)
-        } else {
-            view.enableConfirmButton(false)
-        }
+        docType?.let {
+            if(photosByteArray.isNotEmpty()){
+                view.enableConfirmButton(true)
+            }
+        }?: view.enableConfirmButton(false)
     }
 
 
-    override fun onPictureTaken(optData: Intent?, index: Int) {
-        val data = optData?: return
-        val bitmap = data.extras["data"] as Bitmap
-        val photoBase64 = imageHelper.resizeBitmapViewCardId(bitmap)
-        photosBase64.add(photoBase64)
+    override fun onPictureTaken(file: File, index: Int) {
+        // create byte array
+        val size = file.length().toInt()
+        val photoByteArray = ByteArray(size)
+        try {
+            val buf = BufferedInputStream(FileInputStream(file))
+            buf.read(photoByteArray, 0, photoByteArray.size)
+            buf.close()
+        } catch (e: FileNotFoundException) {
+            e.printStackTrace()
+        } catch (e: IOException) {
+            e.printStackTrace()
+        }
+        photosByteArray.add(photoByteArray)
+        Log.d("ByteArray size", "${photoByteArray.size}")
+        fileName = file.name
+
+        Log.d("fileName", fileName)
+
+//        val data = optData?: return
+//        val bitmap = data.extras["data"] as Bitmap
+//        val photoBase64 = imageHelper.resizeBitmapViewCardId(bitmap)
+//        photosBase64.add(photoBase64)
         refreshConfirmButton()
     }
 
     override fun onInsertPages() {
         view.goToCamera()
-    }
-
-    fun reloadFromServer() {
-
-        api.getDocuments(configuration.accessToken, configuration.ownerId, configuration.tenantId) {
-            etpsDocs: ArrayList<EnterpriseDocs?>?, opterror: Exception? ->
-
-            if (opterror != null) {
-                handleErrors(opterror)
-                return@getDocuments
-            }
-
-            if (etpsDocs == null) {
-                return@getDocuments
-            }
-
-            for (i in 0 until etpsDocs.size) {
-                etpsDocs[i]?.let {
-                    dbDocuments.saveDocuments(it)
-                }
-            }
-            loadFromDB()
-        }
     }
 
     private fun handleErrors(opterror: Exception) {

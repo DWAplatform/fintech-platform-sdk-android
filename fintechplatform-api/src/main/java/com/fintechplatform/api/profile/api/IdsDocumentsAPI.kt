@@ -1,6 +1,7 @@
 package com.fintechplatform.api.profile.api
 
 import com.android.volley.Request
+import com.fintechplatform.api.enterprise.models.EnterpriseDocType
 import com.fintechplatform.api.log.Log
 import com.fintechplatform.api.net.IRequest
 import com.fintechplatform.api.net.IRequestProvider
@@ -148,6 +149,110 @@ class IdsDocumentsAPI @Inject constructor(internal val hostName: String,
                     }
 
                     401 -> {
+                        completion(null, netHelper.TokenError(error))
+                    }
+                    else -> completion(null, netHelper.GenericCommunicationError(error))
+                }
+            }
+
+            r.setIRetryPolicy(netHelper.defaultpolicy)
+            queue.add(r)
+            request = r
+        } catch (e: Exception){
+            log.error(TAG, "documents", e)
+            request = null
+        }
+
+        return request
+    }
+
+    internal fun addBucketForCompanyDocuments(token: String,
+                                     tenantId: String,
+                                     enterpriseId: String,
+                                     filename: String?=null,
+                                     callback: (BucketObject?, Exception?) -> Unit): IRequest<*>? {
+
+        val url = netHelper.getURL("/rest/v1/fintech/tenants/$tenantId/enterprises/$enterpriseId/bucketObjects")
+
+        var request: IRequest<*>?
+        try {
+            val jo = JSONObject()
+            jo.put("fileName", filename)
+
+            request = requestProvider.jsonObjectRequest(Request.Method.POST, url, jo,
+                    netHelper.authorizationToken(token),
+                    { response ->
+                        log.debug(TAG, "on response addBucketForImage")
+                        try {
+                            val bucketName = response.getString("bucketName")
+                            val objectId = response.getString("objectId")
+                            val status = response.optString("status")
+                            val uploadPath = response.optString("uploadPath")
+
+                            val bucket = BucketObject(bucketName, objectId, status, filename, uploadPath)
+
+                            callback(bucket, null)
+                        } catch (e: JSONException) {
+                            callback(null, netHelper.ReplyParamsUnexpected(e))
+                            log.error(TAG, "addBucketForEnterpriseDocuments error", e)
+                        }
+                    }) { error ->
+                val status = if (error.networkResponse != null)
+                    error.networkResponse.statusCode else -1
+                when (status) {
+                    409 -> {
+                        callback(null, netHelper.IdempotencyError(error))
+                    }
+
+                    403 -> {
+                        callback(null, netHelper.TokenError(error))
+                    }
+                    else -> callback(null, netHelper.GenericCommunicationError(error))
+                }
+            }
+
+            request.setIRetryPolicy(netHelper.defaultpolicy)
+            queue.add(request)
+
+        } catch (e: Exception) {
+            log.error(TAG, "createCreditCardRegistration error", e)
+            request = null
+        }
+
+        return request
+    }
+    
+    internal fun createEnterpriseDoc(token: String,
+                                     enterpriseId: String,
+                                     tenantId: String,
+                                     doctype: EnterpriseDocType,
+                                     documents: List<String?>,
+                                     idempotency: String,
+                                     completion: (String?, Exception?) -> Unit) : IRequest<*>? {
+
+        val url = netHelper.getURL("/rest/v1/fintech/tenants/$tenantId/enterprises/$enterpriseId/documents")
+        var request : IRequest<*>?
+        try {
+            val ja = JSONArray()
+            for(i in 0 until documents.size){
+                ja.put(documents[i])
+            }
+
+            val jsonObject = JSONObject()
+            jsonObject.put("docType", doctype.toString())
+            jsonObject.put("bucketObjectIdPages", ja)
+
+            val r = requestProvider.jsonObjectRequest(Request.Method.POST, url, jsonObject, netHelper.getHeaderBuilder().authorizationToken(token).idempotency(idempotency).getHeaderMap(), { response ->
+                completion(response.getString("documentId"), null)
+            }) { error ->
+                val status = if (error.networkResponse != null)
+                    error.networkResponse.statusCode else -1
+                when (status) {
+                    409 -> {
+                        completion(null, netHelper.IdempotencyError(error))
+                    }
+
+                    403 -> {
                         completion(null, netHelper.TokenError(error))
                     }
                     else -> completion(null, netHelper.GenericCommunicationError(error))

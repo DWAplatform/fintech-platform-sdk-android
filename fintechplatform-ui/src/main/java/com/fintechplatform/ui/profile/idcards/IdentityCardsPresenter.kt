@@ -27,12 +27,12 @@ class IdentityCardsPresenter @Inject constructor(val view: IdentityCardsContract
     var imagesBase64 : Array<String?>? = null
     var idempotencyIDcard: String? = null
     var docType: DocType? = null
+    var fileName: String? = null
 
     override fun initializate() {
         view.checkCameraPermission()
         getDocTypes()
         loadFromDB()
-        //reloadFromServer()
 
         idempotencyIDcard = UUID.randomUUID().toString()
     }
@@ -70,7 +70,7 @@ class IdentityCardsPresenter @Inject constructor(val view: IdentityCardsContract
                 configuration.accessToken,
                 configuration.ownerId,
                 configuration.tenantId,
-                null, //todo decide which filename
+                fileName,
                 docType,
                 byteArrayList,
                 idempDocs) { optDocs, opterror ->
@@ -121,7 +121,9 @@ class IdentityCardsPresenter @Inject constructor(val view: IdentityCardsContract
         }
         photosByteArray?.set(index, photoByteArray)
         Log.d("ByteArray size", "${photoByteArray.size}")
+        fileName = filePath.name
 
+        Log.d("fileName", fileName)
         // set thumbnail
 //        val data = thumbnail?: return
 //        val bitmap = data.extras["data"] as Bitmap

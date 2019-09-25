@@ -6,6 +6,7 @@ import android.os.Bundle
 import com.android.volley.toolbox.Volley
 import com.fintechplatform.api.enterprise.api.EnterpriseAPIModule
 import com.fintechplatform.api.net.NetModule
+import com.fintechplatform.api.profile.api.IdsDocumentsAPIModule
 import com.fintechplatform.ui.enterprise.address.di.DaggerEnterpriseAddressViewComponent
 import com.fintechplatform.ui.enterprise.address.di.EnterpriseAddressPresenterModule
 import com.fintechplatform.ui.enterprise.address.di.EnterpriseAddressViewComponent
@@ -32,6 +33,7 @@ class EnterpriseAddressUI(private val hostName: String, private val dataAccount:
             return DaggerEnterpriseAddressViewComponent.builder()
                     .netModule(NetModule(Volley.newRequestQueue(context), hostName))
                     .enterpriseAPIModule(EnterpriseAPIModule(hostName))
+                    .idsDocumentsAPIModule(IdsDocumentsAPIModule(hostName))
                     .enterpriseAddressPresenterModule(EnterpriseAddressPresenterModule(view, dataAccount))
                     .build()
 

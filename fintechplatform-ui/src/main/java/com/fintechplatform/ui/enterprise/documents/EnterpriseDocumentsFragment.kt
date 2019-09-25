@@ -4,20 +4,29 @@ import android.Manifest
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Bundle
+import android.os.Environment
 import android.provider.MediaStore
 import android.support.v4.app.ActivityCompat
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.fintechplatform.api.enterprise.models.EnterpriseDocType
 import com.fintechplatform.ui.R
 import com.fintechplatform.ui.alert.AlertHelpers
 import com.fintechplatform.ui.enterprise.documents.di.EnterpriseDocumentsViewComponent
+import com.fintechplatform.ui.enterprise.documents.dialog.EnterpriseDocTypeDialog
 import com.fintechplatform.ui.models.DataAccount
-import kotlinx.android.synthetic.main.activity_enterprise_documents.*
-import kotlinx.android.synthetic.main.activity_enterprise_documents.view.*
+import kotlinx.android.synthetic.main.fragment_enterprise_documents.*
+import kotlinx.android.synthetic.main.fragment_enterprise_documents.view.*
+import java.io.File
+import java.io.IOException
+import java.text.SimpleDateFormat
+import java.util.*
 import javax.inject.Inject
 
 
@@ -36,7 +45,7 @@ open class EnterpriseDocumentsFragment: Fragment(), EnterpriseDocumentsContract.
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.activity_enterprise_documents, container, false)
+        val view = inflater.inflate(R.layout.fragment_enterprise_documents, container, false)
 
 
         arguments?.getString("hostname")?.let { hostname ->
@@ -50,6 +59,8 @@ open class EnterpriseDocumentsFragment: Fragment(), EnterpriseDocumentsContract.
         view.confirmButton.setOnClickListener { presenter.onConfirm() }
 
         view.insertPage.setOnClickListener { presenter.onInsertPages() }
+        
+        view.docTypePicker.setOnClickListener { showDockTypeDialog() }
 
         return view
     }
@@ -62,6 +73,23 @@ open class EnterpriseDocumentsFragment: Fragment(), EnterpriseDocumentsContract.
     override fun onResume() {
         super.onResume()
         presenter.onRefresh()
+    }
+
+    override fun onAttach(context: Context?) {
+        super.onAttach(context)
+        (context as? EnterpriseDocumentsContract.Navigation)?.let {
+            navigation = it
+        }?: Log.e(EnterpriseDocumentsFragment::class.java.canonicalName, "EnterpriseDocumentsContract.Navigation must be implemented in your Activity!!")
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        navigation = null
+    }
+
+    private fun showDockTypeDialog() {
+        val dialog = EnterpriseDocTypeDialog.newInstance()
+        dialog.show(activity.supportFragmentManager, DIALOG_REQUEST)
     }
 
     override fun setAbortText() {
@@ -80,6 +108,7 @@ open class EnterpriseDocumentsFragment: Fragment(), EnterpriseDocumentsContract.
         activityIndicator.visibility = View.GONE
     }
 
+
     override fun showTokenExpiredWarning() {
         alertHelper.tokenExpired(context) { _, _ ->
             navigation?.backFromEnterpriseDocuments()
@@ -95,9 +124,48 @@ open class EnterpriseDocumentsFragment: Fragment(), EnterpriseDocumentsContract.
         numberPages.text = number.toString()
     }
 
+    override fun setDocTypeSelected(docType: EnterpriseDocType) {
+        docTypePickerText.text = docType.toString()
+    }
+
+    var photoPath: String? = null
+
     override fun goToCamera() {
-        val chooserIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-        startActivityForResult(chooserIntent, PICK_DOCUMENT_PAGES)
+        Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
+            takePictureIntent.resolveActivity(activity.packageManager)?.also {
+                // Create the File where the photo should go
+                val photoFile = try {
+                    // Create an image file name
+                    val timeStamp: String = SimpleDateFormat("yyyyMMdd").format(Date())
+                    val storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
+                    /** fixme
+                     * https://developer.android.com/reference/android/os/Environment.html#getExternalStoragePublicDirectory(java.lang.String)
+                     *
+                     * This method was deprecated in API level 29.
+                     * To improve user privacy, direct access to shared/external storage devices is deprecated.
+                     * When an app targets Build.VERSION_CODES.Q, the path returned from this method is no longer directly accessible to apps.
+                     * Apps can continue to access content stored on shared/external storage by migrating to alternatives such as Context#getExternalFilesDir(String), MediaStore, or Intent#ACTION_OPEN_DOCUMENT.
+                     */
+                    Log.d("File path created", storageDir.absolutePath)
+                    File.createTempFile(
+                            "IMG_${timeStamp}",
+                            ".jpg",
+                            storageDir
+                    ).apply {
+                        photoPath = absolutePath
+                        //galleryAddPic(absolutePath)
+                        Log.d("photo path:", photoPath)
+                    }
+
+                } catch (ex: IOException) {
+                    null
+                }
+                photoFile?.also {
+                    takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(it))
+                    startActivityForResult(takePictureIntent, PICK_DOCUMENT_PAGES)
+                }
+            }
+        }
     }
 
     override fun goBack() {
@@ -121,7 +189,7 @@ open class EnterpriseDocumentsFragment: Fragment(), EnterpriseDocumentsContract.
         super.onActivityResult(requestCode, resultCode, optData)
 
         if(requestCode == PICK_DOCUMENT_PAGES && resultCode == AppCompatActivity.RESULT_OK){
-            presenter.onPictureTaken(optData, 0)
+            presenter.onPictureTaken(File(photoPath), 0)
         }
     }
 
@@ -148,6 +216,7 @@ open class EnterpriseDocumentsFragment: Fragment(), EnterpriseDocumentsContract.
     }
 
     companion object {
+        const val DIALOG_REQUEST = "docType_request"
         fun newInstance(hostName: String, dataAccount: DataAccount): EnterpriseDocumentsFragment{
             val frag = EnterpriseDocumentsFragment()
             val args = Bundle()

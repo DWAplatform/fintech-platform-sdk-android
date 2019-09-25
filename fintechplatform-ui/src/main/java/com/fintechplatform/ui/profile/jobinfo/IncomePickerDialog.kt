@@ -5,6 +5,7 @@ import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.DialogFragment
+import android.support.v4.app.FragmentActivity
 import com.fintechplatform.ui.R
 
 class IncomePickerDialog: DialogFragment() {
@@ -30,7 +31,7 @@ class IncomePickerDialog: DialogFragment() {
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
-        val act = context as JobInfoActivity
+        val act = context as FragmentActivity 
         val frag = act.supportFragmentManager.findFragmentByTag(JobInfoFragment::class.java.canonicalName)
 
         if ((frag as JobInfoFragment).presenter is OnPickSalaryIncome){

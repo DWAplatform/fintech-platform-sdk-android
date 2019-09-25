@@ -71,17 +71,37 @@
         android:layout_height="match_parent"
         android:layout_below="@+id/header"
         android:orientation="vertical"
-        android:background="@color/white"
-        >
+        android:background="@color/white">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="20sp"
+            android:textSize="18sp"
             android:layout_marginLeft="24dp"
-            android:background="@color/white"
             android:textColor="@android:color/secondary_text_light"
-            android:text="Documento"/>
+            android:text="Choose Doc Type"
+            android:layout_marginStart="24dp" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp"
+            android:layout_marginTop="12dp"
+            android:clickable="true"
+            android:id="@+id/docTypePicker">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="22sp"
+                android:layout_centerHorizontal="true"
+                android:textStyle="bold|italic"
+                android:textColor="@color/black_semi_transparent"
+                android:text="---"
+                android:id="@+id/docTypePickerText"
+                />
+        </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"

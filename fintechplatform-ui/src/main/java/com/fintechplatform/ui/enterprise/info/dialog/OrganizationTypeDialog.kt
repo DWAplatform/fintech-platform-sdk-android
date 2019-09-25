@@ -23,7 +23,7 @@ class OrganizationTypeDialog: DialogFragment() {
 
         val builder = AlertDialog.Builder(activity)
         builder.setTitle("Tipo di organizzazione")
-                .setItems(R.array.organization_types, { _, id ->
+                .setItems(R.array.organization_types) { _, id ->
 
                     val resArray = resources.getStringArray(R.array.organization_types)
                     listener?.onPickBusinessType(resArray[id])
@@ -32,7 +32,7 @@ class OrganizationTypeDialog: DialogFragment() {
                     activity.setResult(RESULT_OK, intent)
                     targetFragment?.onActivityResult(targetRequestCode, RESULT_OK, intent)
                     dismiss()
-                })
+                }
 
         return builder.show()
     }

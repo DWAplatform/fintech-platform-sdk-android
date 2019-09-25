@@ -1,11 +1,13 @@
 package com.fintechplatform.ui.enterprise.documents
 
-import android.content.Intent
+import com.fintechplatform.api.enterprise.models.EnterpriseDocType
+import java.io.File
 
 interface EnterpriseDocumentsContract {
     interface View {
         fun setAbortText()
         fun setNumberPages(number: Int)
+        fun setDocTypeSelected(docType: EnterpriseDocType)
         fun checkCameraPermission()
         fun goToCamera()
         fun showTokenExpiredWarning()
@@ -23,7 +25,8 @@ interface EnterpriseDocumentsContract {
         fun onConfirm()
         fun onInsertPages()
         fun refreshConfirmButton()
-        fun onPictureTaken(optData: Intent?, index: Int)
+        fun onPictureTaken(file: File, index: Int)
+
     }
 
     interface Navigation {

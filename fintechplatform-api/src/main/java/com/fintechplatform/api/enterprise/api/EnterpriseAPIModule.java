@@ -4,6 +4,7 @@ import com.fintechplatform.api.log.Log;
 import com.fintechplatform.api.net.IRequestProvider;
 import com.fintechplatform.api.net.IRequestQueue;
 import com.fintechplatform.api.net.NetHelper;
+import com.fintechplatform.api.profile.api.IdsDocumentsAPI;
 
 import javax.inject.Singleton;
 
@@ -12,6 +13,7 @@ import dagger.Provides;
 
 @Module
 public class EnterpriseAPIModule {
+
     private String hostName;
 
     public EnterpriseAPIModule(String hostName) {
@@ -20,7 +22,7 @@ public class EnterpriseAPIModule {
 
     @Provides
     @Singleton
-    EnterpriseAPI providesEnterpriseAPI(IRequestQueue queue, IRequestProvider requestProvider, Log log, NetHelper netHelper){
-        return new EnterpriseAPI(hostName, queue, requestProvider, log, netHelper);
+    EnterpriseAPI providesEnterpriseAPI(IdsDocumentsAPI restAPI, IRequestQueue queue, IRequestProvider requestProvider, Log log, NetHelper netHelper){
+        return new EnterpriseAPI(restAPI, hostName, queue, requestProvider, log, netHelper);
     }
 }

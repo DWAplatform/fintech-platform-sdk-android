@@ -7,12 +7,12 @@ import com.fintechplatform.api.net.IRequest
 import com.fintechplatform.api.net.IRequestProvider
 import com.fintechplatform.api.net.IRequestQueue
 import com.fintechplatform.api.net.NetHelper
-import org.json.JSONArray
+import com.fintechplatform.api.profile.api.IdsDocumentsAPI
 import org.json.JSONObject
-import java.util.*
 import javax.inject.Inject
 
-class EnterpriseAPI @Inject constructor(internal val hostName: String,
+class EnterpriseAPI @Inject constructor(val restAPI: IdsDocumentsAPI,
+                                        internal val hostName: String,
                                         internal val queue: IRequestQueue,
                                         internal val requestProvider: IRequestProvider,
                                         internal val log: Log,
@@ -154,7 +154,7 @@ class EnterpriseAPI @Inject constructor(internal val hostName: String,
                 countryHeadquarters = address.country,
                 completion = completion)
     }
-
+/*
     fun getDocuments(token: String, enterpriseId: String, tenantId: String, completion: (ArrayList<EnterpriseDocs?>?, Exception?) -> Unit): IRequest<*>? {
         val url = netHelper.getURL("/rest/v1/fintech/tenants/$tenantId/enterprises/$enterpriseId/documents/")
 
@@ -202,52 +202,45 @@ class EnterpriseAPI @Inject constructor(internal val hostName: String,
 
         return request
     }
+*/
 
     fun documents(token: String,
                   enterpriseId: String,
                   tenantId: String,
-                  doctype: String,
-                  documents: ArrayList<String?>,
+                  fileName: String?=null,
+                  doctype: EnterpriseDocType,
+                  documents: List<ByteArray>,
                   idempotency: String,
-                  completion: (String?, Exception?) -> Unit) : IRequest<*>? {
-        val url = netHelper.getURL("/rest/v1/fintech/tenants/$tenantId/enterprises/$enterpriseId/documents")
-        var request : IRequest<*>?
-        try {
-            val ja = JSONArray()
-            for(i in 0 until documents.size){
-                ja.put(documents[i])
-            }
+                  completion: (String?, Exception?) -> Unit) {
 
-            val jsonObject = JSONObject()
-            jsonObject.put("doctype", doctype)
-            jsonObject.put("pages", ja)
+        val objectIds = mutableListOf<String>()
 
-            val r = requestProvider.jsonObjectRequest(Request.Method.POST, url, jsonObject, netHelper.getHeaderBuilder().authorizationToken(token).idempotency(idempotency).getHeaderMap(), { response ->
-                completion(response.getString("documentId"), null)
-            }) { error ->
-                val status = if (error.networkResponse != null)
-                    error.networkResponse.statusCode else -1
-                when (status) {
-                    409 -> {
-                        completion(null, netHelper.IdempotencyError(error))
+        documents.forEach { pageImage ->
+            restAPI.addBucketForCompanyDocuments(token, tenantId, enterpriseId, fileName) { optBucketObject, optError ->
+                log.debug("add Bucket", "1 " + pageImage.size)
+                optError?.let{ error -> completion(null, error); return@addBucketForCompanyDocuments}
+                optBucketObject?.let { bucketObject ->
+                    bucketObject.uploadPath?.let { path ->
+                        restAPI.uploadBucketObjectFile(token, path, pageImage) { optString, optError ->
+                            log.debug("Upload Bucket", "2 " + pageImage.size)
+                            optError?.let{ error -> completion(null, error); return@uploadBucketObjectFile}
+                            optString?.let {
+                                objectIds.add(bucketObject.objectId)
+                                if(objectIds.size == documents.size) {
+                                    log.debug("Create Documents", "3")
+                                    restAPI.createEnterpriseDoc(token, enterpriseId, tenantId, doctype, objectIds, idempotency) { optUserDocuments, optError ->
+                                        optError?.let{ error -> completion(null, error); return@createEnterpriseDoc}
+                                        optUserDocuments?.let{
+                                            completion(it, null)
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     }
-
-                    403 -> {
-                        completion(null, netHelper.TokenError(error))
-                    }
-                    else -> completion(null, netHelper.GenericCommunicationError(error))
                 }
             }
-
-            r.setIRetryPolicy(netHelper.defaultpolicy)
-            queue.add(r)
-            request = r
-        } catch (e: Exception){
-            log.error(TAG, "documents", e)
-            request = null
         }
-
-        return request
     }
 
     private fun searchEnterpriseReplyParser(response: JSONObject) : EnterpriseProfile {

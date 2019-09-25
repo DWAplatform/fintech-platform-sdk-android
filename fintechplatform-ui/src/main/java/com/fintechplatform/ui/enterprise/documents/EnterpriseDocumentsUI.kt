@@ -8,6 +8,7 @@ import android.os.Bundle
 import com.android.volley.toolbox.Volley
 import com.fintechplatform.api.enterprise.api.EnterpriseAPIModule
 import com.fintechplatform.api.net.NetModule
+import com.fintechplatform.api.profile.api.IdsDocumentsAPIModule
 import com.fintechplatform.ui.enterprise.documents.di.DaggerEnterpriseDocumentsViewComponent
 import com.fintechplatform.ui.enterprise.documents.di.EnterpriseDocumentsPresenterModule
 import com.fintechplatform.ui.enterprise.documents.di.EnterpriseDocumentsViewComponent
@@ -32,6 +33,7 @@ class EnterpriseDocumentsUI(private val hostName: String, private val configurat
         fun buildEnterpriseDocumentsViewComponent(context: Context, view: EnterpriseDocumentsContract.View, hostName: String, dataAccount: DataAccount): EnterpriseDocumentsViewComponent {
             return DaggerEnterpriseDocumentsViewComponent.builder()
                     .enterpriseAPIModule(EnterpriseAPIModule(hostName))
+                    .idsDocumentsAPIModule(IdsDocumentsAPIModule(hostName))
                     .enterpriseDocumentsPresenterModule(EnterpriseDocumentsPresenterModule(dataAccount, view))
                     .netModule(NetModule(Volley.newRequestQueue(context), hostName))
                     .build()

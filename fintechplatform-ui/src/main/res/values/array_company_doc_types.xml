@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="company_doc_types">
+        <item>IDENTITY_PROOF</item>
+        <item>ARTICLES_OF_ASSOCIATION</item>
+        <item>REGISTRATION_PROOF</item>
+        <item>SHAREHOLDER_DECLARATION</item>
+    </string-array>
+</resources>

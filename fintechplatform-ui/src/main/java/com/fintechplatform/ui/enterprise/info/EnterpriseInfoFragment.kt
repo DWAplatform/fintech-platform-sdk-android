@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -48,7 +49,6 @@ open class EnterpriseInfoFragment: Fragment(), EnterpriseInfoContract.View, Orga
             }
         })
 
-        //TODO add enterprise type dialog
         view.enterpriseTypeText.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(p0: Editable?) {}
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
@@ -83,6 +83,18 @@ open class EnterpriseInfoFragment: Fragment(), EnterpriseInfoContract.View, Orga
     override fun onResume() {
         super.onResume()
         presenter.onRefresh()
+    }
+
+    override fun onAttach(context: Context?) {
+        super.onAttach(context)
+        (context as? EnterpriseInfoContract.Navigation)?.let {
+            navigation = it
+        }?: Log.e(EnterpriseInfoFragment::class.java.canonicalName, "EnterpriseInfoContract.Navigation must be implemented in your Activity!!")
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        navigation = null
     }
 
     override fun setBackwardText() {
@@ -145,7 +157,7 @@ open class EnterpriseInfoFragment: Fragment(), EnterpriseInfoContract.View, Orga
     }
 
     companion object {
-        val DIALOG_REQUEST = "organization_type"
+        const val DIALOG_REQUEST = "organization_type"
 
         fun newInstance(hostName: String, dataAccount: DataAccount): EnterpriseInfoFragment {
             val frag = EnterpriseInfoFragment()
