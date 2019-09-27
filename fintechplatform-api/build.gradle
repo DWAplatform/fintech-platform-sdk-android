@@ -18,7 +18,7 @@ ext {
     siteUrl = 'https://github.com/DWAplatform/fintech-platform-sdk-android'
     gitUrl = 'https://github.com/DWAplatform/fintech-platform-sdk-android.git'
 
-    libraryVersion = '1.4.10'
+    libraryVersion = '1.4.11'
 
 
     developerId = 'developerId'
@@ -112,5 +112,5 @@ tasks.withType(Javadoc).all {
     enabled = false
 }
 
-//apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/installv1.gradle'
-//apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/bintrayv1.gradle'
+apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/installv1.gradle'
+apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/bintrayv1.gradle'
