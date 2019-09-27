@@ -17,7 +17,7 @@ class AddressActivity: AppCompatActivity(), AddressContract.Navigation {
                 val frag = AddressFragment.newInstance(hostname, dataAccount)
                 supportFragmentManager
                         .beginTransaction()
-                        .add(R.id.contentContainer, frag, AddressFragment.toString())
+                        .add(R.id.contentContainer, frag, AddressFragment::class.java.canonicalName)
                         .commit()
             }
         }
