@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="SelfieImageView">
+        <attr name="hostName" format="string"/>
+        <attr name="token" format="string" />
+        <attr name="ownerId" format="string" />
+        <attr name="tenantId" format="string" />
+    </declare-styleable>
+
+</resources>
