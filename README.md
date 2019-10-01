@@ -19,7 +19,7 @@ For API module only
 For UI module
 
     implementation 'com.fintech.platform:fintechplatform-api:1.4.11'
-    implementation 'com.fintech.platform:fintechplatform-ui:1.2.4'
+    implementation 'com.fintech.platform:fintechplatform-ui:1.3.0'
     
 Make sure you have jcenter() repository added in your build.gradle file at the Project level
 
