@@ -1,4 +1,5 @@
 [ ![Download](https://api.bintray.com/packages/dwafintech/fintechplatform/sdk-android/images/download.svg) ](https://bintray.com/dwafintech/fintechplatform/sdk-android/_latestVersion)
+[ ![Download](https://api.bintray.com/packages/dwafintech/fintechplatform/sdk-android-ui/images/download.svg) ](https://bintray.com/dwafintech/fintechplatform/sdk-android-ui/_latestVersion)
 
 Fintech Platform Android SDK
 =================================================
