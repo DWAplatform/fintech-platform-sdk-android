@@ -268,8 +268,9 @@ class ProfileAPI @Inject constructor(
     /**
      * Send User [userId] IDs document to Fintech Platform, identified from [tenantId].
      * use [token] got from "Create User token" request.
+     * optional [fileName], if downloaded the file will have this name.
      * [doctype] type of document uploaded [IDENTITY_CARD, PASSPORT, DRIVING_LICENCE ]
-     * [documents] Array of Base 64 encoded image uploaded.
+     * [documentPages] ByteArray list of images to upload.
      * Use [idempotency] parameter to avoid multiple inserts.
      * [completion] return document UUID identifier.
      */
